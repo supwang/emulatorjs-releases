@@ -6,6 +6,10 @@ Download, double-click and play classic games — NES, SNES, Game Boy / GBA, N64
 PlayStation, PSP, PC Engine, arcade and more — and play together with friends on the same Wi-Fi or anywhere on the internet
 (up to 4 players, with voice chat and spectators). Built on the open-source [EmulatorJS](https://github.com/EmulatorJS/EmulatorJS) (GPL-3.0).
 
+https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
+
+*Drop into a friend's game from the lobby, like walking up to an arcade cabinet and inserting a coin.*
+
 ## Download
 
 **[👉 Download the latest version](https://github.com/supwang/emulatorjs-releases/releases/latest)**
@@ -35,7 +39,7 @@ Not sure which Mac you have? Apple menu → About This Mac: "Chip: Apple M…" i
 
 Keyboard: move **W A S D**, Start **Enter**, Select / coin **V**, buttons **J K** (and **I L U O**), save / load state **1 / 2**. Gamepads work as soon as they're plugged in.
 
-The full guide is `README_US.txt` in every download (also in 9 other languages).
+**Full user guide** (also included in every download): [English](source/folder/README_US.txt) · [简体中文](source/folder/README_CN.txt) · [繁體中文](source/folder/README_HK.txt) · [日本語](source/folder/README_JP.txt) · [한국어](source/folder/README_KR.txt) · [Español](source/folder/README_ES.txt) · [Français](source/folder/README_FR.txt) · [Deutsch](source/folder/README_DE.txt) · [Português](source/folder/README_BR.txt) · [Русский](source/folder/README_RU.txt)
 
 ## Updates
 

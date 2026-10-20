@@ -5,6 +5,10 @@
 下载、双击打开就能玩 FC、超任、GB / GBA、N64、NDS、世嘉 MD / CD / 土星、PS1、PSP、PC Engine、街机等老游戏，
 还能和同一个 Wi-Fi 或外地的朋友联机（最多 4 人，可以语音、观战）。基于开源项目 [EmulatorJS](https://github.com/EmulatorJS/EmulatorJS)（GPL-3.0）。
 
+https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
+
+*在大厅里点「乱入」，就像走到街机前投个币，加入别人正在玩的游戏。*
+
 ## 下载
 
 **[👉 到 Releases 下载最新版](https://github.com/supwang/emulatorjs-releases/releases/latest)**
@@ -36,7 +40,7 @@
 
 键盘：方向 **W A S D**，开始 **回车**，选择 / 投币 **V**，按键 **J K**（还有 **I L U O**），即时存档 / 读档 **1 / 2**。手柄插上就能用。
 
-详细说明在下载包里的 `README_CN.txt`（共 10 种语言）。
+**详细使用说明**（下载包里也有）：[English](source/folder/README_US.txt) · [简体中文](source/folder/README_CN.txt) · [繁體中文](source/folder/README_HK.txt) · [日本語](source/folder/README_JP.txt) · [한국어](source/folder/README_KR.txt) · [Español](source/folder/README_ES.txt) · [Français](source/folder/README_FR.txt) · [Deutsch](source/folder/README_DE.txt) · [Português](source/folder/README_BR.txt) · [Русский](source/folder/README_RU.txt)
 
 ## 更新
 
