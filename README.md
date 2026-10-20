@@ -42,6 +42,10 @@ The full guide is `README_US.txt` in every download (also in 9 other languages).
 When a new version comes out, every version of the app tells you what's new (click the version number on the left to check at any time).
 The **installed Windows version** downloads and installs it by itself with one click. Mac, the Windows zip version and the folder version show the download link — replace the old version with the new one; your games, settings and saves are kept.
 
+## Source code
+
+The full source code of each version is in [`source/`](source) (GPL-3.0, like EmulatorJS), and every release has a "Source code" download.
+
 ## Notes
 
 - **No game ROMs or BIOS files are included.** Please use games you own. For personal, non-commercial use.

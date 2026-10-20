@@ -1,0 +1,5 @@
+node_modules/
+desktop/dist/
+desktop/out/
+web/config.json
+.DS_Store

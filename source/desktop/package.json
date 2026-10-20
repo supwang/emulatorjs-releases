@@ -1,0 +1,58 @@
+{
+  "name": "emulatorjs-desktop",
+  "productName": "EmulatorJS",
+  "version": "1.0.9",
+  "description": "EmulatorJS retro game arcade with LAN and internet play",
+  "author": "Supwang",
+  "license": "GPL-3.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/server-test.js && node test/updater-test.js",
+    "dist:win": "electron-builder --win --publish never",
+    "dist:mac": "electron-builder --mac dir --arm64 --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "44.8.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "site.couchvs.emulatorjs",
+    "productName": "EmulatorJS",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.js", "server.js", "updater.js", "package.json"],
+    "extraResources": [
+      { "from": "../web", "to": "web", "filter": ["**/*", "!config.json", "!**/_old_unused*"] },
+      { "from": "default-config.json", "to": "default-config.json" }
+    ],
+    "asar": true,
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }, { "target": "zip", "arch": ["x64"] }],
+      "artifactName": "EmulatorJS-${version}-win.${ext}",
+      "icon": "../web/data/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "runAfterFinish": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "EmulatorJS",
+      "artifactName": "EmulatorJS-Setup-${version}.exe"
+    },
+    "mac": {
+      "target": [{ "target": "dir", "arch": ["arm64", "x64"] }],
+      "icon": "../web/data/icon.png",
+      "category": "public.app-category.games",
+      "identity": null,
+      "hardenedRuntime": false,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Voice chat with the other players",
+        "NSLocalNetworkUsageDescription": "Find and play with EmulatorJS on other computers on your network"
+      }
+    }
+  }
+}

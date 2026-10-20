@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.18.1)
+project(ejsnative)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Node.js for Android (nodejs-mobile): headers and libnode.so are put in app/libnode by the build workflow
+set(LIBNODE ${CMAKE_SOURCE_DIR}/../../../libnode)
+add_library(native-lib SHARED native-lib.cpp)
+target_include_directories(native-lib PRIVATE ${LIBNODE}/include/node)
+add_library(libnode SHARED IMPORTED)
+set_target_properties(libnode PROPERTIES IMPORTED_LOCATION ${LIBNODE}/bin/${ANDROID_ABI}/libnode.so)
+find_library(log-lib log)
+target_link_libraries(native-lib libnode ${log-lib})

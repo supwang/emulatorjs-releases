@@ -1,0 +1,42 @@
+{
+ "zh-CN": [
+  "新增自动更新：有新版本时会提示。Windows 安装版可以一键自动下载、安装；下载慢的话可以改用百度网盘",
+  "点左边的版本号，随时可以检查有没有新版本"
+ ],
+ "zh-TW": [
+  "新增自動更新：有新版本時會提示。Windows 安裝版可以一鍵自動下載、安裝；下載慢的話可以改用百度網盤",
+  "點左邊的版本號，隨時可以檢查有沒有新版本"
+ ],
+ "en": [
+  "Automatic updates: you're told when a new version is out. The installed Windows version downloads and installs it with one click; if the download is slow you can use Baidu Netdisk instead",
+  "Click the version number on the left to check for a new version at any time"
+ ],
+ "ja": [
+  "自動更新に対応：新しいバージョンが出るとお知らせします。Windows のインストール版はワンクリックで自動ダウンロード・インストール。ダウンロードが遅いときは Baidu ネットディスクも使えます",
+  "左のバージョン番号を押すと、いつでも新しいバージョンを確認できます"
+ ],
+ "ko": [
+  "자동 업데이트: 새 버전이 나오면 알려 줍니다. Windows 설치판은 한 번 클릭으로 자동 다운로드·설치되며, 다운로드가 느리면 바이두 클라우드를 쓸 수 있습니다",
+  "왼쪽의 버전 번호를 누르면 언제든 새 버전을 확인할 수 있습니다"
+ ],
+ "es": [
+  "Actualizaciones automáticas: te avisa cuando sale una versión nueva. La versión instalada de Windows la descarga e instala con un clic; si la descarga va lenta puedes usar Baidu Netdisk",
+  "Pulsa el número de versión de la izquierda para buscar una versión nueva cuando quieras"
+ ],
+ "fr": [
+  "Mises à jour automatiques : vous êtes prévenu quand une nouvelle version sort. La version installée de Windows la télécharge et l’installe en un clic ; si le téléchargement est lent, vous pouvez passer par Baidu Netdisk",
+  "Cliquez sur le numéro de version à gauche pour vérifier à tout moment s’il y a une nouvelle version"
+ ],
+ "de": [
+  "Automatische Updates: Du wirst benachrichtigt, wenn eine neue Version erscheint. Die installierte Windows-Version lädt und installiert sie mit einem Klick; ist der Download langsam, geht es auch über Baidu Netdisk",
+  "Klicke links auf die Versionsnummer, um jederzeit nach einer neuen Version zu suchen"
+ ],
+ "pt": [
+  "Atualizações automáticas: você é avisado quando sai uma versão nova. A versão instalada do Windows baixa e instala com um clique; se o download estiver lento, dá para usar o Baidu Netdisk",
+  "Clique no número da versão à esquerda para procurar uma versão nova a qualquer momento"
+ ],
+ "ru": [
+  "Автообновление: программа сообщает о выходе новой версии. Установленная версия для Windows скачивает и ставит её одним нажатием; если загрузка идёт медленно, можно скачать через Baidu Netdisk",
+  "Нажмите номер версии слева, чтобы в любой момент проверить, есть ли новая версия"
+ ]
+}

@@ -1,0 +1,80 @@
+// EmulatorJS for Android phones and Android TV.
+// The app runs the same built-in server as the desktop app (desktop/server.js, on Node.js for Android from
+// the nodejs-mobile project) and shows the same game page (web/) full screen.
+// Before building, put nodejs-mobile's Android files in app/libnode (bin/<abi>/libnode.so + include/node);
+// the GitHub workflow does this.
+plugins { id "com.android.application" }
+
+def pkg = new groovy.json.JsonSlurper().parse(file("../../desktop/package.json"))
+def ver = pkg.version.toString()
+def parts = ver.tokenize(".").collect { it.toInteger() }
+def abis = (project.findProperty("ejsAbis") ?: "arm64-v8a,armeabi-v7a").toString().tokenize(",")
+
+android {
+    namespace "site.couchvs.emulatorjs"
+    compileSdk 34
+    defaultConfig {
+        applicationId "site.couchvs.emulatorjs"
+        minSdk 24
+        // 29 on purpose: the app reads ROM folders (phone storage, USB drives on a TV) by their normal paths,
+        // which Android only allows apps aimed at Android 10 or earlier. The app still runs on newer Android.
+        targetSdk 29
+        versionCode parts[0] * 10000 + parts[1] * 100 + parts[2]
+        versionName ver
+        ndk { abiFilters(*abis) }
+        externalNativeBuild { cmake { arguments "-DANDROID_STL=c++_shared" } }
+    }
+    externalNativeBuild { cmake { path "src/main/cpp/CMakeLists.txt" } }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ["libnode/bin"]
+            assets.srcDirs = ["src/main/assets", "$buildDir/generated/ejs-assets"]
+        }
+    }
+    // The app's signing key lives in android/signing (the repository is private). Keep it safe: every later
+    // version must be signed with the same key, or phones won't install it over the old one.
+    signingConfigs {
+        release {
+            storeFile file("../signing/ejs.p12")
+            storeType "pkcs12"
+            storePassword file("../signing/password.txt").text.trim()
+            keyAlias "ejs"
+            keyPassword file("../signing/password.txt").text.trim()
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    packaging { jniLibs { useLegacyPackaging true } }
+    // game cores and pictures are already compressed: store them as they are (faster first start)
+    androidResources { noCompress.addAll(["data", "wasm", "jpg", "png", "zip", "7z", "gz"]) }
+    lint { checkReleaseBuilds false; abortOnError false }
+    buildFeatures { buildConfig true }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
+}
+
+// Copy the game page and the server into the app (assets/ejs/web, assets/ejs/node) plus a list of every file,
+// so the app can unpack them quickly on first start.
+def ejsOut = file("$buildDir/generated/ejs-assets/ejs")
+tasks.register("ejsAssets") {
+    inputs.dir("../../web"); inputs.file("../../desktop/server.js"); inputs.file("../../desktop/default-config.json")
+    inputs.dir("src/main/node")
+    outputs.dir(ejsOut)
+    doLast {
+        delete ejsOut
+        copy { from "../../web"; into "$ejsOut/web" }
+        copy { from "../../desktop/server.js", "../../desktop/default-config.json"; into "$ejsOut/node" }
+        copy { from "src/main/node"; into "$ejsOut/node" }
+        def list = []
+        ejsOut.eachFileRecurse(groovy.io.FileType.FILES) { list << ejsOut.toPath().relativize(it.toPath()).toString().replace(File.separator, "/") }
+        new File(ejsOut, "files.txt").text = list.sort().join("\n") + "\n"
+        new File(ejsOut, "version.txt").text = ver + "\n"
+    }
+}
+tasks.named("preBuild") { dependsOn "ejsAssets" }
