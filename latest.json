@@ -1,0 +1,87 @@
+{
+ "version": "1.0.9",
+ "date": "2026-10-19",
+ "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.0.9",
+ "baidu": "https://pan.baidu.com/s/13atBCqmTib1rGp_30279mQ?pwd=6akk",
+ "baiduCode": "6akk",
+ "notes": {
+  "zh-CN": [
+   "新增自动更新：有新版本时会提示。Windows 安装版可以一键自动下载、安装；下载慢的话可以改用百度网盘",
+   "点左边的版本号，随时可以检查有没有新版本"
+  ],
+  "zh-TW": [
+   "新增自動更新：有新版本時會提示。Windows 安裝版可以一鍵自動下載、安裝；下載慢的話可以改用百度網盤",
+   "點左邊的版本號，隨時可以檢查有沒有新版本"
+  ],
+  "en": [
+   "Automatic updates: you're told when a new version is out. The installed Windows version downloads and installs it with one click; if the download is slow you can use Baidu Netdisk instead",
+   "Click the version number on the left to check for a new version at any time"
+  ],
+  "ja": [
+   "自動更新に対応：新しいバージョンが出るとお知らせします。Windows のインストール版はワンクリックで自動ダウンロード・インストール。ダウンロードが遅いときは Baidu ネットディスクも使えます",
+   "左のバージョン番号を押すと、いつでも新しいバージョンを確認できます"
+  ],
+  "ko": [
+   "자동 업데이트: 새 버전이 나오면 알려 줍니다. Windows 설치판은 한 번 클릭으로 자동 다운로드·설치되며, 다운로드가 느리면 바이두 클라우드를 쓸 수 있습니다",
+   "왼쪽의 버전 번호를 누르면 언제든 새 버전을 확인할 수 있습니다"
+  ],
+  "es": [
+   "Actualizaciones automáticas: te avisa cuando sale una versión nueva. La versión instalada de Windows la descarga e instala con un clic; si la descarga va lenta puedes usar Baidu Netdisk",
+   "Pulsa el número de versión de la izquierda para buscar una versión nueva cuando quieras"
+  ],
+  "fr": [
+   "Mises à jour automatiques : vous êtes prévenu quand une nouvelle version sort. La version installée de Windows la télécharge et l’installe en un clic ; si le téléchargement est lent, vous pouvez passer par Baidu Netdisk",
+   "Cliquez sur le numéro de version à gauche pour vérifier à tout moment s’il y a une nouvelle version"
+  ],
+  "de": [
+   "Automatische Updates: Du wirst benachrichtigt, wenn eine neue Version erscheint. Die installierte Windows-Version lädt und installiert sie mit einem Klick; ist der Download langsam, geht es auch über Baidu Netdisk",
+   "Klicke links auf die Versionsnummer, um jederzeit nach einer neuen Version zu suchen"
+  ],
+  "pt": [
+   "Atualizações automáticas: você é avisado quando sai uma versão nova. A versão instalada do Windows baixa e instala com um clique; se o download estiver lento, dá para usar o Baidu Netdisk",
+   "Clique no número da versão à esquerda para procurar uma versão nova a qualquer momento"
+  ],
+  "ru": [
+   "Автообновление: программа сообщает о выходе новой версии. Установленная версия для Windows скачивает и ставит её одним нажатием; если загрузка идёт медленно, можно скачать через Baidu Netdisk",
+   "Нажмите номер версии слева, чтобы в любой момент проверить, есть ли новая версия"
+  ]
+ },
+ "files": {
+  "folder": {
+   "name": "EmulatorJS-1.0.9-folder.zip",
+   "size": 54997029,
+   "sha256": "3ac1f62fad5d887fc2d8559ecde6b8ec661257957c615b5909e801f15d7c3e20",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-1.0.9-folder.zip"
+  },
+  "mac-arm64": {
+   "name": "EmulatorJS-1.0.9-mac-apple-silicon.dmg",
+   "size": 197218162,
+   "sha256": "2f6a3a85d7be99b5935b78219e66aeacc93e084de1629f2cca832aaba87fc6a3",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-1.0.9-mac-apple-silicon.dmg"
+  },
+  "mac-x64": {
+   "name": "EmulatorJS-1.0.9-mac-intel.dmg",
+   "size": 205565330,
+   "sha256": "cea23184fe3980feda154e55c3f1f9ca02b518c1b3b636c3d00696051f6a7c1e",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-1.0.9-mac-intel.dmg"
+  },
+  "win-zip": {
+   "name": "EmulatorJS-1.0.9-win.zip",
+   "size": 206827371,
+   "sha256": "7889397aeef1039dda553b4f801ea6f58d17dc24e39335d9c4d2b55d860b3f88",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-1.0.9-win.zip"
+  },
+  "win-setup": {
+   "name": "EmulatorJS-Setup-1.0.9.exe",
+   "size": 164079531,
+   "sha256": "3847d57db77030018ac1c9673944bbf149ad09c84b8fa2a2f8fc318a70c7c393",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-Setup-1.0.9.exe"
+  },
+  "server": {
+   "name": "ejs-cloud-setup.sh",
+   "size": 2007444,
+   "sha256": "45bc99fee5ff3be81e0cd159c75061246666ffae5876e4b088374af8b8b51450",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/ejs-cloud-setup.sh"
+  }
+ }
+}
