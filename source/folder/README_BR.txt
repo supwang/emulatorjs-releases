@@ -613,6 +613,10 @@ Montar o servidor de jogo (uma vez, por quem tem o servidor na nuvem):
   · “Jogando agora”: todos os jogos em andamento na rede local e na internet. Busque por nome de jogo ou jogador
     e filtre por “Abertas / Desafio / Luta / Amigos / Rede local / Internet”. Em cada jogo você pode “Entrar” ou
     “👀 Assistir” (quem assiste só olha, não controla).
+  · “🌐 Jogadores online”: todos que estão agora no servidor de internet (quem está com o EmulatorJS aberto e este servidor
+    configurado), com bandeira, nome, se é registrado e o que está jogando ou se está no saguão; dá para “Entrar” ou
+    “👀 Assistir” direto daqui. O botão “🌐 Saguão” mostra p. ex. “37/200 online” (pessoas agora / limite do servidor).
+    Servidores antigos não mostram isso: o administrador roda o script de instalação de novo para atualizar.
   · “Amigos”, “Ranking”, “Minhas estatísticas”: para isso é preciso entrar na conta primeiro (veja abaixo).
 
 [Contas, amigos, estatísticas] (precisa do servidor de jogo pela internet)

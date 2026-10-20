@@ -684,5 +684,20 @@
 "金手指来自 libretro 社区的数据库（libretro-database）。": "Les codes viennent de la base de données de la communauté libretro (libretro-database).",
 "（已添加）": "(ajouté)",
 "，{0} 个在 libretro 的封面库里没找到": "; {0} introuvables dans la collection libretro",
-"📚 从金手指库选（libretro）": "📚 Choisir dans la bibliothèque de codes (libretro)"
+"📚 从金手指库选（libretro）": "📚 Choisir dans la bibliothèque de codes (libretro)",
+"{0} 个房间": "{0} salles",
+"在《{0}》里一起玩": "Joue à « {0} »",
+"在大厅里": "Dans le salon",
+"在玩《{0}》（开局的人）": "Joue à « {0} » (hôte)",
+"在线 ? 人": "? en ligne",
+"在线 {0} 人": "{0} en ligne",
+"在线 {0}/{1} 人": "{0}/{1} en ligne",
+"在线玩家": "Joueurs en ligne",
+"在观战《{0}》": "Regarde « {0} »",
+"房间 {0}/{1}": "Salles {0}/{1}",
+"搜索玩家…": "Rechercher un joueur…",
+"游客": "Invité",
+"这个服务器还不能显示在线玩家：请服务器管理员更新服务器程序（重新运行一次安装脚本）": "Ce serveur ne peut pas encore afficher les joueurs en ligne : demandez à son administrateur de le mettre à jour (relancer le script d’installation)",
+"（你）": "(vous)",
+"现在没有人在线": "Personne n’est en ligne pour l’instant"
 }

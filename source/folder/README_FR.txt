@@ -625,6 +625,10 @@ Installer le serveur de jeu (une fois, par la personne qui a le serveur cloud) :
   · « En cours » : toutes les parties en cours en réseau local et sur Internet. Recherchez par jeu ou par joueur
     et filtrez par « Ouvertes / Défi / Combat / Amis / Réseau local / Internet ». Vous pouvez « Rejoindre » ou
     « 👀 Regarder » n’importe quelle partie (les spectateurs regardent sans contrôler).
+  · « 🌐 Joueurs en ligne » : tous ceux qui sont sur le serveur en ligne en ce moment (EmulatorJS ouvert avec ce serveur),
+    avec drapeau, nom, compte ou invité, et ce qu'ils jouent ou s'ils sont dans le salon ; vous pouvez « Rejoindre » ou
+    « 👀 Regarder » directement. Le bouton « 🌐 Salon » affiche par ex. « 37/200 en ligne » (personnes maintenant / limite
+    du serveur). Les anciens serveurs ne l'affichent pas : l'administrateur relance le script d'installation pour mettre à jour.
   · « Amis », « Classement », « Mes statistiques » : il faut d’abord se connecter (voir ci-dessous).
 
 [Comptes, amis, statistiques] (nécessite le serveur de jeu en ligne)

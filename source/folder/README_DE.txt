@@ -615,6 +615,10 @@ Den Spielserver einrichten (einmal, durch die Person mit dem Cloud-Server):
   · „Gerade im Spiel“: alle laufenden Spiele im LAN und im Internet. Suche nach Spiel- oder Spielername und
     filtere nach „Offen / Herausforderung / Kampfspiel / Freunde / LAN / Internet“. Bei jedem Spiel kannst du
     „Mitspielen“ oder „👀 Zuschauen“ (Zuschauer sehen nur zu und steuern nicht).
+  · „🌐 Spieler online“: alle, die gerade auf dem Internet-Spielserver sind (EmulatorJS offen und dieser Server eingestellt),
+    mit Flagge, Name, ob registriert, und was sie spielen oder ob sie in der Lobby sind; „Mitspielen“ oder „👀 Zuschauen“
+    geht direkt von hier. Der Knopf „🌐 Lobby“ zeigt z. B. „37/200 online“ (Leute jetzt / Grenze des Servers). Ältere Server
+    zeigen das nicht: Der Betreiber führt das Installationsskript noch einmal aus, um ihn zu aktualisieren.
   · „Freunde“, „Bestenliste“, „Meine Statistik“: Dafür musst du dich zuerst anmelden (siehe unten).
 
 [Konten, Freunde, Statistik] (braucht den Internet-Spielserver)

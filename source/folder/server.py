@@ -462,6 +462,7 @@ MP_LOCK = threading.Lock()
 SESSIONS = {}     # sid -> {game, title, system, group, host, hostName, allowJoin, players{cid:{name,slot,seen}}, seen}
 MAILBOX = {}      # cid -> [messages]
 CLIENT_SEEN = {}  # cid -> time
+CLIENT_INFO = {}  # cid -> {name, acct, country, loc}：在线玩家列表用（外网服务器）
 TIMEOUT = 12      # 秒：超过这么久没心跳就当作离开
 BANS = {}         # 房主的编号 -> [{cid, acct, iph, until}]：被房主请出去的人，30 分钟内不能再进这个房主的房间
 KICK_MINUTES = 30
@@ -533,10 +534,29 @@ def mp_cleanup():
     if len(CLIENT_SEEN) > 5000:
         for c in [c for c, t in CLIENT_SEEN.items() if now - t > 600]:
             del CLIENT_SEEN[c]
+            CLIENT_INFO.pop(c, None)
     for h in list(BANS):
         BANS[h] = [b for b in BANS[h] if b["until"] > now]
         if not BANS[h]:
             del BANS[h]
+
+
+def players_view(cids):
+    """在线玩家：名字、国家 / 地区、有没有注册，在玩什么（开局 / 一起玩 / 观战 / 在大厅）"""
+    where = {}
+    for sid, s in SESSIONS.items():
+        where[s["host"]] = {"sid": sid, "role": "host", "title": s["title"], "system": s["system"], "group": s["group"], "game": s["game"]}
+        for c, p in s["players"].items():
+            where.setdefault(c, {"sid": sid, "role": "watch" if p.get("watch") else "player", "title": s["title"],
+                                 "system": s["system"], "group": s["group"], "game": s["game"]})
+    out = []
+    for c in cids:
+        i = CLIENT_INFO.get(c)
+        if not i:
+            continue
+        out.append({"name": i["name"], "country": i["country"], "loc": i["loc"], "reg": bool(i["acct"]), "at": where.get(c)})
+    out.sort(key=lambda x: (x["at"] is None, not x["reg"], x["name"].lower()))
+    return out
 
 
 def session_view(sid, s):
@@ -572,6 +592,8 @@ def mp_handle(path, data):
             return {"error": "这台设备的联机编号被别人占用了，请刷新页面", "code": "bad_client"}, 403
         if cid:
             CLIENT_SEEN[cid] = now
+            CLIENT_INFO[cid] = {"name": name, "acct": acct, "country": str(data.get("country") or "")[:2],
+                                "loc": str(data.get("_loc") or "")[:2]}
         mp_cleanup()
         if path == "/api/mp/sessions":
             remote = remote_sessions() if lan_enabled() else []
@@ -703,6 +725,8 @@ def mp_handle(path, data):
         if path == "/api/mp/recv":
             msgs = MAILBOX.pop(cid, [])
             return {"messages": msgs}, 200
+        if path == "/api/mp/presence":   # 开着程序、连着这个大厅：每 15 秒报到一次（在线人数、在线玩家列表）
+            return {"ok": True}, 200
     return {"error": "not found"}, 404
 
 

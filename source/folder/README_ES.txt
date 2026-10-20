@@ -614,6 +614,10 @@ Montar el servidor de juego (una vez, lo hace quien tenga el servidor en la nube
   · «Jugando ahora»: todas las partidas en curso en la red local y en Internet. Busca por juego o jugador y
     filtra por «Se puede unir / Desafío / Lucha / Amigos / Red local / Internet». Puedes «Unirse» o «👀 Ver»
     cualquier partida (los espectadores solo miran, no controlan).
+  · «🌐 Jugadores en línea»: todos los que están ahora en el servidor de Internet (quien tenga EmulatorJS abierto con este
+    servidor), con bandera, nombre, si están registrados y a qué juegan o si están en la sala; puedes «Unirte» o «👀 Ver»
+    su partida desde aquí. El botón «🌐 Sala» muestra p. ej. «37/200 en línea» (personas ahora / límite del servidor).
+    Los servidores antiguos no lo muestran: su administrador debe volver a ejecutar el script de instalación.
   · «Amigos», «Clasificación», «Mis estadísticas»: primero tienes que iniciar sesión (ver abajo).
 
 [Cuentas, amigos y estadísticas] (necesita el servidor de Internet)

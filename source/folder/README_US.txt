@@ -617,6 +617,10 @@ Setting up the play server (once, done by whoever has the cloud server):
   · "Now playing": every game being played on the LAN and the internet. Search by game or player name,
     and filter by "Open to join / Arena / Fighting / Friends / LAN / Internet". You can "Join" or
     "👀 Watch" any game (spectators can only watch, not control).
+  · "🌐 Players online": everyone on the internet play server right now (anyone with EmulatorJS open and this server set),
+    with flag, name, whether they're registered, and what they're playing or that they're in the lobby; you can "Join"
+    or "👀 Watch" their game straight from here. The "🌐 Lobby" button shows e.g. "37/200 online" (people now / the
+    server's limit). Older servers can't show this: the server's owner runs the setup script once more to update.
   · "Friends", "Leaderboard", "My stats": you need to log in first (see below).
 
 [Accounts, friends, stats] (needs the internet play server)

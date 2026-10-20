@@ -1,0 +1,52 @@
+{
+ "zh-CN": [
+  "大厅里新增「在线玩家」：看得到服务器上所有在线的人、他们在玩什么，正在玩的可以直接乱入或观战",
+  "左边的大厅按钮显示在线人数和服务器上限（比如「在线 37/200 人」）",
+  "需要服务器也更新到新版本（重新运行一次安装脚本）"
+ ],
+ "zh-TW": [
+  "大廳裡新增「線上玩家」：看得到伺服器上所有線上的人、他們在玩什麼，正在玩的可以直接亂入或觀戰",
+  "左邊的大廳按鈕顯示線上人數和伺服器上限（比如「線上 37/200 人」）",
+  "需要伺服器也更新到新版本（重新執行一次安裝腳本）"
+ ],
+ "en": [
+  "New \"Players online\" tab in the lobby: see everyone on the server and what they're playing, and join or watch straight from there",
+  "The lobby button shows how many people are online and the server's limit (e.g. \"37/200 online\")",
+  "The server needs updating too (run the setup script once more)"
+ ],
+ "ja": [
+  "ロビーに「オンラインのプレイヤー」を追加：サーバーにいる全員と、何をプレイ中かが分かり、そのまま乱入・観戦できます",
+  "左のロビーボタンにオンライン人数とサーバーの上限を表示（例：「オンライン 37/200 人」）",
+  "サーバー側も更新が必要です（セットアップスクリプトを再実行）"
+ ],
+ "ko": [
+  "로비에 ‘접속 중인 플레이어’ 추가: 서버에 있는 모든 사람과 무엇을 플레이 중인지 보고 바로 참가·관전할 수 있습니다",
+  "왼쪽 로비 버튼에 접속 인원과 서버 상한 표시(예: ‘접속 37/200명’)",
+  "서버도 업데이트해야 합니다(설치 스크립트 다시 실행)"
+ ],
+ "es": [
+  "Nueva pestaña «Jugadores en línea» en la sala: ve a todos los del servidor y a qué juegan, y únete o mira desde ahí",
+  "El botón de la sala muestra cuántos hay en línea y el límite del servidor (p. ej. «37/200 en línea»)",
+  "El servidor también debe actualizarse (volver a ejecutar el script de instalación)"
+ ],
+ "fr": [
+  "Nouvel onglet « Joueurs en ligne » dans le salon : voyez tout le monde sur le serveur et ce qu’ils jouent, et rejoignez ou regardez directement",
+  "Le bouton du salon affiche le nombre de personnes en ligne et la limite du serveur (ex. « 37/200 en ligne »)",
+  "Le serveur doit aussi être mis à jour (relancer le script d’installation)"
+ ],
+ "de": [
+  "Neuer Tab „Spieler online“ in der Lobby: alle auf dem Server sehen und was sie spielen, direkt mitspielen oder zuschauen",
+  "Der Lobby-Knopf zeigt, wie viele online sind, und die Grenze des Servers (z. B. „37/200 online“)",
+  "Der Server muss ebenfalls aktualisiert werden (Installationsskript noch einmal ausführen)"
+ ],
+ "pt": [
+  "Nova aba “Jogadores online” no saguão: veja todos no servidor e o que estão jogando, e entre ou assista direto dali",
+  "O botão do saguão mostra quantos estão online e o limite do servidor (ex.: “37/200 online”)",
+  "O servidor também precisa ser atualizado (rodar o script de instalação de novo)"
+ ],
+ "ru": [
+  "Новая вкладка «Игроки онлайн» в лобби: видно всех на сервере и во что они играют, можно сразу присоединиться или смотреть",
+  "Кнопка лобби показывает, сколько людей онлайн и предел сервера (например, «Онлайн: 37/200»)",
+  "Сервер тоже нужно обновить (ещё раз запустить установочный скрипт)"
+ ]
+}

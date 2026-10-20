@@ -684,5 +684,20 @@
 "金手指来自 libretro 社区的数据库（libretro-database）。": "Cheats come from the libretro community database (libretro-database).",
 "（已添加）": "(added)",
 "，{0} 个在 libretro 的封面库里没找到": "; {0} weren’t found in the libretro collection",
-"📚 从金手指库选（libretro）": "📚 Pick from the cheat library (libretro)"
+"📚 从金手指库选（libretro）": "📚 Pick from the cheat library (libretro)",
+"{0} 个房间": "{0} rooms",
+"在《{0}》里一起玩": "Playing in “{0}”",
+"在大厅里": "In the lobby",
+"在玩《{0}》（开局的人）": "Playing “{0}” (host)",
+"在线 ? 人": "? online",
+"在线 {0} 人": "{0} online",
+"在线 {0}/{1} 人": "{0}/{1} online",
+"在线玩家": "Players online",
+"在观战《{0}》": "Watching “{0}”",
+"房间 {0}/{1}": "Rooms {0}/{1}",
+"搜索玩家…": "Search players…",
+"游客": "Guest",
+"这个服务器还不能显示在线玩家：请服务器管理员更新服务器程序（重新运行一次安装脚本）": "This server can’t show online players yet: ask the server’s owner to update it (run the setup script once more)",
+"（你）": "(you)",
+"现在没有人在线": "Nobody is online right now"
 }
