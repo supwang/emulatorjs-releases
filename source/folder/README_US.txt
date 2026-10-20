@@ -146,6 +146,17 @@ When the page opens it reads three folders automatically, so you don't have to p
   - If a folder you set can no longer be found (for example on another computer), automatic search
     is used again and the settings page tells you so.
 
+[Download pictures automatically]
+  For games without a cover, EmulatorJS can download box art, title screens and screenshots from the libretro community's
+  collection (libretro-thumbnails, the same one RetroArch uses) into your pictures folder (if none is set, a "thumbnails"
+  folder is made next to your ROM folder).
+  · The first time it finds games without covers it asks whether to download them; if you say yes, games you add later get theirs too.
+  · You can switch this on or off in "⚙ Folder settings" -> "Download pictures automatically", or click "⬇ Download missing pictures now".
+  · Pictures are matched by game name (arcade games by their full FBNeo name), so standard No-Intro style file names work best;
+    renamed or translated file names may not be found.
+  · Needs access to GitHub. Progress shows at the top left and you can "Stop" at any time. The collection is put together by
+    the community; the pictures belong to the game companies.
+
 [After adding new games] Click "↻ Reload" at the top left — no need to reopen the page.
 
 [How new games are sorted into platforms]
@@ -221,6 +232,11 @@ Cheats: in the menu bar click "Cheats" -> "Add Cheat", enter the code and a desc
 search the web for "<game name> cheat codes". Some cheats need a game restart to fully undo.
 When you play online with other players, cheats switch off automatically and the Cheats button is hidden;
 they come back when you're playing alone again.
+
+Cheat library: at the top of the "Cheats" menu click "📚 Pick from the cheat library (libretro)". It looks up this game's cheats
+(from the libretro community database, libretro-database: good coverage for NES, SNES, Genesis, GBA and other consoles, almost none
+for arcade), tick the ones you want and click "Add the selected cheats", then tick them in "Cheats" to turn them on.
+Not available during online play either. Needs access to GitHub.
 
 
 5. Keyboard and gamepad

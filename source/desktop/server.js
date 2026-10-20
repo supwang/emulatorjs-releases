@@ -150,8 +150,13 @@ function createServer(opts) {
     const cfg = currentConfig();
     let used = kind, base = cfg[kind].ok ? cfg[kind].path : "";
     if (!base && kind === "bios" && cfg.roms.ok) { base = cfg.roms.path; used = "roms"; }   // no BIOS folder: use the ROM folder
-    if (!base && kind === "thumbs") {   // no thumbnails folder: make one next to the app (found automatically later)
-      for (const d of APP_DIRS_NOW()) { try { fs.mkdirSync(path.join(d, "thumbnails"), { recursive: true }); base = path.join(d, "thumbnails"); break; } catch (e) {} }
+    if (!base && kind === "thumbs") {
+      // no thumbnails folder yet: make one next to the ROM folder (or next to the app) and remember it in the settings
+      const cands = (cfg.roms.ok ? [path.join(path.dirname(cfg.roms.path), "thumbnails")] : []).concat(APP_DIRS_NOW().map(d => path.join(d, "thumbnails")));
+      for (const c of cands) {
+        try { fs.mkdirSync(c, { recursive: true }); if (canWrite(c)) { base = c; break; } } catch (e) {}
+      }
+      if (base) { const saved = readSaved(); if (!saved.thumbs) { saved.thumbs = base; writeSaved(saved); } }
     }
     if (!base) return [{ error: "还没有设置 ROM 文件夹", code: "no_folder" }, 400];
     const rel = String(q.get("rel") || "").replace(/\\/g, "/").replace(/^\/+|\/+$/g, "");

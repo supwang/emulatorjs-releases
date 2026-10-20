@@ -575,6 +575,8 @@
   /* 检查更新 */
   #buildTag .upd-new { color: var(--accent); font-weight: 700; cursor: pointer; opacity: 1; }
   #buildTag { cursor: pointer; }
+  #thumbProg { font-size: 12px; color: var(--accent); }
+  #thumbProg .linkbtn { font-size: 12px; padding: 0 0 0 6px; }
   .upd-notes { margin: 6px 0 0; padding-left: 20px; font-size: 13px; line-height: 1.7; }
   .upd-ver { color: var(--muted); font-size: 13px; }
   .upd-bar { height: 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 5px; overflow: hidden; margin-top: 14px; }
@@ -700,7 +702,8 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.0.9</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.0.10</div>
+    <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
   <div id="lobby" hidden></div>
@@ -769,6 +772,8 @@
 <div id="mpToast" hidden></div>
 <div id="acctModal" class="modal" hidden><div class="modal-box" id="acctBox"></div></div>
 <div id="updModal" class="modal" hidden><div class="modal-box" id="updBox"></div></div>
+<div id="thumbModal" class="modal" hidden><div class="modal-box" id="thumbBox"></div></div>
+<div id="cheatModal" class="modal" hidden><div class="modal-box" id="cheatBox" style="width:min(520px,100%)"></div></div>
 <div id="dirModal" hidden>
   <div class="dm-box">
     <div class="dm-head"><b id="dmTitle">选择文件夹</b><button class="linkbtn" id="dmClose">关闭</button></div>
@@ -2781,7 +2786,7 @@ async function reloadFromServer() {
     thumbs = new Map(); thumbCount = 0; biosFiles = {};
     indexThumbs(lists.thumbs);
     scanBios(lists.bios);
-    if (lists.roms.length) await ingest(lists.roms);
+    if (lists.roms.length) { await ingest(lists.roms); thumbAfterLoad(); }
     else { games = []; unknown = []; unsupported = []; render(); showSettings(); }
   } catch (e) {
     stat.textContent = "读取文件夹出错：" + e.message;
@@ -2817,6 +2822,14 @@ function showSettings() {
     <p class="note">设置一次就会记住，以后打开会自动读取。没设置的文件夹会自动查找：先找 EmulatorJS 文件夹里的
       <code>roms</code> / <code>thumbnails</code> / <code>system</code>（BIOS，也可以叫 <code>bios</code>），再找 RetroArch 的默认位置。</p>
     ${rows}
+    <div class="set-row">
+      <h3>${L("自动下载预览图")}<small>${L("没有封面、标题画面、游戏截图的游戏，从 libretro 社区的封面库（libretro-thumbnails）下载，存进你的预览图文件夹。需要联网")}</small></h3>
+      <label style="display:flex;gap:8px;align-items:center;cursor:pointer">
+        <input type="checkbox" id="thumbAuto"${thumbAutoPref() === "1" ? " checked" : ""} style="width:16px;height:16px;accent-color:var(--accent)">
+        ${L("读取游戏时，自动下载缺少的预览图")}</label>
+      <div class="set-line" style="margin-top:10px"><button class="btn secondary" id="thumbNow" style="flex:none">${L("⬇ 现在下载缺少的预览图")}</button></div>
+      <div class="set-status" id="thumbSetStatus">${escapeHtml(thumbStatusText())}</div>
+    </div>
     <div class="set-row">
       <h3>局域网联机<small>同一个 Wi-Fi / 路由器里的其他电脑、平板可以打开你的游戏库，还能乱入一起玩</small></h3>
       <label style="display:flex;gap:8px;align-items:center;cursor:pointer">
@@ -2855,6 +2868,8 @@ function showSettings() {
   if (cancel) cancel.onclick = () => { currentSys = firstGroup(); render(); showGrid(currentSys); };
   document.getElementById("setSave").onclick = saveSettings;
   document.getElementById("showUnsup").onchange = e => setHideUnsupported(!e.target.checked, true);
+  document.getElementById("thumbAuto").onchange = e => { thumbSetPref(e.target.checked ? "1" : "0"); if (e.target.checked) thumbRun(false); };
+  document.getElementById("thumbNow").onclick = () => thumbRun(true);
   gridEl.querySelectorAll('input[name="netMode"]').forEach(r => r.onchange = () => { if (r.checked) { setNetModePref(r.value); mpToast(L(r.value === "rb" ? "已改成回滚模式" : "已改成延迟模式")); } });
   // 保存过的服务器：切换 / 删除
   const drawCloudRows = () => {
@@ -5169,6 +5184,20 @@ async function play(g, opts = {}) {
       }
     }, 150);
   })();
+  // 「Cheats」菜单里加一个「从金手指库选」
+  (() => {
+    const t = setInterval(() => {
+      const emu = window.EJS_emulator;
+      if (!emu || !emu.cheatMenu || !emu.elements || !emu.elements.cheatRows) return;
+      clearInterval(t);
+      const b = document.createElement("button");
+      b.className = "ejs_button_button";
+      b.style.cssText = "display:block;width:100%;margin:0 0 12px;padding:8px;background-color:rgba(var(--ejs-primary-color),1)";
+      try { b.textContent = parent.L("📚 从金手指库选（libretro）"); } catch (e) { b.textContent = "Cheat library"; }
+      b.onclick = () => { emu.cheatMenu.style.display = "none"; try { parent.cheatLibOpen(); } catch (e) {} };
+      emu.elements.cheatRows.parentNode.insertBefore(b, emu.elements.cheatRows);
+    }, 300);
+  })();
   window.EJS_color = (getComputedStyle(parent.document.documentElement).getPropertyValue("--accent") || "#4ef3c9").trim();
 <\/script>
 <script src="${dataPath}loader.js"><\/script>
@@ -5189,7 +5218,7 @@ const isTyping = el => el && (el.tagName === "TEXTAREA" || el.tagName === "SELEC
 const visible = el => { if (!el || el.hidden) return false; const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== "hidden"; };
 function navScope() {
   if (!gameMenuEl.hidden) return gameMenuEl;
-  for (const id of ["updModal", "acctModal", "dirModal", "romBox", "srvMenu", "themePanel", "langPanel", "roomPanel", "turboPanel"]) {
+  for (const id of ["updModal", "thumbModal", "cheatModal", "acctModal", "dirModal", "romBox", "srvMenu", "themePanel", "langPanel", "roomPanel", "turboPanel"]) {
     const el = document.getElementById(id);
     if (el && !el.hidden && visible(el)) return el;
   }
@@ -5251,6 +5280,8 @@ function navBack() {
   if (rb && visible(rb)) { const b = rb.querySelector("#rbNo"); if (b) b.click(); else romBox(""); return true; }
   if (!acctModal.hidden) { acctModal.hidden = true; return true; }
   if (!updModal.hidden) { updClose(); return true; }
+  if (!document.getElementById("thumbModal").hidden) { document.getElementById("thumbModal").hidden = true; return true; }
+  if (!document.getElementById("cheatModal").hidden) { document.getElementById("cheatModal").hidden = true; return true; }
   const dm = document.getElementById("dirModal");
   if (dm && !dm.hidden) { document.getElementById("dmClose").click(); return true; }
   const sm = document.getElementById("srvMenu");
@@ -5363,7 +5394,7 @@ setInterval(() => { if (!document.hidden) padPoll(); }, 33);
 // 所以：焦点在页面上、按的又是游戏里设置过的键时，把这个键交给游戏，并把焦点放回游戏
 function keyToGame(e) {
   if (!gameMenuEl.hidden || isTyping(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
-  if (e.target && e.target.closest && e.target.closest("#roomPanel, #turboPanel, .modal, #updModal, #acctModal, #dirModal, #romBox, #srvMenu, #hall, #themePanel, #langPanel")) return;
+  if (e.target && e.target.closest && e.target.closest("#roomPanel, #turboPanel, .modal, #updModal, #thumbModal, #cheatModal, #acctModal, #dirModal, #romBox, #srvMenu, #hall, #themePanel, #langPanel")) return;
   const emu = gameEmu();
   if (!emu || !emu.started || !emu.controls || typeof emu.keyChange !== "function") return;
   const mapped = Object.values(emu.controls).some(pl => pl && Object.values(pl).some(c => c && c.value === e.keyCode));
@@ -5391,11 +5422,334 @@ document.addEventListener("keydown", e => {
 });
 document.addEventListener("mousedown", () => document.body.classList.remove("padnav"), true);
 
+// ---------------- 自动下载预览图（libretro 社区的封面库 libretro-thumbnails）----------------
+// 封面（Named_Boxarts）、标题画面（Named_Titles）、游戏截图（Named_Snaps）。玩家同意后才下载，存进自己的预览图文件夹，
+// 文件名用游戏自己的文件名（kof97.png、Super Mario World (USA).png），程序下次直接就能对上。
+// 名字对照：先拿到 libretro 这个平台所有封面的名字清单（GitHub），按游戏名找最像的一个（街机用 FBNeo 的游戏全名）。
+const TH_FOLDERS = [["box", "Named_Boxarts"], ["title", "Named_Titles"], ["snap", "Named_Snaps"]];
+const TH_TRIED_KEY = "ejs-thumb-tried", TH_TRIED_DAYS = 30;
+const thLs = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+const thumbAutoPref = () => thLs.get("ejs-thumb-auto") || "";      // "1" 自动、"0" 不要、"" 还没问过
+const thumbSetPref = v => thLs.set("ejs-thumb-auto", v);
+const thLocal = () => ["127.0.0.1", "localhost", "[::1]", "::1"].includes(location.hostname) && serverCfg && serverCfg.roms && serverCfg.roms.ok && !serverCfg.remote;
+const thDir = g => (g.db != null && PLAYLIST_DBS[g.db]) || THUMB_DIRS[g.system] || "";
+const thSafe = s => String(s).replace(/[&*\/:`<>?\\|"]/g, "_");
+let thTried = {};
+try { thTried = JSON.parse(thLs.get(TH_TRIED_KEY) || "{}") || {}; } catch (e) {}
+const thKey = g => thDir(g) + "|" + baseName(g.file.name);
+const thNeeds = g => thDir(g) && TH_FOLDERS.some(([k]) => !thumbFor(g, k));
+const thFresh = g => { const t = thTried[thKey(g)]; return t && Date.now() - t < TH_TRIED_DAYS * 864e5; };
+let thJob = null;
+function thumbStatusText() {
+  if (thJob) return L("正在下载… {0}/{1}", thJob.done, thJob.total);
+  const miss = games.filter(g => thDir(g) && !thumbFor(g, "box")).length;
+  return miss ? L("{0} 个游戏还没有封面", miss) : (games.length ? L("所有游戏都有封面了") : "");
+}
+
+// 街机：romset 名 → FBNeo 里的游戏全名（libretro 的街机封面按全名起名）
+let FBNEO_NAMES = null;
+async function fbneoNames() {
+  if (FBNEO_NAMES) return FBNEO_NAMES;
+  const m = new Map();
+  try { (await (await fetch("data/fbneo-names.txt")).text()).split(/\r?\n/).forEach(l => { const i = l.indexOf("\t"); if (i > 0) m.set(l.slice(0, i), l.slice(i + 1)); }); } catch (e) {}
+  return FBNEO_NAMES = m;
+}
+
+// 名字比较：分成「括号外的游戏名」和「括号里的地区、日期」，忽略大小写、标点、The / and
+const thTok = s => String(s).toLowerCase().replace(/&/g, " and ").replace(/_/g, " ").replace(/['’]/g, "")
+  .split(/[^\p{L}\p{N}]+/u).filter(w => w && w !== "the" && w !== "and");
+function thSplit(name) {
+  const s = String(name), i = s.search(/[\(\[]/);
+  const main = thTok(i < 0 ? s : s.slice(0, i)), extra = i < 0 ? [] : thTok(s.slice(i));
+  return { key: [...main].sort().join(" "), main, extra };
+}
+const thListCache = new Map();
+async function thList(dir) {
+  if (thListCache.has(dir)) return thListCache.get(dir);
+  const ck = "ejs-thl:" + dir;
+  try { const c = JSON.parse(thLs.get(ck) || "null"); if (c && Date.now() - c.t < 14 * 864e5 && c.n.length) { const r = thIndex(c.n); thListCache.set(dir, r); return r; } } catch (e) {}
+  const names = await ghNames("libretro-thumbnails/" + dir.replace(/ /g, "_"), ["Named_Boxarts"], "png");
+  const r = names && names.length ? thIndex(names) : null;
+  if (r) thLs.set(ck, JSON.stringify({ t: Date.now(), n: names }));
+  thListCache.set(dir, r);
+  return r;
+}
+// GitHub 上某个文件夹里的文件名（不含扩展名）：一层一层地读目录（大仓库也只读需要的那几层）
+async function ghNames(repo, dirs, ext) {
+  const api = "https://api.github.com/repos/" + repo.split("/").map(encodeURIComponent).join("/") + "/git/trees/";
+  const get = async u => { const r = await thTimed(u); if (!r.ok) throw new Error(r.status); return r.json(); };
+  for (const br of ["master", "main"]) {
+    try {
+      let tree = await get(api + br);
+      for (const d of dirs) {
+        const sub = (tree.tree || []).find(x => x.path === d && x.type === "tree");
+        if (!sub) return [];
+        tree = await get(api + sub.sha);
+      }
+      const re = new RegExp("\\." + ext + "$", "i");
+      return (tree.tree || []).filter(x => re.test(x.path)).map(x => x.path.slice(0, -ext.length - 1));
+    } catch (e) { if (String(e.message) !== "404") return null; }
+  }
+  return null;
+}
+function thIndex(names) {
+  const byKey = new Map(), all = [];
+  for (const n of names) { const s = thSplit(n); s.name = n; all.push(s); if (!byKey.has(s.key)) byKey.set(s.key, []); byKey.get(s.key).push(s); }
+  return { byKey, all, has: new Set(names) };
+}
+// 在清单里找最像的名字：游戏名一样的里面，挑括号里（地区、日期）重合最多的
+function thMatch(list, want) {
+  for (const w of want) if (list.has.has(thSafe(w))) return thSafe(w);
+  let best = null, bestScore = -1;
+  for (const w of want) {
+    const s = thSplit(thSafe(w));
+    if (!s.main.length) continue;
+    let cands = list.byKey.get(s.key) || [];
+    if (!cands.length && s.main.length >= 2) {   // 游戏名差一点（多一个、少一个词）
+      const ws = new Set(s.main);
+      cands = list.all.filter(c => { if (!c.main.length) return false; const inter = c.main.filter(x => ws.has(x)).length; return inter / (ws.size + c.main.length - inter) >= 0.8; });
+    }
+    for (const c of cands) {
+      const ex = new Set(s.extra), hit = c.extra.filter(x => ex.has(x)).length;
+      const score = (c.key === s.key ? 100 : 50) + hit * 5 - (c.extra.length - hit);
+      if (score > bestScore) { best = c.name; bestScore = score; }
+    }
+    if (best) return best;
+  }
+  return null;
+}
+function thTimed(url, ms = 20000) {
+  const ac = new AbortController(), tm = setTimeout(() => ac.abort(), ms);
+  return fetch(url, { signal: ac.signal, cache: "no-store" }).finally(() => clearTimeout(tm));
+}
+let thLibretroOk = null;   // thumbnails.libretro.com 能不能直接读（读不了就只用 GitHub）
+const isImg = b => b.length > 8 && ((b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) || (b[0] === 0xff && b[1] === 0xd8));
+async function thFetch(dir, folder, name) {
+  const enc = s => s.split("/").map(encodeURIComponent).join("/");
+  if (thLibretroOk !== false) {
+    try {
+      const r = await thTimed("https://thumbnails.libretro.com/" + enc(dir) + "/" + folder + "/" + encodeURIComponent(name) + ".png");
+      thLibretroOk = true;
+      if (r.ok) { const b = new Uint8Array(await r.arrayBuffer()); if (isImg(b)) return b; }
+      else if (r.status === 404) return null;
+    } catch (e) { if (thLibretroOk === null) thLibretroOk = false; }
+  }
+  // GitHub：有的图是「链接」（内容只是另一张图的路径），跟着找过去
+  let path = folder + "/" + name + ".png";
+  for (let hop = 0; hop < 3; hop++) {
+    const r = await thTimed("https://raw.githubusercontent.com/libretro-thumbnails/" + encodeURIComponent(dir.replace(/ /g, "_")) + "/master/" + enc(path));
+    if (!r.ok) return null;
+    const b = new Uint8Array(await r.arrayBuffer());
+    if (isImg(b)) return b;
+    const txt = new TextDecoder().decode(b).trim();
+    if (b.length > 1024 || !/\.(png|jpe?g)$/i.test(txt)) return null;
+    const parts = path.split("/").slice(0, -1);
+    for (const seg of txt.split("/")) { if (seg === "..") parts.pop(); else if (seg && seg !== ".") parts.push(seg); }
+    path = parts.join("/");
+  }
+  return null;
+}
+async function thSave(rel, bytes) {
+  const q = new URLSearchParams({ kind: "thumbs", rel, offset: 0, total: bytes.length, keep: "1" });
+  const r = await fetch("/api/rom/save?" + q, { method: "POST", headers: { "X-EJS": "1" }, body: bytes });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || !j.done) throw new Error(j.error || r.status);
+  return j;
+}
+function thProg() {
+  const el = document.getElementById("thumbProg");
+  if (!el) return;
+  if (!thJob) { el.hidden = true; return; }
+  el.hidden = false;
+  el.innerHTML = escapeHtml(L("⬇ 正在下载预览图 {0}/{1}", thJob.done, thJob.total)) + `<button class="linkbtn" id="thumbStop">${escapeHtml(L("停止"))}</button>`;
+  document.getElementById("thumbStop").onclick = () => { if (thJob) thJob.stop = true; };
+  const st = document.getElementById("thumbSetStatus"); if (st) st.textContent = thumbStatusText();
+}
+// 下载好的图马上显示出来（不打断玩游戏、不跳到别的页面）
+let thRedrawT = 0;
+function thRedraw(force) {
+  if (!force && Date.now() - thRedrawT < 3000) return;
+  thRedrawT = Date.now();
+  if (stage.querySelector("iframe") || gridEl.querySelector(".settings") || !currentSys) return;
+  const y = gridEl.scrollTop; showGrid(currentSys); gridEl.scrollTop = y;
+}
+async function thumbRun(manual) {
+  if (thJob) return;
+  if (!thLocal()) { if (manual) mpToast(L("要在这台电脑上设置好 ROM 文件夹，才能下载预览图")); return; }
+  const list = games.filter(g => thNeeds(g) && (manual || !thFresh(g)));
+  if (!list.length) { if (manual) mpToast(L("所有游戏都有预览图了，或者 libretro 的封面库里没有")); return; }
+  // 先下当前平台的
+  list.sort((a, b) => (groupOf(b) === currentSys) - (groupOf(a) === currentSys));
+  thJob = { done: 0, total: list.length, got: 0, stop: false };
+  thProg();
+  const cfgBefore = serverCfg.thumbs && serverCfg.thumbs.ok;
+  const names = list.some(g => g.system === "arcade") ? await fbneoNames() : null;
+  const made = [];
+  let netFail = 0;
+  const worker = async () => {
+    while (list.length && !thJob.stop) {
+      const g = list.shift(), dir = thDir(g), base = baseName(g.file.name);
+      let gotAny = false;
+      try {
+        const want = [g.title, base];
+        if (g.system === "arcade" && names && names.get(base.toLowerCase())) want.unshift(names.get(base.toLowerCase()));
+        const lst = await thList(dir);
+        const pick = lst ? thMatch(lst, want) : null;
+        const tryNames = pick ? [pick] : (lst ? [] : [...new Set(want.map(thSafe))]);   // 没有清单（GitHub 连不上）就直接按名字试
+        for (const [k, folder] of TH_FOLDERS) {
+          if (thumbFor(g, k) || thJob.stop) continue;
+          for (const n of tryNames) {
+            const b = await thFetch(dir, folder, n);
+            if (!b) continue;
+            const j = await thSave(dir + "/" + folder + "/" + thSafe(base) + ".png", b);
+            made.push(new RemoteFile(j.kind || "thumbs", j.rel, b.length));
+            // 原来没有预览图文件夹：服务器刚建好一个，读一次设置，图片才能马上显示
+            if (!(serverCfg.thumbs && serverCfg.thumbs.ok) && !thJob.cfgAsked) {
+              thJob.cfgAsked = true;
+              try { const c = await (await fetch("/api/config", { cache: "no-store" })).json(); if (c && c.roms) serverCfg = c; } catch (e) {}
+            }
+            gotAny = true;
+            break;
+          }
+        }
+        thTried[thKey(g)] = Date.now();
+      } catch (e) { netFail++; }
+      if (gotAny) thJob.got++;
+      thJob.done++;
+      if (made.length && (serverCfg.thumbs && serverCfg.thumbs.ok)) { addThumbs(made.splice(0)); thRedraw(); }
+      thProg();
+    }
+  };
+  await Promise.all([worker(), worker(), worker()]);
+  thLs.set(TH_TRIED_KEY, JSON.stringify(thTried));
+  // 原来没有预览图文件夹：服务器刚建了一个，重新读一次设置，图片才能显示
+  if (!cfgBefore) { try { serverCfg = await (await fetch("/api/config", { cache: "no-store" })).json(); } catch (e) {} }
+  if (made.length) addThumbs(made);
+  const job = thJob; thJob = null;
+  thProg(); render(); thRedraw(true);
+  const left = games.filter(g => thDir(g) && !thumbFor(g, "box")).length;
+  if (job.stop) mpToast(L("已停止。下载好了 {0} 个游戏的预览图", job.got));
+  else if (netFail && !job.got) mpToast(L("下载预览图失败：连不上 GitHub / libretro，稍后再试"));
+  else mpToast(L("下载好了 {0} 个游戏的预览图", job.got) + (left ? L("，{0} 个在 libretro 的封面库里没找到", left) : ""));
+}
+// 读取完游戏后：问一次要不要自动下载；同意过就直接下载新游戏缺的
+function thumbAfterLoad() {
+  if (!thLocal()) return;
+  const pref = thumbAutoPref();
+  if (pref === "1") return thumbRun(false);
+  if (pref === "0") return;
+  const miss = games.filter(g => thDir(g) && !thumbFor(g, "box")).length;
+  if (!miss) return;
+  const m = document.getElementById("thumbModal"), box = document.getElementById("thumbBox");
+  box.innerHTML = `<h3>${L("要自动下载游戏封面吗？")}<button class="linkbtn" id="thClose">${L("关闭")}</button></h3>
+    <div class="note" style="margin-top:0">${L("有 {0} 个游戏还没有封面。可以从 libretro 社区的封面库（libretro-thumbnails）自动下载封面、标题画面和游戏截图，存进你的预览图文件夹。以后加了新游戏也会自动下载。", miss)}</div>
+    <button class="btn" id="thYes">${L("自动下载")}</button>
+    <button class="btn secondary" id="thNo">${L("不用了")}</button>
+    <div class="note">${L("以后可以在「⚙ 文件夹设置」里打开或关闭。")}</div>`;
+  m.hidden = false;
+  const close = () => { m.hidden = true; };
+  m.onclick = e => { if (e.target === m) close(); };
+  document.getElementById("thClose").onclick = close;
+  document.getElementById("thYes").onclick = () => { close(); thumbSetPref("1"); thumbRun(false); };
+  document.getElementById("thNo").onclick = () => { close(); thumbSetPref("0"); };
+}
+
+// ---------------- 金手指库（libretro-database 里的 cht 文件）----------------
+// 游戏菜单栏「Cheats」里多一个「从金手指库选」：按游戏名找到这个游戏的金手指，勾选后加进去（默认不开启）。
+// 联机时（有别的玩家）照样锁定：打不开，加进去的也不会生效。
+const cheatModal = () => document.getElementById("cheatModal");
+let cheatListCache = new Map();
+async function cheatNames(dir) {
+  if (cheatListCache.has(dir)) return cheatListCache.get(dir);
+  const ck = "ejs-chl:" + dir;
+  try { const c = JSON.parse(thLs.get(ck) || "null"); if (c && Date.now() - c.t < 14 * 864e5) { const r = c.n.length ? thIndex(c.n) : false; cheatListCache.set(dir, r); return r; } } catch (e) {}
+  const names = await ghNames("libretro/libretro-database", ["cht", dir], "cht");
+  if (names === null) return null;            // GitHub 连不上
+  thLs.set(ck, JSON.stringify({ t: Date.now(), n: names }));
+  const r = names.length ? thIndex(names) : false;   // false = 这个平台没有金手指
+  cheatListCache.set(dir, r);
+  return r;
+}
+function parseCht(text) {
+  const kv = {};
+  for (const line of text.split(/\r?\n/)) {
+    const m = /^\s*([\w]+)\s*=\s*"?(.*?)"?\s*$/.exec(line);
+    if (m) kv[m[1]] = m[2];
+  }
+  const out = [];
+  for (let i = 0; i < (parseInt(kv.cheats, 10) || 0) && i < 2000; i++) {
+    const desc = (kv["cheat" + i + "_desc"] || "").trim(), code = (kv["cheat" + i + "_code"] || "").trim();
+    if (desc && code) out.push({ desc, code });
+  }
+  return out;
+}
+async function cheatLibOpen() {
+  const emu = gameEmu(), g = playingGame;
+  if (!emu || !g) return;
+  if (window.__ejsNoCheats()) return mpToast(L("联机中不能用金手指"));
+  const m = cheatModal(), box = document.getElementById("cheatBox");
+  const close = () => { m.hidden = true; try { focusGame(); } catch (e) {} };
+  m.onclick = e => { if (e.target === m) close(); };
+  const head = `<h3>${L("金手指库")}<button class="linkbtn" id="chClose">${L("关闭")}</button></h3>`;
+  const show = html => { box.innerHTML = head + html; document.getElementById("chClose").onclick = close; m.hidden = false; };
+  show(`<div class="note" style="margin-top:0">${L("正在找《{0}》的金手指…", escapeHtml(gameName(g) || g.title))}</div>`);
+  const dir = thDir(g);
+  let list = null, found = null, err = "";
+  try {
+    const idx = dir ? await cheatNames(dir) : false;
+    if (idx === null) err = L("连不上 GitHub，稍后再试");
+    else if (!idx) err = L("金手指库里没有这个平台的金手指");
+    else {
+      const base = baseName(g.file.name), want = [g.title, base];
+      if (g.system === "arcade") { const n = (await fbneoNames()).get(base.toLowerCase()); if (n) want.unshift(n); }
+      found = thMatch(idx, want);
+      if (!found) err = L("金手指库里没找到这个游戏");
+      else {
+        const r = await thTimed("https://raw.githubusercontent.com/libretro/libretro-database/master/cht/" + encodeURIComponent(dir) + "/" + encodeURIComponent(found) + ".cht");
+        if (!r.ok) throw new Error(r.status);
+        list = parseCht(await r.text());
+        if (!list.length) err = L("金手指库里没找到这个游戏");
+      }
+    }
+  } catch (e) { err = L("连不上 GitHub，稍后再试"); }
+  if (m.hidden) return;   // 等的时候关掉了
+  if (err) return show(`<div class="err">${escapeHtml(err)}</div><div class="note">${L("也可以在游戏菜单栏的「Cheats」里点「Add Cheat」，手动输入金手指代码。")}</div>`);
+  const have = new Set((emu.cheats || []).map(c => c.desc + "\n" + c.code));
+  show(`<div class="note" style="margin-top:0">${L("找到 {0} 条：{1}", list.length, escapeHtml(found))}</div>
+    <input type="search" id="chSearch" placeholder="${escapeHtml(L("搜索…"))}" style="margin-top:10px">
+    <div id="chList" style="max-height:min(50dvh,420px);overflow-y:auto;margin-top:8px;border:1px solid var(--line);border-radius:8px"></div>
+    <button class="btn" id="chAdd">${L("添加选中的金手指")}</button>
+    <div class="note">${L("添加后，在游戏菜单栏的「Cheats」里勾选才会开启。有的金手指要重新开始游戏才能关掉。联机时金手指会自动关闭。")}<br>${L("金手指来自 libretro 社区的数据库（libretro-database）。")}</div>`);
+  const listEl = document.getElementById("chList"), picked = new Set();
+  const draw = () => {
+    const q = document.getElementById("chSearch").value.trim().toLowerCase();
+    listEl.innerHTML = list.map((c, i) => ({ c, i })).filter(({ c }) => !q || c.desc.toLowerCase().includes(q)).slice(0, 500).map(({ c, i }) => {
+      const dup = have.has(c.desc + "\n" + c.code);
+      return `<label style="display:flex;gap:8px;align-items:flex-start;padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px;color:var(--text);margin:0">
+        <input type="checkbox" data-i="${i}"${dup ? " checked disabled" : picked.has(i) ? " checked" : ""} style="margin-top:2px;accent-color:var(--accent)">
+        <span>${escapeHtml(c.desc)}${dup ? ` <small style="color:var(--muted)">${escapeHtml(L("（已添加）"))}</small>` : ""}</span></label>`;
+    }).join("") || `<div class="note" style="padding:10px">${L("没有符合的")}</div>`;
+    listEl.querySelectorAll("input[data-i]").forEach(x => x.onchange = () => { const i = Number(x.dataset.i); if (x.checked) picked.add(i); else picked.delete(i); });
+  };
+  draw();
+  document.getElementById("chSearch").oninput = draw;
+  document.getElementById("chAdd").onclick = () => {
+    if (window.__ejsNoCheats()) { close(); return mpToast(L("联机中不能用金手指")); }
+    const add = [...picked].map(i => list[i]).filter(c => !have.has(c.desc + "\n" + c.code));
+    if (!add.length) return mpToast(L("还没有勾选金手指"));
+    for (const c of add) emu.cheats.push({ desc: c.desc, code: c.code, checked: false });
+    try { emu.updateCheatUI(); emu.saveSettings(); } catch (e) {}
+    close();
+    mpToast(L("已添加 {0} 条金手指，在「Cheats」里勾选开启", add.length));
+  };
+}
+window.cheatLibOpen = cheatLibOpen;
+
 // ---------------- 检查更新 ----------------
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.0.9";
+const APP_VERSION = "1.0.10";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",
@@ -5416,10 +5770,12 @@ function verNewer(a, b) {
   return false;
 }
 async function updFetchLatest() {
+  let reached = false;
   const one = async url => {
     const ac = new AbortController(), tm = setTimeout(() => ac.abort(), 10000);
     try {
       const r = await fetch(url, { signal: ac.signal, cache: "no-store", headers: { Accept: "application/vnd.github.raw+json" } });
+      if (r.status === 404) { reached = true; throw new Error("404"); }   // 连上了，只是还没有版本信息
       if (!r.ok) throw new Error(r.status);
       const j = JSON.parse(await r.text());
       if (!/^\d+\.\d+\.\d+$/.test(String(j.version || ""))) throw new Error("bad");
@@ -5427,7 +5783,7 @@ async function updFetchLatest() {
     } finally { clearTimeout(tm); }
   };
   const got = (await Promise.allSettled(UPD_SOURCES.map(one))).filter(x => x.status === "fulfilled").map(x => x.value);
-  if (!got.length) throw new Error("offline");
+  if (!got.length) { if (reached) return { version: APP_VERSION }; throw new Error("offline"); }
   return got.reduce((a, b) => (verNewer(b.version, a.version) ? b : a));   // 有的地方有缓存：用最新的那份
 }
 async function updKind() {

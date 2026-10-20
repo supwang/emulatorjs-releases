@@ -146,6 +146,16 @@ Ao abrir, a página lê três pastas sozinha, então você não precisa escolhê
   - Se uma pasta configurada não for mais encontrada (por exemplo, em outro computador), a busca automática volta
     a ser usada e a página de configuração avisa.
 
+[Baixar imagens automaticamente]
+  Para jogos sem capa, o EmulatorJS pode baixar capas, telas de título e capturas da coleção da comunidade libretro (libretro-thumbnails,
+  a mesma do RetroArch) para a sua pasta de imagens (se não houver, cria uma pasta "thumbnails" ao lado da pasta de ROMs).
+  · Na primeira vez que encontra jogos sem capa, ele pergunta; se aceitar, os jogos adicionados depois também recebem as imagens.
+  · Ligue ou desligue em “⚙ Pastas” → “Baixar imagens automaticamente”, ou clique em “⬇ Baixar agora as imagens que faltam”.
+  · As imagens são procuradas pelo nome do jogo (arcade pelo nome completo do FBNeo); nomes padrão estilo No-Intro funcionam melhor,
+    nomes alterados ou traduzidos podem não ser encontrados.
+  · Precisa de acesso ao GitHub. O progresso aparece no canto superior esquerdo e dá para “Parar” a qualquer momento. A coleção é
+    reunida pela comunidade; as imagens pertencem às empresas dos jogos.
+
 [Depois de adicionar jogos novos] Clique em “↻ Recarregar” no canto superior esquerdo – não precisa reabrir a página.
 
 [Como os jogos novos são separados por plataforma]
@@ -221,6 +231,11 @@ Cheats: na barra de menu clique em “Trapaças” (Cheats) → “Adicionar Tra
 e marque para ligar (de novo para desligar). O formato depende da plataforma: Game Genie no NES, Action Replay / GameShark no GBA etc.;
 procure “<nome do jogo> cheats” na internet. Alguns cheats só se desfazem totalmente reiniciando o jogo.
 No jogo online com outros jogadores, os cheats desligam sozinhos e o botão some; voltam quando você joga sozinho.
+
+Biblioteca de trapaças: no topo do menu “Trapaças” (Cheats), clique em “📚 Escolher da biblioteca de trapaças (libretro)”. As trapaças deste
+jogo são procuradas (banco de dados da comunidade libretro, libretro-database: bastante para NES, SNES, Mega Drive, GBA e outros consoles,
+quase nada para arcade); marque as desejadas, clique em “Adicionar as trapaças selecionadas” e marque-as em “Trapaças” para ativar.
+Também não dá para usar no jogo online. Precisa de acesso ao GitHub.
 
 
 5. Teclado e controle

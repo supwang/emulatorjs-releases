@@ -11,6 +11,6 @@ git -C "$DIR" fetch -q origin main && git -C "$DIR" reset -q --hard origin/main
 gh api -H "Accept: application/octet-stream" "repos/$PUB/releases/assets/$ID" > "$DIR/latest.json"
 python3 -c "import json,sys; j=json.load(open(sys.argv[1])); assert j['version']==sys.argv[2], j['version']; print('latest.json', j['version'], sorted(j['files']))" "$DIR/latest.json" "$V"
 git -C "$DIR" add latest.json
-git -C "$DIR" commit -q -m "EmulatorJS $V"
+git -C "$DIR" -c user.name=Supwang -c user.email=supwang@users.noreply.github.com commit -q -m "EmulatorJS $V"
 git -C "$DIR" push -q origin HEAD:main
 echo "announced $V"

@@ -146,6 +146,17 @@ Al abrir la página se leen tres carpetas automáticamente, así que no hay que 
   - Si una carpeta configurada ya no se encuentra (por ejemplo en otro ordenador), se vuelve a la
     búsqueda automática y la página de ajustes te lo indica.
 
+[Descargar imágenes automáticamente]
+  Para los juegos sin portada, EmulatorJS puede descargar portadas, pantallas de título y capturas de la colección de la comunidad
+  libretro (libretro-thumbnails, la misma que usa RetroArch) en tu carpeta de imágenes (si no hay ninguna, crea una carpeta
+  "thumbnails" junto a la carpeta de ROM).
+  · La primera vez que encuentra juegos sin portada te pregunta; si aceptas, también descarga las de los juegos que añadas después.
+  · Se activa o desactiva en «⚙ Carpetas» → «Descargar imágenes automáticamente», o pulsa «⬇ Descargar ahora las imágenes que faltan».
+  · Las imágenes se buscan por el nombre del juego (los arcade por su nombre completo de FBNeo); funcionan mejor los nombres estándar
+    tipo No-Intro, los nombres cambiados o traducidos pueden no encontrarse.
+  · Requiere acceso a GitHub. El progreso aparece arriba a la izquierda y se puede «Detener». La colección la reúne la comunidad;
+    las imágenes pertenecen a las compañías de los juegos.
+
 [Después de añadir juegos] Pulsa «↻ Recargar» arriba a la izquierda; no hace falta volver a abrir la página.
 
 [Cómo se clasifican los juegos nuevos por plataforma]
@@ -219,6 +230,11 @@ Trucos: en la barra de menú pulsa «Trucos» (Cheats) → «Añadir Truco» (Ad
 y márcalo para activarlo (otra vez para desactivarlo). El formato depende de la plataforma: Game Genie en NES, Action Replay /
 GameShark en GBA, etc.; busca «<nombre del juego> trucos» en Internet. Algunos trucos necesitan reiniciar el juego para deshacerse del todo.
 Al jugar en línea con otros jugadores, los trucos se desactivan solos y el botón se oculta; vuelven cuando juegas solo.
+
+Biblioteca de trucos: arriba del menú «Trucos» (Cheats) pulsa «📚 Elegir de la biblioteca de trucos (libretro)». Busca los trucos de este juego
+(de la base de datos de la comunidad libretro, libretro-database: muchos para NES, SNES, Mega Drive, GBA y otras consolas, casi ninguno
+para arcade); marca los que quieras, pulsa «Añadir los trucos seleccionados» y márcalos en «Trucos» para activarlos.
+Tampoco se pueden usar en el juego en línea. Requiere acceso a GitHub.
 
 
 5. Teclado y mando

@@ -147,6 +147,16 @@ Beim Öffnen liest die Seite automatisch drei Ordner, du musst sie also nicht je
   - Wird ein eingestellter Ordner nicht mehr gefunden (etwa auf einem anderen Computer), wird wieder automatisch
     gesucht und die Einstellungsseite weist darauf hin.
 
+[Bilder automatisch laden]
+  Für Spiele ohne Cover kann EmulatorJS Cover, Titelbilder und Screenshots aus der Sammlung der libretro-Community (libretro-thumbnails,
+  dieselbe wie bei RetroArch) in deinen Bilderordner laden (ist keiner eingestellt, wird neben dem ROM-Ordner ein Ordner „thumbnails“ angelegt).
+  · Beim ersten Mal, wenn Spiele ohne Cover gefunden werden, wirst du gefragt; sagst du ja, bekommen später hinzugefügte Spiele ihre Bilder auch.
+  · Ein- und ausschalten unter „⚙ Ordner“ → „Bilder automatisch laden“, oder auf „⬇ Fehlende Bilder jetzt laden“ klicken.
+  · Bilder werden über den Spielnamen gesucht (Arcade-Spiele über ihren vollen FBNeo-Namen); Standardnamen wie bei No-Intro
+    funktionieren am besten, umbenannte oder übersetzte Dateinamen werden eventuell nicht gefunden.
+  · Braucht Zugang zu GitHub. Der Fortschritt steht oben links, „Stopp“ jederzeit möglich. Die Sammlung stammt von der Community;
+    die Bilder gehören den Spielefirmen.
+
 [Nach dem Hinzufügen neuer Spiele] Klicke oben links auf „↻ Neu laden“ – die Seite muss nicht neu geöffnet werden.
 
 [Wie neue Spiele Plattformen zugeordnet werden]
@@ -220,6 +230,11 @@ um ihn einzuschalten (nochmal zum Ausschalten). Das Code-Format hängt von der P
 Action Replay / GameShark beim GBA usw.; im Internet nach „<Spielname> Cheats“ suchen. Manche Cheats wirken erst nach einem Neustart
 des Spiels nicht mehr. Beim Online-Spiel mit anderen schalten sich Cheats automatisch ab und der Knopf wird ausgeblendet;
 sobald du wieder allein spielst, sind sie zurück.
+
+Cheat-Bibliothek: Oben im Menü „Cheats“ auf „📚 Aus der Cheat-Bibliothek wählen (libretro)“ klicken. Die Cheats dieses Spiels werden gesucht
+(aus der Datenbank der libretro-Community, libretro-database: viel für NES, SNES, Mega Drive, GBA und andere Konsolen, fast nichts für
+Arcade); gewünschte anhaken, „Ausgewählte Cheats hinzufügen“ klicken und unter „Cheats“ anhaken, um sie einzuschalten.
+Beim Online-Spiel ebenfalls nicht verfügbar. Braucht Zugang zu GitHub.
 
 
 5. Tastatur und Gamepad

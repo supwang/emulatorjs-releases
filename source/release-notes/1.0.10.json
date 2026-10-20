@@ -1,0 +1,52 @@
+{
+ "zh-CN": [
+  "自动下载预览图：没有封面的游戏，可以从 libretro 社区的封面库自动下载封面、标题画面和游戏截图",
+  "金手指库：在游戏菜单栏的「Cheats」里可以直接从 libretro 金手指库选，联机时照样自动关闭",
+  "检查更新的提示更准确了"
+ ],
+ "zh-TW": [
+  "自動下載預覽圖：沒有封面的遊戲，可以從 libretro 社群的封面庫自動下載封面、標題畫面和遊戲截圖",
+  "金手指庫：在遊戲選單欄的「Cheats」裡可以直接從 libretro 金手指庫選，連線時照樣自動關閉",
+  "檢查更新的提示更準確了"
+ ],
+ "en": [
+  "Download pictures automatically: games without a cover can get box art, title screens and screenshots from the libretro community collection",
+  "Cheat library: pick cheats from the libretro cheat database right in the game's \"Cheats\" menu (still switched off during online play)",
+  "More accurate messages when checking for updates"
+ ],
+ "ja": [
+  "画像の自動ダウンロード：カバーのないゲームに、libretro コミュニティの画像集からカバー・タイトル画面・ゲーム画面を自動で追加",
+  "チートライブラリ：ゲームのメニューバーの「Cheats」から libretro のチートデータベースを直接選べます（通信プレイ中は従来どおり自動でオフ）",
+  "更新確認のメッセージがより正確になりました"
+ ],
+ "ko": [
+  "이미지 자동 다운로드: 커버가 없는 게임에 libretro 커뮤니티 이미지 모음에서 커버, 타이틀 화면, 게임 화면을 자동으로 추가",
+  "치트 라이브러리: 게임 메뉴바의 ‘Cheats’에서 libretro 치트 데이터베이스를 바로 고를 수 있습니다(온라인 플레이 중에는 여전히 자동으로 꺼짐)",
+  "업데이트 확인 메시지가 더 정확해졌습니다"
+ ],
+ "es": [
+  "Descarga automática de imágenes: los juegos sin portada pueden obtener portadas, pantallas de título y capturas de la colección de la comunidad libretro",
+  "Biblioteca de trucos: elige trucos de la base de datos de libretro desde el menú «Cheats» del juego (siguen desactivados en el juego en línea)",
+  "Mensajes más precisos al buscar actualizaciones"
+ ],
+ "fr": [
+  "Téléchargement automatique des images : les jeux sans jaquette peuvent obtenir jaquettes, écrans titres et captures depuis la collection de la communauté libretro",
+  "Bibliothèque de codes : choisissez des codes dans la base de données libretro depuis le menu « Cheats » du jeu (toujours désactivés en jeu en ligne)",
+  "Messages plus précis lors de la recherche de mises à jour"
+ ],
+ "de": [
+  "Bilder automatisch laden: Spiele ohne Cover bekommen Cover, Titelbilder und Screenshots aus der Sammlung der libretro-Community",
+  "Cheat-Bibliothek: Cheats direkt im „Cheats“-Menü des Spiels aus der libretro-Datenbank wählen (beim Online-Spiel weiterhin abgeschaltet)",
+  "Genauere Meldungen bei der Suche nach Updates"
+ ],
+ "pt": [
+  "Download automático de imagens: jogos sem capa podem receber capas, telas de título e capturas da coleção da comunidade libretro",
+  "Biblioteca de trapaças: escolha trapaças do banco de dados do libretro direto no menu “Cheats” do jogo (continuam desligadas no jogo online)",
+  "Mensagens mais precisas ao procurar atualizações"
+ ],
+ "ru": [
+  "Автозагрузка картинок: для игр без обложки можно скачать обложки, титульные экраны и скриншоты из коллекции сообщества libretro",
+  "Библиотека читов: выбирайте читы из базы libretro прямо в меню «Cheats» игры (при сетевой игре они по-прежнему отключаются)",
+  "Более точные сообщения при проверке обновлений"
+ ]
+}

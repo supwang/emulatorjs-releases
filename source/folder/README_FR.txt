@@ -148,6 +148,17 @@ Pourquoi garder cette fenêtre ouverte ?
   - Si un dossier choisi n’existe plus (par exemple sur un autre ordinateur), la recherche automatique
     reprend et la page des réglages vous le signale.
 
+[Télécharger les images automatiquement]
+  Pour les jeux sans jaquette, EmulatorJS peut télécharger jaquettes, écrans titres et captures depuis la collection de la communauté
+  libretro (libretro-thumbnails, la même que RetroArch) dans votre dossier d'images (s'il n'y en a pas, un dossier « thumbnails »
+  est créé à côté du dossier ROM).
+  · La première fois qu'il trouve des jeux sans jaquette, il vous demande ; si vous acceptez, les jeux ajoutés plus tard sont aussi traités.
+  · Activez ou désactivez cela dans « ⚙ Dossiers » → « Télécharger les images automatiquement », ou cliquez sur « ⬇ Télécharger maintenant les images manquantes ».
+  · Les images sont cherchées par le nom du jeu (les jeux d'arcade par leur nom complet FBNeo) ; les noms standard de type No-Intro
+    fonctionnent le mieux, les noms modifiés ou traduits peuvent ne pas être trouvés.
+  · Accès à GitHub nécessaire. La progression s'affiche en haut à gauche et vous pouvez « Arrêter » à tout moment. La collection est
+    réunie par la communauté ; les images appartiennent aux éditeurs des jeux.
+
 [Après avoir ajouté des jeux] Cliquez sur « ↻ Actualiser » en haut à gauche : inutile de rouvrir la page.
 
 [Classement automatique des nouveaux jeux par plateforme]
@@ -223,6 +234,11 @@ validez, puis cochez pour l’activer (encore une fois pour la couper). Le forma
 Action Replay / GameShark sur GBA, etc. ; cherchez « <nom du jeu> codes triche » sur Internet. Certains codes demandent de relancer le jeu
 pour être entièrement annulés. En ligne avec d’autres joueurs, les triches se coupent automatiquement et le bouton est masqué ;
 elles reviennent quand vous rejouez seul.
+
+Bibliothèque de codes : en haut du menu « Triches » (Cheats), cliquez sur « 📚 Choisir dans la bibliothèque de codes (libretro) ». Les codes
+de ce jeu sont recherchés (base de données de la communauté libretro, libretro-database : bien fournie pour NES, SNES, Mega Drive, GBA et
+autres consoles, presque rien pour l'arcade) ; cochez ceux voulus, cliquez sur « Ajouter les codes sélectionnés », puis cochez-les dans
+« Triches » pour les activer. Indisponible aussi en jeu en ligne. Accès à GitHub nécessaire.
 
 
 5. Clavier et manette
