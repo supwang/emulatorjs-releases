@@ -1,109 +1,119 @@
 {
- "version": "1.0.11",
+ "version": "1.0.12",
  "date": "2026-10-20",
- "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.0.11",
+ "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.0.12",
  "baidu": "https://pan.baidu.com/s/13atBCqmTib1rGp_30279mQ?pwd=6akk",
  "baiduCode": "6akk",
  "notes": {
   "zh-CN": [
-   "大厅里新增「在线玩家」：看得到服务器上所有在线的人、他们在玩什么，正在玩的可以直接乱入或观战",
-   "左边的大厅按钮显示在线人数和服务器上限（比如「在线 37/200 人」）",
-   "需要服务器也更新到新版本（重新运行一次安装脚本）"
+   "加外网联机服务器时先检查：地址连不上或房间密码不对，只提示、不加进列表；服务器旁边新增 🔑，可以改房间密码",
+   "每一局都标出是「局域网」还是「🌐 外网」；在局域网里从别的电脑下载游戏，一次就能下好",
+   "手机上的大厅标签排成一行，不用左右滑；快速连点两下「乱入」不会再卡住",
+   "「要自动下载封面吗」的提示不会挡住正在玩的游戏；英文界面里游戏标题不再显示中文"
   ],
   "zh-TW": [
-   "大廳裡新增「線上玩家」：看得到伺服器上所有線上的人、他們在玩什麼，正在玩的可以直接亂入或觀戰",
-   "左邊的大廳按鈕顯示線上人數和伺服器上限（比如「線上 37/200 人」）",
-   "需要伺服器也更新到新版本（重新執行一次安裝腳本）"
+   "加外網聯機伺服器時先檢查：地址連不上或房間密碼不對，只提示、不加進列表；伺服器旁邊新增 🔑，可以改房間密碼",
+   "每一局都標出是「區域網」還是「🌐 外網」；在區域網裡從別的電腦下載遊戲，一次就能下好",
+   "手機上的大廳標籤排成一行，不用左右滑；快速連點兩下「亂入」不會再卡住",
+   "「要自動下載封面嗎」的提示不會擋住正在玩的遊戲；英文介面裡遊戲標題不再顯示中文"
   ],
   "en": [
-   "New \"Players online\" tab in the lobby: see everyone on the server and what they're playing, and join or watch straight from there",
-   "The lobby button shows how many people are online and the server's limit (e.g. \"37/200 online\")",
-   "The server needs updating too (run the setup script once more)"
+   "Adding an internet play server checks it first: a wrong address or room password is reported and nothing is added; new 🔑 button to change a server's room password",
+   "Every game is labelled \"LAN\" or \"🌐 Internet\"; downloading a game from another computer on your network works the first time",
+   "Lobby tabs fit on one row on phones; clicking Join twice quickly no longer gets stuck",
+   "The \"download covers?\" question no longer covers a game you're playing; the in-game title is fully in English"
   ],
   "ja": [
-   "ロビーに「オンラインのプレイヤー」を追加：サーバーにいる全員と、何をプレイ中かが分かり、そのまま乱入・観戦できます",
-   "左のロビーボタンにオンライン人数とサーバーの上限を表示（例：「オンライン 37/200 人」）",
-   "サーバー側も更新が必要です（セットアップスクリプトを再実行）"
+   "インターネット対戦サーバーを追加する前に接続を確認：アドレスやルームのパスワードが違うときは表示だけして追加しません。サーバー横の 🔑 でパスワードを変更できます",
+   "各ゲームに「LAN」か「🌐 インターネット」かを表示。同じネットワークの別の PC からのゲームのダウンロードが一度で成功します",
+   "スマホのロビーのタブが 1 行に収まり、横スクロール不要に。「乱入」を素早く 2 回押しても止まらなくなりました",
+   "「カバーを自動ダウンロードしますか」の確認がプレイ中のゲームを隠さなくなりました。英語表示でゲームのタイトルに中国語が出なくなりました"
   ],
   "ko": [
-   "로비에 ‘접속 중인 플레이어’ 추가: 서버에 있는 모든 사람과 무엇을 플레이 중인지 보고 바로 참가·관전할 수 있습니다",
-   "왼쪽 로비 버튼에 접속 인원과 서버 상한 표시(예: ‘접속 37/200명’)",
-   "서버도 업데이트해야 합니다(설치 스크립트 다시 실행)"
+   "인터넷 플레이 서버를 추가하기 전에 먼저 확인합니다: 주소나 방 비밀번호가 틀리면 알려만 주고 추가하지 않습니다. 서버 옆 🔑로 방 비밀번호를 바꿀 수 있습니다",
+   "게임마다 ‘LAN’인지 ‘🌐 인터넷’인지 표시합니다. 같은 네트워크의 다른 컴퓨터에서 게임을 한 번에 내려받습니다",
+   "휴대폰 로비 탭이 한 줄에 들어가 옆으로 밀 필요가 없습니다. ‘참가’를 빠르게 두 번 눌러도 멈추지 않습니다",
+   "‘표지를 자동으로 내려받을까요?’ 안내가 플레이 중인 게임을 가리지 않습니다. 영어 화면의 게임 제목에 중국어가 나오지 않습니다"
   ],
   "es": [
-   "Nueva pestaña «Jugadores en línea» en la sala: ve a todos los del servidor y a qué juegan, y únete o mira desde ahí",
-   "El botón de la sala muestra cuántos hay en línea y el límite del servidor (p. ej. «37/200 en línea»)",
-   "El servidor también debe actualizarse (volver a ejecutar el script de instalación)"
+   "Al añadir un servidor de juego por internet se comprueba antes: si la dirección o la contraseña de la sala no es correcta, se avisa y no se añade; nuevo botón 🔑 para cambiar la contraseña",
+   "Cada partida indica «Red local» o «🌐 Internet»; descargar un juego de otro ordenador de tu red funciona a la primera",
+   "En el móvil las pestañas de la sala caben en una fila; pulsar «Unirse» dos veces rápido ya no se queda colgado",
+   "La pregunta «¿descargar portadas?» ya no tapa la partida; el título del juego sale entero en el idioma elegido"
   ],
   "fr": [
-   "Nouvel onglet « Joueurs en ligne » dans le salon : voyez tout le monde sur le serveur et ce qu’ils jouent, et rejoignez ou regardez directement",
-   "Le bouton du salon affiche le nombre de personnes en ligne et la limite du serveur (ex. « 37/200 en ligne »)",
-   "Le serveur doit aussi être mis à jour (relancer le script d’installation)"
+   "Avant d'ajouter un serveur de jeu en ligne, il est d'abord testé : adresse ou mot de passe de salle faux = message, rien n'est ajouté ; nouveau bouton 🔑 pour changer le mot de passe",
+   "Chaque partie indique « Réseau local » ou « 🌐 Internet » ; télécharger un jeu depuis un autre ordinateur du réseau marche du premier coup",
+   "Sur téléphone, les onglets du salon tiennent sur une ligne ; cliquer deux fois vite sur « Rejoindre » ne bloque plus",
+   "La question « télécharger les jaquettes ? » ne cache plus la partie en cours ; le titre du jeu s'affiche entièrement dans la langue choisie"
   ],
   "de": [
-   "Neuer Tab „Spieler online“ in der Lobby: alle auf dem Server sehen und was sie spielen, direkt mitspielen oder zuschauen",
-   "Der Lobby-Knopf zeigt, wie viele online sind, und die Grenze des Servers (z. B. „37/200 online“)",
-   "Der Server muss ebenfalls aktualisiert werden (Installationsskript noch einmal ausführen)"
+   "Ein Internet-Spielserver wird vor dem Hinzufügen geprüft: falsche Adresse oder falsches Raum-Passwort wird gemeldet, nichts wird hinzugefügt; neuer 🔑-Knopf zum Ändern des Passworts",
+   "Jedes Spiel zeigt „LAN“ oder „🌐 Internet“; ein Spiel von einem anderen Computer im Netz herunterladen klappt beim ersten Mal",
+   "Auf dem Handy passen die Lobby-Reiter in eine Zeile; zweimal schnell auf „Mitspielen“ klicken hängt nicht mehr",
+   "Die Frage „Cover herunterladen?“ verdeckt kein laufendes Spiel mehr; der Spieltitel erscheint ganz in der gewählten Sprache"
   ],
   "pt": [
-   "Nova aba “Jogadores online” no saguão: veja todos no servidor e o que estão jogando, e entre ou assista direto dali",
-   "O botão do saguão mostra quantos estão online e o limite do servidor (ex.: “37/200 online”)",
-   "O servidor também precisa ser atualizado (rodar o script de instalação de novo)"
+   "Ao adicionar um servidor de jogo pela internet, ele é testado antes: endereço ou senha da sala errados são avisados e nada é adicionado; novo botão 🔑 para mudar a senha",
+   "Cada partida mostra “Rede local” ou “🌐 Internet”; baixar um jogo de outro computador da sua rede funciona de primeira",
+   "No celular as abas do saguão cabem numa linha; clicar duas vezes rápido em “Entrar” não trava mais",
+   "A pergunta “baixar capas?” não cobre mais o jogo em andamento; o título do jogo aparece todo no idioma escolhido"
   ],
   "ru": [
-   "Новая вкладка «Игроки онлайн» в лобби: видно всех на сервере и во что они играют, можно сразу присоединиться или смотреть",
-   "Кнопка лобби показывает, сколько людей онлайн и предел сервера (например, «Онлайн: 37/200»)",
-   "Сервер тоже нужно обновить (ещё раз запустить установочный скрипт)"
+   "Интернет-сервер для игры теперь сначала проверяется: при неверном адресе или пароле комнаты выводится сообщение и ничего не добавляется; новая кнопка 🔑 для смены пароля",
+   "У каждой игры метка «Локальная сеть» или «🌐 Интернет»; скачивание игры с другого компьютера в сети получается с первого раза",
+   "На телефоне вкладки лобби помещаются в одну строку; быстрое двойное нажатие «Присоединиться» больше не зависает",
+   "Вопрос «скачать обложки?» больше не закрывает идущую игру; название игры полностью на выбранном языке"
   ]
  },
  "files": {
   "android-x86_64": {
-   "name": "EmulatorJS-1.0.11-android-x86_64.apk",
-   "size": 70964065,
-   "sha256": "aee60b8a1111b70dd6df7b639178d0d105bba915149e47ba5ee720bf40246e62",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-android-x86_64.apk"
+   "name": "EmulatorJS-1.0.12-android-x86_64.apk",
+   "size": 70969505,
+   "sha256": "5435326b7416f80d20b7813dffcd890be906e633f0e12ffa8501b7f405afe3d3",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-android-x86_64.apk"
   },
   "android": {
-   "name": "EmulatorJS-1.0.11-android.apk",
-   "size": 84997694,
-   "sha256": "2931d526b13b8bbd292d7c3ab1119934de559aee551af976a9d7228ae4f6a5b2",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-android.apk"
+   "name": "EmulatorJS-1.0.12-android.apk",
+   "size": 85003134,
+   "sha256": "f8f28d848d948bfd67ad12f4e49f07dd128a3248cdaa8c1bc590d1eac46b6322",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-android.apk"
   },
   "folder": {
-   "name": "EmulatorJS-1.0.11-folder.zip",
-   "size": 55096090,
-   "sha256": "c69b28c972f71a7dbe020b88a895cd6fee14000cf7051b0f5b6f4f03353dcc93",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-folder.zip"
+   "name": "EmulatorJS-1.0.12-folder.zip",
+   "size": 55102440,
+   "sha256": "49031508881ab9275931e0d1804ee5a0537b7132cfd244f7cf13af8201cf6741",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-folder.zip"
   },
   "mac-arm64": {
-   "name": "EmulatorJS-1.0.11-mac-apple-silicon.dmg",
-   "size": 197301094,
-   "sha256": "b8d669528020fcba9f67710c822b5cee1726125c067fe2d444a32e71faf7b017",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-mac-apple-silicon.dmg"
+   "name": "EmulatorJS-1.0.12-mac-apple-silicon.dmg",
+   "size": 197329039,
+   "sha256": "0f32c9f7154289f29997be887a7c32e9186df28ce58f14d426f5c6b9e985144c",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-mac-apple-silicon.dmg"
   },
   "mac-x64": {
-   "name": "EmulatorJS-1.0.11-mac-intel.dmg",
-   "size": 205269166,
-   "sha256": "f9b3f863eff06dbf3897a04929b2223244dda7445baf65946346054f42eb1a8e",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-mac-intel.dmg"
+   "name": "EmulatorJS-1.0.12-mac-intel.dmg",
+   "size": 205281358,
+   "sha256": "a6a1bbc991e2456085298522e06551cac66e632a67d33fafb920c8beb3178444",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-mac-intel.dmg"
   },
   "win-zip": {
-   "name": "EmulatorJS-1.0.11-win.zip",
-   "size": 206914511,
-   "sha256": "87068541ed53ebd2be0cd71d618f9a81b7a1c9f225d9914bcdec3292c203fd7b",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-win.zip"
+   "name": "EmulatorJS-1.0.12-win.zip",
+   "size": 206919687,
+   "sha256": "f33b33fe745eb8b2ab62c44682f38a54a848c5cb818a36ef4b3dec476cf7a355",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-win.zip"
   },
   "win-setup": {
-   "name": "EmulatorJS-Setup-1.0.11.exe",
-   "size": 164155509,
-   "sha256": "fdf9d31069777ce2a669dcfc30efe516ba3fbf112022f7dcc5e32085d53546e2",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-Setup-1.0.11.exe"
+   "name": "EmulatorJS-Setup-1.0.12.exe",
+   "size": 164159245,
+   "sha256": "493d854c4b3f69bcc5bdf69548e051d542909cf6b41cf421d87e31856e868d73",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-Setup-1.0.12.exe"
   },
   "server": {
    "name": "ejs-cloud-setup.sh",
    "size": 2011213,
    "sha256": "61060bec433695bf6a779f635453f8136ad1e20041d27d7653e3f80f909e9073",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/ejs-cloud-setup.sh"
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/ejs-cloud-setup.sh"
   }
  }
 }
