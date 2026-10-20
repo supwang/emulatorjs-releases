@@ -1,87 +1,97 @@
 {
- "version": "1.0.9",
- "date": "2026-10-19",
- "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.0.9",
+ "version": "1.0.11",
+ "date": "2026-10-20",
+ "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.0.11",
  "baidu": "https://pan.baidu.com/s/13atBCqmTib1rGp_30279mQ?pwd=6akk",
  "baiduCode": "6akk",
  "notes": {
   "zh-CN": [
-   "新增自动更新：有新版本时会提示。Windows 安装版可以一键自动下载、安装；下载慢的话可以改用百度网盘",
-   "点左边的版本号，随时可以检查有没有新版本"
+   "大厅里新增「在线玩家」：看得到服务器上所有在线的人、他们在玩什么，正在玩的可以直接乱入或观战",
+   "左边的大厅按钮显示在线人数和服务器上限（比如「在线 37/200 人」）",
+   "需要服务器也更新到新版本（重新运行一次安装脚本）"
   ],
   "zh-TW": [
-   "新增自動更新：有新版本時會提示。Windows 安裝版可以一鍵自動下載、安裝；下載慢的話可以改用百度網盤",
-   "點左邊的版本號，隨時可以檢查有沒有新版本"
+   "大廳裡新增「線上玩家」：看得到伺服器上所有線上的人、他們在玩什麼，正在玩的可以直接亂入或觀戰",
+   "左邊的大廳按鈕顯示線上人數和伺服器上限（比如「線上 37/200 人」）",
+   "需要伺服器也更新到新版本（重新執行一次安裝腳本）"
   ],
   "en": [
-   "Automatic updates: you're told when a new version is out. The installed Windows version downloads and installs it with one click; if the download is slow you can use Baidu Netdisk instead",
-   "Click the version number on the left to check for a new version at any time"
+   "New \"Players online\" tab in the lobby: see everyone on the server and what they're playing, and join or watch straight from there",
+   "The lobby button shows how many people are online and the server's limit (e.g. \"37/200 online\")",
+   "The server needs updating too (run the setup script once more)"
   ],
   "ja": [
-   "自動更新に対応：新しいバージョンが出るとお知らせします。Windows のインストール版はワンクリックで自動ダウンロード・インストール。ダウンロードが遅いときは Baidu ネットディスクも使えます",
-   "左のバージョン番号を押すと、いつでも新しいバージョンを確認できます"
+   "ロビーに「オンラインのプレイヤー」を追加：サーバーにいる全員と、何をプレイ中かが分かり、そのまま乱入・観戦できます",
+   "左のロビーボタンにオンライン人数とサーバーの上限を表示（例：「オンライン 37/200 人」）",
+   "サーバー側も更新が必要です（セットアップスクリプトを再実行）"
   ],
   "ko": [
-   "자동 업데이트: 새 버전이 나오면 알려 줍니다. Windows 설치판은 한 번 클릭으로 자동 다운로드·설치되며, 다운로드가 느리면 바이두 클라우드를 쓸 수 있습니다",
-   "왼쪽의 버전 번호를 누르면 언제든 새 버전을 확인할 수 있습니다"
+   "로비에 ‘접속 중인 플레이어’ 추가: 서버에 있는 모든 사람과 무엇을 플레이 중인지 보고 바로 참가·관전할 수 있습니다",
+   "왼쪽 로비 버튼에 접속 인원과 서버 상한 표시(예: ‘접속 37/200명’)",
+   "서버도 업데이트해야 합니다(설치 스크립트 다시 실행)"
   ],
   "es": [
-   "Actualizaciones automáticas: te avisa cuando sale una versión nueva. La versión instalada de Windows la descarga e instala con un clic; si la descarga va lenta puedes usar Baidu Netdisk",
-   "Pulsa el número de versión de la izquierda para buscar una versión nueva cuando quieras"
+   "Nueva pestaña «Jugadores en línea» en la sala: ve a todos los del servidor y a qué juegan, y únete o mira desde ahí",
+   "El botón de la sala muestra cuántos hay en línea y el límite del servidor (p. ej. «37/200 en línea»)",
+   "El servidor también debe actualizarse (volver a ejecutar el script de instalación)"
   ],
   "fr": [
-   "Mises à jour automatiques : vous êtes prévenu quand une nouvelle version sort. La version installée de Windows la télécharge et l’installe en un clic ; si le téléchargement est lent, vous pouvez passer par Baidu Netdisk",
-   "Cliquez sur le numéro de version à gauche pour vérifier à tout moment s’il y a une nouvelle version"
+   "Nouvel onglet « Joueurs en ligne » dans le salon : voyez tout le monde sur le serveur et ce qu’ils jouent, et rejoignez ou regardez directement",
+   "Le bouton du salon affiche le nombre de personnes en ligne et la limite du serveur (ex. « 37/200 en ligne »)",
+   "Le serveur doit aussi être mis à jour (relancer le script d’installation)"
   ],
   "de": [
-   "Automatische Updates: Du wirst benachrichtigt, wenn eine neue Version erscheint. Die installierte Windows-Version lädt und installiert sie mit einem Klick; ist der Download langsam, geht es auch über Baidu Netdisk",
-   "Klicke links auf die Versionsnummer, um jederzeit nach einer neuen Version zu suchen"
+   "Neuer Tab „Spieler online“ in der Lobby: alle auf dem Server sehen und was sie spielen, direkt mitspielen oder zuschauen",
+   "Der Lobby-Knopf zeigt, wie viele online sind, und die Grenze des Servers (z. B. „37/200 online“)",
+   "Der Server muss ebenfalls aktualisiert werden (Installationsskript noch einmal ausführen)"
   ],
   "pt": [
-   "Atualizações automáticas: você é avisado quando sai uma versão nova. A versão instalada do Windows baixa e instala com um clique; se o download estiver lento, dá para usar o Baidu Netdisk",
-   "Clique no número da versão à esquerda para procurar uma versão nova a qualquer momento"
+   "Nova aba “Jogadores online” no saguão: veja todos no servidor e o que estão jogando, e entre ou assista direto dali",
+   "O botão do saguão mostra quantos estão online e o limite do servidor (ex.: “37/200 online”)",
+   "O servidor também precisa ser atualizado (rodar o script de instalação de novo)"
   ],
   "ru": [
-   "Автообновление: программа сообщает о выходе новой версии. Установленная версия для Windows скачивает и ставит её одним нажатием; если загрузка идёт медленно, можно скачать через Baidu Netdisk",
-   "Нажмите номер версии слева, чтобы в любой момент проверить, есть ли новая версия"
+   "Новая вкладка «Игроки онлайн» в лобби: видно всех на сервере и во что они играют, можно сразу присоединиться или смотреть",
+   "Кнопка лобби показывает, сколько людей онлайн и предел сервера (например, «Онлайн: 37/200»)",
+   "Сервер тоже нужно обновить (ещё раз запустить установочный скрипт)"
   ]
  },
  "files": {
   "folder": {
-   "name": "EmulatorJS-1.0.9-folder.zip",
-   "size": 54997029,
-   "sha256": "3ac1f62fad5d887fc2d8559ecde6b8ec661257957c615b5909e801f15d7c3e20",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-1.0.9-folder.zip"
+   "name": "EmulatorJS-1.0.11-folder.zip",
+   "size": 55096090,
+   "sha256": "c69b28c972f71a7dbe020b88a895cd6fee14000cf7051b0f5b6f4f03353dcc93",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-folder.zip"
   },
   "mac-arm64": {
-   "name": "EmulatorJS-1.0.9-mac-apple-silicon.dmg",
-   "size": 197218162,
-   "sha256": "2f6a3a85d7be99b5935b78219e66aeacc93e084de1629f2cca832aaba87fc6a3",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-1.0.9-mac-apple-silicon.dmg"
+   "name": "EmulatorJS-1.0.11-mac-apple-silicon.dmg",
+   "size": 197301094,
+   "sha256": "b8d669528020fcba9f67710c822b5cee1726125c067fe2d444a32e71faf7b017",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-mac-apple-silicon.dmg"
   },
   "mac-x64": {
-   "name": "EmulatorJS-1.0.9-mac-intel.dmg",
-   "size": 205565330,
-   "sha256": "cea23184fe3980feda154e55c3f1f9ca02b518c1b3b636c3d00696051f6a7c1e",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-1.0.9-mac-intel.dmg"
+   "name": "EmulatorJS-1.0.11-mac-intel.dmg",
+   "size": 205269166,
+   "sha256": "f9b3f863eff06dbf3897a04929b2223244dda7445baf65946346054f42eb1a8e",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-mac-intel.dmg"
   },
   "win-zip": {
-   "name": "EmulatorJS-1.0.9-win.zip",
-   "size": 206827371,
-   "sha256": "7889397aeef1039dda553b4f801ea6f58d17dc24e39335d9c4d2b55d860b3f88",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-1.0.9-win.zip"
+   "name": "EmulatorJS-1.0.11-win.zip",
+   "size": 206914511,
+   "sha256": "87068541ed53ebd2be0cd71d618f9a81b7a1c9f225d9914bcdec3292c203fd7b",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-win.zip"
   },
   "win-setup": {
-   "name": "EmulatorJS-Setup-1.0.9.exe",
-   "size": 164079531,
-   "sha256": "3847d57db77030018ac1c9673944bbf149ad09c84b8fa2a2f8fc318a70c7c393",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/EmulatorJS-Setup-1.0.9.exe"
+   "name": "EmulatorJS-Setup-1.0.11.exe",
+   "size": 164155509,
+   "sha256": "fdf9d31069777ce2a669dcfc30efe516ba3fbf112022f7dcc5e32085d53546e2",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-Setup-1.0.11.exe"
   },
   "server": {
    "name": "ejs-cloud-setup.sh",
-   "size": 2007444,
-   "sha256": "45bc99fee5ff3be81e0cd159c75061246666ffae5876e4b088374af8b8b51450",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.9/ejs-cloud-setup.sh"
+   "size": 2011213,
+   "sha256": "61060bec433695bf6a779f635453f8136ad1e20041d27d7653e3f80f909e9073",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/ejs-cloud-setup.sh"
   }
  }
 }
