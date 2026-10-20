@@ -57,6 +57,18 @@
   ]
  },
  "files": {
+  "android-x86_64": {
+   "name": "EmulatorJS-1.0.11-android-x86_64.apk",
+   "size": 70964065,
+   "sha256": "aee60b8a1111b70dd6df7b639178d0d105bba915149e47ba5ee720bf40246e62",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-android-x86_64.apk"
+  },
+  "android": {
+   "name": "EmulatorJS-1.0.11-android.apk",
+   "size": 84997694,
+   "sha256": "2931d526b13b8bbd292d7c3ab1119934de559aee551af976a9d7228ae4f6a5b2",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.11/EmulatorJS-1.0.11-android.apk"
+  },
   "folder": {
    "name": "EmulatorJS-1.0.11-folder.zip",
    "size": 55096090,

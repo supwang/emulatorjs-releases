@@ -21,6 +21,8 @@ https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
 | Windows（不想安装） | `EmulatorJS-版本号-win.zip`：解压后双击 `EmulatorJS.exe` |
 | Mac（M1 / M2 / M3 / M4 芯片） | `EmulatorJS-版本号-mac-apple-silicon.dmg` |
 | Mac（Intel 芯片） | `EmulatorJS-版本号-mac-intel.dmg` |
+| 安卓手机 / 平板 / 电视 | `EmulatorJS-版本号-android.apk`：传到设备上点开安装（需要 Android 7.0 以上） |
+| 电脑上的安卓模拟器（MuMu 等） | `EmulatorJS-版本号-android-x86_64.apk` |
 | 任何电脑，用浏览器玩 | `EmulatorJS-版本号-folder.zip`：解压后双击 `EmulatorJS-Windows.bat`（Windows）或 `EmulatorJS.command`（Mac） |
 | 自己搭外网联机服务器 | `ejs-cloud-setup.sh`：在 Ubuntu 22.04 / 24.04 云服务器上运行 `sudo bash ejs-cloud-setup.sh` |
 
@@ -45,7 +47,7 @@ https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
 ## 更新
 
 有新版本时，所有版本都会提示这次更新了什么（点左边的版本号也能随时检查）。
-**Windows 安装版**点一下就能自动下载、安装；下载慢的话会提示去百度网盘下载。Mac 版、Windows 免安装版、文件夹版会给出下载地址，下载后替换旧版本即可，游戏、设置和存档都会保留。
+**Windows 安装版**点一下就能自动下载、安装；下载慢的话会提示去百度网盘下载。Mac 版、Windows 免安装版、文件夹版、安卓版会给出下载地址，下载后替换旧版本即可，游戏、设置和存档都会保留。
 
 ## 源代码
 

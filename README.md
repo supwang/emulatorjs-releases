@@ -20,6 +20,8 @@ https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
 | Windows (no install) | `EmulatorJS-<version>-win.zip` — unzip, then double-click `EmulatorJS.exe` |
 | Mac with Apple chip (M1 / M2 / M3 / M4) | `EmulatorJS-<version>-mac-apple-silicon.dmg` |
 | Mac with Intel chip | `EmulatorJS-<version>-mac-intel.dmg` |
+| Android phone / tablet / TV | `EmulatorJS-<version>-android.apk` — copy it to the device and tap it to install (Android 7.0 or newer) |
+| Android emulator on a PC (MuMu etc.) | `EmulatorJS-<version>-android-x86_64.apk` |
 | Any computer, in the browser | `EmulatorJS-<version>-folder.zip` — unzip, then double-click `EmulatorJS-Windows.bat` (Windows) or `EmulatorJS.command` (Mac) |
 | Your own internet play server | `ejs-cloud-setup.sh` — on an Ubuntu 22.04 / 24.04 cloud server, run `sudo bash ejs-cloud-setup.sh` |
 
@@ -44,7 +46,7 @@ Keyboard: move **W A S D**, Start **Enter**, Select / coin **V**, buttons **J K*
 ## Updates
 
 When a new version comes out, every version of the app tells you what's new (click the version number on the left to check at any time).
-The **installed Windows version** downloads and installs it by itself with one click. Mac, the Windows zip version and the folder version show the download link — replace the old version with the new one; your games, settings and saves are kept.
+The **installed Windows version** downloads and installs it by itself with one click. Mac, the Windows zip version, the folder version and Android show the download link — replace the old version with the new one; your games, settings and saves are kept.
 
 ## Source code
 
