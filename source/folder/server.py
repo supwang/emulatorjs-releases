@@ -336,7 +336,7 @@ def lan_addresses():
 DISC_PORT = 8764
 INSTANCE = uuid.uuid4().hex[:12]
 PEERS = {}        # instance -> {"ip", "port", "sessions", "seen"}
-PEER_TIMEOUT = 8
+PEER_TIMEOUT = 20   # 手机的 Wi-Fi 省电时会漏掉一些广播：20 秒没收到才算这台电脑走了
 
 
 def broadcast_targets():

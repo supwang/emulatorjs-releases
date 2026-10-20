@@ -567,6 +567,9 @@ Vous pouvez enregistrer plusieurs serveurs : saisissez une autre adresse et un a
 « Ajouter et y passer ». Chaque serveur est un salon ; changez avec « 🌐 Salon : … » sous « En cours », à gauche.
 Chaque salon affiche le drapeau du pays ou de la région du serveur, ses salons et le nombre de joueurs en ligne.
 Comptes, amis et statistiques sont propres à chaque serveur : inscrivez-vous ou connectez-vous à nouveau ailleurs.
+Si l'adresse est injoignable ou si le mot de passe de la salle est faux, c'est indiqué tout de suite et le serveur
+n'est pas ajouté. Pour changer le mot de passe d'un serveur, cliquez sur 🔑 à côté, saisissez le nouveau, puis sur
+« Enregistrer le mot de passe et passer ici ».
 
 Remarques :
   · Les parties en ligne affichent le drapeau du pays ou de la région du réseau de l’hôte (estimation
@@ -625,6 +628,8 @@ Installer le serveur de jeu (une fois, par la personne qui a le serveur cloud) :
   · « En cours » : toutes les parties en cours en réseau local et sur Internet. Recherchez par jeu ou par joueur
     et filtrez par « Ouvertes / Défi / Combat / Amis / Réseau local / Internet ». Vous pouvez « Rejoindre » ou
     « 👀 Regarder » n’importe quelle partie (les spectateurs regardent sans contrôler).
+    Chaque partie a une étiquette : vert « Réseau local » pour le même Wi-Fi / routeur, bleu « 🌐 Internet » pour
+    le serveur de jeu. Une partie visible des deux côtés n'apparaît qu'une fois, en réseau local (plus rapide).
   · « 🌐 Joueurs en ligne » : tous ceux qui sont sur le serveur en ligne en ce moment (EmulatorJS ouvert avec ce serveur),
     avec drapeau, nom, compte ou invité, et ce qu'ils jouent ou s'ils sont dans le salon ; vous pouvez « Rejoindre » ou
     « 👀 Regarder » directement. Le bouton « 🌐 Salon » affiche par ex. « 37/200 en ligne » (personnes maintenant / limite

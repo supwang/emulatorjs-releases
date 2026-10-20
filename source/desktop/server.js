@@ -456,7 +456,7 @@ function createServer(opts) {
 
   // ---------------- LAN discovery: other computers running EmulatorJS ----------------
   // Every 2 seconds each computer broadcasts "I am here + what is being played", so nobody has to share addresses.
-  const DISC_PORT = 8764, INSTANCE = crypto.randomBytes(6).toString("hex"), PEER_TIMEOUT = 8;
+  const DISC_PORT = 8764, INSTANCE = crypto.randomBytes(6).toString("hex"), PEER_TIMEOUT = 20;   // phones on Wi-Fi power saving miss some broadcasts: only drop a computer after 20 s of silence
   const PEERS = {};
   let udp = null, discTimer = null;
   function broadcastTargets() {

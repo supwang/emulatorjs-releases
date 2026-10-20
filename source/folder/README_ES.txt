@@ -559,6 +559,9 @@ Puedes guardar varios servidores: escribe otra dirección y contraseña de sala 
 Cada servidor es una sala; se cambia con «🌐 Sala: …» bajo «Jugando ahora», a la izquierda. Cada sala muestra
 la bandera del país o región del servidor, sus salas y cuánta gente hay conectada. Las cuentas, amigos y
 estadísticas son de cada servidor: en otra sala tendrás que registrarte o iniciar sesión de nuevo.
+Si no se puede conectar con la dirección o la contraseña de la sala no es correcta, se avisa al momento y el
+servidor no se añade. Para cambiar la contraseña de un servidor, pulsa 🔑 a su lado, escribe la nueva y pulsa
+«Guardar contraseña y cambiar aquí».
 
 Notas:
   · Las partidas por internet muestran la bandera del país o región de la red del anfitrión (estimación
@@ -614,6 +617,8 @@ Montar el servidor de juego (una vez, lo hace quien tenga el servidor en la nube
   · «Jugando ahora»: todas las partidas en curso en la red local y en Internet. Busca por juego o jugador y
     filtra por «Se puede unir / Desafío / Lucha / Amigos / Red local / Internet». Puedes «Unirse» o «👀 Ver»
     cualquier partida (los espectadores solo miran, no controlan).
+    Cada partida tiene una etiqueta: verde «Red local» si está en la misma Wi-Fi / router, azul «🌐 Internet» si
+    está en el servidor de juego. Si una partida se ve de las dos formas, solo aparece la de red local (más rápida).
   · «🌐 Jugadores en línea»: todos los que están ahora en el servidor de Internet (quien tenga EmulatorJS abierto con este
     servidor), con bandera, nombre, si están registrados y a qué juegan o si están en la sala; puedes «Unirte» o «👀 Ver»
     su partida desde aquí. El botón «🌐 Sala» muestra p. ej. «37/200 en línea» (personas ahora / límite del servidor).

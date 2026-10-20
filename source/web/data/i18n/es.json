@@ -699,5 +699,14 @@
 "游客": "Invitado",
 "这个服务器还不能显示在线玩家：请服务器管理员更新服务器程序（重新运行一次安装脚本）": "Este servidor aún no puede mostrar los jugadores en línea: pide a su administrador que lo actualice (volver a ejecutar el script de instalación)",
 "（你）": "(tú)",
-"现在没有人在线": "Ahora no hay nadie en línea"
+"现在没有人在线": "Ahora no hay nadie en línea",
+"保存密码并切换到这里": "Guardar contraseña y cambiar aquí",
+"正在检查服务器…": "Comprobando el servidor…",
+"地址格式不对，例如 https://1.2.3.4:8765": "La dirección no es válida, por ejemplo https://1.2.3.4:8765",
+"房间密码不对，没有添加。请检查后再试（注意大小写）": "La contraseña de la sala no es correcta, así que no se añadió. Revísala y vuelve a intentarlo (distingue mayúsculas)",
+"没有添加：{0}": "No se añadió: {0}",
+"连不上这个服务器，没有添加。请检查地址、服务器是否开着、防火墙端口 8765 是否放行": "No se puede conectar con este servidor, así que no se añadió. Revisa la dirección, que el servidor esté encendido y que el puerto 8765 esté abierto en el cortafuegos",
+"改房间密码": "Cambiar la contraseña de la sala",
+"填好新的房间密码，再点「保存密码并切换到这里」": "Escribe la nueva contraseña de la sala y pulsa «Guardar contraseña y cambiar aquí»",
+"房间密码不对，没有保存。请检查后再试（注意大小写）": "La contraseña de la sala no es correcta, así que no se guardó. Revísala y vuelve a intentarlo (distingue mayúsculas)"
 }

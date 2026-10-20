@@ -559,6 +559,9 @@ Dá para salvar vários servidores: digite outro endereço e senha de sala e cli
 Cada servidor é um saguão; troque em “🌐 Saguão: …” abaixo de “Jogando agora”, à esquerda. Cada saguão mostra
 a bandeira do país ou região do servidor, as salas e quantas pessoas estão online. Contas, amigos e
 estatísticas são separados por servidor: no outro saguão, cadastre-se ou entre de novo.
+Se o endereço não responder ou a senha da sala estiver errada, isso aparece na hora e o servidor não é
+adicionado. Para mudar a senha de um servidor, clique em 🔑 ao lado dele, digite a nova senha e clique em
+“Salvar senha e mudar para cá”.
 
 Observações:
   · As partidas pela internet mostram a bandeira do país ou região da rede do anfitrião (estimativa
@@ -613,6 +616,8 @@ Montar o servidor de jogo (uma vez, por quem tem o servidor na nuvem):
   · “Jogando agora”: todos os jogos em andamento na rede local e na internet. Busque por nome de jogo ou jogador
     e filtre por “Abertas / Desafio / Luta / Amigos / Rede local / Internet”. Em cada jogo você pode “Entrar” ou
     “👀 Assistir” (quem assiste só olha, não controla).
+    Cada partida tem uma etiqueta: verde “Rede local” se está no mesmo Wi-Fi / roteador, azul “🌐 Internet” se
+    está no servidor de jogo. Uma partida que aparece dos dois jeitos é mostrada só uma vez, como rede local.
   · “🌐 Jogadores online”: todos que estão agora no servidor de internet (quem está com o EmulatorJS aberto e este servidor
     configurado), com bandeira, nome, se é registrado e o que está jogando ou se está no saguão; dá para “Entrar” ou
     “👀 Assistir” direto daqui. O botão “🌐 Saguão” mostra p. ex. “37/200 online” (pessoas agora / limite do servidor).

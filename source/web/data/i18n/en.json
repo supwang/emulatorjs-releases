@@ -699,5 +699,14 @@
 "游客": "Guest",
 "这个服务器还不能显示在线玩家：请服务器管理员更新服务器程序（重新运行一次安装脚本）": "This server can’t show online players yet: ask the server’s owner to update it (run the setup script once more)",
 "（你）": "(you)",
-"现在没有人在线": "Nobody is online right now"
+"现在没有人在线": "Nobody is online right now",
+"保存密码并切换到这里": "Save password and switch here",
+"正在检查服务器…": "Checking the server…",
+"地址格式不对，例如 https://1.2.3.4:8765": "That address doesn’t look right, for example https://1.2.3.4:8765",
+"房间密码不对，没有添加。请检查后再试（注意大小写）": "Wrong room password, so the server wasn’t added. Please check it and try again (capital letters count)",
+"没有添加：{0}": "Not added: {0}",
+"连不上这个服务器，没有添加。请检查地址、服务器是否开着、防火墙端口 8765 是否放行": "Can’t reach this server, so it wasn’t added. Check the address, that the server is running, and that port 8765 is open in the firewall",
+"改房间密码": "Change room password",
+"填好新的房间密码，再点「保存密码并切换到这里」": "Enter the new room password, then click “Save password and switch here”",
+"房间密码不对，没有保存。请检查后再试（注意大小写）": "Wrong room password, so it wasn’t saved. Please check it and try again (capital letters count)"
 }

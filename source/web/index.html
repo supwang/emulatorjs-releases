@@ -391,6 +391,12 @@
   .lb-item .lb-info { flex: 1; min-width: 0; }
   .lb-item .lb-title { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .lb-item .lb-sub { font-size: 11.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* 局域网 / 外网 的小标签：一眼看出这局是同一个网络里的，还是联机服务器上的 */
+  .lb-net { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 0 5px; margin-right: 5px; border-radius: 5px; line-height: 16px; vertical-align: 1px; }
+  .lb-net.lan { color: var(--lan, #4ade80); background: color-mix(in srgb, var(--lan, #4ade80) 15%, transparent); }
+  .lb-net.net { color: var(--net, #60a5fa); background: color-mix(in srgb, var(--net, #60a5fa) 16%, transparent); }
+  .hc-tags .tag.tlan { color: var(--lan, #4ade80); border-color: color-mix(in srgb, var(--lan, #4ade80) 50%, transparent); }
+  .hc-tags .tag.tnet { color: var(--net, #60a5fa); border-color: color-mix(in srgb, var(--net, #60a5fa) 50%, transparent); }
   .lb-item .btn { flex: none; padding: 5px 10px; font-size: 12px; }
   .lb-item .lb-tag { flex: none; font-size: 11.5px; color: var(--muted); }
   .lb-item .live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--live); margin-right: 5px; vertical-align: 1px; }
@@ -641,16 +647,21 @@
     .settings { padding-bottom: 40px; }
     #dirModal .dm-box { width: calc(100vw - 24px); max-height: calc(100dvh - 40px); }
     #empty { padding: 18px; font-size: 13.5px; }
-    /* 大厅：标签和筛选横着滑动，不换行 */
-    .hall-head { flex-wrap: nowrap; padding: 8px 10px; gap: 6px; }
-    .hall-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-    .hall-tabs::-webkit-scrollbar { display: none; }
-    .hall-tab { padding: 6px 9px; font-size: 13px; }
+    /* 大厅：第一行是账号和关闭；标签单独一行，平分宽度（图标在上、字在下），一屏都看得到，不用左右滑 */
+    .hall-head { flex-wrap: wrap; padding: 8px 10px; gap: 6px; }
+    .hall-acct { order: 1; flex: 1; min-width: 0; }
+    .hall-x { order: 2; }
+    .hall-tabs { order: 3; flex: 1 1 100%; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; }
+    .hall-tab { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px 5px;
+      font-size: 11px; line-height: 1.2; white-space: normal; text-align: center; min-width: 0; letter-spacing: -.1px; }
+    .hall-tab .ti { font-size: 18px; line-height: 1; }
+    .hall-tab .tl { overflow-wrap: normal; hyphens: auto; max-width: 100%; }
+    .hall-tab .n { position: absolute; top: 2px; right: 4px; margin: 0; font-size: 10.5px; }
     .acct-chip { padding: 6px 8px; max-width: 34vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .hall-acct .btn { padding: 6px 9px; font-size: 13px; }
     .hall-body { padding: 12px 10px calc(30px + env(safe-area-inset-bottom)); }
     .hall-tools input[type=search] { width: 100%; }
-    #hallFilters { display: flex !important; gap: 6px; overflow-x: auto; flex-wrap: nowrap; width: 100%; scrollbar-width: none; padding-bottom: 2px; }
+    #hallFilters { display: flex !important; gap: 6px; flex-wrap: wrap; width: 100%; padding-bottom: 2px; }
     #hallFilters::-webkit-scrollbar { display: none; }
     .hcards { grid-template-columns: 1fr; }
   }
@@ -705,7 +716,7 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.0.11</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.0.12</div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
@@ -1410,6 +1421,7 @@ function applyTheme(id) {
   r.setProperty("--accent", t.accent); r.setProperty("--accent-ink", t.ink);
   r.setProperty("--gold", t.gold); r.setProperty("--live", t.live);
   document.documentElement.style.colorScheme = t.scheme;
+  r.setProperty("--lan", t.scheme === "light" ? "#15803d" : "#4ade80"); r.setProperty("--net", t.scheme === "light" ? "#1d4ed8" : "#60a5fa");   // 局域网 / 外网 标签
   try { localStorage.setItem("ejs-theme", themeId); } catch (e) {}
   if (window.__bgReady) applyGridBg(bgShownKey);   // 有的配色自带背景图
 }
@@ -2024,6 +2036,36 @@ async function cloudProbe(x) {
   } catch (e) { cloudInfo[x.url] = { ok: false, error: L("连不上") }; }
   return cloudInfo[x.url];
 }
+// 加服务器之前先连一次：返回 { ok, url } 或 { ok: false, error }。地址没写 http(s):// 时，先试 https 再试 http
+function cloudUrlClean(v) {
+  let u = String(v || "").trim().replace(/\/+$/, "");
+  if (!u) return "";
+  if (!u.includes("://")) u = "http://" + u;
+  let x; try { x = new URL(u); } catch (e) { return null; }
+  if (!["http:", "https:"].includes(x.protocol) || !x.hostname) return null;
+  if (!x.port && x.protocol === "http:" && !/:80$/.test(u)) u += ":8765";
+  return u;
+}
+async function cloudCheck(raw, key, known) {   // known：改的是列表里已有的服务器（改密码）
+  const u = cloudUrlClean(raw);
+  if (!u) return { ok: false, error: L("地址格式不对，例如 https://1.2.3.4:8765") };
+  const tries = [u];
+  if (u.startsWith("http://")) tries.push("https://" + u.slice(7));   // 服务器已经开了 https
+  let pwBad = false, other = "", okUrl = "";
+  for (const url of tries) {
+    try {
+      const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 10000);
+      const r = await fetch(url + "/api/ice", { headers: { "X-EJS-Key": key }, cache: "no-store", signal: ctl.signal }).finally(() => clearTimeout(t));
+      const d = await r.json().catch(() => ({}));
+      if (r.status === 401) { pwBad = true; continue; }
+      if (r.ok) { if (d.https && url.startsWith("http://")) { okUrl = okUrl || url; continue; } return { ok: true, url }; }   // 开了 https：再试 https 地址
+      other = d.error ? L(d.error) : L("服务器返回 {0}", r.status);
+    } catch (e) {}
+  }
+  if (okUrl) return { ok: true, url: okUrl };
+  if (pwBad) return { ok: false, error: known ? L("房间密码不对，没有保存。请检查后再试（注意大小写）") : L("房间密码不对，没有添加。请检查后再试（注意大小写）") };
+  return { ok: false, error: other ? L("没有添加：{0}", other) : L("连不上这个服务器，没有添加。请检查地址、服务器是否开着、防火墙端口 8765 是否放行") };
+}
 // 换到另一个大厅：自己开的局搬到新大厅；账号换成那台服务器上的
 async function cloudSwitch(x, list) {
   if (mpGuest && mpGuest.base && mpGuest.base === cloudBase()) { mpToast(L("正在外网联机，退出这局后再切换大厅")); return false; }
@@ -2447,11 +2489,18 @@ function hallDraw(full, poll) {
   const sess = allSessions();
   const reqN = ACCT && ACCT.requests ? ACCT.requests.in.length : 0;
   const onN = ACCT && ACCT.friends ? ACCT.friends.filter(f => f.online).length : 0;
-  const tabs = [["live", "🕹 " + L("正在游戏"), sess.length], ...(playersTabOk() ? [["players", "🌐 " + L("在线玩家"), cloudState.online == null ? "" : cloudState.online]] : []),
-    ["friends", "👥 " + L("好友"), reqN ? "+" + reqN : onN || ""], ["board", "🏆 " + L("排行榜"), ""], ["me", "📊 " + L("我的战绩"), ""]];
+  const tabs = [["live", "🕹", L("正在游戏"), sess.length], ...(playersTabOk() ? [["players", "🌐", L("在线玩家"), cloudState.online == null ? "" : cloudState.online]] : []),
+    ["friends", "👥", L("好友"), reqN ? "+" + reqN : onN || ""], ["board", "🏆", L("排行榜"), ""], ["me", "📊", L("我的战绩"), ""]];
   if (hallTab === "players" && !playersTabOk()) hallTab = "live";
-  document.getElementById("hallTabs").innerHTML = tabs.map(([k, t, n]) =>
-    `<button class="hall-tab${hallTab === k ? " on" : ""}" data-t="${k}">${escapeHtml(t)}${n !== "" && n !== 0 ? `<span class="n">${n}</span>` : ""}</button>`).join("");
+  // 图标和文字分开放：手机上排成一行等宽的格子（图标在上、字在下），不用左右滑
+  document.getElementById("hallTabs").innerHTML = tabs.map(([k, ic, t, n]) =>
+    `<button class="hall-tab${hallTab === k ? " on" : ""}" data-t="${k}"><span class="ti">${ic}</span> <span class="tl">${escapeHtml(t)}</span>${n !== "" && n !== 0 ? `<span class="n">${n}</span>` : ""}</button>`).join("");
+  // 手机上标签是等宽的格子：放不下的字（比如长一点的外语）自动缩小，最多两行
+  if (getComputedStyle(document.getElementById("hallTabs")).display === "grid")
+    document.querySelectorAll("#hallTabs .hall-tab .tl").forEach(l => {
+      const box = l.parentElement; let f = parseFloat(getComputedStyle(l).fontSize) || 11;
+      while (f > 8.5 && (l.scrollWidth > box.clientWidth - 4 || l.offsetHeight > f * 1.2 * 2 + 1)) { f -= 0.5; l.style.fontSize = f + "px"; }
+    });
   document.querySelectorAll("#hallTabs .hall-tab").forEach(b => b.onclick = () => { hallTab = b.dataset.t; hallMenu = false; hallDraw(true); if (hallTab === "players") cloudPlayersLoad(); else if (hallTab !== "live") hallLoadTab(); });
   const ac = document.getElementById("hallAcct");
   if (!cloudCfg()) ac.innerHTML = "";
@@ -2512,7 +2561,7 @@ function hallCard(e) {
   const tags = [];
   if (s.challenge) tags.push(`<span class="tag live">🥊 ${L("擂台：欢迎挑战")}</span>`);
   if (isVersus(s)) tags.push(`<span class="tag">${L("格斗")}</span>`);
-  tags.push(`<span class="tag">${e.src === "cloud" ? "🌐 " + L("外网") + (s.hostLoc ? " · " + locFlag(s.hostLoc) : "") : e.src === "remote" ? L("局域网 · 另一台电脑") : L("局域网")}</span>`);
+  tags.push(`<span class="tag ${e.src === "cloud" ? "tnet" : "tlan"}">${e.src === "cloud" ? "🌐 " + L("外网") + (s.hostLoc ? " · " + locFlag(s.hostLoc) : "") : e.src === "remote" ? "🏠 " + L("局域网 · 另一台电脑") : "🏠 " + L("局域网")}</span>`);
   if (watchers) tags.push(`<span class="tag">👀 ${watchers}</span>`);
   if (!s.allowJoin) tags.push(`<span class="tag">${L("不允许乱入")}</span>`);
   if (s.regOnly) tags.push(`<span class="tag" title="${escapeHtml(L("没有登录账号的人不能乱入或观战"))}">🔒 ${L("仅限注册玩家")}</span>`);
@@ -2888,12 +2937,21 @@ function showSettings() {
       const st = inf.ok ? srvStatText(inf) : inf.error || "…";
       return `<div class="cl-row${x.url === cur ? " on" : ""}">${flagImg(inf.country)}<span class="grow"><b>${escapeHtml(x.url)}</b><small>${escapeHtml(st)}</small></span>
         ${x.url === cur ? `<span class="cl-cur">${escapeHtml(L("当前"))}</span>` : `<button class="btn secondary" data-cl-use="${i}">${escapeHtml(L("切换到这里"))}</button>`}
+        <button class="btn secondary" data-cl-key="${i}" title="${escapeHtml(L("改房间密码"))}">🔑</button>
         <button class="btn secondary" data-cl-del="${i}" title="${escapeHtml(L("从列表里删掉"))}">✕</button></div>`;
     }).join("");
     box.querySelectorAll("[data-cl-use]").forEach(b => b.onclick = async () => {
       const st = document.getElementById("cloudStatus"); st.className = "set-status"; st.textContent = L("正在切换…");
       try { await cloudSwitch(cloudList()[Number(b.dataset.clUse)]); } catch (e) { cloudState = { error: e.message }; }
       drawCloudRows(); st.className = "set-status " + (cloudState.ok ? "ok" : cloudState.error ? "bad" : ""); st.textContent = cloudStatusText();
+    });
+    box.querySelectorAll("[data-cl-key]").forEach(b => b.onclick = () => {
+      const x = cloudList()[Number(b.dataset.clKey)];
+      if (!x) return;
+      document.getElementById("cloudUrl").value = x.url;
+      const k = document.getElementById("cloudKey"); k.value = ""; k.focus();
+      cloudSaveLabel();
+      const st = document.getElementById("cloudStatus"); st.className = "set-status"; st.textContent = L("填好新的房间密码，再点「保存密码并切换到这里」");
     });
     box.querySelectorAll("[data-cl-del]").forEach(b => b.onclick = async () => {
       const lst2 = cloudList(), x = lst2[Number(b.dataset.clDel)];
@@ -2909,17 +2967,33 @@ function showSettings() {
   };
   drawCloudRows();
   cloudList().forEach(x => cloudProbe(x).then(drawCloudRows));
+  // 填的地址已经在列表里：按钮变成「保存密码」，用来改房间密码
+  const cloudSaveLabel = () => {
+    const u = document.getElementById("cloudUrl").value.trim(), btn = document.getElementById("cloudSave");
+    if (!btn) return;
+    const known = u && cloudList().some(x => cloudHost(x.url) === cloudHost(/:\/\//.test(u) ? u : "http://" + u));
+    btn.textContent = known ? L("保存密码并切换到这里") : cloudList().length ? L("添加并切换到这里") : L("保存并测试");
+  };
+  document.getElementById("cloudUrl").oninput = cloudSaveLabel;
   document.getElementById("cloudSave").onclick = async () => {
     const st = document.getElementById("cloudStatus");
-    st.className = "set-status"; st.textContent = "正在保存并连接…";
     const url = document.getElementById("cloudUrl").value.trim(), key = document.getElementById("cloudKey").value.trim();
+    const bad = t => { st.className = "set-status bad"; st.textContent = t; };
+    if (!url) return bad(L("请填服务器地址"));
+    if (/[^\x21-\x7e]/.test(key)) return bad(L("房间密码只能用英文字母和数字"));
+    // 先试着连一次：地址不对、密码不对，就只提示，不加进列表
+    st.className = "set-status"; st.textContent = L("正在检查服务器…");
+    const known = cloudList().some(x => cloudHost(x.url) === cloudHost(cloudUrlClean(url) || url));
+    const chk = await cloudCheck(url, key, known);
+    if (!chk.ok) return bad(chk.error);
+    st.textContent = L("正在保存并连接…");
     try {
-      if (!url) throw new Error(L("请填服务器地址"));
-      const others = cloudList().filter(x => cloudHost(x.url) !== cloudHost(/:\/\//.test(url) ? url : "http://" + url));
-      await saveCloud(url, key, others);                       // 先让本机服务器整理好地址格式
+      const others = cloudList().filter(x => cloudHost(x.url) !== cloudHost(chk.url));
+      await saveCloud(chk.url, key, others);                   // 本机服务器再整理一次地址格式
       const added = { url: serverCfg.cloud.url, key };
       await cloudSwitch(added, [...others, added]);
       document.getElementById("cloudUrl").value = ""; document.getElementById("cloudKey").value = "";
+      cloudSaveLabel();
       cloudList().forEach(x => cloudProbe(x).then(drawCloudRows));
     } catch (e) { cloudState = { error: e.message }; }
     drawCloudRows();
@@ -3180,7 +3254,7 @@ function renderLobby() {
     const mine = s.host === MP_ID, joined = mpGuest && mpGuest.sid === s.sid;
     const ico = iconFor(s.group || s.system);
     const pl = sessPeople(s).players;
-    const who = [s.hostName, ...pl.map(p => p.name)].join("、");
+    const who = [s.hostName, ...pl.map(p => p.name)].join(L("、"));
     let action;
     if (mine) action = `<span class="lb-tag">你开的</span>`;
     else if (joined) action = `<span class="lb-tag">已加入</span>`;
@@ -3189,18 +3263,18 @@ function renderLobby() {
     else action = `<button class="btn" data-join="${escapeHtml(s.sid)}">乱入</button>`;
     return `<div class="lb-item">${ico ? `<img src="${ico}" alt="">` : ""}
       <div class="lb-info"><div class="lb-title" title="${escapeHtml(gameName(s))}"><span class="live-dot"></span>${escapeHtml(gameNames(s).loc || s.title)}</div>
-      <div class="lb-sub" title="${escapeHtml(who)}">${[s.hostName, ...pl.map(p => p.name)].map(nameHtml).join("、")} · ${peopleText(s, true)}</div></div>${action}</div>`;
+      <div class="lb-sub" title="${escapeHtml(who)}"><span class="lb-net lan">${escapeHtml(L("局域网"))}</span>${[s.hostName, ...pl.map(p => p.name)].map(nameHtml).join(L("、"))} · ${peopleText(s, true)}</div></div>${action}</div>`;
   }).join("") + [...mpRemote.map((s, i) => [s, "r" + i]), ...mpCloud.map((s, i) => [s, "c" + i])].map(([s, i]) => {
     const ico = iconFor(s.group || s.system);
     const pl = sessPeople(s).players;
-    const who = [s.hostName, ...pl.map(p => p.name)].join("、");
+    const who = [s.hostName, ...pl.map(p => p.name)].join(L("、"));
     const action = mpGuest && mpGuest.sid === s.sid ? `<span class="lb-tag">已加入</span>`
       : !s.allowJoin ? `<span class="lb-tag">不允许乱入</span>` : sessFull(s) ? `<span class="lb-tag">人满</span>`
       : s.host === MP_ID ? `<span class="lb-tag">你开的</span>`
       : `<button class="btn" data-rjoin="${i}">乱入</button>`;
     return `<div class="lb-item">${ico ? `<img src="${ico}" alt="">` : ""}
       <div class="lb-info"><div class="lb-title" title="${escapeHtml(gameName(s))}"><span class="live-dot"></span>${escapeHtml(gameNames(s).loc || s.title)}</div>
-      <div class="lb-sub" title="${escapeHtml(who)}">${!s.at && s.hostLoc ? locFlag(s.hostLoc, true) : ""}${[s.hostName, ...pl.map(p => p.name)].map(nameHtml).join("、")} · ${peopleText(s, true)} · ${s.at ? "另一台电脑" : "外网"}</div></div>${action}</div>`;
+      <div class="lb-sub" title="${escapeHtml(who)}">${s.at ? `<span class="lb-net lan" title="${escapeHtml(L("局域网 · 另一台电脑"))}">${escapeHtml(L("局域网"))}</span>` : `<span class="lb-net net">🌐 ${escapeHtml(L("外网"))}</span>`}${!s.at && s.hostLoc ? locFlag(s.hostLoc, true) : ""}${[s.hostName, ...pl.map(p => p.name)].map(nameHtml).join(L("、"))} · ${peopleText(s, true)}</div></div>${action}</div>`;
   }).join("");
   const total = mpSessions.length + mpRemote.length + mpCloud.length;
   document.getElementById("mbLobbyN").textContent = total ? total : "";
@@ -4114,7 +4188,7 @@ async function hoBecomeHost(old) {
   if (hoPending !== old) return;
   if (!mpHost) mpHost = { sid: null, g, peers: new Map(), allowJoin: mpAllowDefault, ...roomDefaults };
   mpHost.localSlot = old.slot;
-  document.getElementById("nowPlaying").textContent = `${SYSTEMS[g.system].name} · ${gameName(g)}`;
+  document.getElementById("nowPlaying").textContent = `${L(SYSTEMS[g.system].name)} · ${gameName(g)}`;
   document.getElementById("turboBtn").hidden = false;
   mpAllowBtn.hidden = false; updateAllowBtn(); updateVoiceBtn();
   old.timer = setTimeout(() => hoFail(old), 20000);
@@ -4151,12 +4225,22 @@ function mpLockedNotice(s, g) {
   document.getElementById("mpSolo").onclick = () => play(g, { solo: true });
   document.getElementById("mpBack").onclick = () => showGrid(currentSys);
 }
+// 连点两下「乱入」不能加入两次（第二次会顶掉第一次，连接一直卡在「正在和主机同步」）
+let mpJoinBusy = null;
+function mpJoinTwice(s, watch) {
+  if (mpGuest && mpGuest.sid === s.sid && !!mpGuest.watch === !!watch) return true;          // 已经在这局里了
+  const now = Date.now();
+  if (mpJoinBusy && mpJoinBusy.sid === s.sid && now - mpJoinBusy.t < 4000) return true;      // 刚点过
+  mpJoinBusy = { sid: s.sid, t: now };
+  return false;
+}
 async function mpJoin(s, g, watch = false, noRom = false) {
   // 自己这里也有这个游戏：用按键同步（画面清楚、不占带宽）；没有就看主机的画面
   const local = g || games.find(x => gameKey(x) === s.game);
   // 自己没有这个游戏：可以先从房主的电脑下载（房主同意后），下载好再按键同步一起玩
   if (!local && !watch && !noRom && s.sync && romCanSave() && !deviceSlow({ system: s.system })) return romOffer(s);
   // 这台设备跑这个游戏比较慢（比如手机玩街机）：看主机的画面玩，速度跟主机一样
+  if (mpJoinTwice(s, watch)) return;
   if (s.sync && local && !(NEEDS_BIOS[local.system] && !biosFiles[local.system]) && !deviceSlow(local)) return mpJoinSync(s, local, watch);
   stop();
   let d;
@@ -4386,7 +4470,8 @@ async function romSignal(m, base) {
     const no = reason => mp("send", { sid: m.sid, to: m.from, data: { kind: "romno", reason } }, base).catch(() => {});
     if (!mpHost || (m.sid !== mpHost.sid && m.sid !== mpHost.cloudSid)) return no("ended");
     const g = mpHost.g;
-    if (!g || !g.file || (d.game !== gameKey(g) && d.game !== MP_ID + ":" + gameKey(g))) return no("game");   // 外网大厅里的游戏名前面带着房主的编号
+    // 外网大厅里的游戏名前面带着房主的编号；局域网里别的电脑看到的局不带游戏名（广播时去掉了），那就按房间号认：发的总是正在玩的这个游戏
+    if (!g || !g.file || (d.game && d.game !== gameKey(g) && d.game !== MP_ID + ":" + gameKey(g))) return no("game");
     if (romAsking || romSending.size >= 2) return no("busy");
     const name = String(d.name || "").slice(0, 32) || L("有人");
     const files = [g.file, ...(g.extra || [])].map(f => ({ f, kind: "roms", rel: romRel(f), size: f.size }));
@@ -4906,12 +4991,12 @@ async function play(g, opts = {}) {
   document.body.classList.add("playing");
   applyStageBg(g);
   closeDrawer();
-  document.getElementById("nowPlaying").textContent = `${SYSTEMS[g.system].name} · ${gameName(g)}`;
+  document.getElementById("nowPlaying").textContent = `${L(SYSTEMS[g.system].name)} · ${gameName(g)}`;
 
   if (g.ext === "cue") document.getElementById("nowPlaying").textContent += "（正在打包光盘文件…）";
   const gameFile = await buildGameFile(g);
   if (currentId !== g.id) return;
-  document.getElementById("nowPlaying").textContent = `${SYSTEMS[g.system].name} · ${gameName(g)}`;
+  document.getElementById("nowPlaying").textContent = `${L(SYSTEMS[g.system].name)} · ${gameName(g)}`;
 
   // 把要用的东西交给 iframe
   window.__ejsGame = { file: gameFile, bios: await biosFor(g.system) };
@@ -5712,6 +5797,17 @@ async function thumbRun(manual) {
   else mpToast(L("下载好了 {0} 个游戏的预览图", job.got) + (left ? L("，{0} 个在 libretro 的封面库里没找到", left) : ""));
 }
 // 读取完游戏后：问一次要不要自动下载；同意过就直接下载新游戏缺的
+// 问「要自动下载封面吗」的提示：游戏开始时如果它还开着，先收起来，回到游戏列表后再问一次
+let thumbAskLater = false;
+new MutationObserver(() => {
+  const m = document.getElementById("thumbModal");
+  if (document.body.classList.contains("playing")) {
+    if (m && !m.hidden) { m.hidden = true; thumbAskLater = true; }
+  } else if (thumbAskLater) {
+    thumbAskLater = false;
+    setTimeout(() => { if (!document.body.classList.contains("playing")) thumbAfterLoad(); }, 600);
+  }
+}).observe(document.body, { attributes: true, attributeFilter: ["class"] });
 function thumbAfterLoad() {
   if (!thLocal()) return;
   const pref = thumbAutoPref();
@@ -5719,6 +5815,8 @@ function thumbAfterLoad() {
   if (pref === "0") return;
   const miss = games.filter(g => thDir(g) && !thumbFor(g, "box")).length;
   if (!miss) return;
+  // 正在玩游戏时不弹出来挡住画面（安卓电视上按返回键也会先关掉它）：回到游戏列表后再问
+  if (document.body.classList.contains("playing")) { thumbAskLater = true; return; }
   const m = document.getElementById("thumbModal"), box = document.getElementById("thumbBox");
   box.innerHTML = `<h3>${L("要自动下载游戏封面吗？")}<button class="linkbtn" id="thClose">${L("关闭")}</button></h3>
     <div class="note" style="margin-top:0">${L("有 {0} 个游戏还没有封面。可以从 libretro 社区的封面库（libretro-thumbnails）自动下载封面、标题画面和游戏截图，存进你的预览图文件夹。以后加了新游戏也会自动下载。", miss)}</div>
@@ -5828,7 +5926,7 @@ window.cheatLibOpen = cheatLibOpen;
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.0.11";
+const APP_VERSION = "1.0.12";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",

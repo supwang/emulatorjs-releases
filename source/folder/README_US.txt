@@ -561,6 +561,9 @@ You can save several servers: enter another address and room password and click 
 Each server is one lobby; switch with "🌐 Lobby: …" under "Now playing" on the left. Each lobby shows the
 flag of the server's country / region, its rooms and how many people are online. Accounts, friends and
 stats are separate on every server, so register or sign in again on the other lobby.
+If the address can't be reached or the room password is wrong, you're told straight away and the server
+isn't added. To change a server's room password, click 🔑 next to it, enter the new password and click
+"Save password and switch here".
 
 Notes:
   · Internet games show the flag of the country / region the host's network is in (a rough guess from
@@ -617,6 +620,8 @@ Setting up the play server (once, done by whoever has the cloud server):
   · "Now playing": every game being played on the LAN and the internet. Search by game or player name,
     and filter by "Open to join / Arena / Fighting / Friends / LAN / Internet". You can "Join" or
     "👀 Watch" any game (spectators can only watch, not control).
+    Every game has a label: green "LAN" means it's on the same Wi-Fi / router, blue "🌐 Internet" means it's on
+    the internet play server. A game you can see both ways is only listed once, as LAN (faster and steadier).
   · "🌐 Players online": everyone on the internet play server right now (anyone with EmulatorJS open and this server set),
     with flag, name, whether they're registered, and what they're playing or that they're in the lobby; you can "Join"
     or "👀 Watch" their game straight from here. The "🌐 Lobby" button shows e.g. "37/200 online" (people now / the

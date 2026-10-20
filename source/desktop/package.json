@@ -1,7 +1,7 @@
 {
   "name": "emulatorjs-desktop",
   "productName": "EmulatorJS",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "EmulatorJS retro game arcade with LAN and internet play",
   "author": "Supwang",
   "license": "GPL-3.0",
