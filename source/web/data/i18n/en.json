@@ -708,5 +708,12 @@
 "连不上这个服务器，没有添加。请检查地址、服务器是否开着、防火墙端口 8765 是否放行": "Can’t reach this server, so it wasn’t added. Check the address, that the server is running, and that port 8765 is open in the firewall",
 "改房间密码": "Change room password",
 "填好新的房间密码，再点「保存密码并切换到这里」": "Enter the new room password, then click “Save password and switch here”",
-"房间密码不对，没有保存。请检查后再试（注意大小写）": "Wrong room password, so it wasn’t saved. Please check it and try again (capital letters count)"
+"房间密码不对，没有保存。请检查后再试（注意大小写）": "Wrong room password, so it wasn’t saved. Please check it and try again (capital letters count)",
+"🎮 手柄大小": "🎮 Pad size",
+"手柄大小": "Pad size",
+"横屏时屏幕两边虚拟手柄的大小": "Size of the on-screen pad on both sides in landscape",
+"横屏时屏幕两边虚拟手柄的大小：": "Size of the on-screen pad on both sides in landscape:",
+"只对这个机种生效：{0}": "Only for this system: {0}",
+"恢复默认": "Reset to default",
+"调大以后可能会挡住一部分游戏画面。竖屏时手柄占满屏幕宽度，不受影响。": "A bigger pad may cover part of the game picture. In portrait the pad always fills the screen width and isn’t affected."
 }

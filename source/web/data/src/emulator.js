@@ -3975,7 +3975,8 @@ class EmulatorJS {
                     "left": zone.left,
                     "top": zone.top
                 },
-                "color": zone.color || "red"
+                "color": zone.color || "red",
+                "size": zone.size || 100
             });
             zoneObj.on("end", () => {
                 this.gameManager.simulateInput(0, zone.inputValues[0], 0);
@@ -3985,7 +3986,7 @@ class EmulatorJS {
             });
             zoneObj.on("move", (e, info) => {
                 const degree = info.angle.degree;
-                const distance = info.distance;
+                const distance = info.distance * 100 / (zone.size || 100);
                 if (zone.joystickInput === true) {
                     let x = 0, y = 0;
                     if (degree > 0 && degree <= 45) {

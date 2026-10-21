@@ -67,6 +67,8 @@ PC Engine、街机 (FBNeo / MAME 2003) 等二十多个平台。
   · 联机、大厅、账号和电脑版一样，可以和电脑一起联机（局域网要连同一个 Wi-Fi）。
     语音聊天第一次用时会问能否使用麦克风，选「允许」。
   · 便宜的电视盒子性能有限：FC、超任、GBA、MD 这些都很流畅，N64、PSP、NDS、Saturn 可能会卡。
+  · 手柄（Xbox、PS、8BitDo 等，蓝牙或数据线都行）连上后自动当玩家 1，不用到「控制设置」里选。
+  · 家用机和街机游戏默认用「CRT easymode」滤镜（像老电视，有扫描线），不喜欢可以在游戏的「设置 → Shaders」里改。
 
 【Mac】
   1. 双击 EmulatorJS.command。
@@ -621,6 +623,9 @@ EmulatorJS 是开源软件（GPL-3.0，见 LICENSE 文件），可以免费分�
   - 主机图片：RetroArch「Systematic」主题（libretro/retroarch-assets，作者 baxysquare 等），
     采用 CC BY 4.0 许可，许可证在 data/consoles/LICENSE-CC-BY-4.0.txt。
     https://github.com/libretro/retroarch-assets
+  - 手机上的虚拟手柄按键图：libretro common-overlays（gamepads 里的 nes、snes、genesis、psx、arcade、gba、gameboy），
+    采用 CC BY 4.0 许可，说明和许可证在 data/vpad/README.txt。
+    https://github.com/libretro/common-overlays
   - 标题像素字体：Press Start 2P（作者 CodeMan38），采用 SIL Open Font License 1.1，
     许可证在 data/fonts/LICENSE-OFL-1.1.txt。
   - 国旗图标：flag-icons（MIT 许可），许可证在 data/flags/LICENSE-flag-icons-MIT.txt。

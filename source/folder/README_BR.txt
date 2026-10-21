@@ -75,6 +75,10 @@ Sega Mega Drive / Sega CD / 32X / Saturn, PS1, PSP, PC Engine e fliperama (FBNeo
   · Jogo online, saguão e contas funcionam igual ao computador, e dá para jogar junto com computadores
     (em rede local, use o mesmo Wi-Fi). O chat de voz pede o microfone na primeira vez: escolha “Permitir”.
   · TV box baratas são lentas: NES, SNES, GBA e Mega Drive rodam lisos; N64, PSP, NDS e Saturn podem travar.
+  · Um controle (Xbox, PlayStation, 8BitDo…, por Bluetooth ou cabo) vira o jogador 1 assim que é conectado; não precisa
+    escolhê-lo em “Configurações de controle”.
+  · Jogos de console e arcade usam por padrão o filtro “CRT easymode” (como uma TV antiga, com linhas); dá para trocar em
+    “Configurações → Shaders” do jogo.
 
 [Mac]
   1. Dê dois cliques em EmulatorJS.command.
@@ -718,6 +722,9 @@ Outros materiais desta ferramenta:
   - Imagens dos consoles: tema “Systematic” do RetroArch (libretro/retroarch-assets, de baxysquare e outros),
     licença CC BY 4.0; texto da licença em data/consoles/LICENSE-CC-BY-4.0.txt.
     https://github.com/libretro/retroarch-assets
+  - Botões do controle na tela do celular: libretro common-overlays (gamepads/nes, snes, genesis, psx, arcade, gba,
+    gameboy), licença CC BY 4.0; detalhes e licença em data/vpad/README.txt.
+    https://github.com/libretro/common-overlays
   - Fonte de pixel do título: Press Start 2P (de CodeMan38), SIL Open Font License 1.1;
     texto da licença em data/fonts/LICENSE-OFL-1.1.txt.
   - Bandeiras: flag-icons (licença MIT); texto da licença em data/flags/LICENSE-flag-icons-MIT.txt.

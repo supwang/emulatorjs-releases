@@ -67,6 +67,8 @@ PC Engine、街機 (FBNeo / MAME 2003) 等二十多個平臺。
   · 連線、大廳、帳號和電腦版一樣，可以和電腦一起連線（區域網路要連同一個 Wi-Fi）。
     語音聊天第一次用時會問能否使用麥克風，選「允許」。
   · 便宜的電視盒子效能有限：FC、超任、GBA、MD 這些都很流暢，N64、PSP、NDS、Saturn 可能會卡。
+  · 手柄（Xbox、PS、8BitDo 等，藍牙或數據線都行）連上後自動當玩家 1，不用到「控制設定」裡選。
+  · 家用機和街機遊戲預設用「CRT easymode」濾鏡（像老電視，有掃描線），不喜歡可以在遊戲的「設定 → Shaders」裡改。
 
 【Mac】
   1. 雙擊 EmulatorJS.command。
@@ -621,6 +623,9 @@ EmulatorJS 是開源軟體（GPL-3.0，見 LICENSE 檔案），可以免費分�
   - 主機圖片：RetroArch「Systematic」主題（libretro/retroarch-assets，作者 baxysquare 等），
     採用 CC BY 4.0 許可，許可證在 data/consoles/LICENSE-CC-BY-4.0.txt。
     https://github.com/libretro/retroarch-assets
+  - 手機上的虛擬手柄按鍵圖：libretro common-overlays（gamepads 裡的 nes、snes、genesis、psx、arcade、gba、gameboy），
+    採用 CC BY 4.0 許可，說明和許可證在 data/vpad/README.txt。
+    https://github.com/libretro/common-overlays
   - 標題畫素字型：Press Start 2P（作者 CodeMan38），採用 SIL Open Font License 1.1，
     許可證在 data/fonts/LICENSE-OFL-1.1.txt。
   - 國旗圖示：flag-icons（MIT 許可），許可證在 data/flags/LICENSE-flag-icons-MIT.txt。

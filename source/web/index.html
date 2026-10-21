@@ -716,7 +716,7 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.0.12</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.1.0</div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
@@ -755,6 +755,7 @@
       <button class="btn secondary" id="stopBtn">退出游戏</button>
       <button class="btn secondary" id="fsBtn" title="全屏（手机上会自动转成横屏）">⛶</button>
       <button class="btn secondary" id="turboBtn">连发设置</button>
+      <button class="btn secondary" id="padSizeBtn" hidden title="横屏时屏幕两边虚拟手柄的大小">🎮 手柄大小</button>
       <button class="btn secondary" id="roomBtn" hidden title="房间里的人、每个人的延迟、观战、只允许注册玩家、请人出去">👥 房间</button>
       <button class="btn secondary" id="voiceBtn" hidden title="和一起玩的人语音聊天（建议戴耳机）">🎤 语音：关</button>
       <button class="btn secondary" id="mpAllowBtn" hidden title="关掉后，其他人就不能加入这局游戏">允许乱入：开</button>
@@ -3095,15 +3096,19 @@ const DEFAULT_CORE_OPTIONS = {
 const TOUCH_CORE_OPTIONS = {
   arcade: { "fbneo-frameskip-type": "Auto", "fbneo-samplerate": "32000", "fbneo-fm-interpolation": "disabled", "fbneo-sample-interpolation": "disabled" },
 };
-const OLD_DEFAULTS = { "fbneo-neogeo-mode": "AES_EUR" };
+const OLD_DEFAULTS = { "fbneo-neogeo-mode": "AES_EUR", shader: "disabled" };
+// 安卓 App：家用机和街机默认用「CRT easymode」滤镜（像老电视，有扫描线、比较省电）；掌机本来就是液晶屏，不加
+const ANDROID_APP = !!window.EJSAndroid || /EmulatorJS-Android\//.test(navigator.userAgent);
+const LCD_SYSTEMS = new Set(["gb", "gbc", "gba", "nds", "psp", "segaGG", "ngp", "ws", "lynx", "vb"]);
 // 按游戏（街机 romset 名）预设的拨码开关：机台出厂是 2 人模式、但能开 4 人的游戏，默认打开多人模式
 // （圆桌骑士、龙王战士、战场之狼 2 出厂就是 3 人，不用改；吞食天地 2、恐龙快打的人数在游戏自己的设置菜单里，不是拨码开关）
 const GAME_CORE_OPTIONS = [
   [/^captcomm/, set => ({ [`fbneo-dipswitch-${set}-Play_Mode`]: "4 Player" })],   // 名将 Captain Commando：4 人
 ];
-const PRESET_VERSION = 2;
+const PRESET_VERSION = 3;   // 3：安卓默认 CRT 滤镜（以前玩过的游戏里存着「不用滤镜」的也改一次）
 function presetCoreOptions(g) {
-  const opts = { ...(DEFAULT_CORE_OPTIONS[g.system] || {}), ...((IS_TOUCH && TOUCH_CORE_OPTIONS[g.system]) || {}) };
+  const opts = { ...(DEFAULT_CORE_OPTIONS[g.system] || {}), ...((IS_TOUCH && TOUCH_CORE_OPTIONS[g.system]) || {}),
+    ...(ANDROID_APP && !LCD_SYSTEMS.has(g.system) ? { shader: "crt-easymode.glslp" } : {}) };
   if (g.system === "arcade" && g.file && g.file.name) {
     const set = baseName(g.file.name).toLowerCase();
     for (const [re, fn] of GAME_CORE_OPTIONS) if (re.test(set)) Object.assign(opts, fn(set));
@@ -4190,6 +4195,7 @@ async function hoBecomeHost(old) {
   mpHost.localSlot = old.slot;
   document.getElementById("nowPlaying").textContent = `${L(SYSTEMS[g.system].name)} · ${gameName(g)}`;
   document.getElementById("turboBtn").hidden = false;
+  updatePadSizeBtn(g.system);
   mpAllowBtn.hidden = false; updateAllowBtn(); updateVoiceBtn();
   old.timer = setTimeout(() => hoFail(old), 20000);
   await hostAcceptJoin({ from: old.cid, name: old.name, slot: 0, sid: mpHost.sid, mode: "stream", watch: false, hoFrom: old });
@@ -4262,6 +4268,7 @@ function mpStreamUI(s, hostName, slot, watch, connecting) {
   applyStageBg({ system: s.system, group: s.group, title: s.title, file: { name: String(s.game || s.title || "").split("/").pop() } });
   closeDrawer();
   document.getElementById("turboBtn").hidden = true;
+  padSizeBtn.hidden = true;
   mpAllowBtn.hidden = true;
   document.getElementById("nowPlaying").textContent = L(watch ? "观战：{0}（主机 {1}）" : "乱入：{0}（主机 {1}）", gameName(s), hostName);
   renderPlayers(); updateVoiceBtn();
@@ -4784,6 +4791,275 @@ function touchLayout(g) {
   const sel = sys === "arcade" || sys === "mame" ? L("投币") : ["segaMD", "segaCD", "sega32x"].includes(sys) ? "MODE" : "SELECT";
   return { rows, sh, sel };
 }
+// ---- 手机上的虚拟手柄（EmulatorJS 自带的那套）：按机种换成对应手柄的按键图，按键位置重新排 ----
+// 按键图来自 libretro common-overlays（CC BY 4.0，见 data/vpad/README.txt）；N64 和其他机种用颜色画
+const VPAD_SPEED = [
+  { type: "button", text: "Fast", id: "speed_fast", location: "center", left: -35, top: 50, fontSize: 15, block: true, input_value: 27 },
+  { type: "button", text: "Slow", id: "speed_slow", location: "center", left: 95, top: 50, fontSize: 15, block: true, input_value: 29 }];
+const vpBtn = (id, text, location, left, top, input, extra) => Object.assign({ type: "button", id, text, location, left, top, bold: true, input_value: input }, extra || {});
+const vpPill = (id, text, left, input) => ({ type: "button", id, text, location: "center", left, fontSize: 15, block: true, input_value: input });
+const vpDpad = (id = "dpad") => ({ type: "dpad", id, location: "left", left: "50%", top: "50%", joystickInput: false, inputValues: [4, 5, 6, 7] });
+// 菱形排列的四个键（SFC、PS1）：上 9、左 1、右 8、下 0
+const vpDiamond = (p, ids) => [vpBtn(p + ids[0], "X", "right", 27, -16, 9), vpBtn(p + ids[1], "Y", "right", -21, 32, 1),
+  vpBtn(p + ids[2], "A", "right", 75, 32, 8), vpBtn(p + ids[3], "B", "right", 27, 80, 0)];
+// 街机按键：按 touchLayout 的行列排，每个键一个颜色（key = 颜色_输入号，用在按键的 class 上）
+function arcadeButtons(g) {
+  const colors = ["red", "yellow", "green", "blue", "white", "red"];
+  let n = 0;
+  return touchLayout(g).rows.filter(r => r.length).flatMap((r, ri) => r.map(([id, label], ci) => ({ id, label, ri, ci, key: colors[n++ % colors.length] + "_" + id })));
+}
+function vpadSettings(g) {
+  const sys = g.system || "";
+  if (sys === "nes" || sys === "famicom") return [vpDpad("vp_nes_dpad"), vpBtn("vp_nes_b", "B", "right", -4, 58, 0), vpBtn("vp_nes_a", "A", "right", 66, 34, 8),
+    vpPill("vp_nes_select", "Select", -5, 2), vpPill("vp_nes_start", "Start", 60, 3), ...VPAD_SPEED];
+  if (sys === "gb" || sys === "gbc") return [vpDpad("vp_gb_dpad"), vpBtn("vp_gb_b", "B", "right", -4, 58, 0), vpBtn("vp_gb_a", "A", "right", 66, 34, 8),
+    vpPill("vp_gb_select", "Select", -5, 2), vpPill("vp_gb_start", "Start", 60, 3), ...VPAD_SPEED];
+  if (sys === "gba") return [vpDpad("vp_gba_dpad"), vpBtn("vp_gba_b", "B", "right", -4, 58, 0), vpBtn("vp_gba_a", "A", "right", 66, 34, 8),
+    vpBtn("vp_gba_l", "L", "left", 3, -92, 10, { block: true }), vpBtn("vp_gba_r", "R", "right", null, -92, 11, { block: true, right: 3 }),
+    vpPill("vp_gba_select", "Select", -5, 2), vpPill("vp_gba_start", "Start", 60, 3), ...VPAD_SPEED];
+  if (sys === "snes") return [vpDpad("vp_snes_dpad"), ...vpDiamond("vp_snes_", ["x", "y", "a", "b"]),
+    vpBtn("vp_snes_l", "L", "left", 3, -100, 10, { block: true }), vpBtn("vp_snes_r", "R", "right", null, -100, 11, { block: true, right: 3 }),
+    vpPill("vp_snes_select", "Select", -5, 2), vpPill("vp_snes_start", "Start", 60, 3), ...VPAD_SPEED];
+  if (sys === "psx") return [vpDpad("vp_psx_dpad"), ...vpDiamond("vp_psx_", ["tri", "sq", "ci", "cr"]),
+    vpBtn("vp_psx_l1", "L1", "left", 3, -96, 10, { block: true }), vpBtn("vp_psx_r1", "R1", "right", null, -96, 11, { block: true, right: 3 }),
+    vpBtn("vp_psx_l2", "L2", "left", 3, -146, 12, { block: true }), vpBtn("vp_psx_r2", "R2", "right", null, -146, 13, { block: true, right: 3 }),
+    vpPill("vp_psx_select", "Select", -5, 2), vpPill("vp_psx_start", "Start", 60, 3), ...VPAD_SPEED];
+  if (["segaMD", "segaCD", "sega32x"].includes(sys)) return [vpDpad("vp_md_dpad"),
+    vpBtn("vp_md_a", "A", "right", -43, 78, 1), vpBtn("vp_md_b", "B", "right", 19, 66, 0), vpBtn("vp_md_c", "C", "right", 81, 54, 8),
+    vpBtn("vp_md_x", "X", "right", -37, 26, 10), vpBtn("vp_md_y", "Y", "right", 25, 14, 9), vpBtn("vp_md_z", "Z", "right", 87, 2, 11),
+    vpPill("vp_md_mode", "Mode", -5, 2), vpPill("vp_md_start", "Start", 60, 3), ...VPAD_SPEED];
+  if (sys === "n64") return [
+    { type: "zone", id: "vp_n64_stick", location: "left", left: "50%", top: "50%", joystickInput: true, inputValues: [16, 17, 18, 19], color: "#9a9aa4", size: 72 },
+    vpBtn("vp_n64_a", "A", "right", 40, 150, 0), vpBtn("vp_n64_b", "B", "right", -10, 95, 1),
+    vpBtn("vp_n64_cu", "▲", "right", 25, -65, 23, { joystickInput: true }), vpBtn("vp_n64_cd", "▼", "right", 25, 15, 22, { joystickInput: true }),
+    vpBtn("vp_n64_cl", "◀", "right", -15, -25, 21, { joystickInput: true }), vpBtn("vp_n64_cr", "▶", "right", 65, -25, 20, { joystickInput: true }),
+    vpBtn("vp_n64_l", "L", "left", 3, -100, 10, { block: true }), vpBtn("vp_n64_z", "Z", "left", 3, -150, 12, { block: true }),
+    vpBtn("vp_n64_r", "R", "right", null, -100, 11, { block: true, right: 3 }),
+    vpPill("vp_n64_start", "Start", 30, 3), ...VPAD_SPEED];
+  if (sys === "arcade" || sys === "mame") {
+    const rows = touchLayout(g).rows.filter(r => r.length);
+    const cols = Math.max(...rows.map(r => r.length));
+    const xs = cols >= 3 ? [-43, 19, 81] : [-8, 60];
+    const ys = rows.length > 1 ? [0, 66] : [56];
+    const btns = arcadeButtons(g).map(b => vpBtn("vp_arc_" + b.key, b.label, "right", xs[b.ci], ys[b.ri] + (b.ci === 1 && cols >= 3 ? -8 : 0), b.id));
+    return [{ type: "zone", id: "vp_arc_stick", location: "left", left: "50%", top: "50%", joystickInput: false, inputValues: [4, 5, 6, 7], color: "#d22", size: 80 },
+      ...btns, vpPill("vp_arc_coin", L("投币"), -5, 2), vpPill("vp_arc_start", "Start", 60, 3), ...VPAD_SPEED];
+  }
+  return null;   // 其他机种：用 EmulatorJS 自带的位置，只换颜色
+}
+// 竖屏时给虚拟手柄留出的高度（游戏画面放在上面剩下的地方，不和按键挤在一起）
+function vpadRoom(g) {
+  const sys = g.system || "";
+  return ["snes", "gba", "nds", "n64", "segaSaturn"].includes(sys) ? 300 : sys === "psx" ? 340 : 260;
+}
+function vpadCss(base) {
+  const im = (d, n) => `url("${base}vpad/${d}/${n}.png")`;
+  const P = ".ejs_virtualGamepad_parent .ejs_virtualGamepad_button";
+  const img = (cls, d, n) => `${P}.b_${cls}{background-image:${im(d, n)}!important}`;
+  const css = [
+    // 通用：深色立体按键，按下时缩一下
+    `.ejs_virtualGamepad_button{border:none!important;color:#eceaf6!important;background:radial-gradient(circle at 35% 30%,#5b5a6e,#29283a 72%)!important;
+      box-shadow:0 3px 0 rgba(0,0,0,.45),inset 0 1px 1px rgba(255,255,255,.22)!important;text-shadow:0 1px 1px rgba(0,0,0,.6);font-family:system-ui,sans-serif;transition:transform .08s,filter .08s}`,
+    `.ejs_virtualGamepad_button[style*="height: 31px"]{border-radius:999px!important;background:linear-gradient(#45445a,#2a2938)!important;font-size:13px!important;font-weight:600!important}`,
+    `.ejs_virtualGamepad_button_down{transform:scale(.92);filter:brightness(.78)}`,
+    `.ejs_dpad_bar{background:linear-gradient(#4a4960,#2a2938)!important}.ejs_dpad_main{opacity:.92}`,
+    `.ejs_dpad_horizontal,.ejs_dpad_vertical{border-radius:8px}`,
+    // 换成按键图的键：只显示图，不显示文字
+    `.ejs_virtualGamepad_button[class*="b_vp_"]{background-color:transparent!important;background-position:center!important;background-repeat:no-repeat!important;background-size:contain!important;
+      box-shadow:none!important;font-size:0!important;color:transparent!important;filter:drop-shadow(0 3px 3px rgba(0,0,0,.45));width:56px;height:56px;line-height:56px}`,
+    `.ejs_virtualGamepad_button[class*="b_vp_"].ejs_virtualGamepad_button_down{transform:scale(.9);filter:brightness(.75) drop-shadow(0 1px 1px rgba(0,0,0,.5))}`,
+    `.ejs_virtualGamepad_button[class*="b_vp_"][style*="height: 31px"]{border:none!important;border-radius:0!important;height:40px!important;line-height:40px!important;width:62px!important;background-color:transparent!important;background-image:none}`,
+    // 十字键：整张图当底，按下的方向亮一下
+    ...[["nes", "nes"], ["gb", "gameboy"], ["gba", "gba"], ["snes", "snes"], ["psx", "psx"], ["md", "genesis"]].map(([k, d]) =>
+      `.b_vp_${k}_dpad .ejs_dpad_main{background:${im(d, "dpad")} center/contain no-repeat;opacity:1}.b_vp_${k}_dpad .ejs_dpad_bar{background:transparent!important}.b_vp_${k}_dpad .ejs_dpad_horizontal:before,.b_vp_${k}_dpad .ejs_dpad_horizontal:after,.b_vp_${k}_dpad .ejs_dpad_vertical:before,.b_vp_${k}_dpad .ejs_dpad_vertical:after{border-color:transparent!important}`),
+    `.ejs_virtualGamepad_left .ejs_dpad_left_pressed .ejs_dpad_horizontal:before{border-right-color:rgba(255,255,255,.9)!important}.ejs_virtualGamepad_left .ejs_dpad_right_pressed .ejs_dpad_horizontal:after{border-left-color:rgba(255,255,255,.9)!important}`,
+    `.ejs_virtualGamepad_left .ejs_dpad_up_pressed .ejs_dpad_vertical:before{border-bottom-color:rgba(255,255,255,.9)!important}.ejs_virtualGamepad_left .ejs_dpad_down_pressed .ejs_dpad_vertical:after{border-top-color:rgba(255,255,255,.9)!important}`,
+    // FC / GB / GBA / SFC / PS1 / MD 的按键图
+    img("vp_nes_a", "nes", "a"), img("vp_nes_b", "nes", "b"), img("vp_nes_select", "nes", "select"), img("vp_nes_start", "nes", "start"),
+    img("vp_gb_a", "gameboy", "a"), img("vp_gb_b", "gameboy", "b"), img("vp_gb_select", "gameboy", "select"), img("vp_gb_start", "gameboy", "start"),
+    img("vp_gba_a", "gba", "a"), img("vp_gba_b", "gba", "b"), img("vp_gba_l", "gba", "l"), img("vp_gba_r", "gba", "r"), img("vp_gba_select", "gba", "select"), img("vp_gba_start", "gba", "start"),
+    ...["a", "b", "x", "y"].map(k => img("vp_snes_" + k, "snes", k)), img("vp_snes_l", "snes", "l1"), img("vp_snes_r", "snes", "r1"), img("vp_snes_select", "snes", "select"), img("vp_snes_start", "snes", "start"),
+    img("vp_psx_tri", "psx", "x"), img("vp_psx_sq", "psx", "y"), img("vp_psx_ci", "psx", "a"), img("vp_psx_cr", "psx", "b"),
+    img("vp_psx_l1", "psx", "l1"), img("vp_psx_r1", "psx", "r1"), img("vp_psx_l2", "psx", "l2"), img("vp_psx_r2", "psx", "r2"), img("vp_psx_select", "psx", "select"), img("vp_psx_start", "psx", "start"),
+    img("vp_md_a", "genesis", "a"), img("vp_md_b", "genesis", "b"), img("vp_md_c", "genesis", "c"), img("vp_md_start", "genesis", "start"),
+    // 肩键（L / R、L1 / R1…）是横的长条
+    `${[".b_vp_gba_l", ".b_vp_gba_r", ".b_vp_snes_l", ".b_vp_snes_r", ".b_vp_psx_l1", ".b_vp_psx_r1", ".b_vp_psx_l2", ".b_vp_psx_r2"].map(c => P + c).join(",")}{width:84px!important;height:40px!important;line-height:40px!important}`,
+    // MD 的 X / Y / Z：小一号的黑键（图里这三个键是灰的，用颜色画）
+    `${P}.b_vp_md_x,${P}.b_vp_md_y,${P}.b_vp_md_z{width:44px;height:44px;line-height:44px;background:radial-gradient(circle at 35% 30%,#3d3d44,#101013 70%)!important;border-radius:50%!important;
+      font-size:15px!important;color:#9a9aa6!important;box-shadow:0 2px 0 #000!important}`,
+    `${P}.b_vp_md_mode{font-size:12px!important;color:#cfcfd8!important;background:linear-gradient(#2b2b30,#141417)!important;border-radius:999px!important;height:31px!important;line-height:31px!important;width:auto!important}`,
+    // 街机：彩色街机按键 + 红球摇杆；投币键用文字
+    ...["red", "yellow", "green", "blue", "white"].map(c => `${P}[class*="b_vp_arc_${c}_"]{background-image:${im("arcade", "button-" + c)}!important;width:58px;height:58px}`),
+    `${P}[class*="b_vp_arc_"]:not(.b_vp_arc_coin):not(.b_vp_arc_start){font-size:13px!important;color:rgba(0,0,0,.55)!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.35)}`,
+    img("vp_arc_start", "arcade", "start"), `${P}.b_vp_arc_start{width:40px!important;height:40px!important}`,
+    `${P}.b_vp_arc_coin{font-size:13px!important;color:#ffe27a!important;font-weight:700!important;background:linear-gradient(#4a3a12,#2a2008)!important;border-radius:999px!important;border:1px solid #a88a2a!important;height:31px!important;line-height:31px!important;width:auto!important}`,
+    `.b_vp_arc_stick .back{background:${im("arcade", "analog-background")} center/contain no-repeat!important;opacity:1!important}`,
+    `.b_vp_arc_stick .front{background:${im("arcade", "analog-stick")} center/contain no-repeat!important;opacity:1!important}`,
+    // N64：蓝 A、绿 B、黄 C、红 Start（没有合适的图，用颜色画）
+    `${P}.cs_n64.b_a{background:radial-gradient(circle at 35% 30%,#6f97ff,#1f45b8 72%)!important}${P}.cs_n64.b_b{background:radial-gradient(circle at 35% 30%,#62d68a,#167a3d 72%)!important}`,
+    `${["b_cu", "b_cd", "b_cl", "b_cr"].map(c => P + ".cs_n64." + c).join(",")}{background:radial-gradient(circle at 35% 30%,#ffe27a,#c79a10 72%)!important;color:#3a2c00!important;text-shadow:none}`,
+    `${P}.cs_n64.b_start{background:linear-gradient(#e2554f,#9e1f1a)!important}`,
+    // 按下的动画：按键往下沉、变暗；十字键朝按下的方向倾斜
+    `${P}.ejs_virtualGamepad_button_down{transform:translateY(2px) scale(.9)!important;filter:brightness(.7) drop-shadow(0 1px 1px rgba(0,0,0,.5))!important;transition:transform .05s,filter .05s}`,
+    `${P}.ejs_virtualGamepad_button_down::before{filter:brightness(.6)}`,
+    `.ejs_dpad_main{transition:transform .06s,filter .06s}`,
+    ...[["up", "rotateX(16deg)"], ["down", "rotateX(-16deg)"], ["left", "rotateY(-16deg)"], ["right", "rotateY(16deg)"]].map(([d, r]) =>
+      `.ejs_dpad_main.ejs_dpad_${d}_pressed{transform:perspective(320px) ${r} scale(.97);filter:brightness(.88)}`),
+    ...[["up", "left", "rotateX(12deg) rotateY(-12deg)"], ["up", "right", "rotateX(12deg) rotateY(12deg)"], ["down", "left", "rotateX(-12deg) rotateY(-12deg)"], ["down", "right", "rotateX(-12deg) rotateY(12deg)"]].map(([a, b, r]) =>
+      `.ejs_dpad_main.ejs_dpad_${a}_pressed.ejs_dpad_${b}_pressed{transform:perspective(320px) ${r} scale(.97)}`),
+    // 横屏：中间是游戏画面，Select / Start、加速 / 减速挪到左右两边（十字键、按键的下面），不挡画面
+    `@media (orientation:landscape){.ejs_virtualGamepad_parent .ejs_virtualGamepad_bottom{left:0!important;right:0!important;width:100%!important;height:0!important;bottom:0!important;margin:0!important;pointer-events:none}
+      .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button{pointer-events:auto;width:64px!important;height:31px!important;line-height:31px!important;right:auto!important;margin:0!important}
+      .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button:is([class*="_select"],.b_vp_md_mode,.b_vp_arc_coin){left:41px!important;top:-42px!important}
+      .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button[class*="_start"]{left:auto!important;right:43px!important;top:-42px!important}
+      .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button.b_vp_arc_start{width:40px!important;height:40px!important;right:55px!important;top:-48px!important}
+      .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button.b_speed_fast{left:41px!important;top:4px!important}
+      .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button.b_speed_rewind{left:111px!important;top:4px!important}
+      .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button.b_speed_slow{left:auto!important;right:43px!important;top:4px!important}}`,
+  ];
+  return css.join("\n").replace(/\n\s+/g, "");
+}
+// 竖屏 + 显示虚拟手柄时：游戏画面放到上面，下面留给手柄（中间空一点，手指不会挡住画面）
+function vpadRoomCss(g) {
+  return `@media (orientation:portrait){#game:has(.ejs_virtualGamepad_parent:not([style*="none"])) .ejs_canvas_parent{height:max(45%,calc(100% - ${vpadRoom(g)}px))!important}
+    .ejs_virtualGamepad_parent{bottom:max(40px,env(safe-area-inset-bottom))!important}}`.replace(/\n\s+/g, "");
+}
+// 竖屏手柄底板（目前只有 FC）：整张手柄图铺在屏幕下方，十字键、A/B、Select/Start 放进图里的凹槽。
+// 坐标都按底板宽度（--bw）算，所以不同手机宽度都对得上；手指能按到的范围比凹槽大一圈。
+const VPAD_BODY = {
+  nes: { img: "nes/body.webp", h: 0.4349, cap: 0.0521, ar: 1.31, dpad: [0.2354, 0.1803, 0.19], btn: { b: [0.6914, 0.2253, 0.118], a: [0.8294, 0.1491, 0.118] },
+    pill: { select: [0.4277, 0.3333, "SELECT"], start: [0.5723, 0.3333, "START"] }, pillSize: [0.112, 0.036], label: "#d8352b" },
+  snes: { img: "snes/body.webp", h: 0.6055, cap: 0.0391, ar: 1.34, dpad: [0.2204, 0.3291, 0.2], btn: { x: [0.7611, 0.2279, 0.1, 1.22], y: [0.6686, 0.3184, 0.1, 1.22], a: [0.8522, 0.3184, 0.1, 1.22], b: [0.7598, 0.4089, 0.1, 1.22] },
+    sh: { l: [0.2103, 0.0413, 0.17, 0.056], r: [0.7897, 0.0413, 0.17, 0.056] },
+    pill: { select: [0.4284, 0.5306, "SELECT"], start: [0.5726, 0.5306, "START"] }, pillSize: [0.104, 0.036], label: "#6c6a86",
+    pillBg: "linear-gradient(#8a8a94,#5c5c66 60%,#4a4a52)" },
+  md: { img: "genesis/body.webp", h: 0.556, cap: 0.0391, ar: 1.53, dpad: [0.2259, 0.2738, 0.19],
+    btn: { a: [0.6097, 0.3698, 0.104, 1.12], b: [0.7214, 0.3333, 0.104, 1.12], c: [0.8324, 0.2933, 0.104, 1.12] },
+    dot: { x: [0.6143, 0.1784, 0.082], y: [0.7246, 0.14, 0.082], z: [0.834, 0.0999, 0.082] },
+    pill: { mode: [0.4313, 0.4622, "MODE"], start: [0.5674, 0.4622, "START"] }, pillSize: [0.1, 0.034], label: "#b4b4c0", labelBelow: true },
+  // PS1：四个肩键（L2 在 L1 上面）都在耳朵上的长条凹槽里，用颜色画（按键图比例对不上凹槽）
+  psx: { img: "psx/body.webp", h: 0.6393, cap: 0.0391, ar: 1.34, dpad: [0.2386, 0.3587, 0.2],
+    btn: { tri: [0.7637, 0.2842, 0.088, 1.22], sq: [0.6852, 0.36, 0.088, 1.22], ci: [0.8398, 0.36, 0.088, 1.22], cr: [0.7637, 0.4342, 0.088, 1.22] },
+    sh: { l2: [0.2451, 0.0615, 0.225, 0.07], l1: [0.2451, 0.1527, 0.225, 0.07], r2: [0.7552, 0.0615, 0.225, 0.07], r1: [0.7552, 0.153, 0.225, 0.07] },
+    shHit: 1.25, shCss: { bg: "linear-gradient(#c4c4cc,#a2a2ac 70%,#8e8e98)", color: "#5a5a66" },
+    pill: { select: [0.4427, 0.3991, "SELECT"], start: [0.5573, 0.3991, "START"] }, pillSize: [0.093, 0.032], label: "#7a7a88",
+    pillBg: "linear-gradient(#9a9aa4,#6e6e78 60%,#5a5a64)" },
+  // 街机：摇杆 + 两排各三个圆孔（上排中间高一点）；游戏有几个键就用几个孔，只有一排时用下排
+  arc: { img: "arcade/body.webp", h: 0.5293, cap: 0.0391, ar: 1.34, hwMax: 220, stick: [0.237, 0.2409, 0.19],
+    sockets: [[[0.6068, 0.1341], [0.7233, 0.1097], [0.8398, 0.1341]], [[0.6068, 0.3151], [0.7233, 0.291], [0.8398, 0.3151]]], sockD: 0.104, sockHit: 1.12,
+    stickBack: "radial-gradient(circle,#2c2c31,#141416 72%)", stickFront: "arcade/analog-stick.png",
+    pill: { coin: [0.429, 0.4564, "COIN"], start: [0.571, 0.4564, "START"] }, pillSize: [0.104, 0.038], label: "#e4e4ee",
+    pillBg: "linear-gradient(#55555c,#2a2a2e 60%,#1c1c1f)" },
+  // GB / GBC：Game Boy 下半截；A / B 用颜色画（原来的按键图圆不在正中间）
+  gb: { img: "gameboy/body.webp", h: 0.4453, cap: 0.0391, ar: 1.11, dpad: [0.222, 0.169, 0.2],
+    btn: {}, dot: { b: [0.6846, 0.2083, 0.108, 1.3], a: [0.8167, 0.1322, 0.108, 1.3] },
+    dotBg: { a: ["#ec5fa0", "#a3175e", "#fff"], b: ["#ec5fa0", "#a3175e", "#fff"] },
+    pill: { select: [0.4284, 0.359, "SELECT"], start: [0.5723, 0.359, "START"] }, pillSize: [0.104, 0.036], label: "#3d3b8e",
+    pillBg: "linear-gradient(#a2a2aa,#7a7a84 60%,#68686f)" },
+  // GBA：透明紫色外壳；L / R 用颜色画（按键图比例对不上凹槽）
+  gba: { img: "gba/body.webp", h: 0.5859, cap: 0.0391, ar: 1.5, dpad: [0.2197, 0.3223, 0.19],
+    btn: {}, dot: { b: [0.6826, 0.3737, 0.118, 1.28], a: [0.8138, 0.2933, 0.12, 1.28] },
+    dotBg: { a: ["#6a6680", "#2a273c", "#ece8fa"], b: ["#6a6680", "#2a273c", "#ece8fa"] }, dpadFilter: "brightness(.5) contrast(1.3)",
+    sh: { l: [0.2077, 0.0475, 0.17, 0.062], r: [0.791, 0.0475, 0.17, 0.062] }, shCss: { bg: "linear-gradient(#77728e,#4d4866 70%,#3c3854)", color: "#ece8fa" },
+    pill: { select: [0.4329, 0.502, "SELECT"], start: [0.5671, 0.502, "START"] }, pillSize: [0.096, 0.036], label: "#e2dcff",
+    pillBg: "linear-gradient(#5a5670,#34304a 60%,#29263c)" },
+  // N64：没有十字键，左边是摇杆；A / B / C 和 START 用颜色画。横屏时去掉中间那根把手（cut = 左半边到哪、右半边从哪开始），START 挪到右半边
+  n64: { img: "n64/body.webp", h: 0.6536, cap: 0.0391, cut: [0.3906, 0.5964], ar: 1.34, stick: [0.2611, 0.363, 0.181],
+    btn: {}, dot: { a: [0.7493, 0.458, 0.1, 1.2], b: [0.6533, 0.3835, 0.098, 1.2], cu: [0.7705, 0.1589, 0.072, 1.25], cd: [0.7705, 0.2871, 0.072, 1.25], cl: [0.7041, 0.222, 0.072, 1.25], cr: [0.8366, 0.222, 0.072, 1.25] },
+    dotBg: { a: ["#6f97ff", "#1f45b8", "#fff"], b: ["#62d68a", "#167a3d", "#fff"], cu: ["#ffe27a", "#c79a10", "#5a4500"], cd: ["#ffe27a", "#c79a10", "#5a4500"], cl: ["#ffe27a", "#c79a10", "#5a4500"], cr: ["#ffe27a", "#c79a10", "#5a4500"] },
+    sh: { l: [0.2331, 0.0602, 0.205, 0.072], z: [0.2331, 0.154, 0.205, 0.072], r: [0.7669, 0.0602, 0.205, 0.072] }, shHit: 1.25,
+    shCss: { bg: "linear-gradient(#c4c4cc,#a2a2ac 70%,#8e8e98)", color: "#5a5a66" },
+    pill: { start: [0.5, 0.3848, "START"] }, pillL: { start: [0.655, 0.615] }, pillSize: [0.104, 0.034], label: "#7a7a88",
+    pillBg: "linear-gradient(#ef6a64,#c0302a 60%,#9e1f1a)" },
+};
+function vpadBodyCss(g, base) {
+  const sys = g.system || "";
+  const k = sys === "famicom" ? "nes" : sys === "gbc" ? "gb" : sys === "arcade" || sys === "mame" ? "arc" : ["segaMD", "segaCD", "sega32x"].includes(sys) ? "md" : sys;
+  let B = VPAD_BODY[k];
+  if (!B) return "";
+  // 街机：这个游戏实际有几个键，就放进几个孔
+  if (B.sockets) {
+    const list = arcadeButtons(g), oneRow = Math.max(...list.map(b => b.ri)) === 0;
+    B = { ...B, btn: Object.fromEntries(list.map(b => { const [cx, cy] = B.sockets[oneRow ? 1 : Math.min(b.ri, 1)][Math.min(b.ci, 2)]; return [b.key, [cx, cy, B.sockD, B.sockHit]]; })) };
+  }
+  const u = v => `calc(var(--bw)*${+v.toFixed(4)})`;
+  // land=false：竖屏，整张底板在下面；land=true：横屏，底板从中间切开，左半边放左下角、右半边放右下角
+  // 横屏的两半是另外两张图（left / right.webp）：切口处补了一段同款手柄的包边，宽度是 cap（按底板宽度算）
+  // side：l = 左半边（十字键、L、Select），r = 右半边（按键、R、Start）
+  const box = (land, side, cx, cy, w, h) => {
+    const c = B.cap || 0, left = !land || side === "l" ? u(cx - w / 2) : side === "r" ? u(cx - xr + c - w / 2) : `calc(100% + var(--bw)*${+(cx - 1 - w / 2).toFixed(4)})`;
+    return `left:${left}!important;top:${u(cy - h / 2)}!important;width:${u(w)}!important;height:${u(h)}!important;right:auto!important;bottom:auto!important;margin:0!important`;
+  };
+  const V = ".ejs_virtualGamepad_parent", P = `${V} .ejs_virtualGamepad_button`, hit = 1.32;
+  const [xl, xr] = B.cut || [0.5, 0.5], wl = +(xl + (B.cap || 0)).toFixed(4), wr = +(1 - xr + (B.cap || 0)).toFixed(4);
+  const img = `url("${base}vpad/${B.img}")`, dir = B.img.split("/")[0], half = n => `url("${base}vpad/${dir}/${n}.webp")`, hf = Math.max(wl, wr);
+  const place = land => [
+    // 十字键
+    B.dpad ? `${V} .b_vp_${k}_dpad{position:absolute;transform:none!important;${box(land, "l", B.dpad[0], B.dpad[1], B.dpad[2] * hit, B.dpad[2] * hit)}}` : "",
+    // 摇杆（N64）：放进左边的圆形凹槽
+    B.stick ? `${V} .b_vp_${k}_stick{position:absolute;pointer-events:auto;${box(land, "l", B.stick[0], B.stick[1], B.stick[2] * 1.4, B.stick[2] * 1.4)}}` : "",
+    // A / B / X / Y
+    ...Object.entries(B.btn).map(([n, [cx, cy, d, ht = hit]]) => `${P}.b_vp_${k}_${n}{${box(land, "r", cx, cy, d * ht, d * ht)};background-size:${(100 / ht).toFixed(1)}%!important;line-height:${u(d * ht)}!important}`),
+    // MD 的 X / Y / Z：用颜色画的小黑键，手指能按到的范围比画出来的圆大一圈
+    ...Object.entries(B.dot || {}).map(([n, [cx, cy, d, ht = 1.3]]) => `${P}.b_vp_${k}_${n}{${box(land, "r", cx, cy, d * ht, d * ht)};line-height:${u(d * ht)}!important;font-size:${u(n.length > 1 ? 0.024 : 0.036)}!important}`),
+    // L / R 肩键：放进底板上方的长条凹槽
+    ...Object.entries(B.sh || {}).map(([n, [cx, cy, w, h]]) => `${P}.b_vp_${k}_${n}{${box(land, cx < 0.5 ? "l" : "r", cx, cy, w * 1.1, h * (B.shHit || 1.5))};background-size:${(100 / 1.1).toFixed(1)}% ${(100 / (B.shHit || 1.5)).toFixed(1)}%!important}`),
+    // Select / Start（在中间那层里，横屏时按左右半边分开算）
+    ...Object.entries(B.pill).map(([n, p]) => { const [cx, cy] = land && B.pillL && B.pillL[n] || p;
+      return `${V} .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button.b_vp_${k}_${n}{${box(land, !land ? "l" : cx < 0.5 ? "l" : "rc", cx, cy, B.pillSize[0] * 1.3, B.pillSize[1] * 2.1)}}`; }),
+  ];
+  const look = [
+    `${P},${V} [class*="_dpad"].b_vp_${k}_dpad{pointer-events:auto}`,
+    // 肩键用颜色画：灰色圆角长条 + 字（PS1）
+    ...(B.shCss ? Object.entries(B.sh).map(([n, [cx, cy, w, h]]) => `${P}.b_vp_${k}_${n}{background:none!important;box-shadow:none!important;border:none!important}
+      ${P}.b_vp_${k}_${n}::before{content:"";position:absolute;left:50%;top:50%;width:${u(w)};height:${u(h)};transform:translate(-50%,-50%);border-radius:${u(0.016)};
+      background:${B.shCss.bg};box-shadow:inset 0 1px 1px rgba(255,255,255,.5),0 2px 3px rgba(0,0,0,.35)}
+      ${P}.b_vp_${k}_${n}::after{content:"${n.toUpperCase()}";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:800 ${u(0.032)}/1 system-ui,sans-serif;letter-spacing:.06em;color:${B.shCss.color}!important}`) : []),
+    ...Object.entries(B.dot || {}).map(([n, [, , , ht = 1.3]]) => { const [c1, c2, fg] = (B.dotBg || {})[n] || ["#34343a", "#0c0c0e", "#a4a4b0"], e = 100 / ht;
+      return `${P}.b_vp_${k}_${n}{background:radial-gradient(circle closest-side,${c1} 0,${c2} ${(e * 0.92).toFixed(1)}%,rgba(0,0,0,.45) ${e.toFixed(1)}%,transparent ${(e + 3).toFixed(1)}%)!important;box-shadow:none!important;color:${fg}!important;text-shadow:none!important}`; }),
+    // 摇杆：凹槽里的灰色摇杆头
+    ...(B.stick ? [`${V} .b_vp_${k}_stick .back{width:${u(B.stick[2] * 0.96)}!important;height:${u(B.stick[2] * 0.96)}!important;margin-left:${u(-B.stick[2] * 0.48)}!important;margin-top:${u(-B.stick[2] * 0.48)}!important;
+        background:${B.stickBack || "radial-gradient(circle,#8e8e98,#6c6c76 70%,#5a5a64)"}!important;opacity:${B.stickBack ? 1 : 0.55}!important}
+      ${V} .b_vp_${k}_stick .front{width:${u(B.stick[2] * 0.56)}!important;height:${u(B.stick[2] * 0.56)}!important;margin-left:${u(-B.stick[2] * 0.28)}!important;margin-top:${u(-B.stick[2] * 0.28)}!important;
+        background:${B.stickFront ? `url("${base}vpad/${B.stickFront}") center/contain no-repeat` : "radial-gradient(circle at 40% 35%,#e6e6ec,#b4b4be 55%,#8a8a94)"}!important;box-shadow:${B.stickFront ? "none" : "0 3px 5px rgba(0,0,0,.45)"}!important;opacity:1!important}`] : []),
+    `${V} .b_vp_${k}_dpad .ejs_dpad_main{background-size:${(100 / hit).toFixed(1)}% auto!important${B.dpadFilter ? ";filter:" + B.dpadFilter : ""}}`,
+    `${V} .b_vp_${k}_dpad .ejs_dpad_horizontal{height:26%;width:${(100 / hit).toFixed(1)}%;left:${(50 - 50 / hit).toFixed(1)}%}`,
+    `${V} .b_vp_${k}_dpad .ejs_dpad_vertical{width:26%;height:${(100 / hit).toFixed(1)}%;top:${(50 - 50 / hit).toFixed(1)}%}`,
+    // Select / Start：橡胶长条，字写在上面
+    ...Object.entries(B.pill).map(([n, [cx, cy, label]]) => `${V} .ejs_virtualGamepad_bottom .ejs_virtualGamepad_button.b_vp_${k}_${n}{background:none!important;border:none!important;box-shadow:none!important;filter:none;font-size:0!important}
+      ${P}.b_vp_${k}_${n}::before{content:"";position:absolute;left:50%;top:50%;width:${u(B.pillSize[0])};height:${u(B.pillSize[1])};transform:translate(-50%,-50%);border-radius:999px;
+      background:${B.pillBg || "linear-gradient(#45454a,#18181b 60%,#0e0e10)"};box-shadow:inset 0 1px 1px rgba(255,255,255,.22),0 2px 2px rgba(0,0,0,.55)}
+      ${P}.b_vp_${k}_${n}::after{content:"${label}";position:absolute;left:50%;${B.labelBelow ? "top" : "bottom"}:calc(50% + ${u(B.pillSize[1] / 2 + 0.008)});transform:translateX(-50%);
+      font:800 ${u(0.026)}/1 system-ui,sans-serif;letter-spacing:.08em;color:${B.label}!important;white-space:nowrap}`),
+  ];
+  const portrait = [
+    `#game,${V}{--bw:min(100vw,520px)}${V}{bottom:calc(env(safe-area-inset-bottom,0px) + 6px)!important}`,
+    `#game:has(${V}:not([style*="none"])) .ejs_canvas_parent{height:max(45%,calc(100% - ${u(B.h + (B.top || 0))} - ${B.speedP ? 30 : 66}px))!important}`,
+    `${V} .ejs_virtualGamepad_left,${V} .ejs_virtualGamepad_right,${V} .ejs_virtualGamepad_bottom{left:calc(50% - var(--bw)/2)!important;right:auto!important;top:auto!important;bottom:0!important;
+      width:var(--bw)!important;height:${u(B.h)}!important;margin:0!important;pointer-events:none}`,
+    `${V} .ejs_virtualGamepad_bottom{background:${img} center/100% 100% no-repeat;filter:drop-shadow(0 -2px 8px rgba(0,0,0,.35))}`,
+    ...place(false),
+    // 加速 / 减速：放在底板上方左右两角（PS1 放在两个把手中间的缺口里）
+    B.speedP ? B.speedP.map(([cx, cy], i) => `${P}.b_speed_${i ? "slow" : "fast"}{left:calc(${u(cx)} - 32px)!important;right:auto!important;top:calc(${u(cy)} - 16px)!important;width:64px!important}`).join("")
+      : `${P}.b_speed_fast{left:2%!important;top:-40px!important}${P}.b_speed_slow{left:auto!important;right:2%!important;top:-40px!important}`,
+  ];
+  // 横屏：半边宽度 = 游戏画面两边空出来的宽度（ar = 游戏画面宽高比），同时不能比屏幕高
+  const landscape = [
+    `#game,${V}{--hw:min(calc(max(130px,min(calc((100vw - var(--gw,100vh*${B.ar || 1.34}))/2 - 2px),${B.hwMax || 300}px))*var(--vs,1)),calc((100vh - 70px)*${+(hf / (B.h + (B.top || 0))).toFixed(4)}));--bw:calc(var(--hw)/${hf})}`,
+    `${V}{bottom:calc(env(safe-area-inset-bottom,0px) + 6px)!important}`,
+    `${V} .ejs_virtualGamepad_left,${V} .ejs_virtualGamepad_right,${V} .ejs_virtualGamepad_bottom{top:auto!important;bottom:0!important;height:${u(B.h)}!important;margin:0!important;pointer-events:none}`,
+    `${V} .ejs_virtualGamepad_left{left:0!important;right:auto!important;width:${u(wl)}!important;background:${half("left")} center/100% 100% no-repeat;filter:drop-shadow(0 0 6px rgba(0,0,0,.4))}`,
+    `${V} .ejs_virtualGamepad_right{left:auto!important;right:0!important;width:${u(wr)}!important;background:${half("right")} center/100% 100% no-repeat;filter:drop-shadow(0 0 6px rgba(0,0,0,.4))}`,
+    `${V} .ejs_virtualGamepad_bottom{left:0!important;right:0!important;width:100%!important;background:none;z-index:1}`,
+    ...place(true),
+    // 加速 / 减速：放在左右半边的上方
+    `${P}.b_speed_fast{left:calc(${u(wl / 2)} - 32px)!important;top:calc(-42px - ${u(B.top || 0)})!important}${P}.b_speed_rewind{left:calc(${u(wl / 2)} + 38px)!important;top:calc(-42px - ${u(B.top || 0)})!important}
+      ${P}.b_speed_slow{left:auto!important;right:calc(${u(wr / 2)} - 32px)!important;top:calc(-42px - ${u(B.top || 0)})!important}`,
+  ];
+  const j = a => a.join("").replace(/\n\s+/g, "");
+  const vs = padScale(g.system);
+  return `${vs !== 1 ? `#game{--vs:${vs}}` : ""}${j(look)}@media (orientation:portrait){${j(portrait)}}@media (orientation:landscape){${j(landscape)}}`;
+}
 function buildTouchPad(g, send) {
   const old = document.getElementById("tpad"); if (old) old.remove();
   const lay = touchLayout(g);
@@ -4866,6 +5142,7 @@ function mpStopAll() {
   voiceStopAll();
   mpAllowBtn.hidden = true;
   document.getElementById("turboBtn").hidden = false;
+  if (playingGame) updatePadSizeBtn(playingGame.system);
   renderPlayers();
   setTimeout(mpPollSessions, 300);
 }
@@ -4969,7 +5246,45 @@ function renderTurboPanel() {
   document.getElementById("tpClose").onclick = () => { turboPanel.hidden = true; focusGame(); };
 }
 turboBtn.onclick = () => {
-  if (turboPanel.hidden) { roomPanel.hidden = true; turboPanel.hidden = false; renderTurboPanel(); }
+  if (turboPanel.hidden || turboPanel.dataset.mode === "pad") { roomPanel.hidden = true; turboPanel.hidden = false; turboPanel.dataset.mode = "turbo"; renderTurboPanel(); }
+  else { turboPanel.hidden = true; focusGame(); }
+};
+
+// ---------------- 手柄大小（横屏时两边虚拟手柄底板的大小，按机种保存）----------------
+const padSizeBtn = document.getElementById("padSizeBtn");
+const padScaleKey = sys => "ejs-vpad-scale-" + sys;
+function padScale(sys) {
+  try { const v = parseFloat(localStorage.getItem(padScaleKey(sys))); return v >= 0.5 && v <= 1.6 ? v : 1; } catch (e) { return 1; }
+}
+let padSizeSys = null;
+function updatePadSizeBtn(sys) {
+  const k = sys === "famicom" ? "nes" : sys === "gbc" ? "gb" : sys === "arcade" || sys === "mame" ? "arc" : ["segaMD", "segaCD", "sega32x"].includes(sys) ? "md" : sys;
+  padSizeSys = sys;
+  padSizeBtn.hidden = !((IS_TOUCH || ANDROID_APP) && VPAD_BODY[k]);
+}
+function applyPadScale(sys, v) {
+  try { if (v === 1) localStorage.removeItem(padScaleKey(sys)); else localStorage.setItem(padScaleKey(sys), String(v)); } catch (e) {}
+  const f = stage.querySelector("iframe");
+  try { const gEl = f && f.contentDocument.getElementById("game"); if (gEl) gEl.style.setProperty("--vs", String(v)); } catch (e) {}
+}
+function renderPadPanel() {
+  const sys = padSizeSys;
+  if (!sys) return;
+  const v = padScale(sys), name = SYSTEMS[sys] ? L(SYSTEMS[sys].name) : sys;
+  turboPanel.innerHTML = `
+    <h3>手柄大小 <button class="linkbtn" id="tpClose">关闭</button></h3>
+    <div class="tp-game">${escapeHtml(L("只对这个机种生效：{0}", name))}</div>
+    <div style="font-size:13px;margin-bottom:6px">横屏时屏幕两边虚拟手柄的大小：<b id="psVal">${Math.round(v * 100)}%</b></div>
+    <input type="range" id="psRange" min="60" max="150" step="5" value="${Math.round(v * 100)}" style="width:100%;accent-color:var(--accent)">
+    <div class="tp-row"><button class="linkbtn" id="psReset">恢复默认</button></div>
+    <div class="tp-hint">调大以后可能会挡住一部分游戏画面。竖屏时手柄占满屏幕宽度，不受影响。</div>`;
+  const r = document.getElementById("psRange");
+  r.oninput = () => { const x = Number(r.value) / 100; document.getElementById("psVal").textContent = r.value + "%"; applyPadScale(sys, x); };
+  document.getElementById("psReset").onclick = () => { applyPadScale(sys, 1); renderPadPanel(); };
+  document.getElementById("tpClose").onclick = () => { turboPanel.hidden = true; focusGame(); };
+}
+padSizeBtn.onclick = () => {
+  if (turboPanel.hidden || turboPanel.dataset.mode !== "pad") { roomPanel.hidden = true; turboPanel.hidden = false; turboPanel.dataset.mode = "pad"; renderPadPanel(); }
   else { turboPanel.hidden = true; focusGame(); }
 };
 
@@ -4984,6 +5299,7 @@ async function play(g, opts = {}) {
   stop(!!opts.netGuest);
   currentId = g.id;
   playingGame = g;
+  updatePadSizeBtn(g.system);
   window.__turboCfg = loadTurboCfg(g);
   window.__onTurboChange(false);
   document.getElementById("empty").style.display = "none";
@@ -5008,6 +5324,7 @@ async function play(g, opts = {}) {
   frame.allow = "fullscreen; gamepad; autoplay";
   frame.srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8">
 <style>html,body{margin:0;height:100%;background:transparent;overflow:hidden}#game{width:100%;height:100%}#game.ejs_parent,#game .ejs_game{background:transparent!important}</style>
+<style>${vpadCss(dataPath)}${vpadRoomCss(g)}${vpadBodyCss(g, dataPath)}</style>
 </head><body><div id="game"></div>
 <script src="${dataPath}netplay.js"><\/script>
 <script>
@@ -5130,6 +5447,8 @@ async function play(g, opts = {}) {
   window.EJS_gameName = ${js(g.title)};
   window.EJS_defaultControls = ${js(controlsFor(g))};
   window.EJS_customButtons = ${js(buttonsFor(g))};
+  ${vpadSettings(g) ? "window.EJS_VirtualGamepadSettings = " + js(vpadSettings(g)) + ";" : ""}
+  ${ANDROID_APP && !LCD_SYSTEMS.has(g.system) ? 'window.EJS_defaultOptions = { shader: "crt-easymode.glslp" };' : ""}
   // 换一个设置编号，让新的默认设置对之前玩过的游戏也生效（旧的按游戏保存的设置不再读取）
   window.EJS_gameID = 4;
   // 右 Shift 暂停 / 继续
@@ -5170,6 +5489,67 @@ async function play(g, opts = {}) {
       if (combo && !padFired) resetGame();
       padFired = combo;
     }, 100);
+  })();
+  // 手柄一连上就自动当玩家 1（再连一个就是玩家 2…），不用每个游戏都去「控制设置」里选。
+  // 模拟器只在它的设置菜单建好以后才自动选手柄；手柄比菜单先连上（安卓 App、Quest 一打开就能看到手柄）时会漏掉
+  setInterval(() => {
+    const emu = window.EJS_emulator;
+    if (!emu || !emu.gamepad || !Array.isArray(emu.gamepadSelection) || !emu.gamepadSelection.length) return;
+    let changed = false;
+    for (const p of emu.gamepad.gamepads || []) {
+      if (!p) continue;
+      const key = p.id + "_" + p.index;
+      if (emu.gamepadSelection.includes(key)) continue;
+      const free = emu.gamepadSelection.indexOf("");
+      if (free < 0) break;
+      emu.gamepadSelection[free] = key; changed = true;
+    }
+    if (changed && emu.gamepadLabels && typeof emu.updateGamepadLabels === "function") try { emu.updateGamepadLabels(); } catch (e) {}
+  }, 1000);
+  // 横屏时手柄底板两半的宽度按游戏画面实际宽度来算（--gw），不同机种、不同画面比例都不会挡住画面
+  (() => {
+    const upd = () => { const c = document.querySelector("#game canvas"), g = document.getElementById("game"); if (!c || !g) return;
+      const w = c.getBoundingClientRect().width; if (w > 0) g.style.setProperty("--gw", Math.round(w) + "px"); };
+    setInterval(upd, 1000); addEventListener("resize", () => setTimeout(upd, 200));
+  })();
+  // 按虚拟手柄时轻轻震一下（手机支持才有）；十字键滑到新方向时也震一下
+  (() => {
+    if (!navigator.vibrate) return;
+    const buzz = () => { try { navigator.vibrate(12); } catch (e) {} };
+    document.addEventListener("touchstart", e => { const t = e.target; if (t && t.closest && t.closest(".ejs_virtualGamepad_button")) buzz(); }, { capture: true, passive: true });
+    const DIRS = ["ejs_dpad_up_pressed", "ejs_dpad_down_pressed", "ejs_dpad_left_pressed", "ejs_dpad_right_pressed"];
+    const seen = new WeakMap();
+    new MutationObserver(list => { for (const m of list) { const el = m.target; if (!el.classList || !el.classList.contains("ejs_dpad_main")) continue;
+      const now = DIRS.filter(c => el.classList.contains(c)).join(" "), was = seen.get(el) || "";
+      if (now && now !== was) buzz(); seen.set(el, now); } }).observe(document.documentElement, { subtree: true, attributes: true, attributeFilter: ["class"] });
+  })();
+  // 连上实体手柄时自动藏起屏幕上的虚拟手柄，拔掉手柄就显示回来。
+  // 手柄连着时点一下屏幕也能把虚拟手柄叫出来；之后再按手柄上的键，又会藏起来。
+  // 在模拟器设置里自己关掉了虚拟手柄的，就不去动它
+  (() => {
+    let hidByUs = false, touchWant = false;
+    const pads = () => navigator.getGamepads ? [...navigator.getGamepads()].filter(p => p && p.connected !== false) : [];
+    const setShown = (emu, show) => {
+      if (!emu.virtualGamepad) return;
+      try { if (emu.getSettingValue && emu.getSettingValue("virtual-gamepad") === "disabled") return; } catch (e) {}
+      if ((emu.virtualGamepad.style.display !== "none") !== show) emu.toggleVirtualGamepad(show);
+    };
+    setInterval(() => {
+      const emu = window.EJS_emulator;
+      if (!emu || !emu.started || typeof emu.toggleVirtualGamepad !== "function") return;
+      const list = pads();
+      if (!list.length) { if (hidByUs) setShown(emu, true); hidByUs = touchWant = false; return; }
+      if (touchWant && list.some(p => (p.buttons || []).some(b => b && b.pressed) || (p.axes || []).some(v => Math.abs(v) > 0.5))) touchWant = false;
+      if (!touchWant) { setShown(emu, false); hidByUs = true; }
+    }, 300);
+    document.addEventListener("touchstart", e => {
+      if (!hidByUs || touchWant) return;
+      const t = e.target;
+      if (t && t.closest && t.closest(".ejs_virtualGamepad_parent, .ejs_menu_bar, .ejs_popup_container")) return;
+      touchWant = true;
+      const emu = window.EJS_emulator;
+      if (emu) setShown(emu, true);
+    }, { capture: true, passive: true });
   })();
   // 左摇杆当十字键用：推过一半就算按下对应方向（十字键照常可用）
   (() => {
@@ -5926,7 +6306,7 @@ window.cheatLibOpen = cheatLibOpen;
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.0.12";
+const APP_VERSION = "1.1.0";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",

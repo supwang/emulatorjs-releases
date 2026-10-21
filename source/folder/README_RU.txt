@@ -73,6 +73,10 @@ Sega Mega Drive / Mega-CD / 32X / Saturn, PS1, PSP, PC Engine и аркадны�
   · Игра по сети, лобби и аккаунты работают так же, как на компьютере, можно играть вместе с компьютерами
     (в локальной сети — через один Wi-Fi). Голосовой чат в первый раз попросит микрофон: выберите «Разрешить».
   · Дешёвые ТВ-приставки медленные: NES, SNES, GBA и Mega Drive идут плавно; N64, PSP, NDS и Saturn могут тормозить.
+  · Геймпад (Xbox, PlayStation, 8BitDo…, по Bluetooth или проводу) сразу после подключения становится игроком 1;
+    выбирать его в «Настройках управления» не нужно.
+  · Для консольных и аркадных игр по умолчанию включён фильтр «CRT easymode» (как старый телевизор, со строками);
+    его можно сменить в «Настройки → Shaders» игры.
 
 [Mac]
   1. Дважды щёлкните по EmulatorJS.command.
@@ -714,6 +718,9 @@ EmulatorJS — программа с открытым исходным кодо�
   - Изображения приставок: тема «Systematic» для RetroArch (libretro/retroarch-assets, автор baxysquare и др.),
     лицензия CC BY 4.0; текст лицензии — data/consoles/LICENSE-CC-BY-4.0.txt.
     https://github.com/libretro/retroarch-assets
+  - Кнопки экранного геймпада на телефоне: libretro common-overlays (gamepads/nes, snes, genesis, psx, arcade, gba,
+    gameboy), лицензия CC BY 4.0; подробности и лицензия в data/vpad/README.txt.
+    https://github.com/libretro/common-overlays
   - Пиксельный шрифт заголовка: Press Start 2P (автор CodeMan38), SIL Open Font License 1.1;
     текст лицензии — data/fonts/LICENSE-OFL-1.1.txt.
   - Флаги: flag-icons (лицензия MIT); текст лицензии — data/flags/LICENSE-flag-icons-MIT.txt.

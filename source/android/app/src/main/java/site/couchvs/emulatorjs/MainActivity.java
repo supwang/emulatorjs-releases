@@ -116,16 +116,19 @@ public class MainActivity extends Activity {
                         }
                     });
                     Log.i(TAG, "game files ready in " + dir);
+                    // port.txt is written by the server once it listens. It stays on disk after the app is closed,
+                    // updated or crashes, so only trust it while Node.js runs in this process: otherwise remove it and
+                    // start Node.js again (an old port.txt made the page open before any server was running).
                     final File portFile = new File(getFilesDir(), "port.txt");
-                    String port = readPort(portFile);
-                    if (port == null) {
+                    if (!NodeRunner.isStarted()) {
                         //noinspection ResultOfMethodCallIgnored
                         portFile.delete();
                         NodeRunner.start(new String[]{"node", new File(dir, "node/main.js").getAbsolutePath(),
                                 getFilesDir().getAbsolutePath(), dir.getAbsolutePath(), storageRootsJson()});
                         Log.i(TAG, "Node.js started");
-                        for (int i = 0; i < 600 && (port = readPort(portFile)) == null; i++) Thread.sleep(100);
                     }
+                    String port = null;
+                    for (int i = 0; i < 600 && (port = readPort(portFile)) == null; i++) Thread.sleep(100);
                     if (port == null || port.startsWith("error")) throw new Exception(port == null ? "server did not start" : port);
                     final String url = "http://127.0.0.1:" + port + "/index.html";
                     Log.i(TAG, "server ready: " + url);

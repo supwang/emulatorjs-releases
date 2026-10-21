@@ -71,4 +71,26 @@ js "JSON.stringify(window.__dbg)" | tee -a "$OUT"/menu.txt
 js "JSON.stringify(EJSAndroid.pads())" | tee -a "$OUT"/menu.txt
 grep -q '"menu":true' "$OUT"/menu.txt || fail "Back did not open the game menu"
 adb logcat -d -s EJS EJS-node EJS-page AndroidRuntime > "$OUT"/logcat.txt
+# Closed (or updated, or crashed) and opened again: the server has to start again. An old port.txt left on disk
+# used to make the app open the page with no server behind it ("net::ERR_CONNECTION_REFUSED").
+for how in force-stop update; do
+  if [ "$how" = update ]; then adb install -r -g "$APK" || fail "install over the old version"; else adb shell am force-stop site.couchvs.emulatorjs; fi
+  sleep 2
+  adb shell am start -n site.couchvs.emulatorjs/.MainActivity
+  ok=""
+  for i in $(seq 1 60); do
+    sleep 2
+    adb forward tcp:8765 tcp:8765 >/dev/null 2>&1
+    if curl -s -m 3 http://127.0.0.1:8765/api/lan | grep -q enabled; then ok=1; break; fi
+  done
+  [ -n "$ok" ] || fail "server did not start again after $how"
+  sleep 8
+  PID=$(adb shell pidof site.couchvs.emulatorjs | tr -d '\r')
+  SOCK=$(adb shell cat /proc/net/unix | grep -o "webview_devtools_remote_$PID" | head -1)
+  [ -n "$SOCK" ] || fail "no WebView debugging socket after $how"
+  adb forward --remove tcp:19222 >/dev/null 2>&1; adb forward tcp:19222 localabstract:$SOCK
+  echo "== page after $how"; js "JSON.stringify({ page: typeof games !== 'undefined', n: typeof games !== 'undefined' ? games.length : -1 })" | tee "$OUT"/restart-$how.txt
+  adb exec-out screencap -p > "$OUT"/5-$how.png
+  grep -q '"page":true' "$OUT"/restart-$how.txt || fail "the game page did not open after $how"
+done
 echo "ALL ANDROID TESTS PASSED"

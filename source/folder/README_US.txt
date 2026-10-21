@@ -75,6 +75,10 @@ Sega Mega Drive / Mega-CD / 32X / Saturn, PS1, PSP, PC Engine and arcade (FBNeo 
   · Online play, the lobby and accounts work the same as on a computer, and you can play together with computers
     (for LAN play, use the same Wi-Fi). Voice chat asks for the microphone the first time: choose "Allow".
   · Cheap TV boxes are slow: NES, SNES, GBA and Mega Drive run smoothly; N64, PSP, NDS and Saturn may stutter.
+  · A controller (Xbox, PlayStation, 8BitDo…, Bluetooth or cable) becomes player 1 as soon as it's connected; no need
+    to pick it in "Control Settings".
+  · Console and arcade games use the "CRT easymode" filter by default (like an old TV, with scanlines); change it in the
+    game's "Settings → Shaders" if you don't like it.
 
 [Mac]
   1. Double-click EmulatorJS.command.
@@ -725,6 +729,9 @@ Other material used by this tool:
   - Console pictures: RetroArch "Systematic" theme (libretro/retroarch-assets, by baxysquare and others),
     licensed CC BY 4.0; license in data/consoles/LICENSE-CC-BY-4.0.txt.
     https://github.com/libretro/retroarch-assets
+  - On-screen controller buttons on phones: libretro common-overlays (gamepads/nes, snes, genesis, psx, arcade, gba,
+    gameboy), licensed CC BY 4.0; details and licence in data/vpad/README.txt.
+    https://github.com/libretro/common-overlays
   - Pixel title font: Press Start 2P (by CodeMan38), SIL Open Font License 1.1;
     license in data/fonts/LICENSE-OFL-1.1.txt.
   - Flags: flag-icons (MIT license); license in data/flags/LICENSE-flag-icons-MIT.txt.

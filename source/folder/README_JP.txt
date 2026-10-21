@@ -71,6 +71,8 @@ PS1、PSP、PC エンジン、アーケード（FBNeo / MAME 2003）など 20 �
   · 通信プレイ、ロビー、アカウントはパソコン版と同じで、パソコンとも一緒に遊べます（LAN では同じ Wi-Fi につなぐ）。
     ボイスチャットを初めて使うときはマイクの使用を聞かれるので「許可」を選んでください。
   · 安い TV ボックスは性能が低めです：ファミコン、スーファミ、GBA、メガドライブは快適、N64、PSP、NDS、セガサターンは重いことがあります。
+  · コントローラー（Xbox、PS、8BitDo など。Bluetooth でもケーブルでも可）はつなぐと自動でプレイヤー 1 になります。「操作設定」で選ぶ必要はありません。
+  · 据え置き機とアーケードのゲームは「CRT easymode」フィルター（昔のテレビ風、走査線あり）が標準です。ゲームの「設定 → Shaders」で変えられます。
 
 【Mac】
   1. EmulatorJS.command をダブルクリックします。
@@ -680,6 +682,9 @@ EmulatorJS はオープンソースソフトウェアです（GPL-3.0、LICENSE 
   - 本体の画像：RetroArch「Systematic」テーマ（libretro/retroarch-assets、作者 baxysquare ほか）、
     CC BY 4.0 ライセンス。ライセンスは data/consoles/LICENSE-CC-BY-4.0.txt。
     https://github.com/libretro/retroarch-assets
+  - スマホの画面コントローラーのボタン画像：libretro common-overlays（gamepads の nes、snes、genesis、psx、arcade、gba、gameboy）、
+    CC BY 4.0 ライセンス。説明とライセンスは data/vpad/README.txt。
+    https://github.com/libretro/common-overlays
   - タイトルのドットフォント：Press Start 2P（作者 CodeMan38）、SIL Open Font License 1.1。
     ライセンスは data/fonts/LICENSE-OFL-1.1.txt。
   - 国旗アイコン：flag-icons（MIT ライセンス）。ライセンスは data/flags/LICENSE-flag-icons-MIT.txt。

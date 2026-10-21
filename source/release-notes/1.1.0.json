@@ -1,0 +1,62 @@
+{
+ "zh-CN": [
+  "手机和平板上的虚拟手柄换成各机种自己的手柄：FC、SFC、MD、PS1、N64、GBA、GB、街机都有手柄底板和同款颜色的按键；竖屏时画面在上、手柄在下，横屏时手柄分在画面两边，不挡画面",
+  "横屏手柄大小可以调（游戏上方「🎮 手柄大小」，按机种保存）；按键按下有动画，安卓上还会轻轻震一下",
+  "接上实体手柄（Xbox 等）后自动当玩家 1，屏幕上的虚拟手柄自动隐藏；拔掉手柄或点一下屏幕就回来",
+  "安卓：默认使用 CRT 显示器滤镜（掌机除外）；修复更新后打开出现「连接被拒绝」的问题"
+ ],
+ "zh-TW": [
+  "手機和平板上的虛擬手把換成各機種自己的手把：FC、SFC、MD、PS1、N64、GBA、GB、街機都有手把底板和同款顏色的按鍵；直向時畫面在上、手把在下，橫向時手把分在畫面兩邊，不擋畫面",
+  "橫向手把大小可以調（遊戲上方「🎮 手把大小」，按機種儲存）；按鍵按下有動畫，安卓上還會輕輕震一下",
+  "接上實體手把（Xbox 等）後自動當玩家 1，螢幕上的虛擬手把自動隱藏；拔掉手把或點一下螢幕就回來",
+  "安卓：預設使用 CRT 顯示器濾鏡（掌機除外）；修正更新後開啟出現「連線被拒」的問題"
+ ],
+ "en": [
+  "The on-screen pad on phones and tablets now looks like each system's own controller: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy and arcade each get a controller body and matching buttons; in portrait the game sits on top with the pad below, in landscape the pad is split to both sides so it doesn't cover the game",
+  "Landscape pad size can be adjusted (\"🎮 Pad size\" above the game, saved per system); buttons animate when pressed and give a short vibration on Android",
+  "A real controller (Xbox etc.) becomes player 1 automatically and the on-screen pad hides itself; unplug the controller or tap the screen to bring it back",
+  "Android: CRT screen filter by default (except handhelds); fixed the \"connection refused\" error after updating"
+ ],
+ "ja": [
+  "スマホとタブレットの画面パッドが機種ごとのコントローラーの見た目に：FC、SFC、メガドライブ、PS1、N64、GBA、ゲームボーイ、アーケードにそれぞれ本体と同じ色のボタン。縦画面ではゲームが上・パッドが下、横画面ではパッドが左右に分かれてゲームを隠しません",
+  "横画面のパッドの大きさを調整できます（ゲーム上部の「🎮 パッドの大きさ」、機種ごとに保存）。ボタンを押すとアニメーションし、Android では軽く振動します",
+  "本物のコントローラー（Xbox など）をつなぐと自動でプレイヤー 1 になり、画面パッドは自動で隠れます。外すか画面をタップすると戻ります",
+  "Android：CRT モニターのフィルターを初期設定に（携帯機を除く）。更新後に「接続が拒否されました」と出る問題を修正"
+ ],
+ "ko": [
+  "휴대폰·태블릿의 화면 패드가 기종별 컨트롤러 모양으로 바뀌었습니다: FC, SFC, 메가드라이브, PS1, N64, GBA, 게임보이, 아케이드마다 본체와 같은 색의 버튼. 세로 화면에서는 게임이 위·패드가 아래, 가로 화면에서는 패드가 양쪽으로 나뉘어 게임을 가리지 않습니다",
+  "가로 화면 패드 크기를 조절할 수 있습니다(게임 위의 ‘🎮 패드 크기’, 기종별 저장). 버튼을 누르면 애니메이션이 나오고 안드로이드에서는 살짝 진동합니다",
+  "실제 컨트롤러(Xbox 등)를 연결하면 자동으로 플레이어 1이 되고 화면 패드는 자동으로 숨겨집니다. 빼거나 화면을 누르면 다시 나옵니다",
+  "안드로이드: CRT 모니터 필터를 기본으로(휴대용 기종 제외). 업데이트 후 ‘연결이 거부됨’ 오류가 나던 문제 수정"
+ ],
+ "es": [
+  "El mando en pantalla de móviles y tabletas ahora imita el mando de cada sistema: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy y arcade tienen su carcasa y botones con sus colores; en vertical el juego va arriba y el mando abajo, en horizontal el mando se reparte a los lados sin tapar el juego",
+  "Se puede ajustar el tamaño del mando en horizontal («🎮 Tamaño del mando» encima del juego, se guarda por sistema); los botones se animan al pulsarlos y vibran un poco en Android",
+  "Un mando real (Xbox, etc.) pasa a ser el jugador 1 automáticamente y el mando en pantalla se oculta; al desconectarlo o tocar la pantalla vuelve a aparecer",
+  "Android: filtro de pantalla CRT por defecto (salvo portátiles); corregido el error «conexión rechazada» tras actualizar"
+ ],
+ "fr": [
+  "La manette à l'écran des téléphones et tablettes reprend la manette de chaque système : NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy et arcade ont leur coque et des boutons aux bonnes couleurs ; en portrait le jeu est en haut et la manette en bas, en paysage la manette est répartie des deux côtés sans cacher le jeu",
+  "La taille de la manette en paysage se règle (« 🎮 Taille de la manette » au-dessus du jeu, enregistrée par système) ; les boutons s'animent quand on appuie et vibrent légèrement sur Android",
+  "Une vraie manette (Xbox, etc.) devient automatiquement le joueur 1 et la manette à l'écran se cache ; débranchez-la ou touchez l'écran pour la faire revenir",
+  "Android : filtre écran CRT par défaut (sauf consoles portables) ; correction de l'erreur « connexion refusée » après une mise à jour"
+ ],
+ "de": [
+  "Das Bildschirm-Pad auf Handys und Tablets sieht jetzt wie der Controller des jeweiligen Systems aus: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy und Arcade haben ihr eigenes Gehäuse und passende Tasten; im Hochformat ist das Spiel oben und das Pad unten, im Querformat ist das Pad auf beide Seiten verteilt und verdeckt nichts",
+  "Die Pad-Größe im Querformat ist einstellbar („🎮 Pad-Größe“ über dem Spiel, pro System gespeichert); Tasten bewegen sich beim Drücken und vibrieren unter Android kurz",
+  "Ein echter Controller (Xbox usw.) wird automatisch Spieler 1 und das Bildschirm-Pad blendet sich aus; Controller trennen oder auf den Bildschirm tippen holt es zurück",
+  "Android: CRT-Bildschirmfilter als Standard (außer Handhelds); Fehler „Verbindung abgelehnt“ nach einem Update behoben"
+ ],
+ "pt": [
+  "O controle na tela de celulares e tablets agora imita o controle de cada sistema: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy e arcade têm sua carcaça e botões nas cores certas; na vertical o jogo fica em cima e o controle embaixo, na horizontal o controle fica dividido dos dois lados sem cobrir o jogo",
+  "Dá para ajustar o tamanho do controle na horizontal (“🎮 Tamanho do controle” acima do jogo, salvo por sistema); os botões se movem ao apertar e vibram de leve no Android",
+  "Um controle de verdade (Xbox etc.) vira o jogador 1 automaticamente e o controle na tela se esconde; desconecte o controle ou toque na tela para ele voltar",
+  "Android: filtro de tela CRT por padrão (exceto portáteis); corrigido o erro “conexão recusada” depois de atualizar"
+ ],
+ "ru": [
+  "Экранный геймпад на телефонах и планшетах теперь выглядит как контроллер каждой системы: у NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy и аркад свой корпус и кнопки нужных цветов; в вертикальном режиме игра сверху, геймпад снизу, в горизонтальном геймпад разделён по бокам и не закрывает игру",
+  "Размер геймпада в горизонтальном режиме можно менять («🎮 Размер геймпада» над игрой, сохраняется для каждой системы); кнопки анимируются при нажатии и слегка вибрируют на Android",
+  "Настоящий контроллер (Xbox и др.) автоматически становится игроком 1, а экранный геймпад прячется; отключите контроллер или коснитесь экрана, чтобы вернуть его",
+  "Android: по умолчанию фильтр CRT-экрана (кроме портативных); исправлена ошибка «подключение отклонено» после обновления"
+ ]
+}

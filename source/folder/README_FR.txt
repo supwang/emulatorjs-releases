@@ -77,6 +77,10 @@ Sega Mega Drive / Mega-CD / 32X / Saturn, PS1, PSP, PC Engine et l’arcade (FBN
   · Le jeu en ligne, le salon et les comptes fonctionnent comme sur ordinateur, et vous pouvez jouer avec des ordinateurs
     (en réseau local, même Wi-Fi). Le chat vocal demande le micro la première fois : choisissez « Autoriser ».
   · Les box TV bon marché sont lentes : NES, SNES, GBA et Mega Drive tournent bien ; N64, PSP, NDS et Saturn peuvent saccader.
+  · Une manette (Xbox, PlayStation, 8BitDo…, en Bluetooth ou par câble) devient le joueur 1 dès qu'elle est connectée ;
+    inutile de la choisir dans « Réglages des commandes ».
+  · Les jeux de console et d'arcade utilisent par défaut le filtre « CRT easymode » (comme une vieille télé, avec des
+    lignes) ; changez-le dans « Réglages → Shaders » du jeu.
 
 [Mac]
   1. Double-cliquez sur EmulatorJS.command.
@@ -732,6 +736,9 @@ Autres éléments utilisés par cet outil :
   - Images des consoles : thème « Systematic » de RetroArch (libretro/retroarch-assets, par baxysquare et d’autres),
     licence CC BY 4.0 ; licence dans data/consoles/LICENSE-CC-BY-4.0.txt.
     https://github.com/libretro/retroarch-assets
+  - Boutons de la manette à l'écran sur téléphone : libretro common-overlays (gamepads/nes, snes, genesis, psx, arcade,
+    gba, gameboy), sous licence CC BY 4.0 ; détails et licence dans data/vpad/README.txt.
+    https://github.com/libretro/common-overlays
   - Police pixel du titre : Press Start 2P (par CodeMan38), SIL Open Font License 1.1 ;
     licence dans data/fonts/LICENSE-OFL-1.1.txt.
   - Drapeaux : flag-icons (licence MIT) ; licence dans data/flags/LICENSE-flag-icons-MIT.txt.

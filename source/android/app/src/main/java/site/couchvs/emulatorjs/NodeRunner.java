@@ -10,6 +10,9 @@ final class NodeRunner {
 
     private static native int startNode(String[] args);
 
+    /** Whether Node.js is already running in this app process (the activity can be created again while it runs). */
+    static synchronized boolean isStarted() { return started; }
+
     static synchronized void start(final String[] args) {
         if (started) return;   // Node can only be started once in a process
         started = true;

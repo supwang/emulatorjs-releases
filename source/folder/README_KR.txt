@@ -70,6 +70,8 @@ PS1, PSP, PC 엔진, 아케이드(FBNeo / MAME 2003) 등 20개가 넘는 플랫�
   · 온라인 플레이, 로비, 계정은 컴퓨터판과 같고 컴퓨터와 함께 플레이할 수 있습니다(LAN은 같은 Wi-Fi에 연결).
     음성 채팅을 처음 쓸 때 마이크 사용을 물으면 ‘허용’을 고르세요.
   · 저렴한 TV 박스는 성능이 낮습니다: 패미컴, 슈퍼 패미컴, GBA, 메가 드라이브는 매끄럽고 N64, PSP, NDS, 새턴은 끊길 수 있습니다.
+  · 컨트롤러(Xbox, PS, 8BitDo 등, 블루투스나 케이블)를 연결하면 자동으로 플레이어 1이 됩니다. ‘조작 설정’에서 고를 필요가 없습니다.
+  · 콘솔과 아케이드 게임은 기본으로 ‘CRT easymode’ 필터(옛날 TV 느낌, 주사선)를 씁니다. 게임의 ‘설정 → Shaders’에서 바꿀 수 있습니다.
 
 [Mac]
   1. EmulatorJS.command를 더블클릭합니다.
@@ -665,6 +667,9 @@ EmulatorJS는 오픈 소스 소프트웨어입니다(GPL-3.0, LICENSE 파일 참
   - 본체 그림: RetroArch ‘Systematic’ 테마(libretro/retroarch-assets, 제작 baxysquare 외), CC BY 4.0 라이선스.
     라이선스는 data/consoles/LICENSE-CC-BY-4.0.txt.
     https://github.com/libretro/retroarch-assets
+  - 휴대폰 화면 컨트롤러 버튼 그림: libretro common-overlays(gamepads의 nes, snes, genesis, psx, arcade, gba, gameboy),
+    CC BY 4.0 라이선스. 설명과 라이선스는 data/vpad/README.txt.
+    https://github.com/libretro/common-overlays
   - 제목 픽셀 글꼴: Press Start 2P(제작 CodeMan38), SIL Open Font License 1.1.
     라이선스는 data/fonts/LICENSE-OFL-1.1.txt.
   - 국기 아이콘: flag-icons(MIT 라이선스). 라이선스는 data/flags/LICENSE-flag-icons-MIT.txt.

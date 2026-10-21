@@ -708,5 +708,12 @@
 "连不上这个服务器，没有添加。请检查地址、服务器是否开着、防火墙端口 8765 是否放行": "Não foi possível conectar a este servidor, então ele não foi adicionado. Confira o endereço, se o servidor está ligado e se a porta 8765 está liberada no firewall",
 "改房间密码": "Mudar a senha da sala",
 "填好新的房间密码，再点「保存密码并切换到这里」": "Digite a nova senha da sala e clique em “Salvar senha e mudar para cá”",
-"房间密码不对，没有保存。请检查后再试（注意大小写）": "Senha da sala errada, nada foi salvo. Confira e tente de novo (maiúsculas contam)"
+"房间密码不对，没有保存。请检查后再试（注意大小写）": "Senha da sala errada, nada foi salvo. Confira e tente de novo (maiúsculas contam)",
+"🎮 手柄大小": "🎮 Tamanho do controle",
+"手柄大小": "Tamanho do controle",
+"横屏时屏幕两边虚拟手柄的大小": "Tamanho do controle na tela dos dois lados na horizontal",
+"横屏时屏幕两边虚拟手柄的大小：": "Tamanho do controle na tela dos dois lados na horizontal:",
+"只对这个机种生效：{0}": "Só para este sistema: {0}",
+"恢复默认": "Restaurar padrão",
+"调大以后可能会挡住一部分游戏画面。竖屏时手柄占满屏幕宽度，不受影响。": "Um controle maior pode cobrir parte da imagem do jogo. Na vertical o controle ocupa toda a largura e não muda."
 }
