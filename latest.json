@@ -1,119 +1,119 @@
 {
- "version": "1.0.12",
- "date": "2026-10-20",
- "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.0.12",
+ "version": "1.1.0",
+ "date": "2026-10-21",
+ "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.1.0",
  "baidu": "https://pan.baidu.com/s/13atBCqmTib1rGp_30279mQ?pwd=6akk",
  "baiduCode": "6akk",
  "notes": {
   "zh-CN": [
-   "加外网联机服务器时先检查：地址连不上或房间密码不对，只提示、不加进列表；服务器旁边新增 🔑，可以改房间密码",
-   "每一局都标出是「局域网」还是「🌐 外网」；在局域网里从别的电脑下载游戏，一次就能下好",
-   "手机上的大厅标签排成一行，不用左右滑；快速连点两下「乱入」不会再卡住",
-   "「要自动下载封面吗」的提示不会挡住正在玩的游戏；英文界面里游戏标题不再显示中文"
+   "手机和平板上的虚拟手柄换成各机种自己的手柄：FC、SFC、MD、PS1、N64、GBA、GB、街机都有手柄底板和同款颜色的按键；竖屏时画面在上、手柄在下，横屏时手柄分在画面两边，不挡画面",
+   "横屏手柄大小可以调（游戏上方「🎮 手柄大小」，按机种保存）；按键按下有动画，安卓上还会轻轻震一下",
+   "接上实体手柄（Xbox 等）后自动当玩家 1，屏幕上的虚拟手柄自动隐藏；拔掉手柄或点一下屏幕就回来",
+   "安卓：默认使用 CRT 显示器滤镜（掌机除外）；修复更新后打开出现「连接被拒绝」的问题"
   ],
   "zh-TW": [
-   "加外網聯機伺服器時先檢查：地址連不上或房間密碼不對，只提示、不加進列表；伺服器旁邊新增 🔑，可以改房間密碼",
-   "每一局都標出是「區域網」還是「🌐 外網」；在區域網裡從別的電腦下載遊戲，一次就能下好",
-   "手機上的大廳標籤排成一行，不用左右滑；快速連點兩下「亂入」不會再卡住",
-   "「要自動下載封面嗎」的提示不會擋住正在玩的遊戲；英文介面裡遊戲標題不再顯示中文"
+   "手機和平板上的虛擬手把換成各機種自己的手把：FC、SFC、MD、PS1、N64、GBA、GB、街機都有手把底板和同款顏色的按鍵；直向時畫面在上、手把在下，橫向時手把分在畫面兩邊，不擋畫面",
+   "橫向手把大小可以調（遊戲上方「🎮 手把大小」，按機種儲存）；按鍵按下有動畫，安卓上還會輕輕震一下",
+   "接上實體手把（Xbox 等）後自動當玩家 1，螢幕上的虛擬手把自動隱藏；拔掉手把或點一下螢幕就回來",
+   "安卓：預設使用 CRT 顯示器濾鏡（掌機除外）；修正更新後開啟出現「連線被拒」的問題"
   ],
   "en": [
-   "Adding an internet play server checks it first: a wrong address or room password is reported and nothing is added; new 🔑 button to change a server's room password",
-   "Every game is labelled \"LAN\" or \"🌐 Internet\"; downloading a game from another computer on your network works the first time",
-   "Lobby tabs fit on one row on phones; clicking Join twice quickly no longer gets stuck",
-   "The \"download covers?\" question no longer covers a game you're playing; the in-game title is fully in English"
+   "The on-screen pad on phones and tablets now looks like each system's own controller: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy and arcade each get a controller body and matching buttons; in portrait the game sits on top with the pad below, in landscape the pad is split to both sides so it doesn't cover the game",
+   "Landscape pad size can be adjusted (\"🎮 Pad size\" above the game, saved per system); buttons animate when pressed and give a short vibration on Android",
+   "A real controller (Xbox etc.) becomes player 1 automatically and the on-screen pad hides itself; unplug the controller or tap the screen to bring it back",
+   "Android: CRT screen filter by default (except handhelds); fixed the \"connection refused\" error after updating"
   ],
   "ja": [
-   "インターネット対戦サーバーを追加する前に接続を確認：アドレスやルームのパスワードが違うときは表示だけして追加しません。サーバー横の 🔑 でパスワードを変更できます",
-   "各ゲームに「LAN」か「🌐 インターネット」かを表示。同じネットワークの別の PC からのゲームのダウンロードが一度で成功します",
-   "スマホのロビーのタブが 1 行に収まり、横スクロール不要に。「乱入」を素早く 2 回押しても止まらなくなりました",
-   "「カバーを自動ダウンロードしますか」の確認がプレイ中のゲームを隠さなくなりました。英語表示でゲームのタイトルに中国語が出なくなりました"
+   "スマホとタブレットの画面パッドが機種ごとのコントローラーの見た目に：FC、SFC、メガドライブ、PS1、N64、GBA、ゲームボーイ、アーケードにそれぞれ本体と同じ色のボタン。縦画面ではゲームが上・パッドが下、横画面ではパッドが左右に分かれてゲームを隠しません",
+   "横画面のパッドの大きさを調整できます（ゲーム上部の「🎮 パッドの大きさ」、機種ごとに保存）。ボタンを押すとアニメーションし、Android では軽く振動します",
+   "本物のコントローラー（Xbox など）をつなぐと自動でプレイヤー 1 になり、画面パッドは自動で隠れます。外すか画面をタップすると戻ります",
+   "Android：CRT モニターのフィルターを初期設定に（携帯機を除く）。更新後に「接続が拒否されました」と出る問題を修正"
   ],
   "ko": [
-   "인터넷 플레이 서버를 추가하기 전에 먼저 확인합니다: 주소나 방 비밀번호가 틀리면 알려만 주고 추가하지 않습니다. 서버 옆 🔑로 방 비밀번호를 바꿀 수 있습니다",
-   "게임마다 ‘LAN’인지 ‘🌐 인터넷’인지 표시합니다. 같은 네트워크의 다른 컴퓨터에서 게임을 한 번에 내려받습니다",
-   "휴대폰 로비 탭이 한 줄에 들어가 옆으로 밀 필요가 없습니다. ‘참가’를 빠르게 두 번 눌러도 멈추지 않습니다",
-   "‘표지를 자동으로 내려받을까요?’ 안내가 플레이 중인 게임을 가리지 않습니다. 영어 화면의 게임 제목에 중국어가 나오지 않습니다"
+   "휴대폰·태블릿의 화면 패드가 기종별 컨트롤러 모양으로 바뀌었습니다: FC, SFC, 메가드라이브, PS1, N64, GBA, 게임보이, 아케이드마다 본체와 같은 색의 버튼. 세로 화면에서는 게임이 위·패드가 아래, 가로 화면에서는 패드가 양쪽으로 나뉘어 게임을 가리지 않습니다",
+   "가로 화면 패드 크기를 조절할 수 있습니다(게임 위의 ‘🎮 패드 크기’, 기종별 저장). 버튼을 누르면 애니메이션이 나오고 안드로이드에서는 살짝 진동합니다",
+   "실제 컨트롤러(Xbox 등)를 연결하면 자동으로 플레이어 1이 되고 화면 패드는 자동으로 숨겨집니다. 빼거나 화면을 누르면 다시 나옵니다",
+   "안드로이드: CRT 모니터 필터를 기본으로(휴대용 기종 제외). 업데이트 후 ‘연결이 거부됨’ 오류가 나던 문제 수정"
   ],
   "es": [
-   "Al añadir un servidor de juego por internet se comprueba antes: si la dirección o la contraseña de la sala no es correcta, se avisa y no se añade; nuevo botón 🔑 para cambiar la contraseña",
-   "Cada partida indica «Red local» o «🌐 Internet»; descargar un juego de otro ordenador de tu red funciona a la primera",
-   "En el móvil las pestañas de la sala caben en una fila; pulsar «Unirse» dos veces rápido ya no se queda colgado",
-   "La pregunta «¿descargar portadas?» ya no tapa la partida; el título del juego sale entero en el idioma elegido"
+   "El mando en pantalla de móviles y tabletas ahora imita el mando de cada sistema: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy y arcade tienen su carcasa y botones con sus colores; en vertical el juego va arriba y el mando abajo, en horizontal el mando se reparte a los lados sin tapar el juego",
+   "Se puede ajustar el tamaño del mando en horizontal («🎮 Tamaño del mando» encima del juego, se guarda por sistema); los botones se animan al pulsarlos y vibran un poco en Android",
+   "Un mando real (Xbox, etc.) pasa a ser el jugador 1 automáticamente y el mando en pantalla se oculta; al desconectarlo o tocar la pantalla vuelve a aparecer",
+   "Android: filtro de pantalla CRT por defecto (salvo portátiles); corregido el error «conexión rechazada» tras actualizar"
   ],
   "fr": [
-   "Avant d'ajouter un serveur de jeu en ligne, il est d'abord testé : adresse ou mot de passe de salle faux = message, rien n'est ajouté ; nouveau bouton 🔑 pour changer le mot de passe",
-   "Chaque partie indique « Réseau local » ou « 🌐 Internet » ; télécharger un jeu depuis un autre ordinateur du réseau marche du premier coup",
-   "Sur téléphone, les onglets du salon tiennent sur une ligne ; cliquer deux fois vite sur « Rejoindre » ne bloque plus",
-   "La question « télécharger les jaquettes ? » ne cache plus la partie en cours ; le titre du jeu s'affiche entièrement dans la langue choisie"
+   "La manette à l'écran des téléphones et tablettes reprend la manette de chaque système : NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy et arcade ont leur coque et des boutons aux bonnes couleurs ; en portrait le jeu est en haut et la manette en bas, en paysage la manette est répartie des deux côtés sans cacher le jeu",
+   "La taille de la manette en paysage se règle (« 🎮 Taille de la manette » au-dessus du jeu, enregistrée par système) ; les boutons s'animent quand on appuie et vibrent légèrement sur Android",
+   "Une vraie manette (Xbox, etc.) devient automatiquement le joueur 1 et la manette à l'écran se cache ; débranchez-la ou touchez l'écran pour la faire revenir",
+   "Android : filtre écran CRT par défaut (sauf consoles portables) ; correction de l'erreur « connexion refusée » après une mise à jour"
   ],
   "de": [
-   "Ein Internet-Spielserver wird vor dem Hinzufügen geprüft: falsche Adresse oder falsches Raum-Passwort wird gemeldet, nichts wird hinzugefügt; neuer 🔑-Knopf zum Ändern des Passworts",
-   "Jedes Spiel zeigt „LAN“ oder „🌐 Internet“; ein Spiel von einem anderen Computer im Netz herunterladen klappt beim ersten Mal",
-   "Auf dem Handy passen die Lobby-Reiter in eine Zeile; zweimal schnell auf „Mitspielen“ klicken hängt nicht mehr",
-   "Die Frage „Cover herunterladen?“ verdeckt kein laufendes Spiel mehr; der Spieltitel erscheint ganz in der gewählten Sprache"
+   "Das Bildschirm-Pad auf Handys und Tablets sieht jetzt wie der Controller des jeweiligen Systems aus: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy und Arcade haben ihr eigenes Gehäuse und passende Tasten; im Hochformat ist das Spiel oben und das Pad unten, im Querformat ist das Pad auf beide Seiten verteilt und verdeckt nichts",
+   "Die Pad-Größe im Querformat ist einstellbar („🎮 Pad-Größe“ über dem Spiel, pro System gespeichert); Tasten bewegen sich beim Drücken und vibrieren unter Android kurz",
+   "Ein echter Controller (Xbox usw.) wird automatisch Spieler 1 und das Bildschirm-Pad blendet sich aus; Controller trennen oder auf den Bildschirm tippen holt es zurück",
+   "Android: CRT-Bildschirmfilter als Standard (außer Handhelds); Fehler „Verbindung abgelehnt“ nach einem Update behoben"
   ],
   "pt": [
-   "Ao adicionar um servidor de jogo pela internet, ele é testado antes: endereço ou senha da sala errados são avisados e nada é adicionado; novo botão 🔑 para mudar a senha",
-   "Cada partida mostra “Rede local” ou “🌐 Internet”; baixar um jogo de outro computador da sua rede funciona de primeira",
-   "No celular as abas do saguão cabem numa linha; clicar duas vezes rápido em “Entrar” não trava mais",
-   "A pergunta “baixar capas?” não cobre mais o jogo em andamento; o título do jogo aparece todo no idioma escolhido"
+   "O controle na tela de celulares e tablets agora imita o controle de cada sistema: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy e arcade têm sua carcaça e botões nas cores certas; na vertical o jogo fica em cima e o controle embaixo, na horizontal o controle fica dividido dos dois lados sem cobrir o jogo",
+   "Dá para ajustar o tamanho do controle na horizontal (“🎮 Tamanho do controle” acima do jogo, salvo por sistema); os botões se movem ao apertar e vibram de leve no Android",
+   "Um controle de verdade (Xbox etc.) vira o jogador 1 automaticamente e o controle na tela se esconde; desconecte o controle ou toque na tela para ele voltar",
+   "Android: filtro de tela CRT por padrão (exceto portáteis); corrigido o erro “conexão recusada” depois de atualizar"
   ],
   "ru": [
-   "Интернет-сервер для игры теперь сначала проверяется: при неверном адресе или пароле комнаты выводится сообщение и ничего не добавляется; новая кнопка 🔑 для смены пароля",
-   "У каждой игры метка «Локальная сеть» или «🌐 Интернет»; скачивание игры с другого компьютера в сети получается с первого раза",
-   "На телефоне вкладки лобби помещаются в одну строку; быстрое двойное нажатие «Присоединиться» больше не зависает",
-   "Вопрос «скачать обложки?» больше не закрывает идущую игру; название игры полностью на выбранном языке"
+   "Экранный геймпад на телефонах и планшетах теперь выглядит как контроллер каждой системы: у NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy и аркад свой корпус и кнопки нужных цветов; в вертикальном режиме игра сверху, геймпад снизу, в горизонтальном геймпад разделён по бокам и не закрывает игру",
+   "Размер геймпада в горизонтальном режиме можно менять («🎮 Размер геймпада» над игрой, сохраняется для каждой системы); кнопки анимируются при нажатии и слегка вибрируют на Android",
+   "Настоящий контроллер (Xbox и др.) автоматически становится игроком 1, а экранный геймпад прячется; отключите контроллер или коснитесь экрана, чтобы вернуть его",
+   "Android: по умолчанию фильтр CRT-экрана (кроме портативных); исправлена ошибка «подключение отклонено» после обновления"
   ]
  },
  "files": {
   "android-x86_64": {
-   "name": "EmulatorJS-1.0.12-android-x86_64.apk",
-   "size": 70969505,
-   "sha256": "5435326b7416f80d20b7813dffcd890be906e633f0e12ffa8501b7f405afe3d3",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-android-x86_64.apk"
+   "name": "EmulatorJS-1.1.0-android-x86_64.apk",
+   "size": 72562928,
+   "sha256": "0456c0a809a54b77caadce374e9dd067676f3b00267de3bb547e9781eebda7e5",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-android-x86_64.apk"
   },
   "android": {
-   "name": "EmulatorJS-1.0.12-android.apk",
-   "size": 85003134,
-   "sha256": "f8f28d848d948bfd67ad12f4e49f07dd128a3248cdaa8c1bc590d1eac46b6322",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-android.apk"
+   "name": "EmulatorJS-1.1.0-android.apk",
+   "size": 86596553,
+   "sha256": "6364a9713c29d0b134cb88a47ebec93b784db42b22ffeb48d5d4272d097d0ff5",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-android.apk"
   },
   "folder": {
-   "name": "EmulatorJS-1.0.12-folder.zip",
-   "size": 55102440,
-   "sha256": "49031508881ab9275931e0d1804ee5a0537b7132cfd244f7cf13af8201cf6741",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-folder.zip"
+   "name": "EmulatorJS-1.1.0-folder.zip",
+   "size": 56696847,
+   "sha256": "36c120dd5cebfbe7f33c7d14cab5d4728355fceb1429238da6370792b1b260b3",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-folder.zip"
   },
   "mac-arm64": {
-   "name": "EmulatorJS-1.0.12-mac-apple-silicon.dmg",
-   "size": 197329039,
-   "sha256": "0f32c9f7154289f29997be887a7c32e9186df28ce58f14d426f5c6b9e985144c",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-mac-apple-silicon.dmg"
+   "name": "EmulatorJS-1.1.0-mac-apple-silicon.dmg",
+   "size": 200661770,
+   "sha256": "c56b09c747704e075fcd9f905cd812c8f16d1875f9ed3f6f9c6ee3cce67e4022",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-mac-apple-silicon.dmg"
   },
   "mac-x64": {
-   "name": "EmulatorJS-1.0.12-mac-intel.dmg",
-   "size": 205281358,
-   "sha256": "a6a1bbc991e2456085298522e06551cac66e632a67d33fafb920c8beb3178444",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-mac-intel.dmg"
+   "name": "EmulatorJS-1.1.0-mac-intel.dmg",
+   "size": 207311181,
+   "sha256": "32c0aa2eaa422fd8c8d87bd2266f6f4d33751ec131cc64e000a3de159cf5b1b1",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-mac-intel.dmg"
   },
   "win-zip": {
-   "name": "EmulatorJS-1.0.12-win.zip",
-   "size": 206919687,
-   "sha256": "f33b33fe745eb8b2ab62c44682f38a54a848c5cb818a36ef4b3dec476cf7a355",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-1.0.12-win.zip"
+   "name": "EmulatorJS-1.1.0-win.zip",
+   "size": 208514540,
+   "sha256": "7ffb9632cdb2e536a7b57970e95b43916ad701b0d8b0136caf186039cba9b466",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-win.zip"
   },
   "win-setup": {
-   "name": "EmulatorJS-Setup-1.0.12.exe",
-   "size": 164159245,
-   "sha256": "493d854c4b3f69bcc5bdf69548e051d542909cf6b41cf421d87e31856e868d73",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/EmulatorJS-Setup-1.0.12.exe"
+   "name": "EmulatorJS-Setup-1.1.0.exe",
+   "size": 165737002,
+   "sha256": "b3a927dc2278e4fbdaa40cd0a5723283d62fd14a1b45e5008df3a2dd5bafc69c",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-Setup-1.1.0.exe"
   },
   "server": {
    "name": "ejs-cloud-setup.sh",
    "size": 2011213,
    "sha256": "61060bec433695bf6a779f635453f8136ad1e20041d27d7653e3f80f909e9073",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.0.12/ejs-cloud-setup.sh"
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/ejs-cloud-setup.sh"
   }
  }
 }
