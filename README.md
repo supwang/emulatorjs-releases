@@ -10,6 +10,10 @@ https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
 
 *Drop into a friend's game from the lobby, like walking up to an arcade cabinet and inserting a coin.*
 
+**Also runs on Meta Quest 3:** install the Android APK and play on a giant virtual screen with an Xbox controller.
+
+https://github.com/user-attachments/assets/bbf95288-ae09-4e84-9327-ac9018f0754b
+
 ## Download
 
 **[👉 Download the latest version](https://github.com/supwang/emulatorjs-releases/releases/latest)**

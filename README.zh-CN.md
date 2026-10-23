@@ -9,6 +9,10 @@ https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
 
 *在大厅里点「乱入」，就像走到街机前投个币，加入别人正在玩的游戏。*
 
+**也能在 Meta Quest 3 上玩：**装上安卓版 APK，用 Xbox 手柄在超大的虚拟屏幕上玩。
+
+https://github.com/user-attachments/assets/bbf95288-ae09-4e84-9327-ac9018f0754b
+
 ## 下载
 
 **[👉 到 Releases 下载最新版](https://github.com/supwang/emulatorjs-releases/releases/latest)**
