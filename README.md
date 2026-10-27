@@ -14,6 +14,14 @@ https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
 
 https://github.com/user-attachments/assets/bbf95288-ae09-4e84-9327-ac9018f0754b
 
+**Big screen mode** (new in 1.2.0, default on TVs and Quest): scroll through the covers with the D-pad or remote, LB / RB to switch systems.
+The background is a blurred shot of the selected game. Switch between this and the cover grid at the top right.
+
+<img src="images/big-screen-snes.jpg" width="49%"> <img src="images/big-screen-arcade.jpg" width="49%">
+<img src="images/big-screen-menu.jpg" width="49%">
+
+*Screenshots show the Chinese interface; the app follows your system language (10 languages).*
+
 ## Download
 
 **[👉 Download the latest version](https://github.com/supwang/emulatorjs-releases/releases/latest)**

@@ -13,6 +13,12 @@ https://github.com/user-attachments/assets/cdbd7d1b-7f00-4caf-9875-5c82e2470ef6
 
 https://github.com/user-attachments/assets/bbf95288-ae09-4e84-9327-ac9018f0754b
 
+**大屏模式**（1.2.0 新增，电视和 Quest 默认使用）：用十字键或遥控器左右选封面，LB / RB 换机种，背景是选中游戏的画面。
+右上角可以和封面墙切换；左上角「☰ 菜单」打开侧栏。
+
+<img src="images/big-screen-snes.jpg" width="49%"> <img src="images/big-screen-arcade.jpg" width="49%">
+<img src="images/big-screen-menu.jpg" width="49%">
+
 ## 下载
 
 **[👉 到 Releases 下载最新版](https://github.com/supwang/emulatorjs-releases/releases/latest)**
