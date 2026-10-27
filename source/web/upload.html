@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EmulatorJS · Upload</title>
+<link rel="icon" href="data/icon.png">
+<style>
+  :root { --bg: #14122b; --panel: #1f1c42; --line: #3a3670; --text: #eceaf6; --muted: #a5a2c8; --accent: #ff9a3c; --ok: #4ade80; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 20px 16px 40px; }
+  h1 { font-size: 22px; margin: 4px 0 4px; }
+  .sub { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+  label.t { display: block; font-weight: 600; margin-bottom: 8px; }
+  input[type=text], select { width: 100%; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: #0f0d24; color: var(--text); font-size: 16px; }
+  #pin { letter-spacing: .35em; font-size: 22px; text-align: center; max-width: 180px; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .kinds label { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
+  .pick { display: block; border: 2px dashed var(--line); border-radius: 12px; padding: 22px 12px; text-align: center; color: var(--muted); cursor: pointer; }
+  .pick.drag { border-color: var(--accent); color: var(--text); }
+  .pick input { display: none; }
+  button.go { width: 100%; padding: 13px; border: 0; border-radius: 12px; background: var(--accent); color: #241400; font-size: 17px; font-weight: 700; cursor: pointer; }
+  button.go:disabled { opacity: .5; cursor: default; }
+  .hint { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .err { color: var(--bad); font-size: 14px; margin-top: 8px; min-height: 1em; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  li:first-child { border-top: 0; }
+  li .n { display: flex; justify-content: space-between; gap: 10px; }
+  li .n span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  li .s { color: var(--muted); white-space: nowrap; }
+  li.done .s { color: var(--ok); }
+  li.fail .s { color: var(--bad); }
+  .bar { height: 5px; background: #0f0d24; border-radius: 3px; margin-top: 5px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--accent); }
+  li.done .bar i { background: var(--ok); }
+  li select { margin-top: 6px; padding: 6px 8px; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="h">⬆️</h1>
+  <p class="sub" id="sub"></p>
+  <section>
+    <label class="t" for="pin" id="pinL"></label>
+    <input type="text" id="pin" inputmode="numeric" maxlength="4" autocomplete="off">
+    <div class="err" id="pinErr"></div>
+  </section>
+  <section>
+    <label class="t" id="kindL"></label>
+    <div class="kinds"><label><input type="radio" name="kind" value="roms" checked> <span id="kRoms"></span></label><label><input type="radio" name="kind" value="bios"> <span id="kBios"></span></label></div>
+    <div id="sysBox" style="margin-top:12px">
+      <label class="t" for="sys" id="sysL"></label>
+      <select id="sys"></select>
+      <div class="hint" id="sysHint"></div>
+    </div>
+  </section>
+  <section>
+    <label class="pick" id="pick"><input type="file" id="files" multiple><span id="pickT"></span></label>
+    <ul id="list" style="margin-top:10px"></ul>
+  </section>
+  <button class="go" id="go" disabled></button>
+  <div class="err" id="err"></div>
+</main>
+<script>
+(function () {
+  var zh = /^zh/i.test(navigator.language || "");
+  var T = zh ? {
+    h: "⬆️ 上传游戏", sub: "把游戏传到这台设备的 EmulatorJS 里。传完以后，游戏会自动出现在列表里。",
+    pinL: "密码（在那台设备的 EmulatorJS 左边能看到的 4 位数字）", kindL: "传什么", kRoms: "游戏", kBios: "BIOS 文件",
+    sysL: "机种", sysHint: "选「按文件自动判断」时，.nes / .sfc / .gba 这类文件会自动放进对应机种；街机 .zip 等判断不了的文件，请在下面单独选机种。",
+    auto: "按文件自动判断", pickTxt: "点这里选文件（可以一次选多个），或者把文件拖进来", go: "开始上传", going: "正在上传…",
+    wait: "等待", ok: "✓ 传好了", same: "✓ 已经有了", choose: "请选机种", pinBad: "密码不对，请看那台设备上显示的 4 位数字",
+    locked: "密码错了太多次，请 10 分钟后再试", noRoms: "那台设备还没设置 ROM 文件夹，请先在那边的「文件夹设置」里设好", fail: "失败：",
+    netErr: "连不上那台设备：请确认它开着 EmulatorJS，而且和这台在同一个 Wi-Fi", needSys: "有的文件还没选机种", allDone: "全部传好了，那台设备上的游戏列表会自动刷新。"
+  } : {
+    h: "⬆️ Upload games", sub: "Send games to EmulatorJS on this device. They appear in its game list when the upload finishes.",
+    pinL: "PIN (the 4 digits shown on the left side of EmulatorJS on that device)", kindL: "What to upload", kRoms: "Games", kBios: "BIOS files",
+    sysL: "System", sysHint: "With \"Detect from file\", files like .nes / .sfc / .gba go to the right system. For arcade .zip files and others that can't be detected, pick the system per file below.",
+    auto: "Detect from file", pickTxt: "Tap here to choose files (several at once is fine), or drop them here", go: "Start upload", going: "Uploading…",
+    wait: "waiting", ok: "✓ done", same: "✓ already there", choose: "Choose system", pinBad: "Wrong PIN: use the 4 digits shown on that device",
+    locked: "Too many wrong PINs, please try again in 10 minutes", noRoms: "That device has no ROM folder yet: set one in its Folder settings first", fail: "failed: ",
+    netErr: "Can't reach that device: make sure EmulatorJS is open there and it's on the same Wi-Fi", needSys: "Some files still need a system", allDone: "All done. The game list on that device refreshes by itself."
+  };
+  // 文件夹名都是主程序认得的（roms/<文件夹>/<文件>）
+  var SYS = [["auto", T.auto], ["fbneo", zh ? "街机（FBNeo）" : "Arcade (FBNeo)"], ["mame", zh ? "街机（MAME 2003）" : "Arcade (MAME 2003)"], ["nes", "FC / NES"], ["snes", zh ? "超任 SFC / SNES" : "SNES / Super Famicom"],
+    ["gb", "Game Boy / Color"], ["gba", "Game Boy Advance"], ["n64", "Nintendo 64"], ["nds", "Nintendo DS"], ["md", zh ? "世嘉 MD / Genesis" : "Sega Mega Drive / Genesis"],
+    ["segacd", zh ? "世嘉 Mega-CD" : "Sega CD / Mega-CD"], ["32x", zh ? "世嘉 32X" : "Sega 32X"], ["saturn", zh ? "世嘉 Saturn" : "Sega Saturn"], ["sms", zh ? "世嘉 Master System" : "Sega Master System"],
+    ["gg", zh ? "世嘉 Game Gear" : "Sega Game Gear"], ["psx", "PlayStation (PS1)"], ["psp", "PSP"], ["pce", "PC Engine / TurboGrafx-16"], ["ngp", "Neo Geo Pocket"], ["wonderswan", "WonderSwan"],
+    ["lynx", "Atari Lynx"], ["atari2600", "Atari 2600"], ["atari7800", "Atari 7800"], ["jaguar", "Atari Jaguar"], ["coleco", "ColecoVision"], ["dos", "DOS"]];
+  var EXT = { nes: "nes", fds: "nes", unf: "nes", smc: "snes", sfc: "snes", fig: "snes", swc: "snes", gb: "gb", gbc: "gb", gba: "gba", n64: "n64", z64: "n64", v64: "n64", nds: "nds",
+    md: "md", gen: "md", smd: "md", "32x": "32x", sms: "sms", gg: "gg", pce: "pce", ngp: "ngp", ngc: "ngp", ws: "wonderswan", wsc: "wonderswan", lnx: "lynx", a26: "atari2600", a78: "atari7800", j64: "jaguar", col: "coleco", pbp: "psx" };
+  var $ = function (id) { return document.getElementById(id); };
+  ["h", "sub", "pinL", "kindL", "kRoms", "kBios", "sysL", "sysHint"].forEach(function (k) { $(k).textContent = T[k]; });
+  $("pickT").textContent = T.pickTxt; $("go").textContent = T.go;
+  SYS.forEach(function (s) { var o = document.createElement("option"); o.value = s[0]; o.textContent = s[1]; $("sys").appendChild(o); });
+  try { $("pin").value = sessionStorage.getItem("ejs-up-pin") || ""; } catch (e) {}
+
+  var items = [];   // { f, sys, li }
+  var kind = function () { return document.querySelector("input[name=kind]:checked").value; };
+  var ext = function (n) { var i = n.lastIndexOf("."); return i < 0 ? "" : n.slice(i + 1).toLowerCase(); };
+  var size = function (b) { return b > 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1024)) + " KB"; };
+  function sysFor(it) {
+    if (kind() !== "roms") return "";
+    var s = $("sys").value;
+    return s !== "auto" ? s : (it.own || EXT[ext(it.f.name)] || "");
+  }
+  function draw() {
+    var ul = $("list"); ul.innerHTML = "";
+    $("sysBox").style.display = kind() === "roms" ? "" : "none";
+    items.forEach(function (it) {
+      var li = document.createElement("li"); it.li = li;
+      li.innerHTML = '<div class="n"><span></span><span class="s"></span></div><div class="bar"><i></i></div>';
+      li.querySelector("span").textContent = it.f.name + " · " + size(it.f.size);
+      li.querySelector(".s").textContent = it.state || T.wait;
+      if (kind() === "roms" && $("sys").value === "auto" && !EXT[ext(it.f.name)]) {
+        var sel = document.createElement("select");
+        [["", T.choose]].concat(SYS.slice(1)).forEach(function (s) { var o = document.createElement("option"); o.value = s[0]; o.textContent = s[1]; sel.appendChild(o); });
+        sel.value = it.own || "";
+        sel.onchange = function () { it.own = sel.value; };
+        li.appendChild(sel);
+      }
+      ul.appendChild(li);
+    });
+    $("go").disabled = !items.length;
+  }
+  function add(list) { for (var i = 0; i < list.length; i++) items.push({ f: list[i] }); draw(); }
+  $("files").onchange = function () { add(this.files); this.value = ""; };
+  var pick = $("pick");
+  pick.ondragover = function (e) { e.preventDefault(); pick.classList.add("drag"); };
+  pick.ondragleave = function () { pick.classList.remove("drag"); };
+  pick.ondrop = function (e) { e.preventDefault(); pick.classList.remove("drag"); add(e.dataTransfer.files); };
+  $("sys").onchange = draw;
+  document.querySelectorAll("input[name=kind]").forEach(function (r) { r.onchange = draw; });
+
+  function post(q, body, pin) {
+    return fetch("/api/upload?" + q, { method: "POST", headers: { "X-EJS": "1", "X-EJS-PIN": pin }, body: body })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { d._status = r.status; return d; }); });
+  }
+  function errText(d) { return d.code === "pin" ? T.pinBad : d.code === "locked" ? T.locked : d.code === "no_folder" ? T.noRoms : T.fail + (d.error || d._status); }
+  $("go").onclick = async function () {
+    var pin = $("pin").value.trim();
+    $("err").textContent = ""; $("pinErr").textContent = "";
+    if (kind() === "roms" && items.some(function (it) { return !it.done && !sysFor(it); })) { $("err").textContent = T.needSys; return; }
+    var go = $("go"); go.disabled = true; go.textContent = T.going;
+    try {
+      var c = await post("check=1", "", pin);
+      if (c._status !== 200) { (c.code === "pin" || c.code === "locked" ? $("pinErr") : $("err")).textContent = errText(c); return; }
+      if (kind() === "roms" && !c.roms) { $("err").textContent = T.noRoms; return; }
+      try { sessionStorage.setItem("ejs-up-pin", pin); } catch (e) {}
+      var CH = 8 * 1024 * 1024, bad = 0;
+      for (var n = 0; n < items.length; n++) {
+        var it = items[n]; if (it.done) continue;
+        var f = it.f, rel = kind() === "roms" ? sysFor(it) + "/" + f.name : f.name, bar = it.li.querySelector(".bar i"), st = it.li.querySelector(".s");
+        var off = 0, d = null;
+        try {
+          do {
+            var chunk = f.slice(off, Math.min(f.size, off + CH));
+            d = await post("kind=" + kind() + "&rel=" + encodeURIComponent(rel) + "&offset=" + off + "&total=" + f.size, chunk, pin);
+            if (d._status !== 200) throw d;
+            off += chunk.size;
+            bar.style.width = Math.round(off / f.size * 100) + "%";
+            st.textContent = Math.round(off / f.size * 100) + "%";
+          } while (off < f.size);
+          it.done = true; it.state = T.ok; it.li.className = "done"; st.textContent = T.ok;
+        } catch (e) {
+          bad++; it.li.className = "fail"; st.textContent = e && e._status ? errText(e) : T.netErr;
+          if (e && (e.code === "pin" || e.code === "locked")) { $("pinErr").textContent = errText(e); break; }
+        }
+      }
+      if (!bad) $("err").textContent = T.allDone;
+    } catch (e) { $("err").textContent = T.netErr; }
+    finally { go.disabled = false; go.textContent = T.go; }
+  };
+  draw();
+})();
+</script>
+</body>
+</html>

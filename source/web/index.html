@@ -310,6 +310,70 @@
   @media (hover: none) { .card .card-del { display: flex; } }
   .grid-head .gh-act { padding: 0; flex: none; white-space: nowrap; }
   .grid-head .sizer + .gh-act { margin-left: 0; }
+  .grid-head .viewsw + .sizer { margin-left: 0; }
+  /* ---- 大屏模式（电视、Quest）：一排封面左右选，选中的放大发光，背景是这个游戏的画面 ---- */
+  #grid.tvmode { padding: 0; overflow: hidden; }
+  /* 大屏模式：侧栏收起来（左上角「☰ 菜单」打开），整个屏幕给游戏选择；不管什么配色都用深色底 */
+  body.tvfull:not(.tvside):not(.playing) { grid-template-columns: 1fr; }
+  body.tvfull:not(.tvside):not(.playing) aside { display: none; }
+  .tv { position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden;
+    padding: 16px clamp(16px, 3vw, 36px) calc(12px + env(safe-area-inset-bottom));
+    --text: #f6f4ff; --muted: #c9c6dc; --panel: #1b1b2e; --panel-2: #2c2c48; --line: #44446a; color: var(--text); }
+  .tv > .grid-head { position: relative; z-index: 2; margin-bottom: 0; text-shadow: 0 1px 4px rgba(0,0,0,.7); }
+  .tv > .grid-head .viewsw { margin-left: 0; }
+  .tv-menu { flex: none; background: rgba(0,0,0,.4); border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+  .tv-menu:hover { background: var(--panel-2); }
+  .tv-sys { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 4px 2px; }
+  .tv-sys::-webkit-scrollbar { display: none; }
+  .tv-sysb { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 8px; border-radius: 20px; cursor: pointer;
+    background: rgba(0,0,0,.35); border: 1px solid transparent; color: var(--text); font: inherit; font-weight: 700; font-size: 14px; opacity: .72; }
+  .tv-sysb img { width: 30px; height: 30px; border-radius: 6px; }
+  .tv-sysb .ph { width: 30px; text-align: center; font-size: 18px; }
+  .tv-sysb span { display: none; white-space: nowrap; }
+  .tv-sysb:hover { opacity: 1; }
+  .tv-sysb.on { opacity: 1; background: color-mix(in srgb, var(--tv-glow) 26%, rgba(0,0,0,.5)); border-color: var(--tv-glow); padding: 0 14px 0 6px; }
+  .tv-sysb.on span { display: inline; }
+  .tv-sys kbd { display: none; flex: none; padding: 1px 7px; border-radius: 10px; background: rgba(255,255,255,.88); color: #111; font: 700 12px/18px system-ui, sans-serif; }
+  .tv.haspad .tv-sys kbd { display: inline-block; }
+  .tv-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    background: linear-gradient(rgba(10,10,22,.78), rgba(10,10,22,.78)), var(--grid-bg, none) center / cover no-repeat, #0e0e1c; }
+  .tv-bg i { position: absolute; inset: -40px; background: center / cover no-repeat; opacity: 0; transition: opacity .5s;
+    filter: blur(16px) brightness(.4) saturate(1.2); }
+  .tv-bg i.on { opacity: 1; }
+  .tv-bg::after { content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 45%, transparent 40%, rgba(0,0,0,.5)), linear-gradient(rgba(0,0,0,.35), transparent 22%, transparent 62%, rgba(0,0,0,.7)); }
+  .tv-stage { position: relative; z-index: 1; flex: 1; min-height: 0; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .tv-tile { position: absolute; left: 50%; top: 50%; width: var(--tw); height: var(--th); margin: calc(var(--th) / -2) 0 0 calc(var(--tw) / -2);
+    display: flex; align-items: center; justify-content: center; cursor: pointer; outline: none;
+    transition: transform .26s cubic-bezier(.2, .75, .3, 1), opacity .26s; will-change: transform; }
+  .tv-tile.now { transition: none; }
+  .tv-tile img { max-width: 100%; max-height: 100%; display: block; border-radius: 6px; box-shadow: 0 12px 32px rgba(0,0,0,.65); background: rgba(0,0,0,.25); }
+  .tv-tile img.px { image-rendering: pixelated; }
+  .tv-tile .tv-ph { width: 100%; height: 100%; border-radius: 10px; background: color-mix(in srgb, var(--panel) 85%, transparent); border: 1px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 12px; text-align: center;
+    box-shadow: 0 12px 32px rgba(0,0,0,.5); color: var(--text); font-weight: 700; font-size: calc(var(--th) * .055); line-height: 1.3; overflow: hidden; }
+  .tv-tile .tv-ph b { font-size: calc(var(--th) * .2); opacity: .55; line-height: 1; }
+  .tv-tile.c img, .tv-tile.c .tv-ph { box-shadow: 0 0 0 3px var(--tv-glow), 0 0 36px 6px color-mix(in srgb, var(--tv-glow) 55%, transparent), 0 16px 40px rgba(0,0,0,.7); }
+  body.padnav .tv-tile:focus { outline: none !important; }
+  .tv-tile .tv-live { position: absolute; top: 8px; right: 8px; background: var(--live); color: #fff; font-size: 12px; font-weight: 700;
+    padding: 2px 8px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,.5); }
+  .tv-info { position: relative; z-index: 1; flex: none; height: clamp(96px, 25vh, 200px); overflow: hidden; display: flex; flex-direction: column; justify-content: center;
+    text-align: center; padding: 4px 0 6px; text-shadow: 0 2px 6px rgba(0,0,0,.85); }
+  .tv .sizer button.on { color: var(--tv-glow); }
+  .tv-info .tv-logo { display: block; margin: 0 auto 4px; max-height: clamp(40px, 11vh, 96px); max-width: min(60%, 520px); filter: drop-shadow(0 3px 8px rgba(0,0,0,.7)); }
+  .tv-info .tv-name { font-size: clamp(20px, 3.6vh, 32px); font-weight: 800; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tv-info .tv-en { color: color-mix(in srgb, var(--text) 70%, transparent); font-size: clamp(12px, 2vh, 16px); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tv-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; font-size: clamp(12px, 1.9vh, 15px); }
+  .tv-meta span { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 14px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.14); text-shadow: none; color: #eee; }
+  .tv-meta img { width: 18px; height: 18px; border-radius: 4px; }
+  .tv-meta .live { background: var(--live); border-color: transparent; color: #fff; font-weight: 700; }
+  .tv-hints { position: relative; z-index: 1; display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 20px; font-size: clamp(12px, 1.8vh, 14px);
+    color: #ddd; padding-top: 8px; border-top: 1px solid rgba(255,255,255,.12); text-shadow: 0 1px 3px rgba(0,0,0,.8); }
+  .tv-hints span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .tv-hints kbd { display: inline-block; min-width: 22px; padding: 1px 6px; border-radius: 11px; background: rgba(255,255,255,.88); color: #111;
+    font: 700 12px/18px system-ui, sans-serif; text-align: center; text-shadow: none; }
+  .tv-hints kbd.a { background: #3ba55c; color: #fff; } .tv-hints kbd.b { background: #d9534f; color: #fff; }
+  .tv-hints kbd.x { background: #3b7dd8; color: #fff; }
   .card .t {
     margin-top: 8px; font-size: 13px; line-height: 1.35;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
@@ -402,6 +466,8 @@
   .lb-item .live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--live); margin-right: 5px; vertical-align: 1px; }
   #lanInfo { font-size: 12px; color: var(--muted); margin-top: 6px; overflow-wrap: anywhere; }
   #lanInfo b { color: var(--accent); font-weight: 600; }
+  #lanInfo .lan-up { margin-top: 6px; }
+  #lanInfo .lan-up .pin { letter-spacing: .15em; font-size: 14px; }
   #mpVideo { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent; object-fit: contain; image-rendering: pixelated; z-index: 1; }
   /* 手机看画面玩（串流）时的屏幕按键 */
   #tpad { position: absolute; inset: 0; z-index: 6; pointer-events: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
@@ -509,6 +575,29 @@
   #stage.game-bg::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
     background: var(--stage-bg, none) center / cover no-repeat, var(--bg); filter: blur(5px) brightness(.36) saturate(.85); transform: scale(1.04); }
   #stage.game-bg { overflow: hidden; }
+  /* 边框：画面两边空着时，左边放封面、右边放标题画面（或者用自己的边框图，放在 thumbnails/Bezels 里） */
+  #stage:has(#bezel:not([hidden])) { overflow: hidden; background: #000; }
+  #bezel { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  #bezel .bz-bg { position: absolute; inset: -30px; background: var(--bz-img, none) center / cover no-repeat, #0c0c16; filter: blur(14px) brightness(.38) saturate(1.2); }
+  #bezel .bz-side { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    background: repeating-linear-gradient(135deg, rgba(255,255,255,.025) 0 2px, transparent 2px 9px), linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.15) 50%, rgba(0,0,0,.55)); }
+  #bezel .bz-side.l { left: 0; width: var(--pl); }
+  #bezel .bz-side.r { right: 0; width: var(--pr); }
+  /* 靠近画面那一边的边条：金属色 + 一点主题色的光 */
+  #bezel .bz-side::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7px;
+    background: linear-gradient(90deg, #15151f, #6d6d82 35%, #d6d6e4 50%, #6d6d82 65%, #15151f); box-shadow: 0 0 18px 2px color-mix(in srgb, var(--tv-glow, #ff9f59) 45%, transparent); }
+  #bezel .bz-side.l::after { right: 0; } #bezel .bz-side.r::after { left: 0; }
+  #bezel .bz-side::before { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(255,255,255,.12); border-radius: 14px; box-shadow: inset 0 0 40px rgba(0,0,0,.5); }
+  #bezel .bz-in { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; width: 82%; max-height: 88%; text-align: center; color: #f2f0ff; }
+  #bezel .bz-box { max-width: 100%; max-height: 62vh; display: block; border-radius: 6px; box-shadow: 0 14px 34px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08); }
+  #bezel .bz-logo { max-width: 100%; max-height: 18vh; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,.8)); }
+  #bezel .bz-scr { max-width: 100%; max-height: 40vh; display: block; image-rendering: pixelated; border: 4px solid #1b1b24; border-radius: 8px;
+    box-shadow: 0 0 0 2px #55556a, 0 14px 30px rgba(0,0,0,.7); }
+  #bezel .bz-name { font-weight: 800; font-size: clamp(13px, 2.2vh, 20px); line-height: 1.3; text-shadow: 0 2px 6px #000; word-break: break-word; }
+  #bezel .bz-sys { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #d8d6ea; background: rgba(0,0,0,.45); padding: 3px 10px; border-radius: 12px; }
+  #bezel .bz-sys img { width: 20px; height: 20px; border-radius: 4px; }
+  #bezel.narrow .bz-name, #bezel.narrow .bz-sys { display: none; }
+  #bezel .bz-user { position: absolute; display: block; max-width: none; }
   #empty {
     position: absolute; inset: 0;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -630,6 +719,10 @@
     #grid { padding: 14px 12px calc(30px + env(safe-area-inset-bottom)); }
     .grid-head { flex-wrap: wrap; gap: 8px 10px; margin-bottom: 12px; }
     .grid-head h2 { font-size: 18px; }
+    .tv { padding: 12px 12px calc(8px + env(safe-area-inset-bottom)); }
+    body.tvfull:not(.tvside):not(.playing) aside { display: flex; }   /* 手机：侧栏还是抽屉，用上面的 ☰ 打开 */
+    .tv-menu { display: none; }
+    .tv-sys { justify-content: flex-start; }
     .cards { gap: 14px 10px; }
     .cards.size-m { --card-w: 120px; }
     .cards.size-l { --card-w: 160px; }
@@ -716,7 +809,7 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.1.0</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.2.0</div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
@@ -1004,7 +1097,7 @@ document.getElementById("thumbInput").onchange = e => { indexThumbs([...e.target
 // 结构：thumbnails/<播放列表名>/Named_Boxarts|Named_Snaps|Named_Titles/<游戏名>.png
 let thumbs = new Map();     // "目录|类型|名字" → File
 let thumbCount = 0;
-const THUMB_KINDS = { named_boxarts: "box", named_snaps: "snap", named_titles: "title" };
+const THUMB_KINDS = { named_boxarts: "box", named_snaps: "snap", named_titles: "title", named_logos: "logo" };   // Named_Logos：大屏模式里代替游戏名显示
 const urlCache = new Map();
 const urlOf = f => {
   if (f instanceof RemoteFile) return f.url;
@@ -1046,6 +1139,7 @@ function indexThumbs(files) {
   for (const f of files) {
     if (!/\.(png|jpe?g|webp)$/i.test(f.name)) continue;
     const parts = pathOf(f).split("/");
+    if (parts.slice(0, -1).some(x => /^(game)?bezels?$/i.test(x))) { found.set("bz|" + thumbName(baseName(f.name)), f); continue; }   // 自己的边框图
     const i = parts.findIndex(x => THUMB_KINDS[x.toLowerCase()]);
     if (i < 0 || i !== parts.length - 2) continue;
     const kind = THUMB_KINDS[parts[i].toLowerCase()];
@@ -1421,6 +1515,7 @@ function applyTheme(id) {
   r.setProperty("--line", t.line); r.setProperty("--text", t.text); r.setProperty("--muted", t.muted);
   r.setProperty("--accent", t.accent); r.setProperty("--accent-ink", t.ink);
   r.setProperty("--gold", t.gold); r.setProperty("--live", t.live);
+  r.setProperty("--tv-glow", t.scheme === "light" ? "#ffcf4a" : t.accent);   // 大屏模式（深色底）选中封面的光圈
   document.documentElement.style.colorScheme = t.scheme;
   r.setProperty("--lan", t.scheme === "light" ? "#15803d" : "#4ade80"); r.setProperty("--net", t.scheme === "light" ? "#1d4ed8" : "#60a5fa");   // 局域网 / 外网 标签
   try { localStorage.setItem("ejs-theme", themeId); } catch (e) {}
@@ -1479,7 +1574,8 @@ let stageBgGame = null;   // 看画面乱入时没有 playingGame，用房间的
 function applyStageBg(game) {
   const st = document.getElementById("stage");
   if (!st) return;
-  if (game !== undefined) stageBgGame = game;
+  if (game !== undefined) { stageBgGame = game; bezelKey = ""; }
+  setTimeout(bezelUpdate, 0);
   const g = stageBgGame;
   const on = !!g && gameBgOn() && document.body.classList.contains("playing");
   st.classList.toggle("game-bg", on);
@@ -1487,6 +1583,121 @@ function applyStageBg(game) {
   const url = bgUrls[bgGroupKey(groupOf(g))] || bgUrls[BG_ALL] || (THEMES[themeId] && THEMES[themeId].img) || "";
   if (url) st.style.setProperty("--stage-bg", `url("${url}")`); else st.style.removeProperty("--stage-bg");
 }
+// ---------------- 边框：游戏画面没有占满屏幕时（竖版街机、4:3 的游戏在宽屏上），两边不再空着 ----------------
+// 自动边框：左边是这个游戏的封面，右边是游戏 Logo + 标题画面，底下是模糊的游戏画面。
+// 自己的边框图（和 RetroArch 的 The Bezel Project 一样：16:9 的 PNG，中间放游戏画面的地方是透明的）：
+//   放在 thumbnails 文件夹里一个叫 Bezels 的文件夹里（下面再分不分子文件夹都行），文件名和游戏文件名一样，比如 sf2ce.png、Super Mario World (USA).png；
+//   文件名是机种名的（snes.png、arcade.png，或者 RetroArch 的平台名 Nintendo - Super Nintendo Entertainment System.png）就是这个机种所有游戏共用的边框。
+// 程序会找出图片中间透明的那一块，把它对准游戏画面。
+const bezelOn = () => { try { return localStorage.getItem("ejs-bezel") !== "0"; } catch (e) { return true; } };
+var bezelKey = "", bezelUserCache = new Map();
+const bezelEl = document.createElement("div");
+bezelEl.id = "bezel"; bezelEl.hidden = true;
+document.getElementById("stage").prepend(bezelEl);
+function bezelUserFile(g) {
+  if (!g || !thumbs.size) return null;
+  const sys = g.system, grp = (typeof groupOf === "function" && g.file) ? groupOf(g) : sys;
+  const names = [baseName(g.file.name), g.title, grp, sys, THUMB_DIRS[sys], thumbDirOf(g)].filter(Boolean).map(thumbName);
+  for (const n of names) if (thumbs.has("bz|" + n)) return thumbs.get("bz|" + n);
+  return null;
+}
+// 找出边框图中间透明的那一块（按比例：x0 y0 x1 y1）
+function bezelWindow(url) {
+  if (bezelUserCache.has(url)) return bezelUserCache.get(url);
+  const pr = new Promise(ok => {
+    const im = new Image();
+    im.onload = () => {
+      try {
+        const W = 480, H = Math.max(1, Math.round(W * im.naturalHeight / im.naturalWidth));
+        const c = document.createElement("canvas"); c.width = W; c.height = H;
+        const x = c.getContext("2d"); x.drawImage(im, 0, 0, W, H);
+        const d = x.getImageData(0, 0, W, H).data, a = (i, j) => d[(j * W + i) * 4 + 3];
+        const cx = W >> 1, cy = H >> 1;
+        if (a(cx, cy) > 40) return ok({ w: im.naturalWidth, h: im.naturalHeight, win: null });
+        let x0 = cx, x1 = cx, y0 = cy, y1 = cy;
+        while (x0 > 0 && a(x0 - 1, cy) <= 40) x0--;
+        while (x1 < W - 1 && a(x1 + 1, cy) <= 40) x1++;
+        while (y0 > 0 && a(cx, y0 - 1) <= 40) y0--;
+        while (y1 < H - 1 && a(cx, y1 + 1) <= 40) y1++;
+        ok({ w: im.naturalWidth, h: im.naturalHeight, win: [x0 / W, y0 / H, (x1 + 1) / W, (y1 + 1) / H] });
+      } catch (e) { ok({ w: im.naturalWidth, h: im.naturalHeight, win: null }); }
+    };
+    im.onerror = () => ok(null);
+    im.src = url;
+  });
+  bezelUserCache.set(url, pr);
+  return pr;
+}
+// 游戏画面在 #stage 里的位置和大小
+function picRect() {
+  const st = document.getElementById("stage"), f = st.querySelector("iframe");
+  if (!f) return null;
+  const sr = st.getBoundingClientRect();
+  const v = document.getElementById("mpVideo");
+  if (v && !v.hidden && v.videoWidth && v.getBoundingClientRect().width > 0) {   // 乱入时看的是视频
+    const vr = v.getBoundingClientRect(), k = Math.min(vr.width / v.videoWidth, vr.height / v.videoHeight);
+    const w = v.videoWidth * k, h = v.videoHeight * k;
+    return { l: vr.left - sr.left + (vr.width - w) / 2, t: vr.top - sr.top + (vr.height - h) / 2, w, h, W: sr.width, H: sr.height };
+  }
+  let c = null, doc = null;
+  try { doc = f.contentDocument; c = doc && doc.querySelector("#game canvas"); } catch (e) {}
+  if (!c) return null;
+  const r = c.getBoundingClientRect(), fr = f.getBoundingClientRect();
+  if (r.width < 40 || r.height < 40) return null;
+  // 屏幕上的虚拟手柄露出来时不显示边框（会被手柄挡住）
+  const vp = doc.querySelector(".ejs_virtualGamepad_parent");
+  const pad = !!(vp && vp.getClientRects().length && getComputedStyle(vp).display !== "none" && getComputedStyle(vp).visibility !== "hidden");
+  return { l: fr.left - sr.left + r.left, t: fr.top - sr.top + r.top, w: r.width, h: r.height, W: sr.width, H: sr.height, pad };
+}
+function bezelUpdate() {
+  const g = stageBgGame;
+  const r = g && bezelOn() && document.body.classList.contains("playing") ? picRect() : null;
+  const pl = r ? r.l : 0, pr = r ? r.W - r.l - r.w : 0;
+  const user = r && bezelUserFile(g);
+  if (!r || r.pad || (!user && Math.min(pl, pr) < 80)) { if (!bezelEl.hidden) { bezelEl.hidden = true; bezelKey = ""; } return; }
+  const key = gameKey(g) + "|" + (user ? urlOf(user) : "auto");
+  const s = bezelEl.style;
+  s.setProperty("--pl", Math.round(pl) + "px"); s.setProperty("--pr", Math.round(pr) + "px");
+  bezelEl.classList.toggle("narrow", Math.min(pl, pr) < 150);
+  if (key !== bezelKey) {
+    bezelKey = key;
+    if (user) {
+      bezelEl.innerHTML = `<img class="bz-user" alt="" hidden>`;
+      bezelEl.dataset.user = urlOf(user);
+    } else {
+      delete bezelEl.dataset.user;
+      const pic = k => { const f = thumbFor(g, k); return f ? urlOf(f) : ""; };
+      const box = pic("box"), title = pic("title"), snap = pic("snap"), logo = pic("logo"), nm = gameNames(g);
+      const grp = g.file ? groupOf(g) : g.system, ico = iconFor(grp);
+      const scr = title || snap;
+      s.setProperty("--bz-img", (snap || title || box) ? `url("${snap || title || box}")` : "none");
+      const name = `<div class="bz-name">${escapeHtml(nm.loc || nm.en)}</div>`;
+      const left = box ? `<img class="bz-box" src="${box}" alt="">` : scr ? `<img class="bz-scr" src="${scr}" alt="">` : "";
+      const right = (logo ? `<img class="bz-logo" src="${logo}" alt="">` : "") + (box && scr ? `<img class="bz-scr" src="${scr}" alt="">` : "")
+        + (logo ? "" : name) + `<div class="bz-sys">${ico ? `<img src="${ico}" alt="">` : ""}${escapeHtml(L(groupName(grp)))}</div>`;
+      bezelEl.innerHTML = `<div class="bz-bg"></div><div class="bz-side l"><div class="bz-in">${left || name}</div></div><div class="bz-side r"><div class="bz-in">${right}</div></div>`;
+    }
+  }
+  bezelEl.hidden = false;
+  const u = bezelEl.dataset.user, img = u && bezelEl.querySelector(".bz-user");
+  if (img) bezelWindow(u).then(info => {
+    if (!info || bezelEl.dataset.user !== u) return;
+    // 把边框图中间透明的那块对准游戏画面（找不到透明的地方就按高度对齐、左右居中）
+    const [x0, y0, x1, y1] = info.win || [0, 0, 1, 1];
+    let k;
+    if (info.win) k = Math.min(r.w / ((x1 - x0) * info.w), r.h / ((y1 - y0) * info.h));
+    else k = r.H / info.h;
+    const w = info.w * k, h = info.h * k;
+    const cx = r.l + r.w / 2, cy = r.t + r.h / 2;
+    const wx = info.win ? (x0 + x1) / 2 : 0.5, wy = info.win ? (y0 + y1) / 2 : 0.5;
+    Object.assign(img.style, { width: w + "px", height: h + "px", left: (cx - wx * w) + "px", top: (cy - wy * h) + "px" });
+    if (!info.win) img.style.top = ((r.H - h) / 2) + "px";
+    img.src = u; img.hidden = false;
+  });
+}
+setInterval(() => { if (!document.hidden && stageBgGame) bezelUpdate(); }, 1000);
+window.addEventListener("resize", () => setTimeout(bezelUpdate, 250));
+
 function applyGridBg(key) {
   bgShownKey = key;
   const url = bgUrls[bgGroupKey(key)] || bgUrls[BG_ALL] || (THEMES[themeId] && THEMES[themeId].img) || "";
@@ -1532,8 +1743,11 @@ function renderBgSection() {
     + (gk ? row(gk, L("{0} 专用", L(groupName(gk)))) : `<div class="bg-note">${escapeHtml(L("先在左边选一个机种，就可以给这个机种单独设置背景。"))}</div>`)
     + `<label class="bg-dim">${escapeHtml(L("调暗"))}<input type="range" min="0" max="90" step="5" value="${bgDim()}" id="bgDim"><b id="bgDimV">${bgDim()}%</b></label>`
     + `<div class="bg-note">${escapeHtml(L("没单独设置的机种用通用的那张。图片只保存在这台设备的这个浏览器里。"))}</div>`
-    + `<label class="bg-game"><input type="checkbox" id="gameBgOn"${gameBgOn() ? " checked" : ""}> ${escapeHtml(L("玩游戏时，画面两边也显示背景图（调暗、模糊）"))}</label>`;
+    + `<label class="bg-game"><input type="checkbox" id="gameBgOn"${gameBgOn() ? " checked" : ""}> ${escapeHtml(L("玩游戏时，画面两边也显示背景图（调暗、模糊）"))}</label>`
+    + `<label class="bg-game"><input type="checkbox" id="bezelOn"${bezelOn() ? " checked" : ""}> ${escapeHtml(L("画面两边空着时显示边框（封面、标题画面）"))}</label>`
+    + `<div class="bg-note">${escapeHtml(L("想用自己的边框图：放进 thumbnails 文件夹里的 Bezels 文件夹，文件名和游戏文件名一样（比如 sf2ce.png），中间放画面的地方要透明。文件名是机种名的（比如 snes.png）就是这个机种共用的。"))}</div>`;
   sec.querySelector("#gameBgOn").onchange = e => { try { localStorage.setItem("ejs-game-bg", e.target.checked ? "1" : "0"); } catch (x) {} applyStageBg(); };
+  sec.querySelector("#bezelOn").onchange = e => { try { localStorage.setItem("ejs-bezel", e.target.checked ? "1" : "0"); } catch (x) {} bezelKey = ""; bezelUpdate(); };
   sec.querySelectorAll("[data-bg-pick]").forEach(b => b.onclick = () => bgPick(b.dataset.bgPick));
   sec.querySelectorAll("[data-bg-del]").forEach(b => b.onclick = async () => { await bgStore(b.dataset.bgDel, null); applyGridBg(bgShownKey); renderBgSection(); });
   const dim = document.getElementById("bgDim");
@@ -1645,6 +1859,10 @@ function attachSlideshow(card, g) {
 
 function showGrid(key) {
   if (typeof hideHall === "function") hideHall();
+  const ae = document.activeElement, tvRefocus = !!(ae && ae.classList && ae.classList.contains("tv-tile"));
+  gridEl.classList.remove("tvmode");
+  document.body.classList.remove("tvfull");
+  tv = null;
   const q = searchEl.value.trim();
   // 搜索时如果没选平台，就在所有平台里找
   if (!key && !q) { gridEl.style.display = "none"; document.getElementById("empty").style.display = ""; return; }
@@ -1670,7 +1888,9 @@ function showGrid(key) {
   head.innerHTML = (hico ? `<img class="gh-ico" src="${hico}" alt="">` : "")
     + `<h2>${escapeHtml(L(title))}</h2><span>${escapeHtml(L("{0} 个游戏", list.length) + (q ? L("（搜索「{0}」）", q) : ""))}</span>`;
   gridEl.appendChild(head);
-  if (key !== "_unknown") head.appendChild(sizerEl(key));
+  const canTv = key !== "_unknown" && key !== "_unsupported", useTv = canTv && tvOn() && list.length > 0;
+  if (canTv) head.appendChild(viewSwEl());
+  if (key !== "_unknown" && !useTv) head.appendChild(sizerEl(key));
   if (key === "_recent" && list.length) {
     const b = document.createElement("button");
     b.className = "linkbtn gh-act"; b.textContent = L("清空记录");
@@ -1711,6 +1931,8 @@ function showGrid(key) {
     return;
   }
 
+  if (useTv) { document.body.classList.add("tvfull"); return showTv(key, list, head, tvRefocus); }
+
   const cards = document.createElement("div");
   cards.className = "cards size-" + sizeFor(key);
   for (const g of list) {
@@ -1746,13 +1968,233 @@ function showGrid(key) {
   }
 }
 
+// ---------------- 大屏模式（电视、Quest）----------------
+// 一排封面，左右键（或滑动、滚轮）选，选中的那个放大发光；背景换成这个游戏的画面（模糊）；下面是游戏名、平台、几个人玩、有没有人在玩。
+// 电视、Quest 默认用大屏模式，手机、电脑默认用封面墙；标题旁边可以切换，记在这台设备上。
+const VIEW_KEY = "ejs-view";
+const tvDefault = () => /Quest|Oculus/i.test(navigator.userAgent) || (/Android/i.test(navigator.userAgent) && !matchMedia("(pointer: coarse)").matches);
+var viewPref = "";
+try { viewPref = localStorage.getItem(VIEW_KEY) || ""; } catch (e) {}
+const tvOn = () => viewPref ? viewPref === "tv" : tvDefault();
+function viewSwEl() {
+  const box = document.createElement("div");
+  box.className = "sizer viewsw";
+  box.title = L("显示方式");
+  const on = tvOn();
+  for (const [k, label] of [["grid", "▦ " + L("封面墙")], ["tv", "▭ " + L("大屏")]]) {
+    const b = document.createElement("button");
+    b.textContent = label;
+    b.dataset.view = k;
+    if ((k === "tv") === on) b.className = "on";
+    b.onclick = () => {
+      viewPref = k;
+      try { localStorage.setItem(VIEW_KEY, k); } catch (e) {}
+      const pad = document.body.classList.contains("padnav");
+      showGrid(currentSys);
+      if (pad) { const nb = gridEl.querySelector(`.viewsw [data-view="${k}"]`); if (nb) navFocus(nb); }
+    };
+    box.appendChild(b);
+  }
+  return box;
+}
+var tv = null;          // 正在显示的大屏：{ key, list, i, tiles, stage, ... }
+const tvSel = {}, tvSelIdx = {};       // 每个列表上次选中的游戏（回来时还停在这个游戏上）
+function showTv(key, list, head, refocus) {
+  gridEl.classList.add("tvmode");
+  const root = document.createElement("div");
+  root.className = "tv";
+  root.innerHTML = `<div class="tv-bg"><i></i><i></i></div>`;
+  // 上面一行：「☰ 菜单」（打开侧栏：文件夹设置、搜索、大厅…）、各个机种（LB / RB 切换）、显示方式
+  const vs = head.querySelector(".viewsw");
+  head.innerHTML = "";
+  const menu = document.createElement("button");
+  menu.className = "tv-menu"; menu.textContent = "☰ " + L("菜单");
+  menu.onclick = () => {
+    const on = document.body.classList.toggle("tvside");
+    if (on && document.body.classList.contains("padnav")) setTimeout(() => navFocus(listEl.querySelector("button.plat.active") || listEl.querySelector("button.plat")), 60);
+  };
+  const sys = document.createElement("div");
+  sys.className = "tv-sys";
+  sys.innerHTML = `<kbd>LB</kbd>`;
+  for (const pb of listEl.querySelectorAll("button.plat:not(.muted)")) {
+    const b = document.createElement("button");
+    const on = pb.classList.contains("active");
+    b.className = "tv-sysb" + (on ? " on" : "");
+    const img = pb.querySelector(".pico img"), nm = pb.querySelector(".pname").textContent;
+    b.innerHTML = (img ? `<img src="${img.getAttribute("src")}" alt="">` : `<b class="ph">${escapeHtml(pb.querySelector(".pico").textContent)}</b>`) + `<span>${escapeHtml(nm)}</span>`;
+    b.title = nm;
+    b.onclick = () => { const pad = document.body.classList.contains("padnav"); pb.click(); if (pad) setTimeout(() => navFocus(gridEl.querySelector(".tv-tile.c, .card")), 50); };
+    sys.appendChild(b);
+  }
+  sys.insertAdjacentHTML("beforeend", `<kbd>RB</kbd>`);
+  head.append(menu, sys);
+  if (vs) head.appendChild(vs);
+  root.appendChild(head);
+  const st = document.createElement("div");
+  st.className = "tv-stage";
+  const info = document.createElement("div");
+  info.className = "tv-info";
+  const hints = document.createElement("div");
+  hints.className = "tv-hints";
+  root.append(st, info, hints);
+  gridEl.appendChild(root);
+  let i = list.findIndex(g => gameKey(g) === tvSel[key]);
+  if (i < 0) i = Math.min(list.length - 1, tvSelIdx[key] || 0);   // 选中的那个被删掉了：停在原来的位置
+  tv = { key, list, i, tiles: new Map(), stage: st, info, hints, bg: [...root.querySelectorAll(".tv-bg i")], bgOn: 0, bgUrl: null, bgTimer: 0 };
+  tvLayout();
+  tvDraw(true);
+  tvInfo();
+  tvBg(true);
+  // 滚轮：一格换一个；手指左右滑：每滑过一段换一个
+  let wheelAcc = 0, wheelT = 0;
+  st.addEventListener("wheel", e => {
+    e.preventDefault();
+    const now = performance.now();
+    if (now - wheelT > 300) wheelAcc = 0;
+    wheelT = now;
+    wheelAcc += Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(wheelAcc) >= 50) { tvStep(Math.sign(wheelAcc)); wheelAcc = 0; }
+  }, { passive: false });
+  let sx = null, moved = false;
+  st.addEventListener("pointerdown", e => { sx = e.clientX; moved = false; });
+  st.addEventListener("pointermove", e => {
+    if (sx == null) return;
+    const dx = e.clientX - sx, stepW = tv ? (tv.sw + tv.gap) * 0.8 : 80;
+    if (Math.abs(dx) > Math.max(40, stepW)) { tvStep(dx < 0 ? 1 : -1); sx = e.clientX; moved = true; }
+  });
+  const end = () => { sx = null; };
+  st.addEventListener("pointerup", end); st.addEventListener("pointercancel", end); st.addEventListener("pointerleave", end);
+  st.addEventListener("click", e => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+  if (refocus && tv.center) tv.center.focus({ preventScroll: true });
+  const on = sys.querySelector(".tv-sysb.on");
+  if (on) sys.scrollLeft = on.offsetLeft - sys.clientWidth / 2 + on.offsetWidth / 2;
+}
+// 量一下舞台的大小，算出中间封面多大、两边每个隔多远
+function tvLayout() {
+  if (!tv) return;
+  const r = tv.stage.getBoundingClientRect();
+  const W = r.width || 800, H = r.height || 400;
+  const th = Math.max(110, Math.min(H * 0.88, W * (W < H ? 0.58 : 0.36) / 0.75)), tw = th * 0.75;
+  tv.tw = tw; tv.th = th; tv.s = 0.64;
+  tv.sw = tw * tv.s;                 // 两边小封面的宽
+  tv.gap = tw * 0.09;
+  tv.R = Math.min(8, Math.ceil((W / 2 - tw / 2) / (tv.sw + tv.gap)) + 1);
+  tv.stage.style.setProperty("--tw", tw + "px");
+  tv.stage.style.setProperty("--th", th + "px");
+}
+function tvPos(o) {
+  const a = Math.abs(o);
+  if (!a) return `translateX(0) scale(1)`;
+  const x = Math.sign(o) * (tv.tw / 2 + tv.gap * 1.6 + tv.sw / 2 + (a - 1) * (tv.sw + tv.gap));
+  return `translateX(${x.toFixed(1)}px) translateY(${(tv.th * 0.06).toFixed(1)}px) scale(${tv.s})`;
+}
+function tvArt(g) {
+  for (const k of ["box", "title", "snap"]) { const f = thumbFor(g, k); if (f) return { url: urlOf(f), px: k !== "box" }; }
+  return null;
+}
+function tvTile(n) {
+  const g = tv.list[n], el = document.createElement("div");
+  el.className = "tv-tile";
+  const art = tvArt(g), nm = gameNames(g);
+  el.innerHTML = art ? `<img class="${art.px ? "px" : ""}" src="${art.url}" alt="" draggable="false">`
+    : `<div class="tv-ph"><b>🎮</b>${escapeHtml(nm.loc || nm.en)}</div>`;
+  if (mpSessions.some(x => x.game === gameKey(g) && x.host !== MP_ID)) el.insertAdjacentHTML("beforeend", `<span class="tv-live">● ${escapeHtml(L("有人在玩"))}</span>`);
+  el.onclick = () => { if (!tv) return; if (n === tv.i) play(g); else tvGo(n); };
+  if (tv.key === "_recent") el.__recentGame = g;
+  return el;
+}
+// 把选中位置附近的封面摆好（只留看得见的那几个，几千个游戏也不卡）
+function tvDraw(instant) {
+  const { list, i, R, tiles } = tv;
+  for (const [n, el] of tiles) if (Math.abs(n - i) > R + 1) { el.remove(); tiles.delete(n); }
+  let fresh = [];
+  for (let n = Math.max(0, i - R - 1); n <= Math.min(list.length - 1, i + R + 1); n++) {
+    let el = tiles.get(n);
+    if (!el) { el = tvTile(n); el.classList.add("now"); tiles.set(n, el); tv.stage.appendChild(el); fresh.push(el); }
+    const o = n - i, a = Math.abs(o);
+    el.style.transform = tvPos(o);
+    el.style.opacity = a > R ? 0 : a === 0 ? 1 : Math.max(0.3, 0.78 - (a - 1) * 0.16);
+    el.style.zIndex = 20 - a;
+    el.classList.toggle("c", !o);
+    if (!o) { el.tabIndex = 0; tv.center = el; } else el.removeAttribute("tabindex");
+  }
+  if (instant) for (const el of tiles.values()) el.classList.add("now");
+  void tv.stage.offsetWidth;          // 新加的封面先放好位置再打开动画
+  for (const el of tiles.values()) el.classList.remove("now");
+}
+function tvGo(n) {
+  if (!tv) return false;
+  n = Math.max(0, Math.min(tv.list.length - 1, n));
+  if (n === tv.i) return false;
+  const hadFocus = document.activeElement && document.activeElement.classList.contains("tv-tile");
+  tv.i = n;
+  tvSel[tv.key] = gameKey(tv.list[n]); tvSelIdx[tv.key] = n;
+  tvDraw(false);
+  tvInfo();
+  tvBg(false);
+  if (hadFocus) tv.center.focus({ preventScroll: true });
+  return true;
+}
+const tvStep = d => tv ? tvGo(tv.i + d) : false;
+function tvInfo() {
+  const g = tv.list[tv.i], nm = gameNames(g), grp = groupOf(g), ico = iconFor(grp);
+  const logo = thumbFor(g, "logo"), max = maxPlayersOf({ group: grp, system: g.system });
+  const live = mpSessions.filter(x => x.game === gameKey(g) && x.host !== MP_ID).length;
+  const meta = [`<span>${ico ? `<img src="${ico}" alt="">` : ""}${escapeHtml(L(groupName(grp)))}</span>`,
+    `<span>👥 ${escapeHtml(max > 1 ? L("1–{0} 人", max) : L("单人"))}</span>`];
+  if (isVersus(g)) meta.push(`<span>⚔ ${escapeHtml(L("对战"))}</span>`);
+  if (live) meta.push(`<span class="live">● ${escapeHtml(L("有人在玩，可以乱入"))}</span>`);
+  meta.push(`<span>${tv.i + 1} / ${tv.list.length}</span>`);
+  tv.info.innerHTML = (logo ? `<img class="tv-logo" src="${urlOf(logo)}" alt="">` + `<div class="tv-en">${escapeHtml(nm.loc || nm.en)}</div>`
+    : `<div class="tv-name">${escapeHtml(nm.loc || nm.en)}</div>` + (nm.loc ? `<div class="tv-en">${escapeHtml(nm.en)}</div>` : ""))
+    + `<div class="tv-meta">${meta.join("")}</div>`;
+  tvHints();
+}
+function tvHints() {
+  if (!tv) return;
+  const pad = navigator.getGamepads && [...navigator.getGamepads()].some(Boolean);
+  tv.hints.parentElement.classList.toggle("haspad", !!pad);
+  const k = (c, t) => `<kbd class="${c}">${t}</kbd>`;
+  const items = pad ? [[k("", "◀") + k("", "▶"), L("选游戏")], [k("a", "A"), L("开始游戏")], [k("", "LB") + k("", "RB"), L("换机种")], [k("", "Start"), L("大厅")]]
+    .concat(tv.key === "_recent" ? [[k("x", "X"), L("删掉记录")]] : [])
+    : IS_TOUCH ? [["👆", L("左右滑动选游戏")], ["👆", L("点中间的封面开始游戏")]]
+    : [[k("", "←") + k("", "→"), L("选游戏")], [k("", "OK") + " / " + k("", L("回车")), L("开始游戏")], [k("", "↑"), L("换机种、菜单")]];
+  tv.hints.innerHTML = items.map(([a, b]) => `<span>${a} ${escapeHtml(b)}</span>`).join("");
+}
+window.addEventListener("gamepadconnected", () => tvHints());
+window.addEventListener("gamepaddisconnected", () => tvHints());
+// 背景：选中游戏的截图（没有就用标题画面、封面），模糊后铺满；按住方向键快速翻时等停下来再换
+function tvBg(instant) {
+  clearTimeout(tv.bgTimer);
+  const go = () => {
+    if (!tv) return;
+    const g = tv.list[tv.i];
+    const f = thumbFor(g, "snap") || thumbFor(g, "title") || thumbFor(g, "box");
+    const url = f ? urlOf(f) : null;
+    if (url === tv.bgUrl) return;
+    tv.bgUrl = url;
+    const [a, b] = tv.bgOn ? [tv.bg[0], tv.bg[1]] : [tv.bg[1], tv.bg[0]];   // a = 换上来的那层
+    tv.bgOn ^= 1;
+    if (url) a.style.backgroundImage = `url("${url}")`;
+    a.classList.toggle("on", !!url);
+    b.classList.remove("on");
+  };
+  if (instant) go(); else tv.bgTimer = setTimeout(go, 220);
+}
+(() => {
+  let t = 0;
+  const re = () => { clearTimeout(t); t = setTimeout(() => { if (tv && tv.stage.isConnected) { tvLayout(); tvDraw(true); } }, 80); };
+  window.addEventListener("resize", re);
+  try { new ResizeObserver(re).observe(gridEl); } catch (e) {}
+})();
+
 function escapeHtml(s) {
   return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
 // ---------------- 手机：抽屉菜单、全屏 ----------------
 function openDrawer() { document.body.classList.add("drawer-open"); }
-function closeDrawer() { document.body.classList.remove("drawer-open"); }
+function closeDrawer() { document.body.classList.remove("drawer-open", "tvside"); }
 document.getElementById("mbMenu").onclick = openDrawer;
 document.getElementById("drawerMask").onclick = closeDrawer;
 document.getElementById("mbLobby").onclick = () => showHall("live");
@@ -2811,7 +3253,15 @@ function matchPrompt() {
 }
 
 // ---- 局域网信息：在左上角显示本机的局域网地址，方便告诉别人 ----
-let lanState = null;
+let lanState = null, uploadVerSeen = null;
+// 别人从手机 / 电脑传来了游戏：没在玩游戏时重新读取游戏列表
+setInterval(async () => {
+  if (uploadVerSeen == null || document.hidden || stage.querySelector("iframe")) return;
+  try {
+    const up = await (await fetch("/api/upload/info", { cache: "no-store" })).json();
+    if (up && up.ver !== uploadVerSeen) { uploadVerSeen = up.ver; await reloadFromServer(); mpToast(L("收到了上传的游戏，列表已更新")); }
+  } catch (e) {}
+}, 4000);
 async function refreshLanInfo() {
   try { lanState = await (await fetch("/api/lan", { cache: "no-store" })).json(); } catch (e) { return; }
   const el = document.getElementById("lanInfo");
@@ -2821,6 +3271,16 @@ async function refreshLanInfo() {
   } else if (lanState.isLocal && lanState.enabled && lanState.addresses.length) {
     el.hidden = false;
     el.innerHTML = "局域网联机已打开：同一网络里开着 EmulatorJS 的电脑会自动出现在「正在游戏」里。没装的设备可以用浏览器访问 " + lanState.addresses.map(a => `<b>http://${a}:${lanState.port}</b>`).join(" 或 ");
+    // 上传游戏：手机、电脑用浏览器打开 /upload，输入这里的 4 位密码（只有 App 版有）
+    try {
+      const up = await (await fetch("/api/upload/info", { cache: "no-store" })).json();
+      if (up && up.pin) {
+        const d = document.createElement("div"); d.className = "lan-up";
+        d.innerHTML = `<span>${escapeHtml(L("上传游戏：用同一网络里的手机或电脑浏览器打开"))}</span> <b>http://${escapeHtml(lanState.addresses[0])}:${lanState.port}/upload</b><span>${escapeHtml(L("，密码"))}</span> <b class="pin">${escapeHtml(up.pin)}</b>`;
+        el.appendChild(d);
+        uploadVerSeen = uploadVerSeen == null ? up.ver : uploadVerSeen;
+      }
+    } catch (e) {}
   } else if (!lanState.isLocal) {
     el.hidden = false;
     el.innerHTML = `已连接到主机 <b>${escapeHtml(location.host)}</b>` +
@@ -3078,6 +3538,8 @@ async function loadDirs(path) {
     list.appendChild(b);
   }
   list.scrollTop = 0;
+  // 用手柄 / 遥控器时：进了一个文件夹后，选中框放到第一个子文件夹上（没有子文件夹就放到「选这个文件夹」）
+  if (document.body.classList.contains("padnav") && !dirModal.hidden) navFocus(list.querySelector("button") || document.getElementById("dmPick"));
 }
 
 document.getElementById("openSettings").onclick = showSettings;
@@ -4972,6 +5434,8 @@ const VPAD_BODY = {
     pill: { start: [0.5, 0.3848, "START"] }, pillL: { start: [0.655, 0.615] }, pillSize: [0.104, 0.034], label: "#7a7a88",
     pillBg: "linear-gradient(#ef6a64,#c0302a 60%,#9e1f1a)" },
 };
+// 手柄底板离屏幕底边留的距离：安卓全屏时，手指碰到最底边会拉出系统的返回/主页那一行，所以抬高一点
+const PAD_LIFT = 30;
 function vpadBodyCss(g, base) {
   const sys = g.system || "";
   const k = sys === "famicom" ? "nes" : sys === "gbc" ? "gb" : sys === "arcade" || sys === "mame" ? "arc" : ["segaMD", "segaCD", "sega32x"].includes(sys) ? "md" : sys;
@@ -5033,8 +5497,8 @@ function vpadBodyCss(g, base) {
       font:800 ${u(0.026)}/1 system-ui,sans-serif;letter-spacing:.08em;color:${B.label}!important;white-space:nowrap}`),
   ];
   const portrait = [
-    `#game,${V}{--bw:min(100vw,520px)}${V}{bottom:calc(env(safe-area-inset-bottom,0px) + 6px)!important}`,
-    `#game:has(${V}:not([style*="none"])) .ejs_canvas_parent{height:max(45%,calc(100% - ${u(B.h + (B.top || 0))} - ${B.speedP ? 30 : 66}px))!important}`,
+    `#game,${V}{--bw:min(100vw,520px)}${V}{bottom:calc(env(safe-area-inset-bottom,0px) + ${PAD_LIFT}px)!important}`,
+    `#game:has(${V}:not([style*="none"])) .ejs_canvas_parent{height:max(45%,calc(100% - ${u(B.h + (B.top || 0))} - ${(B.speedP ? 30 : 66) + PAD_LIFT - 6}px))!important}`,
     `${V} .ejs_virtualGamepad_left,${V} .ejs_virtualGamepad_right,${V} .ejs_virtualGamepad_bottom{left:calc(50% - var(--bw)/2)!important;right:auto!important;top:auto!important;bottom:0!important;
       width:var(--bw)!important;height:${u(B.h)}!important;margin:0!important;pointer-events:none}`,
     `${V} .ejs_virtualGamepad_bottom{background:${img} center/100% 100% no-repeat;filter:drop-shadow(0 -2px 8px rgba(0,0,0,.35))}`,
@@ -5045,8 +5509,8 @@ function vpadBodyCss(g, base) {
   ];
   // 横屏：半边宽度 = 游戏画面两边空出来的宽度（ar = 游戏画面宽高比），同时不能比屏幕高
   const landscape = [
-    `#game,${V}{--hw:min(calc(max(130px,min(calc((100vw - var(--gw,100vh*${B.ar || 1.34}))/2 - 2px),${B.hwMax || 300}px))*var(--vs,1)),calc((100vh - 70px)*${+(hf / (B.h + (B.top || 0))).toFixed(4)}));--bw:calc(var(--hw)/${hf})}`,
-    `${V}{bottom:calc(env(safe-area-inset-bottom,0px) + 6px)!important}`,
+    `#game,${V}{--hw:min(calc(max(130px,min(calc((100vw - var(--gw,100vh*${B.ar || 1.34}))/2 - 2px),${B.hwMax || 300}px))*var(--vs,1)),calc((100vh - ${64 + PAD_LIFT}px)*${+(hf / (B.h + (B.top || 0))).toFixed(4)}));--bw:calc(var(--hw)/${hf})}`,
+    `${V}{bottom:calc(env(safe-area-inset-bottom,0px) + ${PAD_LIFT}px)!important}`,
     `${V} .ejs_virtualGamepad_left,${V} .ejs_virtualGamepad_right,${V} .ejs_virtualGamepad_bottom{top:auto!important;bottom:0!important;height:${u(B.h)}!important;margin:0!important;pointer-events:none}`,
     `${V} .ejs_virtualGamepad_left{left:0!important;right:auto!important;width:${u(wl)}!important;background:${half("left")} center/100% 100% no-repeat;filter:drop-shadow(0 0 6px rgba(0,0,0,.4))}`,
     `${V} .ejs_virtualGamepad_right{left:auto!important;right:0!important;width:${u(wr)}!important;background:${half("right")} center/100% 100% no-repeat;filter:drop-shadow(0 0 6px rgba(0,0,0,.4))}`,
@@ -5784,8 +6248,16 @@ function navMove(dir) {
   const scope = navScope(), items = navItems(scope);
   if (!items.length) return;
   const cur = document.activeElement;
+  // 大屏模式：左右换游戏（到头了才走到旁边的按钮）
+  if (tv && scope === document.body && cur && cur.classList.contains("tv-tile") && (dir === "left" || dir === "right")) {
+    if (tvStep(dir === "left" ? -1 : 1)) { document.body.classList.add("padnav"); return; }
+  }
+  if (tv && scope === document.body && cur && tv.center) {   // 大屏模式：上 = 当前机种，下 = 回到封面
+    if (cur === tv.center && dir === "up") { const on = gridEl.querySelector(".tv-sysb.on"); if (on) return navFocus(on); }
+    if (dir === "down" && cur.closest && cur.closest(".tv .grid-head")) return navFocus(tv.center);
+  }
   if (!cur || !items.includes(cur)) {
-    const first = (scope === document.body && gridEl.style.display === "block" && gridEl.querySelector(".card")) || items[0];
+    const first = (scope === document.body && gridEl.style.display === "block" && gridEl.querySelector(".card, .tv-tile.c")) || items[0];
     return navFocus(first);
   }
   if (cur.type === "range" && (dir === "left" || dir === "right")) {   // 滑块：左右调数值
@@ -5799,13 +6271,15 @@ function navMove(dir) {
     if (el === cur) continue;
     const b = el.getBoundingClientRect(), bx = b.left + b.width / 2, by = b.top + b.height / 2;
     const dx = bx - ax, dy = by - ay;
+    // side = 横向（或纵向）错开的距离：两个按钮在这个方向上有重叠就算 0（比如上面一排小按钮、下面一个整行宽的按钮）
+    const gapX = Math.max(0, b.left - a.right, a.left - b.right), gapY = Math.max(0, b.top - a.bottom, a.top - b.bottom);
     let main, side;
-    if (dir === "right") { if (b.left < a.right - 4 && dx <= 4) continue; main = dx; side = dy; }
-    else if (dir === "left") { if (b.right > a.left + 4 && dx >= -4) continue; main = -dx; side = dy; }
-    else if (dir === "down") { if (b.top < a.bottom - 4 && dy <= 4) continue; main = dy; side = dx; }
-    else { if (b.bottom > a.top + 4 && dy >= -4) continue; main = -dy; side = dx; }
+    if (dir === "right") { if (b.left < a.right - 4 && dx <= 4) continue; main = dx; side = gapY; }
+    else if (dir === "left") { if (b.right > a.left + 4 && dx >= -4) continue; main = -dx; side = gapY; }
+    else if (dir === "down") { if (b.top < a.bottom - 4 && dy <= 4) continue; main = dy; side = gapX; }
+    else { if (b.bottom > a.top + 4 && dy >= -4) continue; main = -dy; side = gapX; }
     if (main <= 0) continue;
-    const score = main + Math.abs(side) * 2.5;
+    const score = main + side * 2.5 + Math.abs(dir === "up" || dir === "down" ? dx : dy) * 0.05;
     if (score < bestScore) { bestScore = score; best = el; }
   }
   if (best) navFocus(best);
@@ -5836,6 +6310,9 @@ function navBack() {
   }
   if (!hallEl.hidden) { hideHall(); return true; }
   if (document.body.classList.contains("drawer-open")) { closeDrawer(); return true; }
+  if (document.body.classList.contains("tvside") && tv && !stage.querySelector("iframe")) { closeDrawer(); navFocus(tv.center); return true; }
+  // 大屏模式：焦点在上面一行（机种、显示方式）时，返回键回到游戏封面
+  if (tv && tv.center && !stage.querySelector("iframe") && document.activeElement !== tv.center && gridEl.contains(document.activeElement)) { navFocus(tv.center); return true; }
   if (stage.querySelector("iframe")) { gameMenuOpen(); return true; }
   return false;
 }
@@ -5846,7 +6323,7 @@ function navPlatform(step) {
   let i = btns.findIndex(b => b.classList.contains("active"));
   i = i < 0 ? 0 : (i + step + btns.length) % btns.length;
   btns[i].click();
-  setTimeout(() => navFocus(gridEl.querySelector(".card") || btns[i]), 50);
+  setTimeout(() => navFocus(gridEl.querySelector(".card, .tv-tile.c") || btns[i]), 50);
 }
 // ---- 游戏里的菜单 ----
 function gameEmu() { const f = stage.querySelector("iframe"); try { return f && f.contentWindow.EJS_emulator; } catch (e) { return null; } }
@@ -5962,7 +6439,7 @@ document.addEventListener("keydown", e => {
   }
   if (e.key === "Escape" && !isTyping(t)) { if (navBack()) e.preventDefault(); }
   if (e.key === "Delete" && t && t.__recentGame) { e.preventDefault(); recentDelete(t.__recentGame); }
-  if (e.key === "Enter" && t && t.classList && t.classList.contains("card")) { e.preventDefault(); t.click(); }
+  if (e.key === "Enter" && t && t.classList && (t.classList.contains("card") || t.classList.contains("tv-tile"))) { e.preventDefault(); t.click(); }
 });
 document.addEventListener("mousedown", () => document.body.classList.remove("padnav"), true);
 
@@ -6306,7 +6783,7 @@ window.cheatLibOpen = cheatLibOpen;
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.2.0";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",

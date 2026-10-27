@@ -51,6 +51,11 @@ function createServer(opts) {
   const HOME = os.homedir();
   const log = opts.log || (() => {});
   let PORT = opts.port || 8765;
+  // 上传页（/upload）：同一网络里的手机、电脑用浏览器把游戏传到这台机器上。要输入本机显示的 4 位密码，
+  // 同一个地址连续输错 5 次要等 10 分钟
+  const UPLOAD_PIN = String(crypto.randomInt(1000, 10000));
+  let uploadVer = 0;
+  const uploadFails = new Map();   // IP → [次数, 第一次错的时间]
   const LOCAL_HOSTS = () => new Set(["127.0.0.1:" + PORT, "localhost:" + PORT, "[::1]:" + PORT]);
 
   // ---------------- folder settings ----------------
@@ -590,6 +595,8 @@ function createServer(opts) {
         if (sp) { const have = new Set(files.map(f => f[0])); for (const f of listFiles(sp)) if (!have.has(f[0])) files.push(f); }
         return sendJson(req, res, { files });
       }
+      if (p === "/upload") return sendFile(req, res, path.join(WEB_DIR, "upload.html"), req.method === "HEAD");
+      if (p === "/api/upload/info") return isLocal(req) ? sendJson(req, res, { pin: UPLOAD_PIN, ver: uploadVer }) : sendErr(res, 403);
       if (p === "/api/dirs") { if (!isLocal(req)) return sendErr(res, 403); return sendJson(req, res, listDirs(u.searchParams.get("path") || "")); }
       if (p.startsWith("/fs/")) {
         const rest = p.slice(4), i = rest.indexOf("/");
@@ -614,6 +621,25 @@ function createServer(opts) {
       if (!isLocal(req)) return sendErr(res, 403);   // only our own page may write into our folders
       let r;
       try { r = await romSave(u.searchParams, req); } catch (e) { r = [{ error: e.status === 413 ? "too large" : "保存失败：" + e.message, code: "write" }, e.status === 413 ? 413 : 500]; }
+      return sendJson(req, res, r[0], r[1]);
+    }
+    if (p === "/api/upload") {
+      if (!isLocal(req)) {
+        const ip = String(req.socket.remoteAddress || ""), now = Date.now();
+        let f = uploadFails.get(ip);
+        if (f && now - f[1] > 10 * 60 * 1000) { uploadFails.delete(ip); f = null; }
+        if (f && f[0] >= 5) return sendJson(req, res, { error: "too many tries", code: "locked" }, 429);
+        if (String(req.headers["x-ejs-pin"] || "") !== UPLOAD_PIN) {
+          uploadFails.set(ip, f ? [f[0] + 1, f[1]] : [1, now]);
+          return sendJson(req, res, { error: "wrong pin", code: "pin" }, 401);
+        }
+        uploadFails.delete(ip);
+      }
+      if (u.searchParams.get("check") === "1") return sendJson(req, res, { ok: true, roms: currentConfig().roms.ok });
+      if (u.searchParams.get("kind") === "thumbs") return sendJson(req, res, { error: "bad kind" }, 400);
+      let r;
+      try { r = await romSave(u.searchParams, req); } catch (e) { r = [{ error: e.status === 413 ? "too large" : "保存失败：" + e.message, code: "write" }, e.status === 413 ? 413 : 500]; }
+      if (r[0] && r[0].done) uploadVer++;
       return sendJson(req, res, r[0], r[1]);
     }
     let raw;

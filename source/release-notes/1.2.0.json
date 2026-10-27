@@ -1,0 +1,62 @@
+{
+ "zh-CN": [
+  "新的「大屏」选游戏界面（电视、Quest 默认使用）：一排封面左右选，选中的放大，背景是这个游戏的画面，下面显示游戏 Logo、机种、几人游戏、有没有人在玩；LB / RB 换机种。右上角可以和封面墙切换",
+  "游戏画面两边空着时（比如竖版街机）显示边框：左边封面，右边 Logo 和标题画面；也可以用自己的边框图（放在 thumbnails/Bezels 文件夹里）",
+  "上传游戏：用同一网络里的手机或电脑浏览器打开程序显示的地址，输入 4 位密码，就能把 ROM 和 BIOS 传到电视或电脑里，列表自动刷新",
+  "电视遥控器、手柄可以在选文件夹的窗口里进入子文件夹；安卓：系统网页组件太旧（低于 80 版）时会提示；虚拟手柄离屏幕底边远一点，不容易误触系统手势"
+ ],
+ "zh-TW": [
+  "新的「大螢幕」選遊戲介面（電視、Quest 預設使用）：一排封面左右選，選中的放大，背景是這個遊戲的畫面，下面顯示遊戲 Logo、機種、幾人遊戲、有沒有人在玩；LB / RB 換機種。右上角可以和封面牆切換",
+  "遊戲畫面兩邊空著時（例如直向街機）顯示邊框：左邊封面，右邊 Logo 和標題畫面；也可以用自己的邊框圖（放在 thumbnails/Bezels 資料夾裡）",
+  "上傳遊戲：用同一網路裡的手機或電腦瀏覽器打開程式顯示的網址，輸入 4 位密碼，就能把 ROM 和 BIOS 傳到電視或電腦裡，清單自動更新",
+  "電視遙控器、手把可以在選資料夾的視窗裡進入子資料夾；安卓：系統網頁元件太舊（低於 80 版）時會提示；虛擬手把離螢幕底邊遠一點，不容易誤觸系統手勢"
+ ],
+ "en": [
+  "New \"Big screen\" game picker (default on TVs and Quest): a row of covers you scroll left and right, the selected one enlarged over a blurred shot of the game, with its logo, system, player count and whether someone is playing it; LB / RB switch systems. Switch back to the grid at the top right",
+  "Bezels when the game picture leaves empty space on both sides (vertical arcade games, for example): the cover on the left, logo and title screen on the right; your own bezel images also work (put them in thumbnails/Bezels)",
+  "Upload games: open the address the app shows in a browser on a phone or computer on the same network, enter the 4-digit PIN, and send ROMs and BIOS files to the TV or computer; the list refreshes by itself",
+  "TV remotes and controllers can open subfolders in the folder picker; Android warns when the system WebView is too old (below 80); the on-screen pad sits a little higher so it doesn't trigger the system gesture bar"
+ ],
+ "ja": [
+  "新しい「大画面」ゲーム選択画面（テレビ・Quest では標準）：パッケージを左右に選び、選んだものが大きく表示され、背景はそのゲームの画面。ロゴ・機種・人数・プレイ中かどうかを表示。LB / RB で機種切り替え。右上でグリッド表示に戻せます",
+  "ゲーム画面の両側が空いているとき（縦画面のアーケードなど）ベゼルを表示：左にパッケージ、右にロゴとタイトル画面。自分のベゼル画像も使えます（thumbnails/Bezels に入れる）",
+  "ゲームのアップロード：同じネットワークのスマホやパソコンのブラウザでアプリに表示されたアドレスを開き、4 桁のパスワードを入れると ROM や BIOS をテレビやパソコンに送れます。リストは自動で更新",
+  "フォルダ選択でリモコンやコントローラーからサブフォルダに入れるように。Android：システムの WebView が古すぎる（80 未満）と警告。画面パッドを少し上にしてシステムのジェスチャーに触れにくく"
+ ],
+ "ko": [
+  "새 ‘큰 화면’ 게임 선택 화면(TV·Quest 기본): 표지를 좌우로 고르면 선택한 게임이 크게 나오고 배경은 그 게임 화면, 로고·기종·인원·플레이 중 여부를 표시. LB / RB로 기종 변경. 오른쪽 위에서 격자 보기로 바꿀 수 있습니다",
+  "게임 화면 양옆이 비어 있을 때(세로 아케이드 등) 베젤 표시: 왼쪽에 표지, 오른쪽에 로고와 타이틀 화면. 직접 만든 베젤 이미지도 사용 가능(thumbnails/Bezels에 넣기)",
+  "게임 올리기: 같은 네트워크의 휴대폰이나 컴퓨터 브라우저에서 앱에 표시된 주소를 열고 4자리 비밀번호를 넣으면 ROM과 BIOS를 TV나 컴퓨터로 보낼 수 있습니다. 목록은 자동으로 새로 고침",
+  "폴더 선택 창에서 리모컨·컨트롤러로 하위 폴더에 들어갈 수 있게. 안드로이드: 시스템 WebView가 너무 오래되면(80 미만) 알림. 화면 패드를 조금 위로 올려 시스템 제스처가 잘못 눌리지 않게"
+ ],
+ "es": [
+  "Nueva vista «Pantalla grande» para elegir juego (por defecto en televisores y Quest): una fila de portadas que se recorre a izquierda y derecha, la elegida ampliada sobre una imagen borrosa del juego, con su logo, sistema, número de jugadores y si alguien lo está jugando; LB / RB cambian de sistema. Arriba a la derecha se vuelve a la cuadrícula",
+  "Marcos cuando la imagen del juego deja espacio libre a los lados (juegos arcade verticales, por ejemplo): la portada a la izquierda, logo y pantalla de título a la derecha; también sirven tus propios marcos (en thumbnails/Bezels)",
+  "Subir juegos: abre la dirección que muestra la aplicación en el navegador de un móvil u ordenador de la misma red, escribe el PIN de 4 cifras y envía ROMs y BIOS al televisor u ordenador; la lista se actualiza sola",
+  "Con el mando a distancia o un mando se puede entrar en subcarpetas al elegir carpeta; Android avisa si el WebView del sistema es demasiado antiguo (menor que 80); el mando en pantalla está un poco más alto para no activar los gestos del sistema"
+ ],
+ "fr": [
+  "Nouvel affichage « Grand écran » pour choisir un jeu (par défaut sur les téléviseurs et le Quest) : une rangée de jaquettes à parcourir à gauche et à droite, celle choisie agrandie sur une image floue du jeu, avec son logo, le système, le nombre de joueurs et si quelqu'un y joue ; LB / RB changent de système. Retour à la grille en haut à droite",
+  "Cadres quand l'image du jeu laisse de la place sur les côtés (jeux d'arcade verticaux par exemple) : la jaquette à gauche, le logo et l'écran titre à droite ; vos propres cadres fonctionnent aussi (dans thumbnails/Bezels)",
+  "Envoi de jeux : ouvrez l'adresse affichée par l'application dans le navigateur d'un téléphone ou d'un ordinateur du même réseau, saisissez le code à 4 chiffres et envoyez ROMs et BIOS vers le téléviseur ou l'ordinateur ; la liste se met à jour toute seule",
+  "La télécommande ou la manette peut ouvrir les sous-dossiers dans le choix de dossier ; Android prévient si le WebView du système est trop ancien (avant 80) ; la manette à l'écran est un peu plus haute pour ne pas déclencher les gestes du système"
+ ],
+ "de": [
+  "Neue „Großbild“-Spielauswahl (Standard auf Fernsehern und Quest): eine Reihe Cover zum Blättern nach links und rechts, das gewählte groß über einem unscharfen Bild des Spiels, mit Logo, System, Spielerzahl und ob gerade jemand spielt; LB / RB wechseln das System. Oben rechts zurück zum Raster",
+  "Rahmen, wenn neben dem Spielbild Platz frei ist (z. B. vertikale Arcade-Spiele): links das Cover, rechts Logo und Titelbild; eigene Rahmenbilder gehen auch (in thumbnails/Bezels)",
+  "Spiele hochladen: die von der App angezeigte Adresse im Browser eines Handys oder Computers im selben Netz öffnen, 4-stellige PIN eingeben und ROMs und BIOS auf den Fernseher oder Computer schicken; die Liste aktualisiert sich selbst",
+  "Mit Fernbedienung oder Controller lassen sich in der Ordnerauswahl Unterordner öffnen; Android warnt, wenn das System-WebView zu alt ist (unter 80); das Bildschirm-Pad sitzt etwas höher und löst die Systemgesten nicht aus"
+ ],
+ "pt": [
+  "Nova tela “Tela grande” para escolher o jogo (padrão em TVs e no Quest): uma fileira de capas para passar para os lados, a escolhida ampliada sobre uma imagem desfocada do jogo, com logo, sistema, número de jogadores e se alguém está jogando; LB / RB trocam de sistema. No canto superior direito volta para a grade",
+  "Molduras quando a imagem do jogo deixa espaço vazio dos lados (jogos de arcade verticais, por exemplo): a capa à esquerda, logo e tela de título à direita; suas próprias molduras também funcionam (em thumbnails/Bezels)",
+  "Enviar jogos: abra o endereço mostrado pelo app no navegador de um celular ou computador da mesma rede, digite o PIN de 4 dígitos e mande ROMs e BIOS para a TV ou o computador; a lista se atualiza sozinha",
+  "O controle remoto ou o controle podem entrar em subpastas ao escolher a pasta; o Android avisa quando o WebView do sistema é antigo demais (abaixo de 80); o controle na tela fica um pouco mais alto para não acionar os gestos do sistema"
+ ],
+ "ru": [
+  "Новый выбор игры «Большой экран» (по умолчанию на телевизорах и Quest): ряд обложек листается влево-вправо, выбранная увеличена на фоне размытого кадра из игры, с логотипом, системой, числом игроков и пометкой, если в неё кто-то играет; LB / RB переключают систему. Вернуться к сетке можно справа вверху",
+  "Рамки, когда по бокам от картинки игры остаётся пустое место (например, вертикальные аркады): слева обложка, справа логотип и титульный экран; можно использовать и свои рамки (в папке thumbnails/Bezels)",
+  "Загрузка игр: откройте адрес, который показывает приложение, в браузере телефона или компьютера в той же сети, введите 4-значный PIN и отправьте ROM и BIOS на телевизор или компьютер; список обновится сам",
+  "Пультом или контроллером можно заходить в подпапки при выборе папки; Android предупреждает, если системный WebView слишком старый (ниже 80); экранный геймпад поднят чуть выше, чтобы не задевать системные жесты"
+ ]
+}

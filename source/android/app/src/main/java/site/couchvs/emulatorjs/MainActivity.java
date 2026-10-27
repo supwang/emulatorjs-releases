@@ -259,16 +259,23 @@ public class MainActivity extends Activity {
         warnOldWebView(s.getUserAgentString());
     }
 
-    /** The game page needs a browser engine (Android System WebView) of Chrome 73 or newer; older TV boxes may have one too old. */
+    /** The emulator cores need a browser engine (Android System WebView) of Chrome 80 or newer; older TVs and boxes have one too old. */
     private void warnOldWebView(String ua) {
         java.util.regex.Matcher m = java.util.regex.Pattern.compile("Chrome/(\\d+)").matcher(ua);
         if (!m.find()) return;
         int major = Integer.parseInt(m.group(1));
-        if (major >= 73) return;
+        if (major >= 80) return;
+        String pkg = "";
+        if (Build.VERSION.SDK_INT >= 26) {
+            try { android.content.pm.PackageInfo pi = WebView.getCurrentWebViewPackage(); if (pi != null) pkg = pi.packageName + " " + pi.versionName; } catch (Exception e) { }
+        }
+        String who = pkg.isEmpty() ? "" : "\n(" + pkg + ")";
         new android.app.AlertDialog.Builder(this)
-                .setTitle(t("网页组件太旧", "Browser engine too old"))
-                .setMessage(t("这台设备的「Android System WebView」版本是 " + major + "，太旧了，游戏可能打不开。\n请在应用商店里更新「Android System WebView」（或「Chrome」）后再打开 EmulatorJS。",
-                        "This device's \"Android System WebView\" is version " + major + ", which is too old; games may not open.\nPlease update \"Android System WebView\" (or Chrome) from the app store, then open EmulatorJS again."))
+                .setTitle(t("网页组件太旧，游戏无法运行", "Browser engine too old: games can't run"))
+                .setMessage(t("这台设备的网页组件「Android System WebView」是 " + major + " 版，模拟器需要 80 版或更新的，所以游戏打不开。" + who
+                                + "\n\n可以在应用商店里搜「Android System WebView」或「Chrome」看看能不能更新；更新不了的话，这台设备暂时没法玩，可以换一台较新的手机、电视盒子或 Quest。",
+                        "This device's browser engine (\"Android System WebView\") is version " + major + ". The emulator needs version 80 or newer, so games won't open." + who
+                                + "\n\nTry updating \"Android System WebView\" or Chrome from the app store. If it can't be updated, this device can't play for now; a newer phone, TV box or Quest will work."))
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
     }
