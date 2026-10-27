@@ -1,119 +1,119 @@
 {
- "version": "1.1.0",
- "date": "2026-10-21",
- "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.1.0",
+ "version": "1.2.0",
+ "date": "2026-10-27",
+ "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.2.0",
  "baidu": "https://pan.baidu.com/s/13atBCqmTib1rGp_30279mQ?pwd=6akk",
  "baiduCode": "6akk",
  "notes": {
   "zh-CN": [
-   "手机和平板上的虚拟手柄换成各机种自己的手柄：FC、SFC、MD、PS1、N64、GBA、GB、街机都有手柄底板和同款颜色的按键；竖屏时画面在上、手柄在下，横屏时手柄分在画面两边，不挡画面",
-   "横屏手柄大小可以调（游戏上方「🎮 手柄大小」，按机种保存）；按键按下有动画，安卓上还会轻轻震一下",
-   "接上实体手柄（Xbox 等）后自动当玩家 1，屏幕上的虚拟手柄自动隐藏；拔掉手柄或点一下屏幕就回来",
-   "安卓：默认使用 CRT 显示器滤镜（掌机除外）；修复更新后打开出现「连接被拒绝」的问题"
+   "新的「大屏」选游戏界面（电视、Quest 默认使用）：一排封面左右选，选中的放大，背景是这个游戏的画面，下面显示游戏 Logo、机种、几人游戏、有没有人在玩；LB / RB 换机种。右上角可以和封面墙切换",
+   "游戏画面两边空着时（比如竖版街机）显示边框：左边封面，右边 Logo 和标题画面；也可以用自己的边框图（放在 thumbnails/Bezels 文件夹里）",
+   "上传游戏：用同一网络里的手机或电脑浏览器打开程序显示的地址，输入 4 位密码，就能把 ROM 和 BIOS 传到电视或电脑里，列表自动刷新",
+   "电视遥控器、手柄可以在选文件夹的窗口里进入子文件夹；安卓：系统网页组件太旧（低于 80 版）时会提示；虚拟手柄离屏幕底边远一点，不容易误触系统手势"
   ],
   "zh-TW": [
-   "手機和平板上的虛擬手把換成各機種自己的手把：FC、SFC、MD、PS1、N64、GBA、GB、街機都有手把底板和同款顏色的按鍵；直向時畫面在上、手把在下，橫向時手把分在畫面兩邊，不擋畫面",
-   "橫向手把大小可以調（遊戲上方「🎮 手把大小」，按機種儲存）；按鍵按下有動畫，安卓上還會輕輕震一下",
-   "接上實體手把（Xbox 等）後自動當玩家 1，螢幕上的虛擬手把自動隱藏；拔掉手把或點一下螢幕就回來",
-   "安卓：預設使用 CRT 顯示器濾鏡（掌機除外）；修正更新後開啟出現「連線被拒」的問題"
+   "新的「大螢幕」選遊戲介面（電視、Quest 預設使用）：一排封面左右選，選中的放大，背景是這個遊戲的畫面，下面顯示遊戲 Logo、機種、幾人遊戲、有沒有人在玩；LB / RB 換機種。右上角可以和封面牆切換",
+   "遊戲畫面兩邊空著時（例如直向街機）顯示邊框：左邊封面，右邊 Logo 和標題畫面；也可以用自己的邊框圖（放在 thumbnails/Bezels 資料夾裡）",
+   "上傳遊戲：用同一網路裡的手機或電腦瀏覽器打開程式顯示的網址，輸入 4 位密碼，就能把 ROM 和 BIOS 傳到電視或電腦裡，清單自動更新",
+   "電視遙控器、手把可以在選資料夾的視窗裡進入子資料夾；安卓：系統網頁元件太舊（低於 80 版）時會提示；虛擬手把離螢幕底邊遠一點，不容易誤觸系統手勢"
   ],
   "en": [
-   "The on-screen pad on phones and tablets now looks like each system's own controller: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy and arcade each get a controller body and matching buttons; in portrait the game sits on top with the pad below, in landscape the pad is split to both sides so it doesn't cover the game",
-   "Landscape pad size can be adjusted (\"🎮 Pad size\" above the game, saved per system); buttons animate when pressed and give a short vibration on Android",
-   "A real controller (Xbox etc.) becomes player 1 automatically and the on-screen pad hides itself; unplug the controller or tap the screen to bring it back",
-   "Android: CRT screen filter by default (except handhelds); fixed the \"connection refused\" error after updating"
+   "New \"Big screen\" game picker (default on TVs and Quest): a row of covers you scroll left and right, the selected one enlarged over a blurred shot of the game, with its logo, system, player count and whether someone is playing it; LB / RB switch systems. Switch back to the grid at the top right",
+   "Bezels when the game picture leaves empty space on both sides (vertical arcade games, for example): the cover on the left, logo and title screen on the right; your own bezel images also work (put them in thumbnails/Bezels)",
+   "Upload games: open the address the app shows in a browser on a phone or computer on the same network, enter the 4-digit PIN, and send ROMs and BIOS files to the TV or computer; the list refreshes by itself",
+   "TV remotes and controllers can open subfolders in the folder picker; Android warns when the system WebView is too old (below 80); the on-screen pad sits a little higher so it doesn't trigger the system gesture bar"
   ],
   "ja": [
-   "スマホとタブレットの画面パッドが機種ごとのコントローラーの見た目に：FC、SFC、メガドライブ、PS1、N64、GBA、ゲームボーイ、アーケードにそれぞれ本体と同じ色のボタン。縦画面ではゲームが上・パッドが下、横画面ではパッドが左右に分かれてゲームを隠しません",
-   "横画面のパッドの大きさを調整できます（ゲーム上部の「🎮 パッドの大きさ」、機種ごとに保存）。ボタンを押すとアニメーションし、Android では軽く振動します",
-   "本物のコントローラー（Xbox など）をつなぐと自動でプレイヤー 1 になり、画面パッドは自動で隠れます。外すか画面をタップすると戻ります",
-   "Android：CRT モニターのフィルターを初期設定に（携帯機を除く）。更新後に「接続が拒否されました」と出る問題を修正"
+   "新しい「大画面」ゲーム選択画面（テレビ・Quest では標準）：パッケージを左右に選び、選んだものが大きく表示され、背景はそのゲームの画面。ロゴ・機種・人数・プレイ中かどうかを表示。LB / RB で機種切り替え。右上でグリッド表示に戻せます",
+   "ゲーム画面の両側が空いているとき（縦画面のアーケードなど）ベゼルを表示：左にパッケージ、右にロゴとタイトル画面。自分のベゼル画像も使えます（thumbnails/Bezels に入れる）",
+   "ゲームのアップロード：同じネットワークのスマホやパソコンのブラウザでアプリに表示されたアドレスを開き、4 桁のパスワードを入れると ROM や BIOS をテレビやパソコンに送れます。リストは自動で更新",
+   "フォルダ選択でリモコンやコントローラーからサブフォルダに入れるように。Android：システムの WebView が古すぎる（80 未満）と警告。画面パッドを少し上にしてシステムのジェスチャーに触れにくく"
   ],
   "ko": [
-   "휴대폰·태블릿의 화면 패드가 기종별 컨트롤러 모양으로 바뀌었습니다: FC, SFC, 메가드라이브, PS1, N64, GBA, 게임보이, 아케이드마다 본체와 같은 색의 버튼. 세로 화면에서는 게임이 위·패드가 아래, 가로 화면에서는 패드가 양쪽으로 나뉘어 게임을 가리지 않습니다",
-   "가로 화면 패드 크기를 조절할 수 있습니다(게임 위의 ‘🎮 패드 크기’, 기종별 저장). 버튼을 누르면 애니메이션이 나오고 안드로이드에서는 살짝 진동합니다",
-   "실제 컨트롤러(Xbox 등)를 연결하면 자동으로 플레이어 1이 되고 화면 패드는 자동으로 숨겨집니다. 빼거나 화면을 누르면 다시 나옵니다",
-   "안드로이드: CRT 모니터 필터를 기본으로(휴대용 기종 제외). 업데이트 후 ‘연결이 거부됨’ 오류가 나던 문제 수정"
+   "새 ‘큰 화면’ 게임 선택 화면(TV·Quest 기본): 표지를 좌우로 고르면 선택한 게임이 크게 나오고 배경은 그 게임 화면, 로고·기종·인원·플레이 중 여부를 표시. LB / RB로 기종 변경. 오른쪽 위에서 격자 보기로 바꿀 수 있습니다",
+   "게임 화면 양옆이 비어 있을 때(세로 아케이드 등) 베젤 표시: 왼쪽에 표지, 오른쪽에 로고와 타이틀 화면. 직접 만든 베젤 이미지도 사용 가능(thumbnails/Bezels에 넣기)",
+   "게임 올리기: 같은 네트워크의 휴대폰이나 컴퓨터 브라우저에서 앱에 표시된 주소를 열고 4자리 비밀번호를 넣으면 ROM과 BIOS를 TV나 컴퓨터로 보낼 수 있습니다. 목록은 자동으로 새로 고침",
+   "폴더 선택 창에서 리모컨·컨트롤러로 하위 폴더에 들어갈 수 있게. 안드로이드: 시스템 WebView가 너무 오래되면(80 미만) 알림. 화면 패드를 조금 위로 올려 시스템 제스처가 잘못 눌리지 않게"
   ],
   "es": [
-   "El mando en pantalla de móviles y tabletas ahora imita el mando de cada sistema: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy y arcade tienen su carcasa y botones con sus colores; en vertical el juego va arriba y el mando abajo, en horizontal el mando se reparte a los lados sin tapar el juego",
-   "Se puede ajustar el tamaño del mando en horizontal («🎮 Tamaño del mando» encima del juego, se guarda por sistema); los botones se animan al pulsarlos y vibran un poco en Android",
-   "Un mando real (Xbox, etc.) pasa a ser el jugador 1 automáticamente y el mando en pantalla se oculta; al desconectarlo o tocar la pantalla vuelve a aparecer",
-   "Android: filtro de pantalla CRT por defecto (salvo portátiles); corregido el error «conexión rechazada» tras actualizar"
+   "Nueva vista «Pantalla grande» para elegir juego (por defecto en televisores y Quest): una fila de portadas que se recorre a izquierda y derecha, la elegida ampliada sobre una imagen borrosa del juego, con su logo, sistema, número de jugadores y si alguien lo está jugando; LB / RB cambian de sistema. Arriba a la derecha se vuelve a la cuadrícula",
+   "Marcos cuando la imagen del juego deja espacio libre a los lados (juegos arcade verticales, por ejemplo): la portada a la izquierda, logo y pantalla de título a la derecha; también sirven tus propios marcos (en thumbnails/Bezels)",
+   "Subir juegos: abre la dirección que muestra la aplicación en el navegador de un móvil u ordenador de la misma red, escribe el PIN de 4 cifras y envía ROMs y BIOS al televisor u ordenador; la lista se actualiza sola",
+   "Con el mando a distancia o un mando se puede entrar en subcarpetas al elegir carpeta; Android avisa si el WebView del sistema es demasiado antiguo (menor que 80); el mando en pantalla está un poco más alto para no activar los gestos del sistema"
   ],
   "fr": [
-   "La manette à l'écran des téléphones et tablettes reprend la manette de chaque système : NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy et arcade ont leur coque et des boutons aux bonnes couleurs ; en portrait le jeu est en haut et la manette en bas, en paysage la manette est répartie des deux côtés sans cacher le jeu",
-   "La taille de la manette en paysage se règle (« 🎮 Taille de la manette » au-dessus du jeu, enregistrée par système) ; les boutons s'animent quand on appuie et vibrent légèrement sur Android",
-   "Une vraie manette (Xbox, etc.) devient automatiquement le joueur 1 et la manette à l'écran se cache ; débranchez-la ou touchez l'écran pour la faire revenir",
-   "Android : filtre écran CRT par défaut (sauf consoles portables) ; correction de l'erreur « connexion refusée » après une mise à jour"
+   "Nouvel affichage « Grand écran » pour choisir un jeu (par défaut sur les téléviseurs et le Quest) : une rangée de jaquettes à parcourir à gauche et à droite, celle choisie agrandie sur une image floue du jeu, avec son logo, le système, le nombre de joueurs et si quelqu'un y joue ; LB / RB changent de système. Retour à la grille en haut à droite",
+   "Cadres quand l'image du jeu laisse de la place sur les côtés (jeux d'arcade verticaux par exemple) : la jaquette à gauche, le logo et l'écran titre à droite ; vos propres cadres fonctionnent aussi (dans thumbnails/Bezels)",
+   "Envoi de jeux : ouvrez l'adresse affichée par l'application dans le navigateur d'un téléphone ou d'un ordinateur du même réseau, saisissez le code à 4 chiffres et envoyez ROMs et BIOS vers le téléviseur ou l'ordinateur ; la liste se met à jour toute seule",
+   "La télécommande ou la manette peut ouvrir les sous-dossiers dans le choix de dossier ; Android prévient si le WebView du système est trop ancien (avant 80) ; la manette à l'écran est un peu plus haute pour ne pas déclencher les gestes du système"
   ],
   "de": [
-   "Das Bildschirm-Pad auf Handys und Tablets sieht jetzt wie der Controller des jeweiligen Systems aus: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy und Arcade haben ihr eigenes Gehäuse und passende Tasten; im Hochformat ist das Spiel oben und das Pad unten, im Querformat ist das Pad auf beide Seiten verteilt und verdeckt nichts",
-   "Die Pad-Größe im Querformat ist einstellbar („🎮 Pad-Größe“ über dem Spiel, pro System gespeichert); Tasten bewegen sich beim Drücken und vibrieren unter Android kurz",
-   "Ein echter Controller (Xbox usw.) wird automatisch Spieler 1 und das Bildschirm-Pad blendet sich aus; Controller trennen oder auf den Bildschirm tippen holt es zurück",
-   "Android: CRT-Bildschirmfilter als Standard (außer Handhelds); Fehler „Verbindung abgelehnt“ nach einem Update behoben"
+   "Neue „Großbild“-Spielauswahl (Standard auf Fernsehern und Quest): eine Reihe Cover zum Blättern nach links und rechts, das gewählte groß über einem unscharfen Bild des Spiels, mit Logo, System, Spielerzahl und ob gerade jemand spielt; LB / RB wechseln das System. Oben rechts zurück zum Raster",
+   "Rahmen, wenn neben dem Spielbild Platz frei ist (z. B. vertikale Arcade-Spiele): links das Cover, rechts Logo und Titelbild; eigene Rahmenbilder gehen auch (in thumbnails/Bezels)",
+   "Spiele hochladen: die von der App angezeigte Adresse im Browser eines Handys oder Computers im selben Netz öffnen, 4-stellige PIN eingeben und ROMs und BIOS auf den Fernseher oder Computer schicken; die Liste aktualisiert sich selbst",
+   "Mit Fernbedienung oder Controller lassen sich in der Ordnerauswahl Unterordner öffnen; Android warnt, wenn das System-WebView zu alt ist (unter 80); das Bildschirm-Pad sitzt etwas höher und löst die Systemgesten nicht aus"
   ],
   "pt": [
-   "O controle na tela de celulares e tablets agora imita o controle de cada sistema: NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy e arcade têm sua carcaça e botões nas cores certas; na vertical o jogo fica em cima e o controle embaixo, na horizontal o controle fica dividido dos dois lados sem cobrir o jogo",
-   "Dá para ajustar o tamanho do controle na horizontal (“🎮 Tamanho do controle” acima do jogo, salvo por sistema); os botões se movem ao apertar e vibram de leve no Android",
-   "Um controle de verdade (Xbox etc.) vira o jogador 1 automaticamente e o controle na tela se esconde; desconecte o controle ou toque na tela para ele voltar",
-   "Android: filtro de tela CRT por padrão (exceto portáteis); corrigido o erro “conexão recusada” depois de atualizar"
+   "Nova tela “Tela grande” para escolher o jogo (padrão em TVs e no Quest): uma fileira de capas para passar para os lados, a escolhida ampliada sobre uma imagem desfocada do jogo, com logo, sistema, número de jogadores e se alguém está jogando; LB / RB trocam de sistema. No canto superior direito volta para a grade",
+   "Molduras quando a imagem do jogo deixa espaço vazio dos lados (jogos de arcade verticais, por exemplo): a capa à esquerda, logo e tela de título à direita; suas próprias molduras também funcionam (em thumbnails/Bezels)",
+   "Enviar jogos: abra o endereço mostrado pelo app no navegador de um celular ou computador da mesma rede, digite o PIN de 4 dígitos e mande ROMs e BIOS para a TV ou o computador; a lista se atualiza sozinha",
+   "O controle remoto ou o controle podem entrar em subpastas ao escolher a pasta; o Android avisa quando o WebView do sistema é antigo demais (abaixo de 80); o controle na tela fica um pouco mais alto para não acionar os gestos do sistema"
   ],
   "ru": [
-   "Экранный геймпад на телефонах и планшетах теперь выглядит как контроллер каждой системы: у NES, SNES, Mega Drive, PS1, N64, GBA, Game Boy и аркад свой корпус и кнопки нужных цветов; в вертикальном режиме игра сверху, геймпад снизу, в горизонтальном геймпад разделён по бокам и не закрывает игру",
-   "Размер геймпада в горизонтальном режиме можно менять («🎮 Размер геймпада» над игрой, сохраняется для каждой системы); кнопки анимируются при нажатии и слегка вибрируют на Android",
-   "Настоящий контроллер (Xbox и др.) автоматически становится игроком 1, а экранный геймпад прячется; отключите контроллер или коснитесь экрана, чтобы вернуть его",
-   "Android: по умолчанию фильтр CRT-экрана (кроме портативных); исправлена ошибка «подключение отклонено» после обновления"
+   "Новый выбор игры «Большой экран» (по умолчанию на телевизорах и Quest): ряд обложек листается влево-вправо, выбранная увеличена на фоне размытого кадра из игры, с логотипом, системой, числом игроков и пометкой, если в неё кто-то играет; LB / RB переключают систему. Вернуться к сетке можно справа вверху",
+   "Рамки, когда по бокам от картинки игры остаётся пустое место (например, вертикальные аркады): слева обложка, справа логотип и титульный экран; можно использовать и свои рамки (в папке thumbnails/Bezels)",
+   "Загрузка игр: откройте адрес, который показывает приложение, в браузере телефона или компьютера в той же сети, введите 4-значный PIN и отправьте ROM и BIOS на телевизор или компьютер; список обновится сам",
+   "Пультом или контроллером можно заходить в подпапки при выборе папки; Android предупреждает, если системный WebView слишком старый (ниже 80); экранный геймпад поднят чуть выше, чтобы не задевать системные жесты"
   ]
  },
  "files": {
   "android-x86_64": {
-   "name": "EmulatorJS-1.1.0-android-x86_64.apk",
-   "size": 72562928,
-   "sha256": "0456c0a809a54b77caadce374e9dd067676f3b00267de3bb547e9781eebda7e5",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-android-x86_64.apk"
+   "name": "EmulatorJS-1.2.0-android-x86_64.apk",
+   "size": 72584276,
+   "sha256": "016dd27bd8ad97f2b3841072040a5189cbf3cb9048f0660e83feefe347f0e8ab",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.2.0/EmulatorJS-1.2.0-android-x86_64.apk"
   },
   "android": {
-   "name": "EmulatorJS-1.1.0-android.apk",
-   "size": 86596553,
-   "sha256": "6364a9713c29d0b134cb88a47ebec93b784db42b22ffeb48d5d4272d097d0ff5",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-android.apk"
+   "name": "EmulatorJS-1.2.0-android.apk",
+   "size": 86617901,
+   "sha256": "2c8db81f5397d9d46b220d2732f46ab58454919d1ac4d1d8e07066ae664ebbc8",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.2.0/EmulatorJS-1.2.0-android.apk"
   },
   "folder": {
-   "name": "EmulatorJS-1.1.0-folder.zip",
-   "size": 56696847,
-   "sha256": "36c120dd5cebfbe7f33c7d14cab5d4728355fceb1429238da6370792b1b260b3",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-folder.zip"
+   "name": "EmulatorJS-1.2.0-folder.zip",
+   "size": 56716986,
+   "sha256": "09d88ce6e6ee4578c625184e30591fa5aff37ea8c65c2b337143203456943cf7",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.2.0/EmulatorJS-1.2.0-folder.zip"
   },
   "mac-arm64": {
-   "name": "EmulatorJS-1.1.0-mac-apple-silicon.dmg",
-   "size": 200661770,
-   "sha256": "c56b09c747704e075fcd9f905cd812c8f16d1875f9ed3f6f9c6ee3cce67e4022",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-mac-apple-silicon.dmg"
+   "name": "EmulatorJS-1.2.0-mac-apple-silicon.dmg",
+   "size": 199970010,
+   "sha256": "2302a73116930b58b3d4b1fd129d1b7519fb24398923bd6c135b9390afa66996",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.2.0/EmulatorJS-1.2.0-mac-apple-silicon.dmg"
   },
   "mac-x64": {
-   "name": "EmulatorJS-1.1.0-mac-intel.dmg",
-   "size": 207311181,
-   "sha256": "32c0aa2eaa422fd8c8d87bd2266f6f4d33751ec131cc64e000a3de159cf5b1b1",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-mac-intel.dmg"
+   "name": "EmulatorJS-1.2.0-mac-intel.dmg",
+   "size": 207322911,
+   "sha256": "e1a2e28fbe61ac7a91fba192ec494610791dd9ff5395c0d7f7faa953497cb6ec",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.2.0/EmulatorJS-1.2.0-mac-intel.dmg"
   },
   "win-zip": {
-   "name": "EmulatorJS-1.1.0-win.zip",
-   "size": 208514540,
-   "sha256": "7ffb9632cdb2e536a7b57970e95b43916ad701b0d8b0136caf186039cba9b466",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-1.1.0-win.zip"
+   "name": "EmulatorJS-1.2.0-win.zip",
+   "size": 208534902,
+   "sha256": "ddefbd151a3081f4048ae72c2842a74abb126c59be0e1faf6b02cd2ca02c582a",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.2.0/EmulatorJS-1.2.0-win.zip"
   },
   "win-setup": {
-   "name": "EmulatorJS-Setup-1.1.0.exe",
-   "size": 165737002,
-   "sha256": "b3a927dc2278e4fbdaa40cd0a5723283d62fd14a1b45e5008df3a2dd5bafc69c",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/EmulatorJS-Setup-1.1.0.exe"
+   "name": "EmulatorJS-Setup-1.2.0.exe",
+   "size": 165754555,
+   "sha256": "46a9e363d8d6dafabb027498b6237389ac651c942f533df96df04e64c346b085",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.2.0/EmulatorJS-Setup-1.2.0.exe"
   },
   "server": {
    "name": "ejs-cloud-setup.sh",
    "size": 2011213,
    "sha256": "61060bec433695bf6a779f635453f8136ad1e20041d27d7653e3f80f909e9073",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.1.0/ejs-cloud-setup.sh"
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.2.0/ejs-cloud-setup.sh"
   }
  }
 }
