@@ -559,11 +559,23 @@ def players_view(cids):
     return out
 
 
+def clean_wait(w):
+    """继续上次的游戏：主机在等谁回来（他们乱入时回到原来的玩家号）"""
+    out = []
+    for x in (w if isinstance(w, list) else [])[:4]:
+        if not isinstance(x, dict):
+            continue
+        out.append({"slot": max(0, min(3, _int(x.get("slot")))), "name": str(x.get("name") or "")[:24],
+                    "cid": str(x.get("cid") or "")[:64], "acct": str(x.get("acct") or "")[:16]})
+    return out
+
+
 def session_view(sid, s):
     return {"sid": sid, "game": s["game"], "title": s["title"], "system": s["system"], "group": s["group"],
             "host": s["host"], "hostName": s["hostName"], "allowJoin": s["allowJoin"], "sync": s.get("sync", False),
             "size": s.get("size", 0), "challenge": s.get("challenge", False), "hostCountry": s.get("hostCountry", ""), "hostLoc": s.get("hostLoc", ""),
-            "allowWatch": s.get("allowWatch", True), "regOnly": s.get("regOnly", False),
+            "allowWatch": s.get("allowWatch", True), "regOnly": s.get("regOnly", False), "hostSlot": s.get("hostSlot", 0),
+            **({"wait": s["wait"]} if s.get("wait") else {}),
             "players": [{"cid": c, "name": p["name"], "slot": p["slot"], "mode": p.get("mode", ""), "country": p.get("country", ""),
                          "loc": p.get("loc", ""), "watch": p.get("watch", False)}
                         for c, p in s["players"].items()]}
@@ -619,6 +631,7 @@ def mp_handle(path, data):
                              "challenge": bool(data.get("challenge", False)), "hostCountry": str(data.get("country") or "")[:2],
                              "hostLoc": str(data.get("_loc") or "")[:2],   # 外网服务器按 IP 查到的国家/地区
                              "allowWatch": bool(data.get("allowWatch", True)), "regOnly": bool(data.get("regOnly", False)),
+                             "hostSlot": max(0, min(3, _int(data.get("hostSlot")))), "wait": clean_wait(data.get("wait")),
                              "players": {}, "seen": now}
             return {"sid": sid}, 200
         s = SESSIONS.get(str(data.get("sid") or ""))
@@ -641,6 +654,10 @@ def mp_handle(path, data):
                 s["allowWatch"] = bool(data["allowWatch"])
             if "regOnly" in data:
                 s["regOnly"] = bool(data["regOnly"])
+            if "wait" in data:
+                s["wait"] = clean_wait(data["wait"])
+            if "hostSlot" in data:
+                s["hostSlot"] = max(0, min(3, _int(data["hostSlot"])))
             return {"session": session_view(data.get("sid"), s)}, 200
         if path in ("/api/mp/kick", "/api/mp/reject"):
             # 房主把人请出去（kick：30 分钟内不能再进来）；或者拒绝（reject：没通过账号核实，不记仇）

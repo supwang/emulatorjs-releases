@@ -1,0 +1,62 @@
+{
+ "zh-CN": [
+  "继续上次的游戏：退出时自动保存进度（带一张画面截图），下次进入这个游戏可以选「继续」或「新游戏」",
+  "多人游戏也能继续：选「等朋友一起继续」，游戏先停在存档那一帧，大厅里显示在等谁，朋友那边会收到邀请，乱入就回到原来的 1P / 2P，人齐了自动开始；也可以「一个人继续」",
+  "换位置：游戏上方「🎮 我是 P2 ⇄」可以换成控制别的玩家（位置空着才能换）。很多 FC、超任游戏只有 1P 能暂停、进菜单，2P 一个人继续时可以先换到 1P；原来的 1P 回来时自动换回",
+  "大屏模式：选中的游戏会轮流显示封面、标题画面、游戏截图，换到别的游戏后停在当时那张；外网联机服务器请重新运行一次新的 ejs-cloud-setup.sh（大厅里才会显示「在等谁回来继续」）"
+ ],
+ "zh-TW": [
+  "繼續上次的遊戲：退出時自動儲存進度（附一張畫面截圖），下次進入這個遊戲可以選「繼續」或「新遊戲」",
+  "多人遊戲也能繼續：選「等朋友一起繼續」，遊戲先停在存檔那一格，大廳裡顯示在等誰，朋友那邊會收到邀請，亂入就回到原來的 1P / 2P，人齊了自動開始；也可以「一個人繼續」",
+  "換位置：遊戲上方「🎮 我是 P2 ⇄」可以換成控制別的玩家（位置空著才能換）。很多 FC、超任遊戲只有 1P 能暫停、進選單，2P 一個人繼續時可以先換到 1P；原來的 1P 回來時自動換回",
+  "大螢幕模式：選中的遊戲會輪流顯示封面、標題畫面、遊戲截圖，換到別的遊戲後停在當時那張；外網連線伺服器請重新執行一次新的 ejs-cloud-setup.sh（大廳裡才會顯示「在等誰回來繼續」）"
+ ],
+ "en": [
+  "Continue where you left off: leaving a game saves your progress automatically (with a screenshot); next time you pick the game you can choose Continue or New game",
+  "Multiplayer games can be continued too: \"Continue with friends\" holds the game on the saved frame, the lobby shows who you're waiting for, your friends get an invitation and rejoin as their old P1 / P2, and it starts once everyone is back; or \"Continue alone\"",
+  "Switch player: \"🎮 I'm P2 ⇄\" above the game lets you control another (free) player. In many NES / SNES games only P1 can pause or use menus, so when continuing alone as P2 you can move to P1; you're moved back when the original P1 rejoins",
+  "Big screen: the selected game cycles through cover, title screen and screenshot and keeps the last one when you move on. Internet play servers: run the new ejs-cloud-setup.sh once more so the lobby can show who is being waited for"
+ ],
+ "ja": [
+  "前回の続きから：ゲームをやめると進行を自動で保存（画面のスクリーンショット付き）。次にそのゲームを選ぶと「続きから」か「最初から」を選べます",
+  "みんなで遊んだゲームも続きから：「友だちを待って続ける」を選ぶと保存した場面で止まって待ち、ロビーに誰を待っているか表示。友だちには招待が届き、乱入すると元の 1P / 2P に戻ります。全員そろうと自動で開始。「ひとりで続ける」も可能",
+  "操作する位置の切り替え：ゲーム上部の「🎮 自分は P2 ⇄」で別の（空いている）プレイヤーに切り替え。ファミコン・スーファミの多くはポーズやメニューを 1P しか操作できないので、2P がひとりで続けるときは 1P に移れます。元の 1P が戻ると自動で元に戻ります",
+  "大画面モード：選んだゲームはパッケージ・タイトル画面・スクリーンショットを順に表示し、別のゲームに移るとその画像のまま。インターネット対戦サーバーは新しい ejs-cloud-setup.sh をもう一度実行してください（ロビーに「誰を待っているか」が出るようになります）"
+ ],
+ "ko": [
+  "지난 게임 이어하기: 게임을 끝내면 진행이 자동 저장(화면 스크린샷 포함)되고, 다음에 그 게임을 고르면 ‘이어하기’나 ‘새 게임’을 선택할 수 있습니다",
+  "여럿이 한 게임도 이어하기: ‘친구를 기다렸다가 이어하기’를 고르면 저장된 장면에서 멈춰 기다리고, 로비에 누구를 기다리는지 표시됩니다. 친구에게 초대가 가고, 난입하면 원래의 1P / 2P로 돌아가며, 다 모이면 자동으로 시작합니다. ‘혼자 이어하기’도 가능",
+  "자리 바꾸기: 게임 위의 ‘🎮 나는 P2 ⇄’로 다른(빈) 플레이어로 바꿀 수 있습니다. 패미컴·슈퍼패미컴 게임은 일시정지와 메뉴를 1P만 조작하는 경우가 많아, 2P가 혼자 이어할 때 1P로 옮길 수 있고 원래 1P가 돌아오면 자동으로 되돌아갑니다",
+  "큰 화면 모드: 선택한 게임은 표지·타이틀 화면·스크린샷을 번갈아 보여 주고, 다른 게임으로 넘어가면 그 이미지에 멈춥니다. 인터넷 대전 서버는 새 ejs-cloud-setup.sh를 한 번 더 실행해 주세요(로비에 ‘누구를 기다리는지’가 표시됨)"
+ ],
+ "es": [
+  "Continuar donde lo dejaste: al salir de un juego se guarda tu progreso automáticamente (con una captura); la próxima vez puedes elegir Continuar o Nueva partida",
+  "También las partidas multijugador: «Continuar con amigos» deja el juego parado en el momento guardado, el lobby muestra a quién esperas, tus amigos reciben una invitación y vuelven como su P1 / P2 de antes, y empieza cuando estén todos; o «Continuar solo»",
+  "Cambiar de jugador: «🎮 Soy P2 ⇄» encima del juego te deja controlar otro jugador libre. En muchos juegos de NES / SNES solo P1 puede pausar o usar los menús, así que al continuar solo como P2 puedes pasar a P1; vuelves a tu sitio cuando regresa el P1 original",
+  "Pantalla grande: el juego seleccionado alterna portada, pantalla de título y captura, y se queda con la última al cambiar. Servidores de juego por internet: vuelve a ejecutar el nuevo ejs-cloud-setup.sh para que el lobby muestre a quién se espera"
+ ],
+ "fr": [
+  "Reprendre où vous en étiez : quitter un jeu enregistre automatiquement la progression (avec une capture) ; la prochaine fois, choisissez Continuer ou Nouvelle partie",
+  "Les parties à plusieurs aussi : « Continuer avec les amis » garde le jeu figé sur le moment enregistré, le salon indique qui vous attendez, vos amis reçoivent une invitation et retrouvent leur P1 / P2, et ça démarre quand tout le monde est là ; ou « Continuer seul »",
+  "Changer de joueur : « 🎮 Je suis P2 ⇄ » au-dessus du jeu permet de contrôler un autre joueur libre. Dans beaucoup de jeux NES / SNES, seul P1 peut mettre en pause ou utiliser les menus : en continuant seul en P2, vous pouvez passer en P1, et vous revenez à votre place quand le P1 d'origine revient",
+  "Grand écran : le jeu sélectionné alterne jaquette, écran titre et capture, et garde la dernière quand on passe à un autre. Serveurs de jeu en ligne : relancez le nouveau ejs-cloud-setup.sh pour que le salon indique qui est attendu"
+ ],
+ "de": [
+  "Weiterspielen, wo du aufgehört hast: Beim Verlassen eines Spiels wird der Fortschritt automatisch gespeichert (mit Screenshot); beim nächsten Mal wählst du Weiterspielen oder Neues Spiel",
+  "Auch Mehrspieler-Spiele: „Mit Freunden weiterspielen“ hält das Spiel am gespeicherten Moment an, die Lobby zeigt, auf wen du wartest, deine Freunde bekommen eine Einladung und sind beim Beitreten wieder ihr alter P1 / P2; los geht's, sobald alle da sind. Oder „Allein weiterspielen“",
+  "Spieler wechseln: „🎮 Ich bin P2 ⇄“ über dem Spiel lässt dich einen anderen freien Spieler steuern. In vielen NES-/SNES-Spielen kann nur P1 pausieren oder Menüs bedienen – allein als P2 kannst du zu P1 wechseln und wirst zurückgesetzt, wenn der ursprüngliche P1 zurückkommt",
+  "Großbild: Das gewählte Spiel zeigt abwechselnd Cover, Titelbild und Screenshot und behält das letzte Bild beim Weiterblättern. Internet-Spielserver: das neue ejs-cloud-setup.sh noch einmal ausführen, damit die Lobby anzeigt, auf wen gewartet wird"
+ ],
+ "pt": [
+  "Continuar de onde parou: ao sair de um jogo o progresso é salvo automaticamente (com uma captura); da próxima vez você escolhe Continuar ou Novo jogo",
+  "Jogos com vários jogadores também: “Continuar com os amigos” deixa o jogo parado no momento salvo, o lobby mostra quem você está esperando, os amigos recebem um convite e voltam como o P1 / P2 de antes, e começa quando todos estiverem; ou “Continuar sozinho”",
+  "Trocar de jogador: “🎮 Sou P2 ⇄” acima do jogo permite controlar outro jogador livre. Em muitos jogos de NES / SNES só o P1 pausa ou usa os menus, então ao continuar sozinho como P2 você pode passar para o P1; você volta ao seu lugar quando o P1 original retorna",
+  "Tela grande: o jogo selecionado alterna capa, tela de título e captura e fica na última ao trocar. Servidores de jogo pela internet: rode o novo ejs-cloud-setup.sh mais uma vez para o lobby mostrar quem está sendo esperado"
+ ],
+ "ru": [
+  "Продолжение с места остановки: при выходе из игры прогресс сохраняется автоматически (со скриншотом); в следующий раз можно выбрать «Продолжить» или «Новая игра»",
+  "Продолжить можно и игру на нескольких: «Продолжить с друзьями» останавливает игру на сохранённом моменте, лобби показывает, кого вы ждёте, друзья получают приглашение и возвращаются своими P1 / P2, игра начнётся, когда соберутся все; или «Продолжить одному»",
+  "Смена игрока: «🎮 Я — P2 ⇄» над игрой позволяет управлять другим (свободным) игроком. Во многих играх NES / SNES паузу и меню может открыть только P1, поэтому, продолжая одному за P2, можно перейти на P1; когда настоящий P1 вернётся, вы вернётесь на своё место",
+  "Большой экран: выбранная игра по очереди показывает обложку, титульный экран и скриншот и оставляет последний при переходе. Интернет-серверы: запустите новый ejs-cloud-setup.sh ещё раз, чтобы лобби показывало, кого ждут"
+ ]
+}

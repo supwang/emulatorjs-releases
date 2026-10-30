@@ -356,9 +356,13 @@ function createServer(opts) {
   function sessionView(sid, s) {
     return { sid, game: s.game, title: s.title, system: s.system, group: s.group, host: s.host, hostName: s.hostName,
       allowJoin: s.allowJoin, sync: !!s.sync, size: s.size || 0, challenge: !!s.challenge, hostCountry: s.hostCountry || "",
-      allowWatch: s.allowWatch !== false, regOnly: !!s.regOnly,
+      allowWatch: s.allowWatch !== false, regOnly: !!s.regOnly, hostSlot: s.hostSlot || 0, ...(s.wait && s.wait.length ? { wait: s.wait } : {}),
       players: Object.entries(s.players).map(([c, p]) => ({ cid: c, name: p.name, slot: p.slot, mode: p.mode || "", country: p.country || "", watch: !!p.watch })) };
   }
+  // continuing a saved game: who the host is waiting for (they rejoin their old player number), and which player the host is
+  const cleanWait = w => (Array.isArray(w) ? w : []).slice(0, 4).filter(x => x && typeof x === "object")
+    .map(x => ({ slot: Math.max(0, Math.min(3, parseInt(x.slot, 10) || 0)), name: str(x.name, 24), cid: str(x.cid, 64), acct: str(x.acct, 16) }));
+  const cleanSlot = v => Math.max(0, Math.min(3, parseInt(v, 10) || 0));
   function mpHandle(p, data) {
     const cid = str(data.client, 64);
     let name = cleanName(data.name, data.client || "");
@@ -384,7 +388,8 @@ function createServer(opts) {
       const sid = crypto.randomBytes(5).toString("hex");
       SESSIONS[sid] = { game, title: str(data.title, 200), system: str(data.system, 20), group: str(data.group, 20), host: cid, hostName: name,
         allowJoin: bool(data.allowJoin, true), sync: bool(data.sync, false), size: Math.max(0, Math.min(parseInt(data.size, 10) || 0, 2 ** 40)), challenge: bool(data.challenge, false),
-        hostCountry: str(data.country, 2), allowWatch: bool(data.allowWatch, true), regOnly: bool(data.regOnly, false), players: {}, seen: t };
+        hostCountry: str(data.country, 2), allowWatch: bool(data.allowWatch, true), regOnly: bool(data.regOnly, false),
+        hostSlot: cleanSlot(data.hostSlot), wait: cleanWait(data.wait), players: {}, seen: t };
       return [{ sid }, 200];
     }
     const sidIn = data.sid == null ? "" : String(data.sid);
@@ -397,6 +402,8 @@ function createServer(opts) {
     if (p === "/api/mp/update") {
       if (!s || s.host !== cid) return [{ error: "not host" }, 403];
       for (const k of ["allowJoin", "challenge", "allowWatch", "regOnly"]) if (k in data) s[k] = !!data[k];
+      if ("wait" in data) s.wait = cleanWait(data.wait);
+      if ("hostSlot" in data) s.hostSlot = cleanSlot(data.hostSlot);
       return [{ session: sessionView(sidIn, s) }, 200];
     }
     if (p === "/api/mp/kick" || p === "/api/mp/reject") {

@@ -349,6 +349,7 @@
   .tv-tile.now { transition: none; }
   .tv-tile img { max-width: 100%; max-height: 100%; display: block; border-radius: 6px; box-shadow: 0 12px 32px rgba(0,0,0,.65); background: rgba(0,0,0,.25); }
   .tv-tile img.px { image-rendering: pixelated; }
+  .tv-tile img { transition: opacity .2s; }
   .tv-tile .tv-ph { width: 100%; height: 100%; border-radius: 10px; background: color-mix(in srgb, var(--panel) 85%, transparent); border: 1px solid var(--line);
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 12px; text-align: center;
     box-shadow: 0 12px 32px rgba(0,0,0,.5); color: var(--text); font-weight: 700; font-size: calc(var(--th) * .055); line-height: 1.3; overflow: hidden; }
@@ -662,6 +663,43 @@
   /* 通用弹窗 */
   .modal { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 16px; }
   .modal[hidden] { display: none; }
+  /* 继续还是新游戏 */
+  .cont-box { width: min(460px, 100%); }
+  .cont-box .cont-t { margin: 0 0 10px; font-size: 18px; }
+  .cont-shot { display: block; width: 100%; max-height: 260px; object-fit: contain; background: #000; border-radius: 8px; image-rendering: pixelated; }
+  .cont-when { color: var(--muted); font-size: 13px; margin: 8px 0 4px; }
+  .cont-who { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13px; margin: 6px 0; }
+  .cw-p { display: inline-flex; gap: 5px; align-items: center; padding: 2px 9px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); }
+  .cw-p b { color: var(--accent); }
+  .cont-acts { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .cont-acts .btn { padding: 11px 14px; font-size: 15px; }
+  .cont-note { color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 10px; }
+  .cont-foot { display: flex; justify-content: space-between; margin-top: 12px; }
+  /* 等朋友回来：游戏停在读档那一帧，上面一张卡片 */
+  #contWait { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,.45); pointer-events: none; }
+  #contWait .cw-box { pointer-events: auto; width: min(420px, 100%); background: color-mix(in srgb, var(--panel) 94%, transparent); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; box-shadow: 0 18px 50px rgba(0,0,0,.6); }
+  #contWait h3 { margin: 0 0 8px; }
+  #contWait .cw-tip { color: var(--muted); font-size: 12.5px; line-height: 1.6; margin: 6px 0; }
+  #contWait .cw-list { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+  #contWait .cw-row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 8px; background: var(--panel-2); font-size: 14px; }
+  #contWait .cw-row b { color: var(--accent); }
+  #contWait .cw-row.ok { outline: 1px solid var(--lan, #4ade80); }
+  #contWait .cw-row .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #contWait .btn { width: 100%; margin-top: 6px; padding: 10px; }
+  #contWait .cw-keys { text-align: center; color: var(--muted); font-size: 11.5px; margin-top: 6px; }
+  /* 有人在等我回去继续 */
+  #contInvite { position: fixed; right: 16px; bottom: 16px; z-index: 70; display: flex; align-items: center; gap: 12px; max-width: min(460px, calc(100vw - 32px));
+    background: var(--panel); border: 1px solid var(--accent); border-radius: 12px; padding: 12px 14px; box-shadow: 0 14px 40px rgba(0,0,0,.55); }
+  #contInvite img { width: 40px; height: 40px; border-radius: 8px; flex: none; }
+  #contInvite .ci-t { flex: 1; min-width: 0; font-weight: 700; font-size: 14px; line-height: 1.4; }
+  #contInvite .ci-t small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; margin-top: 2px; }
+  #contInvite .ci-a { display: flex; flex-direction: column; gap: 6px; flex: none; }
+  #contInvite .ci-a .btn { padding: 6px 14px; font-size: 13px; }
+  #slotMenu { position: fixed; z-index: 75; display: flex; flex-direction: column; gap: 6px; padding: 8px; min-width: 180px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+  #slotMenu .btn { text-align: left; padding: 7px 12px; font-size: 13px; }
+  #slotMenu .btn b { color: var(--accent); margin-right: 6px; }
+  #slotMenu .btn:not(.secondary) b { color: inherit; }
+  .lb-wait { font-size: 11.5px; color: var(--gold); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .modal-box { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; width: min(420px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; padding: 18px; box-shadow: 0 20px 50px rgba(0,0,0,.5); }
   .modal-box h3 { margin: 0 0 12px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; }
   .modal-box h3 .linkbtn { padding: 0; }
@@ -809,7 +847,7 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.2.0</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.0</div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
@@ -848,6 +886,7 @@
       <button class="btn secondary" id="stopBtn">退出游戏</button>
       <button class="btn secondary" id="fsBtn" title="全屏（手机上会自动转成横屏）">⛶</button>
       <button class="btn secondary" id="turboBtn">连发设置</button>
+      <button class="btn secondary" id="slotBtn" hidden title="换成别的玩家（1P、2P…），那个位置空着才能换">🎮 我是 P1 ⇄</button>
       <button class="btn secondary" id="padSizeBtn" hidden title="横屏时屏幕两边虚拟手柄的大小">🎮 手柄大小</button>
       <button class="btn secondary" id="roomBtn" hidden title="房间里的人、每个人的延迟、观战、只允许注册玩家、请人出去">👥 房间</button>
       <button class="btn secondary" id="voiceBtn" hidden title="和一起玩的人语音聊天（建议戴耳机）">🎤 语音：关</button>
@@ -2045,6 +2084,7 @@ function showTv(key, list, head, refocus) {
   tvDraw(true);
   tvInfo();
   tvBg(true);
+  tvSlide();
   // 滚轮：一格换一个；手指左右滑：每滑过一段换一个
   let wheelAcc = 0, wheelT = 0;
   st.addEventListener("wheel", e => {
@@ -2095,7 +2135,7 @@ function tvArt(g) {
 function tvTile(n) {
   const g = tv.list[n], el = document.createElement("div");
   el.className = "tv-tile";
-  const art = tvArt(g), nm = gameNames(g);
+  const at = tvPicAt.get(gameKey(g)), art = (at && tvPics(g)[at]) || tvArt(g), nm = gameNames(g);
   el.innerHTML = art ? `<img class="${art.px ? "px" : ""}" src="${art.url}" alt="" draggable="false">`
     : `<div class="tv-ph"><b>🎮</b>${escapeHtml(nm.loc || nm.en)}</div>`;
   if (mpSessions.some(x => x.game === gameKey(g) && x.host !== MP_ID)) el.insertAdjacentHTML("beforeend", `<span class="tv-live">● ${escapeHtml(L("有人在玩"))}</span>`);
@@ -2132,8 +2172,35 @@ function tvGo(n) {
   tvDraw(false);
   tvInfo();
   tvBg(false);
+  tvSlide();
   if (hadFocus) tv.center.focus({ preventScroll: true });
   return true;
+}
+// 选中的游戏：停一会儿后轮流显示 封面 → 标题画面 → 游戏截图（和封面墙鼠标停在封面上时一样）；
+// 换到别的游戏就停在当时那张，再选回来时从那张接着轮播
+var tvSlideT = 0;
+const tvPicAt = new Map();   // 每个游戏停在第几张预览图（换机种回来也记得）
+const tvPics = g => ["box", "title", "snap"].map(k => { const f = thumbFor(g, k); return f && { url: urlOf(f), px: k !== "box" }; }).filter(Boolean);
+function tvSetImg(el, p) {
+  const img = el.querySelector("img");
+  if (!img || img.getAttribute("src") === p.url) return;
+  img.style.opacity = 0;
+  setTimeout(() => { img.onload = () => { img.style.opacity = 1; }; img.className = p.px ? "px" : ""; img.src = p.url; }, 200);
+}
+function tvSlide() {
+  clearTimeout(tvSlideT);
+  if (!tv) return;
+  const el = tv.center, gk = gameKey(tv.list[tv.i]), pics = tvPics(tv.list[tv.i]);
+  if (!el || pics.length < 2) return;
+  pics.forEach(p => { const im = new Image(); im.src = p.url; });   // 先载入，切换不闪
+  const next = () => {
+    if (!tv || tv.center !== el || !el.isConnected) return;
+    const k = ((tvPicAt.get(gk) || 0) + 1) % pics.length;
+    tvPicAt.set(gk, k);
+    tvSetImg(el, pics[k]);
+    tvSlideT = setTimeout(next, 2200);
+  };
+  tvSlideT = setTimeout(next, 1500);
 }
 const tvStep = d => tv ? tvGo(tv.i + d) : false;
 function tvInfo() {
@@ -2144,6 +2211,7 @@ function tvInfo() {
     `<span>👥 ${escapeHtml(max > 1 ? L("1–{0} 人", max) : L("单人"))}</span>`];
   if (isVersus(g)) meta.push(`<span>⚔ ${escapeHtml(L("对战"))}</span>`);
   if (live) meta.push(`<span class="live">● ${escapeHtml(L("有人在玩，可以乱入"))}</span>`);
+  if (contHas(g)) meta.push(`<span>💾 ${escapeHtml(L("可以继续上次的进度"))}</span>`);
   meta.push(`<span>${tv.i + 1} / ${tv.list.length}</span>`);
   tv.info.innerHTML = (logo ? `<img class="tv-logo" src="${urlOf(logo)}" alt="">` + `<div class="tv-en">${escapeHtml(nm.loc || nm.en)}</div>`
     : `<div class="tv-name">${escapeHtml(nm.loc || nm.en)}</div>` + (nm.loc ? `<div class="tv-en">${escapeHtml(nm.en)}</div>` : ""))
@@ -2254,6 +2322,11 @@ document.getElementById("stopBtn").onclick = () => {
 };
 
 function stop(keepMp) {
+  contSaveNow();   // 退出（或换游戏）前存一份「继续」用的进度
+  contEnd();
+  mySlotNow = mySlotHome = 0;
+  if (slotBtn) slotBtn.hidden = true;
+  if (typeof slotMenu !== "undefined") slotMenu.hidden = true;
   if (!keepMp && typeof mpStopAll === "function") mpStopAll();
   if (!keepMp && typeof playEnd === "function") playEnd();
   document.body.classList.remove("playing");
@@ -2270,6 +2343,341 @@ function stop(keepMp) {
   topbar.style.display = "none";
   currentId = null;
   render();
+}
+
+// ---------------- 继续上次的游戏 ----------------
+// 退出游戏时（还有每 2 分钟、切到后台时）自动存一个「继续」用的即时存档，带一张截图，记下这局谁是几 P。
+// 下次再进这个游戏：选「继续」或「新游戏」。上次是几个人一起玩的：
+//   「等朋友一起继续」—— 游戏先停在存档那一帧，大厅里显示「在等 某某 回来」，他们乱入就回到原来的玩家号，人齐了自动开始；
+//   「一个人继续」—— 马上开始，别人的角色站在原地，之后谁乱入谁接手（原来的人优先回到自己的位置）。
+// 联机时每个人的游戏状态都一样，所以退出时每台运行游戏的设备都各存一份，下次谁来开局都行（看画面玩的设备不运行游戏，存不了）。
+const CONT_MAX = 30, CONT_IDX = "ejs-cont-index";
+var contDbP = null;
+function contDb() {
+  return contDbP = contDbP || new Promise((ok, no) => {
+    const r = indexedDB.open("ejs-continue", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("saves", { keyPath: "key" });
+    r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error);
+  });
+}
+function contIndex() { try { return JSON.parse(localStorage.getItem(CONT_IDX) || "{}") || {}; } catch (e) { return {}; } }
+const contHas = g => !!(g && g.file && contIndex()[gameKey(g)]);
+async function contGet(key) {
+  try {
+    const db = await contDb();
+    return await new Promise(ok => { const q = db.transaction("saves").objectStore("saves").get(key); q.onsuccess = () => ok(q.result || null); q.onerror = () => ok(null); });
+  } catch (e) { return null; }
+}
+async function contPut(rec) {
+  try {
+    const db = await contDb();
+    await new Promise((ok, no) => { const tx = db.transaction("saves", "readwrite"); tx.objectStore("saves").put(rec); tx.oncomplete = ok; tx.onerror = () => no(tx.error); tx.onabort = () => no(tx.error); });
+    const idx = contIndex(); idx[rec.key] = rec.time;
+    const old = Object.keys(idx).sort((a, b) => idx[b] - idx[a]).slice(CONT_MAX);   // 只留最近玩的 30 个游戏
+    for (const k of old) { delete idx[k]; contDel(k, true); }
+    try { localStorage.setItem(CONT_IDX, JSON.stringify(idx)); } catch (e) {}
+  } catch (e) {}
+}
+async function contDel(key, quiet) {
+  if (!quiet) { const idx = contIndex(); delete idx[key]; try { localStorage.setItem(CONT_IDX, JSON.stringify(idx)); } catch (e) {} }
+  try { const db = await contDb(); db.transaction("saves", "readwrite").objectStore("saves").delete(key); } catch (e) {}
+}
+// 这局里谁是几 P（中途走了的人也记着：他的角色还在游戏里）。继续上次的游戏时，先填上上次的人
+var contSeen = null;   // { key, map: Map(slot -> { slot, name, cid, acct }) }
+function contSeenReset(g, seed) {
+  contSeen = g ? { key: gameKey(g), map: new Map() } : null;
+  for (const p of seed || []) if (contSeen) contSeen.map.set(p.slot, { slot: p.slot, name: p.name, cid: p.cid || "", acct: p.acct || "" });
+}
+function contSeenAdd(slot, name, cid, acct) {
+  if (!contSeen || slot == null || cid === MP_ID) return;
+  contSeen.map.set(slot, { slot, name: String(name || "").slice(0, 24), cid: cid || "", acct: acct || "" });
+}
+// 最近一张游戏画面（每 5 秒截一次，缩小成 JPEG），退出时和存档放在一起。
+// 从屏幕上的画面截（竖版街机是转好方向的、带滤镜）
+var contShot = null, contShotBusy = false;
+setInterval(async () => {
+  const g = playingGame, emu = hostEmu(), f = stage.querySelector("iframe");
+  if (!g || !emu || !f || contShotBusy || document.hidden || emu.paused) return;
+  if (mpGuest && (mpGuest.watch || !mpGuest.sync)) return;
+  const np = hostNet(); if (np && np.active && np.isPaused && np.isPaused()) return;
+  let fw, cv;
+  try { fw = f.contentWindow; cv = fw.document.querySelector("#game canvas"); } catch (e) { return; }
+  if (!cv || !cv.width || !cv.height) return;
+  contShotBusy = true;
+  const key = gameKey(g);
+  try {
+    const r = cv.getBoundingClientRect();
+    const k = Math.min(1, 480 / Math.max(cv.width, cv.height));
+    const c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(cv.width * k)); c.height = Math.max(1, Math.round(cv.height * k));
+    const x = c.getContext("2d");
+    // 画面是 WebGL 画的，画完就清掉，直接读是空白：接一个视频流，取最新的一帧（就像串流给别人看那样）
+    const stream = cv.captureStream(30), v = document.createElement("video");
+    v.muted = true; v.playsInline = true; v.srcObject = stream;
+    try {
+      await Promise.race([v.play(), new Promise(res => setTimeout(res, 1500))]);
+      await new Promise(res => { if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(() => res()); setTimeout(res, 1200); });
+      if (v.videoWidth) x.drawImage(v, 0, 0, c.width, c.height);
+    } catch (e) {}
+    stream.getTracks().forEach(t => t.stop()); v.srcObject = null;
+    const lit = cv => { const d = cv.getContext("2d").getImageData(0, 0, cv.width, cv.height).data; let n = 0; for (let i = 0; i < d.length; i += 4 * 97) if (d[i] + d[i + 1] + d[i + 2] > 40) n++; return n > 8; };
+    let out = lit(c) ? c : null;
+    // 有的模拟核心在别的线程里画画面，这样截不到：改用模拟核心自己的截图（没转方向：竖版街机要转回来）
+    if (!out && emu.gameManager && typeof emu.gameManager.screenshot === "function") {
+      const png = await Promise.race([emu.gameManager.screenshot(), new Promise(res => setTimeout(() => res(null), 3000))]);
+      if (png && png.length) {
+        const bmp = await createImageBitmap(new Blob([new Uint8Array(png)], { type: "image/png" }));
+        const turn = (bmp.width > bmp.height) !== (cv.width > cv.height) && Math.abs(bmp.width - bmp.height) > 8;
+        const ar = r.width && r.height ? r.width / r.height : (turn ? bmp.height / bmp.width : bmp.width / bmp.height);
+        const W = ar >= 1 ? 480 : Math.round(480 * ar), H = ar >= 1 ? Math.round(480 / ar) : 480;
+        const c2 = document.createElement("canvas"); c2.width = W; c2.height = H;
+        const y = c2.getContext("2d"); y.imageSmoothingEnabled = false;
+        if (turn) { y.translate(0, H); y.rotate(-Math.PI / 2); y.drawImage(bmp, 0, 0, H, W); } else y.drawImage(bmp, 0, 0, W, H);
+        if (lit(c2)) out = c2;
+      }
+    }
+    if (out && playingGame === g) contShot = { key, url: out.toDataURL("image/jpeg", 0.82) };   // 全黑的（刚好清空了 / 黑场）不要
+  } catch (e) {}
+  contShotBusy = false;
+}, 5000);
+// 存一份（同步取出游戏状态，再慢慢写进浏览器的数据库；退出游戏时页面马上要把游戏关掉）
+function contSaveNow() {
+  const g = playingGame, emu = hostEmu();
+  if (!g || !g.file || !emu || !emu.gameManager) return;
+  if (mpGuest && (mpGuest.watch || !mpGuest.sync || !mpGuest.synced)) return;   // 观战 / 看画面玩 / 还没和主机对齐
+  if (contRun && contRun.g === g && contRun.holding) return;                    // 还停在读档那一帧，没往下玩
+  let frames = 0;
+  try { frames = emu.gameManager.functions.getFrameNum(); } catch (e) {}
+  if (frames < 600 && !(contRun && contRun.g === g)) return;                     // 刚开始不到 10 秒：不值得存
+  let state;
+  try { state = new Uint8Array(emu.gameManager.getState()); } catch (e) { return; }
+  if (!state.length) return;
+  const key = gameKey(g);
+  const mySlot = mpHost ? mpHost.localSlot || 0 : mpGuest ? mpGuest.slot || 0 : mySlotNow;
+  const players = contSeen && contSeen.key === key ? [...contSeen.map.values()].filter(p => p.slot !== mySlot) : [];
+  players.push({ slot: mySlot, name: mpName, cid: MP_ID, acct: ACCT && ACCT.user ? ACCT.user.name : "", me: true });
+  players.sort((a, b) => a.slot - b.slot);
+  let core = "";
+  try { core = emu.getCore ? emu.getCore() : ""; } catch (e) {}
+  const img = contShot && contShot.key === key ? contShot.url : (contRun && contRun.g === g ? contRun.rec.img : "");
+  contPut({ key, title: g.title, system: g.system, time: Date.now(), ver: APP_VERSION, core, img, players, mySlot, state });
+}
+setInterval(() => { if (playingGame && !document.hidden) contSaveNow(); }, 120000);
+document.addEventListener("visibilitychange", () => { if (document.hidden && playingGame && stage.querySelector("iframe")) contSaveNow(); });
+window.addEventListener("pagehide", () => { if (playingGame && stage.querySelector("iframe")) contSaveNow(); });
+
+// ---- 进游戏时问：继续还是新游戏 ----
+const contModal = document.createElement("div");
+contModal.id = "contModal"; contModal.className = "modal"; contModal.hidden = true;
+contModal.innerHTML = `<div class="modal-box cont-box" id="contBox"></div>`;
+document.body.appendChild(contModal);
+function contAgo(t) {
+  const s = Math.max(0, (Date.now() - t) / 1000);
+  try {
+    const f = new Intl.RelativeTimeFormat(uiLang(), { numeric: "auto" });
+    if (s < 3600) return f.format(-Math.max(1, Math.round(s / 60)), "minute");
+    if (s < 86400) return f.format(-Math.round(s / 3600), "hour");
+    return f.format(-Math.round(s / 86400), "day");
+  } catch (e) { return new Date(t).toLocaleString(); }
+}
+const contOthers = rec => (rec.players || []).filter(p => !p.me && p.slot !== rec.mySlot);
+function contAsk(g, rec, opts) {
+  const box = document.getElementById("contBox"), nm = gameNames(g), others = contOthers(rec);
+  const multi = others.length > 0 && (MAX_PLAYERS[groupOf(g)] || 4) > 1;
+  const canWait = multi && !!serverCfg;
+  const who = (rec.players || []).map(p => `<span class="cw-p"><b>P${p.slot + 1}</b>${p.me || p.slot === rec.mySlot ? escapeHtml(L("你")) : nameHtml(p.name)}</span>`).join("");
+  const btn = (act, cls, label) => `<button class="btn ${cls}" data-cont="${act}">${label}</button>`;
+  box.innerHTML = `<h3 class="cont-t">${escapeHtml(nm.loc || nm.en)}</h3>`
+    + (rec.img ? `<img class="cont-shot" src="${rec.img}" alt="">` : "")
+    + `<div class="cont-when">${escapeHtml(L("上次玩到这里 · {0}", contAgo(rec.time)))}</div>`
+    + (multi ? `<div class="cont-who"><span>${escapeHtml(L("上次一起玩的："))}</span>${who}</div>` : "")
+    + `<div class="cont-acts">`
+    + (canWait ? btn("wait", "", "▶ " + escapeHtml(L("等朋友一起继续"))) + btn("solo", "secondary", "▶ " + escapeHtml(L("一个人继续")))
+      : btn("solo", "", "▶ " + escapeHtml(L("继续"))))
+    + btn("new", "secondary", "🆕 " + escapeHtml(L("新游戏"))) + `</div>`
+    + (canWait ? `<div class="cont-note">${escapeHtml(L("等朋友：游戏先停在这里，朋友在大厅点「乱入」就会回到原来的位置，人齐了自动开始。"))}<br>${escapeHtml(L("一个人继续：其他人的角色会站在原地不动，之后有人乱入就接手。"))}</div>`
+      : multi ? `<div class="cont-note">${escapeHtml(L("其他人的角色会站在原地不动。"))}</div>` : "")
+    + (rec.ver && rec.ver !== APP_VERSION ? `<div class="cont-note">${escapeHtml(L("这是旧版本（{0}）存的进度，如果读不出来，请选「新游戏」。", rec.ver))}</div>` : "")
+    + `<div class="cont-foot"><button class="linkbtn" data-cont="del">${escapeHtml(L("删掉这个进度"))}</button><button class="linkbtn" data-cont="close">${escapeHtml(L("取消"))}</button></div>`;
+  contModal.hidden = false;
+  box.querySelectorAll("[data-cont]").forEach(b => b.onclick = () => {
+    const a = b.dataset.cont;
+    contModal.hidden = true;
+    if (a === "close") { if (tv && tv.center && document.body.classList.contains("padnav")) navFocus(tv.center); return; }
+    if (a === "del") { contDel(rec.key); mpToast(L("已删掉这个游戏的进度")); if (tv) tvInfo(); return; }
+    play(g, Object.assign({}, opts, a === "new" ? { fresh: true } : { cont: rec, wait: a === "wait" }));
+  });
+  setTimeout(() => navFocus(box.querySelector("[data-cont]")), 30);
+}
+
+// ---- 继续：读档、我是几 P、等朋友 ----
+var contRun = null;   // { g, rec, mySlot, wait, holding, res: [{ slot, name, cid, acct, here, ready }] }
+window.__contHolding = () => !!(contRun && contRun.holding);
+window.__contGo = () => contGo();
+const contSame = (r, acct, cid, name) => (r.acct && acct && normName(r.acct) === normName(acct)) || (r.cid && r.cid === cid) || (!!r.name && normName(r.name) === normName(name));
+// 有人乱入：他是上次一起玩的人吗？是的话给他原来的玩家号
+const contResFor = m => contRun && mpHost && contRun.g === mpHost.g ? contRun.res.find(r => contSame(r, m.acct, m.from, m.name)) || null : null;
+const contReserved = (n, mine) => !!(contRun && mpHost && contRun.g === mpHost.g && contRun.res.some(r => r.slot === n && r !== mine && !r.here));
+async function contApply(run) {
+  let emu = null;
+  for (let i = 0; i < 600 && !emu; i++) { await new Promise(r => setTimeout(r, 100)); if (contRun !== run) return; emu = hostEmu(); }
+  if (!emu) return;
+  await new Promise(r => setTimeout(r, 400));
+  if (contRun !== run) return;
+  try { emu.gameManager.loadState(run.rec.state); }
+  catch (e) { contRun = null; mpToast(L("没能读取上次的进度，从头开始")); return; }
+  run.applied = true;
+  const np = hostNet();
+  await setMySlot(run.mySlot, true);
+  if (run.mySlot) mpToast(L("继续上次的进度：你是 {0}", slotName(run.mySlot)));
+  if (!run.wait) setTimeout(slotHint, 4000);
+  if (run.wait && np && np.setHold) {
+    np.setEventHandler(hostNetEvent);
+    run.holding = true;
+    await np.setHold(true);
+  }
+  renderPlayers();
+  contRefresh();
+}
+function contGo() {
+  const run = contRun;
+  if (!run || !run.holding) return;
+  run.holding = false;
+  clearTimeout(run.goT);
+  const np = hostNet(); if (np && np.setHold) np.setHold(false);
+  contRefresh();
+  focusGame();
+  setTimeout(slotHint, 1500);
+}
+// 等待画面（游戏停在读档那一帧，上面盖一张卡片）、大厅里「在等谁」
+var contWaitEl = document.createElement("div");
+contWaitEl.id = "contWait"; contWaitEl.hidden = true;
+document.getElementById("stage").appendChild(contWaitEl);
+function contRefresh() {
+  const run = contRun;
+  if (!run || !playingGame || run.g !== playingGame) { contWaitEl.hidden = true; return; }
+  const peers = mpHost ? [...mpHost.peers.values()].filter(p => !p.watch) : [];
+  for (const r of run.res) { const p = peers.find(x => x.slot === r.slot); r.here = !!p; r.ready = !!(p && p.contReady); r.who = p ? p.name : ""; }
+  if (run.holding) {
+    contWaitEl.innerHTML = `<div class="cw-box"><h3>⏸ ${escapeHtml(L("继续上次的游戏"))}</h3>`
+      + `<div class="cw-tip">${escapeHtml(L("等朋友回来接着玩：他们在大厅点「乱入」就会回到原来的位置。"))}</div><div class="cw-list">`
+      + run.res.map(r => `<div class="cw-row${r.ready ? " ok" : ""}"><b>P${r.slot + 1}</b><span class="grow">${nameHtml(r.ready || r.here ? r.who || r.name : r.name)}</span><span>${
+          escapeHtml(r.ready ? "✓ " + L("回来了") : r.here ? L("正在同步…") : "⏳ " + L("等待中"))}</span></div>`).join("")
+      + `</div><div class="cw-tip">${escapeHtml(L("他们打开 EmulatorJS 时会看到你的邀请（要连着同一个局域网或同一个外网联机服务器）。"))}</div>`
+      + `<button class="btn" id="cwGo">▶ ${escapeHtml(L("不等了，开始"))}</button>`
+      + `<div class="cw-keys">${escapeHtml(L("手柄 Start / 键盘回车 也可以开始"))}</div></div>`;
+    contWaitEl.hidden = false;
+    document.getElementById("cwGo").onclick = () => contGo();
+    if (run.res.length && run.res.every(r => r.ready) && !run.goT)
+      run.goT = setTimeout(() => { run.goT = 0; if (contRun === run && run.holding) { mpToast(L("人齐了，开始！")); contGo(); } }, 1500);
+  } else contWaitEl.hidden = true;
+  contPublish();
+}
+function contPublish(force) {
+  if (!mpHost) return;
+  const run = contRun && contRun.g === mpHost.g ? contRun : null;
+  if (!run && !mpHost.localSlot && !mpHost.contSent) return;   // 普通开局、我是 1P：不用告诉服务器
+  const wait = run && run.wait ? run.res.filter(r => !r.here).map(r => ({ slot: r.slot, name: r.name, cid: r.cid || "", acct: r.acct || "" })) : [];
+  const body = { wait, hostSlot: mpHost.localSlot || 0 }, sig = JSON.stringify(body);
+  const sent = mpHost.contSent = mpHost.contSent || {};
+  if (mpHost.sid && (force || sent.lan !== sig)) { sent.lan = sig; mp("update", { sid: mpHost.sid, ...body }).catch(() => {}); }
+  if (mpHost.cloudSid && (force || sent.cloud !== sig)) { sent.cloud = sig; mp("update", { sid: mpHost.cloudSid, ...body }, cloudBase()).catch(() => {}); }
+}
+// ---- 换位置：我控制几 P（那个位置空着才能换）----
+// FC、超任很多游戏只有 1P 能暂停、进菜单：2P 一个人继续时，可以先换到 1P；1P 原来的人回来了，自动换回去
+var mySlotNow = 0, mySlotHome = 0;
+var slotBtn = document.getElementById("slotBtn");
+async function setMySlot(n, quiet) {
+  n = Math.max(0, Math.min(3, n | 0));
+  mySlotNow = n;
+  if (mpHost) mpHost.localSlot = n;
+  if (contRun && contRun.g === playingGame) contRun.mySlot = n;
+  const np = hostNet();
+  if (np && np.setLocalSlot) try { await np.setLocalSlot(n); } catch (e) {}
+  updateSlotBtn();
+  if (mpHost) { renderPlayers(); contPublish(); }
+  if (!quiet) mpToast(L("你现在控制 {0}", slotName(n)));
+}
+const slotsTaken = () => new Set(mpHost ? [...mpHost.peers.values()].filter(p => !p.watch).map(p => p.slot) : []);
+const slotMax = () => playingGame ? (MAX_PLAYERS[groupOf(playingGame)] || 4) : 1;
+function slotNext() {
+  const max = slotMax(), taken = slotsTaken();
+  for (let k = 1; k < max; k++) { const n = (mySlotNow + k) % max; if (!taken.has(n)) return n; }
+  return null;
+}
+function slotSwitch() {
+  if (mpGuest || !playingGame) return;
+  const n = slotsFree()[0] === 0 && mySlotNow !== 0 ? 0 : slotNext();   // 1P 空着就先换到 1P（最常用）
+  if (n == null) { mpToast(L("其他位置都有人了")); return; }
+  setMySlot(n);
+}
+const slotsFree = () => { const t = slotsTaken(), out = []; for (let n = 0; n < slotMax(); n++) if (!t.has(n) && n !== mySlotNow) out.push(n); return out; };
+// 3、4 人的游戏：点按钮弹出一个小菜单选位置；2 人的游戏直接换
+const slotMenu = document.createElement("div");
+slotMenu.id = "slotMenu"; slotMenu.hidden = true;
+document.body.appendChild(slotMenu);
+function slotMenuOpen() {
+  if (slotMax() <= 2) return slotSwitch();
+  if (!slotMenu.hidden) { slotMenu.hidden = true; return; }
+  const names = new Map(mpHost ? [...mpHost.peers.values()].filter(p => !p.watch).map(p => [p.slot, p.name]) : []);
+  let h = "";
+  for (let n = 0; n < slotMax(); n++) {
+    const me = n === mySlotNow, who = names.get(n);
+    h += `<button class="btn ${me ? "" : "secondary"}" data-slot="${n}"${me || who ? " disabled" : ""}><b>P${n + 1}</b> ${escapeHtml(me ? L("你") : who || L("空着"))}</button>`;
+  }
+  slotMenu.innerHTML = h;
+  const r = slotBtn.getBoundingClientRect();
+  slotMenu.style.top = Math.round(r.bottom + 6) + "px";
+  slotMenu.style.left = Math.round(Math.min(r.left, innerWidth - 200)) + "px";
+  slotMenu.hidden = false;
+  slotMenu.querySelectorAll("[data-slot]:not([disabled])").forEach(b => b.onclick = () => { slotMenu.hidden = true; setMySlot(+b.dataset.slot); focusGame(); });
+}
+document.addEventListener("mousedown", e => { if (!slotMenu.hidden && !slotMenu.contains(e.target) && e.target !== slotBtn) slotMenu.hidden = true; }, true);
+function updateSlotBtn() {
+  if (!slotBtn) return;
+  const show = !!(playingGame && stage.querySelector("iframe") && !mpGuest && slotMax() > 1);
+  slotBtn.hidden = !show;
+  if (show) slotBtn.textContent = "🎮 " + L("我是 {0}", "P" + (mySlotNow + 1)) + " ⇄";
+}
+if (slotBtn) slotBtn.onclick = () => slotMenuOpen();
+// 我不是 1P、1P 又空着：提醒一下可以换过去（很多游戏只有 1P 能暂停、进菜单）
+function slotHint() {
+  if (!playingGame || mpGuest || !mySlotNow || slotMax() < 2 || slotsTaken().has(0)) return;
+  mpToast(L("1P 空着：很多游戏的暂停和菜单只有 1P 能操作，可以点上方「🎮 我是 {0} ⇄」换到 1P", "P" + (mySlotNow + 1)));
+}
+function contEnd() {
+  if (contRun) clearTimeout(contRun.goT);
+  contRun = null;
+  contWaitEl.hidden = true;
+}
+
+// ---- 朋友那边：有人在等我回去继续 ----
+var contInvEl = document.createElement("div");
+contInvEl.id = "contInvite"; contInvEl.hidden = true;
+document.body.appendChild(contInvEl);
+const contInvNo = new Set();
+let contInvKey = "";
+function contInvites() {
+  if (stage.querySelector("iframe")) { contInvEl.hidden = true; contInvKey = ""; return; }
+  const me = w => w.cid === MP_ID || (ACCT && ACCT.user && w.acct && normName(w.acct) === normName(ACCT.user.name)) || (!!w.name && normName(w.name) === normName(mpName));
+  let hit = null, slot = 0;
+  for (const e of allSessions()) {
+    const s = e.s;
+    if (s.host === MP_ID || !Array.isArray(s.wait) || contInvNo.has(e.key)) continue;
+    const w = s.wait.find(me);
+    if (w) { hit = e; slot = w.slot | 0; break; }
+  }
+  if (!hit) { contInvEl.hidden = true; contInvKey = ""; return; }
+  const k = hit.key + "|" + slot;
+  if (k === contInvKey && !contInvEl.hidden) return;
+  contInvKey = k;
+  const s = hit.s, nm = gameNames(s), ico = iconFor(s.group || s.system);
+  contInvEl.innerHTML = `${ico ? `<img src="${ico}" alt="">` : ""}<div class="ci-t">${escapeHtml(L("{0} 在等你继续上次的「{1}」", s.hostName, nm.loc || nm.en))}<small>${
+    escapeHtml(L("你上次是 {0}，乱入就会回到原来的位置", slotName(slot)))}</small></div>`
+    + `<div class="ci-a"><button class="btn" id="ciJoin">${escapeHtml(L("乱入"))}</button><button class="btn secondary" id="ciNo">${escapeHtml(L("不了"))}</button></div>`;
+  contInvEl.hidden = false;
+  document.getElementById("ciJoin").onclick = () => { contInvEl.hidden = true; contInvNo.add(hit.key); joinEntry(hit, false); };
+  document.getElementById("ciNo").onclick = () => { contInvEl.hidden = true; contInvNo.add(hit.key); };
 }
 
 async function buildGameFile(g) {
@@ -3003,6 +3411,7 @@ function hallCard(e) {
     b && canLike(name) ? likeBtn(name) : ""}</div>`;
   const tags = [];
   if (s.challenge) tags.push(`<span class="tag live">🥊 ${L("擂台：欢迎挑战")}</span>`);
+  if (contWaitText(s)) tags.push(`<span class="tag live">⏳ ${escapeHtml(contWaitText(s))}</span>`);
   if (isVersus(s)) tags.push(`<span class="tag">${L("格斗")}</span>`);
   tags.push(`<span class="tag ${e.src === "cloud" ? "tnet" : "tlan"}">${e.src === "cloud" ? "🌐 " + L("外网") + (s.hostLoc ? " · " + locFlag(s.hostLoc) : "") : e.src === "remote" ? "🏠 " + L("局域网 · 另一台电脑") : "🏠 " + L("局域网")}</span>`);
   if (watchers) tags.push(`<span class="tag">👀 ${watchers}</span>`);
@@ -3017,7 +3426,7 @@ function hallCard(e) {
   return `<div class="hc${hb && hb.champ ? " champ" : ""}${mine ? " mine" : ""}">
     <div class="hc-top">${ico ? `<img class="ico" src="${ico}" alt="">` : ""}<div class="tt"><b title="${escapeHtml(nm.loc || nm.en)}">${escapeHtml(nm.loc || nm.en)}</b>${nm.loc ? `<small>${escapeHtml(nm.en)}</small>` : ""}</div></div>
     <div class="hc-tags">${tags.join("")}</div>
-    <div class="hc-who">${row(0, s.hostName, s.hostCountry, hb)}${players.map(p => row(p.slot, p.name, p.country, badgeOf(p.name, s))).join("")}</div>
+    <div class="hc-who">${row(s.hostSlot | 0, s.hostName, s.hostCountry, hb)}${players.map(p => row(p.slot, p.name, p.country, badgeOf(p.name, s))).join("")}</div>
     <div class="hc-act">${act}<span style="margin-left:auto;color:var(--muted);font-size:12px;align-self:center">${1 + players.length}/${maxPlayersOf(s)}</span></div></div>`;
 }
 // ---- 好友 / 排行榜 / 我的战绩 ----
@@ -3710,6 +4119,9 @@ function nameProblem(name) {
   return "";
 }
 
+// 继续上次的游戏、房主在等人回来：「⏳ 等 阿杰（P2）回来继续」
+const contWaitText = s => Array.isArray(s.wait) && s.wait.length ? L("等 {0} 回来继续", s.wait.map(w => `${w.name}（P${(w.slot | 0) + 1}）`).join(L("、"))) : "";
+const contWaitLine = s => contWaitText(s) ? `<div class="lb-wait">⏳ ${escapeHtml(contWaitText(s))}</div>` : "";
 // ---- 大厅：谁在玩什么 ----
 const lobbyEl = document.getElementById("lobby");
 let editingName = false;
@@ -3730,7 +4142,7 @@ function renderLobby() {
     else action = `<button class="btn" data-join="${escapeHtml(s.sid)}">乱入</button>`;
     return `<div class="lb-item">${ico ? `<img src="${ico}" alt="">` : ""}
       <div class="lb-info"><div class="lb-title" title="${escapeHtml(gameName(s))}"><span class="live-dot"></span>${escapeHtml(gameNames(s).loc || s.title)}</div>
-      <div class="lb-sub" title="${escapeHtml(who)}"><span class="lb-net lan">${escapeHtml(L("局域网"))}</span>${[s.hostName, ...pl.map(p => p.name)].map(nameHtml).join(L("、"))} · ${peopleText(s, true)}</div></div>${action}</div>`;
+      <div class="lb-sub" title="${escapeHtml(who)}"><span class="lb-net lan">${escapeHtml(L("局域网"))}</span>${[s.hostName, ...pl.map(p => p.name)].map(nameHtml).join(L("、"))} · ${peopleText(s, true)}</div>${contWaitLine(s)}</div>${action}</div>`;
   }).join("") + [...mpRemote.map((s, i) => [s, "r" + i]), ...mpCloud.map((s, i) => [s, "c" + i])].map(([s, i]) => {
     const ico = iconFor(s.group || s.system);
     const pl = sessPeople(s).players;
@@ -3741,7 +4153,7 @@ function renderLobby() {
       : `<button class="btn" data-rjoin="${i}">乱入</button>`;
     return `<div class="lb-item">${ico ? `<img src="${ico}" alt="">` : ""}
       <div class="lb-info"><div class="lb-title" title="${escapeHtml(gameName(s))}"><span class="live-dot"></span>${escapeHtml(gameNames(s).loc || s.title)}</div>
-      <div class="lb-sub" title="${escapeHtml(who)}">${s.at ? `<span class="lb-net lan" title="${escapeHtml(L("局域网 · 另一台电脑"))}">${escapeHtml(L("局域网"))}</span>` : `<span class="lb-net net">🌐 ${escapeHtml(L("外网"))}</span>`}${!s.at && s.hostLoc ? locFlag(s.hostLoc, true) : ""}${[s.hostName, ...pl.map(p => p.name)].map(nameHtml).join(L("、"))} · ${peopleText(s, true)}</div></div>${action}</div>`;
+      <div class="lb-sub" title="${escapeHtml(who)}">${s.at ? `<span class="lb-net lan" title="${escapeHtml(L("局域网 · 另一台电脑"))}">${escapeHtml(L("局域网"))}</span>` : `<span class="lb-net net">🌐 ${escapeHtml(L("外网"))}</span>`}${!s.at && s.hostLoc ? locFlag(s.hostLoc, true) : ""}${[s.hostName, ...pl.map(p => p.name)].map(nameHtml).join(L("、"))} · ${peopleText(s, true)}</div>${contWaitLine(s)}</div>${action}</div>`;
   }).join("");
   const total = mpSessions.length + mpRemote.length + mpCloud.length;
   document.getElementById("mbLobbyN").textContent = total ? total : "";
@@ -3815,7 +4227,7 @@ async function mpPollSessions() {
         cloudState.lobbyError = "";
       } catch (e) { mpCloud = []; cloudState.lobbyError = "外网服务器暂时连不上"; }
     } else mpCloud = [];
-    renderLobby(); hallRefresh(); updateMpButtons();
+    renderLobby(); hallRefresh(); updateMpButtons(); contInvites();
     if (!hallEl.hidden && hallTab === "players" && Date.now() - cloudPlayersAt > 4500) cloudPlayersLoad();
   } catch (e) {}
 }
@@ -4061,6 +4473,7 @@ function guestGotRoster(me, list) {
   const sig = l => JSON.stringify(l.map(x => [x.slot, x.name, x.host, x.watch]));
   const changed = !me.roster || sig(me.roster) !== sig(clean);
   me.roster = clean;
+  for (const x of clean) if (!x.watch && (x.host || x.slot !== me.slot)) contSeenAdd(x.slot, x.name, x.host ? me.host : "", "");   // 继续用：这局谁是几 P
   if (changed) renderPlayers();
   for (const x of clean) if (!x.host && !x.watch) paintLat("s" + x.slot, x.rtt, x.relay);
 }
@@ -4089,6 +4502,7 @@ function renderPlayers() {
   try { renderLobby(); hallRefresh(); } catch (e) {}   // 左边「正在游戏」、大厅里的人数跟着变
   roomBtn.hidden = !(mpHost || mpGuest);
   if (typeof renderRoomPanel === "function") renderRoomPanel();
+  if (contRun) contRefresh();
 }
 // ---- 房间：观战开关、只允许注册玩家、请人出去（30 分钟内不能再进你的房间）----
 const roomBtn = document.getElementById("roomBtn"), roomPanel = document.getElementById("roomPanel");
@@ -4309,6 +4723,8 @@ async function mpStartHosting(g, solo) {
     }
     if (!d.sid) return;
     mpHost = { sid: d.sid, g, peers: new Map(), allowJoin: mpAllowDefault, msid: MP_ID + Date.now().toString(36), ...roomDefaults };
+    if (playingGame === g) mpHost.localSlot = mySlotNow;   // 继续上次 2P 的进度（或者换了位置）：我还是那个位置
+    if (mySlotNow) contPublish();
     mpAllowBtn.hidden = false; roomBtn.hidden = false;
     updateVoiceBtn();
     mpHostCloud(g);
@@ -4324,7 +4740,7 @@ async function mpHostCloud(g) {
     const d = await mp("host", { game: MP_ID + ":" + gameKey(g), title: g.title, system: g.system, group: groupOf(g),
       allowJoin: me.allowJoin, sync: true, size: (g.file && g.file.size) || 0, country: myCountry(),
       allowWatch: me.allowWatch !== false, regOnly: !!me.regOnly }, base);
-    if (mpHost === me && d.sid) me.cloudSid = d.sid;
+    if (mpHost === me && d.sid) { me.cloudSid = d.sid; if (contRun && contRun.g === g) contPublish(); }
   } catch (e) { if (/有人在用/.test(e.message) || e.code === "server_full" || e.code === "rooms_full") mpToast(L("外网：") + mpErrText(e) + L("（外网的人看不到这局）")); }
 }
 function hostCanvasStream() {
@@ -4360,6 +4776,7 @@ async function mpOnMessage(m, base = "") {
     if (m.type === "signal" && m.data && m.data.kind === "offer") {
       if (m.data.slot != null && m.data.slot !== mpGuest.slot) { mpGuest.slot = m.data.slot; renderPlayers(); }
       mpGuest.hostSlot = m.data.hostSlot || 0;
+      contSeenAdd(mpGuest.hostSlot, mpGuest.hostName, mpGuest.host, "");
       if (playRec && m.data.msid) playRec.sid = m.data.msid;
       return guestAnswer(m.data.sdp, m.data.voice || []);
     }
@@ -4380,6 +4797,8 @@ function hostNetEvent(t, d) {
   else if (t === "running") netBanner("");
   else if (t === "paused") netBanner("已暂停（大家都停住了）：按右 Shift 继续");
   else if (t === "synced") {
+    const sp = [...mpHost.peers.values()].find(p => p.slot === d.slot && !p.watch);
+    if (sp) { sp.contReady = true; setTimeout(contRefresh, 0); }
     const hp = [...mpHost.peers.values()].find(p => p.slot === d.slot && p.ho && !p.watch);
     if (hp) { setTimeout(() => hoStart(hp), 0); return; }
     mpToast(`${nameOf(d.slot)} 已同步，可以一起玩了`);
@@ -4461,16 +4880,27 @@ async function hostAcceptJoin(m) {
   hostDropPeer(m.from, false);
   // 局域网和外网两个大厅各自分配编号，可能重复：由主机统一决定（观战的人不占编号）
   if (!m.watch) {
+    // 我暂时坐在他原来的位置上（比如 2P 一个人继续时换到了 1P）：他回来了，我换回自己原来的位置
+    const back = contResFor(m);
+    if (back && (mpHost.localSlot || 0) === back.slot && mySlotHome !== back.slot && !slotsTaken().has(mySlotHome)) {
+      setMySlot(mySlotHome, true);
+      mpToast(L("{0} 回来了，你回到 {1}", m.name, slotName(mySlotHome)));
+    }
     const used = new Set([...mpHost.peers.values()].filter(p => !p.watch).map(p => p.slot));
     used.add(mpHost.localSlot || 0);   // 我自己控制的玩家号
     // 这个平台最多几个人（FC 2 人、掌机 1 人…）：满了就告诉对方，可以改成观战
     const max = mpHost.g ? (MAX_PLAYERS[groupOf(mpHost.g)] || 4) : 4;
     const slots = [0, 1, 2, 3].slice(0, max);
-    if (m.slot == null || used.has(m.slot) || m.slot >= max) {
-      const free = slots.find(n => !used.has(n));
+    // 继续上次的游戏：上次一起玩的人回到原来的玩家号；别人先用空着的位置（还在等人时，不占等的人的位置）
+    const mine = contResFor(m);
+    if (mine && !used.has(mine.slot) && mine.slot < max) m.slot = mine.slot;
+    else if (m.slot == null || used.has(m.slot) || m.slot >= max || contReserved(m.slot, mine)) {
+      let free = slots.find(n => !used.has(n) && !contReserved(n, mine));
+      if (free === undefined && !(contRun && contRun.holding)) free = slots.find(n => !used.has(n));
       if (free === undefined) { mp("reject", { sid: m.sid, target: m.from, code: "full" }, m.base || "").catch(() => {}); return; }
       m.slot = free;
     }
+    contSeenAdd(m.slot, m.name, m.from, m.acct);
   }
   if (m.mode === "sync") return hostAcceptSync(m);
   const stream = hostCanvasStream();
@@ -4481,7 +4911,7 @@ async function hostAcceptJoin(m) {
   const peer = { pc, dc, slot: m.slot, name: m.name, held: new Set(), watch: !!m.watch, cid: m.from, ho: m.hoFrom || null,
     acct: m.acct || "", verified: !!m.verified, sid: m.sid, base: m.base || "" };
   hostAddVoice(pc, peer);
-  dc.onopen = () => { if (peer.ho) hoDone(peer); };
+  dc.onopen = () => { if (peer.ho) hoDone(peer); peer.contReady = true; contRefresh(); };
   hostWatchPeer(peer);
   dc.onclose = () => { if (mpHost && mpHost.peers.get(m.from) === peer) hostDropPeer(m.from, true); };
   dc.onmessage = e => {
@@ -4492,7 +4922,7 @@ async function hostAcceptJoin(m) {
     if (!emu || typeof d.i !== "number") return;
     const net = hostNet();
     if (net && net.active) net.hostInput(peer.slot, d.i, d.v ? 1 : 0);   // 同时有人用按键同步：交给同步引擎
-    else emu.gameManager.simulateInput(peer.slot, d.i, d.v ? 1 : 0);
+    else if (d.i < 24) emu.gameManager.functions.simulateInput(peer.slot, d.i, d.v ? 1 : 0);   // 直接交给模拟器（不经过「换位置」的对调）
     if (d.v) peer.held.add(d.i); else peer.held.delete(d.i);
   };
   mpHost.peers.set(m.from, peer);
@@ -4573,7 +5003,7 @@ function hostDropPeer(cid, announce) {
   const emu = hostEmu(), net = hostNet();
   if (p.sync) { if (net) { if (p.watch) net.removeWatcher(p.cid); else net.removePeer(p.slot); } }
   else if (net && net.active) for (const id of p.held) net.hostInput(p.slot, id, 0);
-  else if (emu) for (const id of p.held) emu.gameManager.simulateInput(p.slot, id, 0);   // 松开他按着的键
+  else if (emu) for (const id of p.held) if (id < 24) emu.gameManager.functions.simulateInput(p.slot, id, 0);   // 松开他按着的键
   try { p.pc.close(); } catch (e) {}
   if (p.voiceEl) { p.voiceEl.srcObject = null; p.voiceEl.remove(); }
   mpHost.peers.delete(cid);
@@ -5177,6 +5607,7 @@ function guestConnState(me, pc) {
 }
 function mpGuestEnded(msg) {
   if (!mpGuest) return;
+  contSaveNow();   // 主机结束了 / 断线：我这边也存一份进度，下次我也能开局继续
   playEnd();
   const g = mpGuest.g, wasSync = mpGuest.sync;
   mpStopAll();
@@ -5759,8 +6190,20 @@ async function play(g, opts = {}) {
     if (s) return s.allowJoin ? mpJoin(s, g) : mpLockedNotice(s, g);
   }
   if (NEEDS_BIOS[g.system] && !biosFiles[g.system]) return showBiosMissing(g);
+  // 上次玩到一半：先问继续还是新游戏
+  if (!opts.netGuest && !opts.cont && !opts.fresh && contHas(g)) {
+    const rec = await contGet(gameKey(g));
+    if (rec && rec.state && rec.state.length) return contAsk(g, rec, opts);
+  }
   recentAdd(g);
   stop(!!opts.netGuest);
+  contSeenReset(g, opts.cont ? contOthers(opts.cont) : null);
+  mySlotNow = mySlotHome = opts.cont ? Math.max(0, Math.min(3, opts.cont.mySlot | 0)) : 0;
+  if (opts.cont) {
+    const rec = opts.cont;
+    contRun = { g, rec, mySlot: Math.max(0, Math.min(3, rec.mySlot | 0)), wait: !!opts.wait, holding: false,
+      res: contOthers(rec).map(p => ({ slot: p.slot, name: p.name, cid: p.cid || "", acct: p.acct || "", here: false, ready: false })) };
+  }
   currentId = g.id;
   playingGame = g;
   updatePadSizeBtn(g.system);
@@ -5915,6 +6358,10 @@ async function play(g, opts = {}) {
   ${ANDROID_APP && !LCD_SYSTEMS.has(g.system) ? 'window.EJS_defaultOptions = { shader: "crt-easymode.glslp" };' : ""}
   // 换一个设置编号，让新的默认设置对之前玩过的游戏也生效（旧的按游戏保存的设置不再读取）
   window.EJS_gameID = 4;
+  // 继续上次的游戏、在等朋友时：回车 = 不等了，开始
+  document.addEventListener("keydown", e => {
+    try { if (e.key === "Enter" && !e.repeat && parent.__contHolding && parent.__contHolding()) { e.preventDefault(); e.stopPropagation(); parent.__contGo(); } } catch (x) {}
+  }, true);
   // 右 Shift 暂停 / 继续
   document.addEventListener("keydown", e => {
     if (e.code !== "ShiftRight" || e.repeat) return;
@@ -6213,6 +6660,8 @@ async function play(g, opts = {}) {
   stage.appendChild(frame);
   frame.focus();
   if (!opts.netGuest) { mpStartHosting(g, opts.solo); playStart(g, "solo"); }
+  if (contRun && contRun.g === g) contApply(contRun);
+  updateSlotBtn();
 }
 
 // ================= 手柄 / 电视遥控器操作界面 =================
@@ -6226,7 +6675,7 @@ const isTyping = el => el && (el.tagName === "TEXTAREA" || el.tagName === "SELEC
 const visible = el => { if (!el || el.hidden) return false; const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== "hidden"; };
 function navScope() {
   if (!gameMenuEl.hidden) return gameMenuEl;
-  for (const id of ["updModal", "thumbModal", "cheatModal", "acctModal", "dirModal", "romBox", "srvMenu", "themePanel", "langPanel", "roomPanel", "turboPanel"]) {
+  for (const id of ["contModal", "updModal", "thumbModal", "cheatModal", "acctModal", "dirModal", "romBox", "srvMenu", "themePanel", "langPanel", "roomPanel", "turboPanel"]) {
     const el = document.getElementById(id);
     if (el && !el.hidden && visible(el)) return el;
   }
@@ -6296,6 +6745,7 @@ function navBack() {
   if (!gameMenuEl.hidden) { gameMenuClose(); return true; }
   const rb = document.getElementById("romBox");
   if (rb && visible(rb)) { const b = rb.querySelector("#rbNo"); if (b) b.click(); else romBox(""); return true; }
+  if (!contModal.hidden) { contModal.hidden = true; if (tv && tv.center) navFocus(tv.center); return true; }
   if (!acctModal.hidden) { acctModal.hidden = true; return true; }
   if (!updModal.hidden) { updClose(); return true; }
   if (!document.getElementById("thumbModal").hidden) { document.getElementById("thumbModal").hidden = true; return true; }
@@ -6347,6 +6797,7 @@ function gameMenuOpen() {
   gameMenuEl.innerHTML = `<div class="gm-box"><h3>${escapeHtml(L("游戏菜单"))}</h3>`
     + item("resume", "▶ " + escapeHtml(L("继续游戏")))
     + (guest ? "" : item("save", "💾 " + escapeHtml(L("即时存档"))) + item("load", "📂 " + escapeHtml(L("读取即时存档"))) + item("reset", "🔄 " + escapeHtml(L("重置游戏"))))
+    + (!guest && slotMax() > 1 ? item("slot", "🎮 " + escapeHtml(L("换位置（现在是 {0}）", "P" + (mySlotNow + 1)))) : "")
     + item("fs", "⛶ " + escapeHtml(L("全屏 / 退出全屏")))
     + item("exit", "✕ " + escapeHtml(L("退出游戏")))
     + `<p class="gm-note">${escapeHtml(online ? L("联机中，游戏不会暂停") : L("游戏已暂停"))} · ${escapeHtml(L("B / 返回键：继续"))}</p></div>`;
@@ -6366,6 +6817,7 @@ function gameMenuDo(act) {
   const emu = gameEmu(), gm = emu && emu.gameManager;
   if (act === "exit") { gameMenuEl.hidden = true; gameMenuPaused = false; document.getElementById("stopBtn").click(); return; }
   if (act === "fs") { document.getElementById("fsBtn").click(); return gameMenuClose(); }
+  if (act === "slot") { gameMenuClose(); return slotSwitch(); }
   gameMenuClose();
   if (!gm) return;
   try {
@@ -6389,6 +6841,7 @@ function padPoll() {
   const playing = !!stage.querySelector("iframe");
   // 游戏里：同时按住 Select + Start 0.4 秒（没按 L1 / R1，那是重置的组合键）打开菜单
   if (playing && gameMenuEl.hidden) {
+    if (contRun && contRun.holding && pressed("start") && !st.select) { contGo(); Object.assign(padPrev, st); return; }   // 等朋友时：Start = 不等了，开始
     if (st.select && st.start && !st.lb && !st.rb) { if (!comboSince) comboSince = now; else if (now - comboSince > 400) { comboSince = 0; gameMenuOpen(); } }
     else comboSince = 0;
     Object.assign(padPrev, st);
@@ -6414,6 +6867,7 @@ setInterval(() => { if (!document.hidden) padPoll(); }, 33);
 // 玩游戏时点了上方的按钮（语音、房间…），键盘焦点就离开了游戏，键盘按键会没反应（手柄不受影响）。
 // 所以：焦点在页面上、按的又是游戏里设置过的键时，把这个键交给游戏，并把焦点放回游戏
 function keyToGame(e) {
+  if (e.type === "keydown" && e.key === "Enter" && contRun && contRun.holding && !isTyping(e.target)) { e.preventDefault(); contGo(); return; }
   if (!gameMenuEl.hidden || isTyping(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.target && e.target.closest && e.target.closest("#roomPanel, #turboPanel, .modal, #updModal, #thumbModal, #cheatModal, #acctModal, #dirModal, #romBox, #srvMenu, #hall, #themePanel, #langPanel")) return;
   const emu = gameEmu();
@@ -6783,7 +7237,7 @@ window.cheatLibOpen = cheatLibOpen;
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.2.0";
+const APP_VERSION = "1.3.0";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",

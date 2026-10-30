@@ -5,7 +5,8 @@
 // 每隔几秒互相核对一次游戏状态；万一对不上，主机把自己的即时存档发过去，重新对齐。
 (() => {
   // localSlot：主机自己控制的是几号玩家（平常是 0；从手机接手游戏后，电脑保持原来的玩家号）
-  const NP = window.EJSNet = { active: false, role: null, localSlot: 0 };
+  // hold：继续上次的游戏时，主机先停在读档的那一帧，等朋友回来（有人乱入照样同步，只是大家都不往下跑）
+  const NP = window.EJSNet = { active: false, role: null, localSlot: 0, hold: false };
   const origRAF = window.requestAnimationFrame.bind(window);
   let held = null;   // 被我们按住的模拟器主循环：调用一次 = 跑一帧
   window.requestAnimationFrame = function (cb) {
@@ -37,7 +38,11 @@
     gm.__npHooked = true;
     const orig = gm.simulateInput.bind(gm);
     gm.simulateInput = (player, index, value) => {
-      if (!NP.active) return orig(player, index, value);
+      if (!NP.active) {
+        // 一个人玩、但我是 2P（继续上次 2P 的进度）：本机的 1 号手柄 / 键盘控制 2P，反过来也换一下
+        if (NP.localSlot && index < 24 && (player === 0 || player === NP.localSlot)) player = player ? 0 : NP.localSlot;
+        return orig(player, index, value);
+      }
       if (index >= 24) { if (NP.role === "host") orig(player, index, value); return; }   // 存读档热键：只有主机能用
       if (index >= 16) return;                                                          // 模拟摇杆不同步
       const s = NP.role === "host" ? NP.localSlot : 0;
@@ -108,7 +113,9 @@
     hook();
     if (NP.active) return;
     NP.active = true;
-    paused = false;
+    paused = !!NP.hold;
+    // 模拟器自己暂停着（比如开着菜单）时主循环不会跑：先让它跑起来，才按得住
+    try { const e = window.EJS_emulator; if (e.paused && typeof e.play === "function") e.play(true); } catch (x) {}
     // 等主循环被我们按住
     await new Promise(res => { const t = setInterval(() => { if (held) { clearInterval(t); res(); } }, 5); });
     for (let s = 0; s < 4; s++) applied[s] = 0;
@@ -119,7 +126,8 @@
     if (!NP.active) return;
     NP.active = false;
     clearTimeout(tickTimer); tickTimer = null;
-    apply([localMask[0], 0, 0, 0]);
+    const keep = [0, 0, 0, 0]; keep[NP.localSlot] = localMask[NP.localSlot];
+    apply(keep);
     const cb = held; held = null;
     if (cb) origRAF(cb);
     NP.role = null;
@@ -179,7 +187,11 @@
   function hostTick() {
     if (RB.on && !H.pending.length && !(resyncAt && executed() >= resyncAt)) return rbTick();
     if (RB.on) { H.sentUpTo = executed(); }   // 回滚模式下要重新对齐：在两帧之间做
-    if (paused) { H.t0 = performance.now() - H.done * (1000 / H.fps); return; }
+    if (paused) {
+      // 暂停时也照样让刚乱入的人对齐（继续上次的游戏：大家先停在同一帧，人齐了再一起开始）
+      if (!RB.on && H.pending.length && H.sentUpTo === executed()) { H.pending = []; hostSyncAll(); }
+      H.t0 = performance.now() - H.done * (1000 / H.fps); return;
+    }
     // 有人刚加入 / 需要重新对齐：在两帧之间把状态发过去
     if (H.sentUpTo === executed()) {
       if (resyncAt && executed() >= resyncAt) { resyncAt = 0; H.pending.push(-1); }
@@ -389,7 +401,7 @@
   // 主机：回滚模式只在「想用回滚 + 所有按键同步的乱入者都是新版本」时才开
   function rbWanted() {
     const ps = Object.values(H.peers);
-    return H.mode === "rb" && ps.length > 0 && ps.every(p => p.rb);
+    return H.mode === "rb" && !NP.hold && ps.length > 0 && ps.every(p => p.rb);
   }
   function rbStart(J, me, peerSlots, W) {
     const r = RB;
@@ -606,12 +618,15 @@
 
   // ================= 给页面用的接口 =================
   // 主机：有人用「按键同步」方式乱入
+  function hostReset() {
+    H.t0 = performance.now(); H.done = 0; H.sentUpTo = 0; H.recordedUpTo = 0;
+    H.rows.clear(); H.decided.clear(); H.hashes.clear(); H.noise.clear();
+  }
   NP.addPeer = async (slot, delay, sendFn, opts = {}) => {
     if (!NP.active) {
       NP.role = "host";
       await activate();
-      H.t0 = performance.now(); H.done = 0; H.sentUpTo = 0; H.recordedUpTo = 0;
-      H.rows.clear(); H.decided.clear(); H.hashes.clear(); H.noise.clear();
+      hostReset();
     }
     H.peers[slot] = { send: sendFn, delay: delay || 3, synced: false, zeroUntil: 0, rb: !!opts.rb };
     H.pending.push(slot);
@@ -621,15 +636,14 @@
     delete H.peers[slot]; delete FAST[slot];
     H.pending = H.pending.filter(s => s !== slot);
     if (RB.on && !H.pending.length && (Object.keys(H.peers).length || Object.keys(H.watchers).length)) H.pending.push(-1);   // 回滚模式：少了一个人，大家重新对齐（没人了就回到普通方式给观战的人）
-    if (NP.role === "host" && !H.keep && !Object.keys(H.peers).length && !Object.keys(H.watchers).length) deactivate();
+    if (NP.role === "host" && !H.keep && !NP.hold && !Object.keys(H.peers).length && !Object.keys(H.watchers).length) deactivate();
   };
   // 主机：有人观战（只接收每一帧的按键，不参与操作，主机也不用等他）
   NP.addWatcher = async (key, sendFn) => {
     if (!NP.active) {
       NP.role = "host";
       await activate();
-      H.t0 = performance.now(); H.done = 0; H.sentUpTo = 0; H.recordedUpTo = 0;
-      H.rows.clear(); H.decided.clear(); H.hashes.clear(); H.noise.clear();
+      hostReset();
     }
     H.watchers[key] = { send: sendFn, synced: false, watch: true, zeroUntil: 0, delay: 0 };
     H.pending.push(-1);
@@ -637,7 +651,7 @@
   };
   NP.removeWatcher = key => {
     delete H.watchers[key]; delete FASTW[key];
-    if (NP.role === "host" && !H.keep && !Object.keys(H.peers).length && !Object.keys(H.watchers).length) deactivate();
+    if (NP.role === "host" && !H.keep && !NP.hold && !Object.keys(H.peers).length && !Object.keys(H.watchers).length) deactivate();
   };
   NP.peerMessage = (slot, msg) => hostMessage(slot, msg);
   // 快速通道连上了（主机：某个玩家 / 观战者的；乱入的人：自己的）
@@ -657,7 +671,7 @@
     if (NP.role === "host" && NP.active && Object.keys(H.peers).length && !H.pending.length && rbWanted() !== RB.on) { H.pending.push(-1); schedule(0); }   // 实际方式变了才重新对齐
   };
   NP.mode = () => (RB.on ? "rb" : "delay");
-  NP.togglePause = () => { if (RB.on) { onEvent("rbNoPause"); return false; } if (NP.role === "host") { paused = !paused; onEvent(paused ? "paused" : "running"); schedule(0); return true; } return false; };
+  NP.togglePause = () => { if (NP.hold) return false; if (RB.on) { onEvent("rbNoPause"); return false; } if (NP.role === "host") { paused = !paused; onEvent(paused ? "paused" : "running"); schedule(0); return true; } return false; };
   NP.isPaused = () => paused;
   // 客户端：开始同步（游戏加载好后，按住主循环，等主机发状态过来）
   NP.startGuest = async (opts) => {
@@ -696,7 +710,32 @@
     schedule(0);
   };
   NP.resume = () => { if (NP.role === "host" && paused) { paused = false; onEvent("running"); schedule(0); } };
-  NP.stop = () => { H.keep = false; NP.localSlot = 0; deactivate(); for (const s in H.peers) delete H.peers[s]; for (const w in H.watchers) delete H.watchers[w]; for (const k in FAST) delete FAST[k]; for (const k in FASTW) delete FASTW[k]; G.fast = null; H.pending = []; G.synced = false; };
+  // 我控制的是几号玩家（继续上次 2P、3P 的进度时）。没联机时也生效：本机的手柄 / 键盘控制这个玩家
+  NP.setLocalSlot = async slot => {
+    await waitEmu(); hook();
+    slot = Math.max(0, Math.min(3, slot | 0));
+    if (NP.active && NP.role === "host" && slot !== NP.localSlot) { localMask[slot] = localMask[NP.localSlot]; localMask[NP.localSlot] = 0; }
+    NP.localSlot = slot;
+  };
+  // 继续上次的游戏：先停住（on = true），人齐了 / 不等了再开始（on = false）
+  NP.setHold = async on => {
+    if (on) {
+      NP.hold = true;
+      if (!NP.active) { NP.role = "host"; await activate(); hostReset(); }
+      if (NP.role !== "host") return;
+      if (!NP.hold) { if (!H.keep && !Object.keys(H.peers).length && !Object.keys(H.watchers).length) deactivate(); return; }   // 等的时候已经说了不等了
+      paused = true; onEvent("held"); schedule(0);
+    } else {
+      if (!NP.hold) return;
+      NP.hold = false;
+      if (NP.role !== "host" || !NP.active) return;
+      paused = false; onEvent("running");
+      if (!H.keep && !Object.keys(H.peers).length && !Object.keys(H.watchers).length) return deactivate();
+      if (Object.keys(H.peers).length && rbWanted() !== RB.on && !H.pending.length) H.pending.push(-1);   // 停着时用的是延迟模式：要用回滚就重新对齐一次
+      schedule(0);
+    }
+  };
+  NP.stop = () => { H.keep = false; NP.hold = false; NP.localSlot = 0; deactivate(); for (const s in H.peers) delete H.peers[s]; for (const w in H.watchers) delete H.watchers[w]; for (const k in FAST) delete FAST[k]; for (const k in FASTW) delete FASTW[k]; G.fast = null; H.pending = []; G.synced = false; };
   NP.setEventHandler = fn => { onEvent = fn || (() => {}); };
   NP.stats = () => ({ role: NP.role, frame: NP.active ? executed() : 0, peers: Object.keys(H.peers), watchers: Object.keys(H.watchers).length, synced: G.synced,
     buffered: G.frames.size, noise: [...H.noise],
