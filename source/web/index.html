@@ -2392,7 +2392,7 @@ function contSeenAdd(slot, name, cid, acct) {
   if (!contSeen || slot == null || cid === MP_ID) return;
   contSeen.map.set(slot, { slot, name: String(name || "").slice(0, 24), cid: cid || "", acct: acct || "" });
 }
-// 最近一张游戏画面（每 5 秒截一次，缩小成 JPEG），退出时和存档放在一起。
+// 最近一张游戏画面（每 10 秒截一次，缩小成 JPEG），退出时和存档放在一起。
 // 从屏幕上的画面截（竖版街机是转好方向的、带滤镜）
 var contShot = null, contShotBusy = false;
 setInterval(async () => {
@@ -2421,25 +2421,11 @@ setInterval(async () => {
     } catch (e) {}
     stream.getTracks().forEach(t => t.stop()); v.srcObject = null;
     const lit = cv => { const d = cv.getContext("2d").getImageData(0, 0, cv.width, cv.height).data; let n = 0; for (let i = 0; i < d.length; i += 4 * 97) if (d[i] + d[i + 1] + d[i + 2] > 40) n++; return n > 8; };
-    let out = lit(c) ? c : null;
-    // 有的模拟核心在别的线程里画画面，这样截不到：改用模拟核心自己的截图（没转方向：竖版街机要转回来）
-    if (!out && emu.gameManager && typeof emu.gameManager.screenshot === "function") {
-      const png = await Promise.race([emu.gameManager.screenshot(), new Promise(res => setTimeout(() => res(null), 3000))]);
-      if (png && png.length) {
-        const bmp = await createImageBitmap(new Blob([new Uint8Array(png)], { type: "image/png" }));
-        const turn = (bmp.width > bmp.height) !== (cv.width > cv.height) && Math.abs(bmp.width - bmp.height) > 8;
-        const ar = r.width && r.height ? r.width / r.height : (turn ? bmp.height / bmp.width : bmp.width / bmp.height);
-        const W = ar >= 1 ? 480 : Math.round(480 * ar), H = ar >= 1 ? Math.round(480 / ar) : 480;
-        const c2 = document.createElement("canvas"); c2.width = W; c2.height = H;
-        const y = c2.getContext("2d"); y.imageSmoothingEnabled = false;
-        if (turn) { y.translate(0, H); y.rotate(-Math.PI / 2); y.drawImage(bmp, 0, 0, H, W); } else y.drawImage(bmp, 0, 0, W, H);
-        if (lit(c2)) out = c2;
-      }
-    }
+    const out = lit(c) ? c : null;
     if (out && playingGame === g) contShot = { key, url: out.toDataURL("image/jpeg", 0.82) };   // 全黑的（刚好清空了 / 黑场）不要
   } catch (e) {}
   contShotBusy = false;
-}, 5000);
+}, 10000);
 // 存一份（同步取出游戏状态，再慢慢写进浏览器的数据库；退出游戏时页面马上要把游戏关掉）
 function contSaveNow() {
   const g = playingGame, emu = hostEmu();
