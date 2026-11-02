@@ -1,0 +1,52 @@
+{
+ "zh-CN": [
+  "本机端口从 8765 改成 28765（8765 常被别的开发工具占用，占用时打开的是那个程序的页面，比如显示 {\"error\": \"Not found\"}）；原来的名字、设置、存档、「继续」的进度会自动搬过来；28765 也被占时自动换下一个",
+  "Windows 文件夹版：以前开过局域网联机的，第一次打开会再问一次「是否允许更改」，点「是」就行；外网联机服务器的地址不变（还是服务器上的 8765）",
+  "「继续」用的画面截图改成每 10 秒一次，比较慢的设备（电视盒子等）更流畅"
+ ],
+ "zh-TW": [
+  "本機連接埠從 8765 改成 28765（8765 常被別的開發工具佔用，佔用時打開的是那個程式的頁面，例如顯示 {\"error\": \"Not found\"}）；原來的名字、設定、存檔、「繼續」的進度會自動搬過來；28765 也被佔用時自動換下一個",
+  "Windows 資料夾版：以前開過區域網路連線的，第一次打開會再問一次「是否允許變更」，點「是」就行；外網連線伺服器的位址不變（還是伺服器上的 8765）",
+  "「繼續」用的畫面截圖改成每 10 秒一次，比較慢的裝置（電視盒等）更流暢"
+ ],
+ "en": [
+  "The local port changed from 8765 to 28765 (8765 is often taken by development tools, and then another program's page opened instead, e.g. {\"error\": \"Not found\"}); your name, settings, saves and continue points move over automatically; if 28765 is taken too, the next port is used",
+  "Windows folder version: if you had LAN play on, Windows asks once more \"Allow changes?\" the first time – click Yes. The internet play server address doesn't change (it's still port 8765 on the server)",
+  "Screenshots for Continue are taken every 10 seconds instead of 5, so slower devices (TV boxes etc.) run smoother"
+ ],
+ "ja": [
+  "本体のポートを 8765 から 28765 に変更（8765 はほかの開発ツールに使われていることが多く、その場合はそのプログラムのページが開いていました。例：{\"error\": \"Not found\"}）。名前・設定・セーブ・「続きから」の進行は自動で引き継がれます。28765 も使用中なら次のポートを使います",
+  "Windows フォルダ版：LAN 対戦を有効にしていた場合、最初の起動で「変更を許可しますか」がもう一度出るので「はい」を押してください。インターネット対戦サーバーのアドレスは変わりません（サーバー側は 8765 のまま）",
+  "「続きから」用のスクリーンショットを 10 秒ごとにし、遅めの機器（テレビボックスなど）での動作を軽くしました"
+ ],
+ "ko": [
+  "기기 포트를 8765에서 28765로 변경(8765는 다른 개발 도구가 쓰는 경우가 많아, 그때는 그 프로그램 페이지가 열렸습니다. 예: {\"error\": \"Not found\"}). 이름·설정·저장·‘이어하기’ 진행은 자동으로 옮겨집니다. 28765도 사용 중이면 다음 포트를 씁니다",
+  "Windows 폴더판: 공유기 대전을 켰던 경우 처음 실행 때 ‘변경을 허용할까요?’가 한 번 더 나오니 ‘예’를 누르세요. 인터넷 대전 서버 주소는 그대로입니다(서버는 여전히 8765)",
+  "‘이어하기’용 스크린샷을 10초마다 찍도록 바꿔 느린 기기(TV 박스 등)에서 더 부드럽습니다"
+ ],
+ "es": [
+  "El puerto local pasa de 8765 a 28765 (otras herramientas de desarrollo suelen usar el 8765 y entonces se abría su página, p. ej. {\"error\": \"Not found\"}); tu nombre, ajustes, partidas guardadas y puntos para continuar se trasladan solos; si el 28765 también está ocupado, se usa el siguiente",
+  "Versión de carpeta en Windows: si tenías el juego en red local activado, Windows pregunta una vez más «¿Permitir cambios?» al abrir por primera vez; pulsa Sí. La dirección del servidor de juego por internet no cambia (sigue siendo el 8765 del servidor)",
+  "Las capturas para Continuar se hacen cada 10 segundos en vez de 5, así los dispositivos lentos (cajas de TV, etc.) van más fluidos"
+ ],
+ "fr": [
+  "Le port local passe de 8765 à 28765 (le 8765 est souvent pris par des outils de développement, et c'est alors leur page qui s'ouvrait, ex. {\"error\": \"Not found\"}) ; votre nom, vos réglages, sauvegardes et points de reprise suivent automatiquement ; si le 28765 est pris aussi, le suivant est utilisé",
+  "Version dossier Windows : si le jeu en réseau local était activé, Windows redemande une fois « Autoriser les modifications ? » au premier lancement ; cliquez sur Oui. L'adresse du serveur de jeu en ligne ne change pas (toujours le port 8765 du serveur)",
+  "Les captures pour Reprendre sont prises toutes les 10 secondes au lieu de 5 : plus fluide sur les appareils lents (box TV, etc.)"
+ ],
+ "de": [
+  "Der lokale Port wechselt von 8765 auf 28765 (8765 wird oft von Entwicklungswerkzeugen belegt, dann öffnete sich deren Seite, z. B. {\"error\": \"Not found\"}); Name, Einstellungen, Spielstände und Weiterspiel-Punkte werden automatisch übernommen; ist auch 28765 belegt, wird der nächste Port genommen",
+  "Windows-Ordnerversion: Wer Heimnetz-Spiel eingeschaltet hatte, wird beim ersten Start noch einmal „Änderungen zulassen?“ gefragt – Ja klicken. Die Adresse des Internet-Spielservers bleibt gleich (dort weiterhin Port 8765)",
+  "Screenshots fürs Weiterspielen alle 10 statt 5 Sekunden – flüssiger auf langsamen Geräten (TV-Boxen usw.)"
+ ],
+ "pt": [
+  "A porta local muda de 8765 para 28765 (a 8765 costuma estar ocupada por ferramentas de desenvolvimento, e aí abria a página delas, ex. {\"error\": \"Not found\"}); seu nome, ajustes, saves e pontos para continuar vêm junto automaticamente; se a 28765 também estiver ocupada, usa a próxima",
+  "Versão em pasta no Windows: se o jogo em rede local estava ligado, o Windows pergunta mais uma vez “Permitir alterações?” na primeira vez; clique em Sim. O endereço do servidor de jogo pela internet não muda (continua a porta 8765 do servidor)",
+  "As capturas para Continuar são feitas a cada 10 segundos em vez de 5, deixando aparelhos lentos (TV box etc.) mais leves"
+ ],
+ "ru": [
+  "Локальный порт сменился с 8765 на 28765 (8765 часто занят инструментами разработки, и тогда открывалась их страница, например {\"error\": \"Not found\"}); имя, настройки, сохранения и точки продолжения переносятся автоматически; если 28765 тоже занят, берётся следующий",
+  "Версия-папка для Windows: если была включена игра по локальной сети, при первом запуске Windows ещё раз спросит «Разрешить изменения?» — нажмите «Да». Адрес интернет-сервера не меняется (на сервере по-прежнему порт 8765)",
+  "Скриншоты для «Продолжить» делаются раз в 10 секунд вместо 5 — на медленных устройствах (ТВ-приставки и т. п.) работает плавнее"
+ ]
+}

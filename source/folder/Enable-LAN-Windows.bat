@@ -8,10 +8,13 @@ if %errorlevel% neq 0 (
   powershell -NoProfile -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
   exit /b
 )
+rem port 28765 (8765 until 1.3.0): remove the old 8765 permissions, add 28765
 netsh http delete urlacl url=http://+:8765/ >nul 2>&1
-netsh http add urlacl url=http://+:8765/ sddl=D:(A;;GX;;;WD)
 netsh advfirewall firewall delete rule name="EmulatorJS 8765" >nul 2>&1
-netsh advfirewall firewall add rule name="EmulatorJS 8765" dir=in action=allow protocol=TCP localport=8765
+netsh http delete urlacl url=http://+:28765/ >nul 2>&1
+netsh http add urlacl url=http://+:28765/ sddl=D:(A;;GX;;;WD)
+netsh advfirewall firewall delete rule name="EmulatorJS 28765" >nul 2>&1
+netsh advfirewall firewall add rule name="EmulatorJS 28765" dir=in action=allow protocol=TCP localport=28765
 netsh advfirewall firewall delete rule name="EmulatorJS discovery 8764" >nul 2>&1
 netsh advfirewall firewall add rule name="EmulatorJS discovery 8764" dir=in action=allow protocol=UDP localport=8764
 if /i "%~1"=="auto" exit /b

@@ -68,16 +68,17 @@ function askOldServerToQuit(p) {
 async function startServer() {
   const updater = createUpdater({ fetch: (u, o) => net.fetch(u, o), version: app.getVersion(), packaged: app.isPackaged,
     execPath: process.execPath, tmpDir: app.getPath("temp"), spawn: require("child_process").spawn, quit: () => app.quit() });
-  const opts = { webDir: WEB_DIR, configFile: CONFIG_FILE, appDirs: appDirs(), updater };
-  for (const p of [8765, 8765, 8766, 8767, 8768, 8769, 8770]) {
+  // port 28765 (8765 until 1.3.0: it is often taken by other development tools); legacyPort: hand over the data kept under the old port
+  const opts = { webDir: WEB_DIR, configFile: CONFIG_FILE, appDirs: appDirs(), updater, legacyPort: 8765 };
+  for (const p of [28765, 28765, 28766, 28767, 28768, 28769, 28770]) {
     const s = createServer(Object.assign({ port: p }, opts));
     try { await s.start(); srv = s; return p; }
     catch (e) {
       if (e.code !== "EADDRINUSE") throw e;
-      if (p === 8765) { await askOldServerToQuit(p); await new Promise(r => setTimeout(r, 900)); }
+      if (p === 28765) { await askOldServerToQuit(p); await new Promise(r => setTimeout(r, 900)); }
     }
   }
-  throw new Error("No free port between 8765 and 8770");
+  throw new Error("No free port between 28765 and 28770");
 }
 
 function buildMenu() {

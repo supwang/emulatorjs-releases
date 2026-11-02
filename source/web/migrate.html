@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>EmulatorJS</title></head><body>
+<script>
+// 搬家用：EmulatorJS 以前用 8765 端口，后来换了端口（8765 常被别的开发工具占用）。
+// 浏览器按「地址 + 端口」分开保存数据，换了端口，名字、设置、存档、「继续」的进度就都看不到了。
+// 新版本打开时，在后台用一个看不见的小窗口打开旧端口上的这个页面：它把旧端口下保存的东西读出来，交给新端口的页面存进去。
+// 只交给本机（127.0.0.1 / localhost）上的 EmulatorJS 页面。
+(async () => {
+  const anc = location.ancestorOrigins && location.ancestorOrigins[0];
+  const to = anc || document.referrer.replace(/^(https?:\/\/[^/]+).*$/, "$1");
+  if (!/^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(to || "") || to === location.origin) return;
+  const ls = {};
+  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); ls[k] = localStorage.getItem(k); } } catch (e) {}
+  const dbs = [];
+  try {
+    const list = indexedDB.databases ? await indexedDB.databases() : [];
+    for (const info of list) {
+      if (!info.name) continue;
+      try {
+        const db = await new Promise((ok, no) => { const r = indexedDB.open(info.name); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); r.onupgradeneeded = () => {}; });
+        const stores = [];
+        for (const sn of db.objectStoreNames) {
+          const st = db.transaction(sn).objectStore(sn);
+          const meta = { name: sn, keyPath: st.keyPath, autoIncrement: st.autoIncrement,
+            indexes: [...st.indexNames].map(n => { const ix = st.index(n); return { name: n, keyPath: ix.keyPath, unique: ix.unique, multiEntry: ix.multiEntry }; }), rows: [] };
+          await new Promise(ok => {
+            const c = db.transaction(sn).objectStore(sn).openCursor();
+            c.onsuccess = () => { const cur = c.result; if (!cur) return ok(); meta.rows.push([cur.primaryKey, cur.value]); cur.continue(); };
+            c.onerror = () => ok();
+          });
+          stores.push(meta);
+        }
+        dbs.push({ name: info.name, version: db.version, stores });
+        db.close();
+      } catch (e) {}
+    }
+  } catch (e) {}
+  parent.postMessage({ type: "ejs-migrate", from: location.origin, ls, dbs }, to);
+})();
+</script>
+</body></html>

@@ -443,7 +443,7 @@ sur les autres ordinateurs ; cliquez sur « Rejoindre » pour participer.
 
 Appareils sans EmulatorJS (tablettes, ordinateurs d’autres personnes) :
   Saisissez dans le navigateur l’adresse de l’ordinateur où EmulatorJS est ouvert (affichée dans la barre
-  latérale, p. ex. http://192.168.1.23:8765) pour voir tous ses jeux et les rejoindre, sans ROM.
+  latérale, p. ex. http://192.168.1.23:28765) pour voir tous ses jeux et les rejoindre, sans ROM.
   Ces appareils ne peuvent ni voir ni modifier les dossiers de cet ordinateur.
   Remarque : les navigateurs n’autorisent pas le micro sur une page ouverte ainsi, donc pas de chat vocal
   (vous entendez quand même les autres).

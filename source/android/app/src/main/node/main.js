@@ -53,8 +53,9 @@ try { ({ createServer } = require("./server")); }
 catch (e) { console.error("server.js failed to load: " + (e && e.stack || e)); fs.writeFileSync(PORT_FILE, "error " + e.message); }
 if (createServer) (async () => {
   const webDir = path.join(FILES_DIR, "web");
-  for (const p of [8765, 8766, 8767, 8768, 8769, 8770]) {
-    const s = createServer({ port: p, webDir, configFile: CONFIG_FILE, appDirs, shortcuts, spill, log: console.log });
+  // port 28765 (8765 until 1.3.0); legacyPort: the WebView's data kept under the old port moves over once (migrate.html)
+  for (const p of [28765, 28766, 28767, 28768, 28769, 28770]) {
+    const s = createServer({ port: p, webDir, configFile: CONFIG_FILE, appDirs, shortcuts, spill, log: console.log, legacyPort: 8765 });
     try {
       await s.start();
       fs.writeFileSync(PORT_FILE, String(p));

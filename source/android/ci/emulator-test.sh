@@ -32,14 +32,14 @@ ok=""
 for i in $(seq 1 150); do
   sleep 2
   [ $((i % 15)) = 0 ] && { adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null; adb shell dumpsys activity activities | grep -m1 -E "topResumedActivity|mResumedActivity"; adb logcat -d -s EJS | tail -3; }
-  adb forward tcp:8765 tcp:8765 >/dev/null 2>&1
-  if curl -s -m 3 http://127.0.0.1:8765/api/lan | grep -q enabled; then ok=1; break; fi
+  adb forward tcp:28765 tcp:28765 >/dev/null 2>&1
+  if curl -s -m 3 http://127.0.0.1:28765/api/lan | grep -q enabled; then ok=1; break; fi
 done
 adb exec-out screencap -p > "$OUT"/1-start.png
 [ -n "$ok" ] || fail "server did not answer"
-echo "== config"; curl -s http://127.0.0.1:8765/api/config | head -c 600; echo
-curl -s "http://127.0.0.1:8765/api/list?root=roms" | grep -q "nes/test.nes" || fail "ROM folder not found"
-echo "== folder browser"; curl -s "http://127.0.0.1:8765/api/dirs" | head -c 600; echo
+echo "== config"; curl -s http://127.0.0.1:28765/api/config | head -c 600; echo
+curl -s "http://127.0.0.1:28765/api/list?root=roms" | grep -q "nes/test.nes" || fail "ROM folder not found"
+echo "== folder browser"; curl -s "http://127.0.0.1:28765/api/dirs" | head -c 600; echo
 sleep 8
 PID=$(adb shell pidof site.couchvs.emulatorjs | tr -d '\r')
 SOCK=$(adb shell cat /proc/net/unix | grep -o "webview_devtools_remote_$PID" | head -1)
@@ -80,8 +80,8 @@ for how in force-stop update; do
   ok=""
   for i in $(seq 1 60); do
     sleep 2
-    adb forward tcp:8765 tcp:8765 >/dev/null 2>&1
-    if curl -s -m 3 http://127.0.0.1:8765/api/lan | grep -q enabled; then ok=1; break; fi
+    adb forward tcp:28765 tcp:28765 >/dev/null 2>&1
+    if curl -s -m 3 http://127.0.0.1:28765/api/lan | grep -q enabled; then ok=1; break; fi
   done
   [ -n "$ok" ] || fail "server did not start again after $how"
   sleep 8

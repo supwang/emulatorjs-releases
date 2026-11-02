@@ -13,18 +13,24 @@ function run(argv) {
 JS
 fi
 
-PORT=8765
-# 端口被之前打开的 EmulatorJS 服务器占着（比如上次的窗口没关），先把它关掉，保证用的是最新版本
-if lsof -iTCP:$PORT -sTCP:LISTEN >/dev/null 2>&1; then
-  for pid in $(lsof -t -iTCP:$PORT -sTCP:LISTEN); do
+# 端口：28765（1.3.0 以前是 8765，常被别的开发工具占用）。浏览器里原来的名字、设置、存档会自动从 8765 搬过来
+PORT=28765
+# 之前打开的 EmulatorJS 服务器还开着（比如上次的窗口没关）：先把它关掉，保证用的是最新版本
+for p in 8765 $PORT; do
+  for pid in $(lsof -t -iTCP:$p -sTCP:LISTEN 2>/dev/null); do
     ps -p "$pid" -o command= | grep -qE "http.server|server.py" && kill "$pid"
   done
-  sleep 1
+done
+sleep 1
+# 端口被别的程序占着（不是 EmulatorJS）：换一个空着的端口，不然浏览器打开的是那个程序
+if lsof -iTCP:$PORT -sTCP:LISTEN >/dev/null 2>&1; then
+  for p in 28766 28767 28768 28769 28770 28771 28772 28773 28774 28775; do
+    if ! lsof -iTCP:$p -sTCP:LISTEN >/dev/null 2>&1; then PORT=$p; break; fi
+  done
+  echo "Port 28765 is used by another program, using port $PORT instead."
 fi
-if ! lsof -iTCP:$PORT -sTCP:LISTEN >/dev/null 2>&1; then
-  python3 server.py $PORT &
-  sleep 1
-fi
+python3 server.py $PORT &
+sleep 1
 open "http://127.0.0.1:$PORT/index.html"
 echo "EmulatorJS is open in your browser: http://127.0.0.1:$PORT/index.html"
 echo "Keep this window open while playing. Close it when you are done."

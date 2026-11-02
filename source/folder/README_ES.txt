@@ -437,7 +437,7 @@ quién juega a qué en los otros ordenadores; pulsa «Unirse» para entrar.
 
 Dispositivos sin EmulatorJS (tabletas, ordenadores de otras personas):
   Escribe en el navegador la dirección del ordenador que tiene EmulatorJS abierto (aparece en la barra
-  lateral izquierda, p. ej. http://192.168.1.23:8765) para ver todos sus juegos y unirte, sin ROM.
+  lateral izquierda, p. ej. http://192.168.1.23:28765) para ver todos sus juegos y unirte, sin ROM.
   Estos dispositivos no pueden ver ni cambiar las carpetas de ese ordenador.
   Nota: los navegadores no permiten el micrófono en una página abierta así, así que no hay chat de voz
   (aunque puedes oír a los demás).

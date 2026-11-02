@@ -6,7 +6,7 @@
 # Only this PC can connect unless "LAN play" is switched on in the page's folder settings.
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$port = 8765
+$port = 28765   # 8765 until 1.3.0 (often taken by development tools); the browser's data moves over from 8765 once (migrate.html)
 if ($args.Count -gt 0) { $port = [int]$args[0] }
 $prefix = "http://localhost:$port/"
 $sep = [IO.Path]::DirectorySeparatorChar
@@ -719,6 +719,28 @@ try { $listener = StartListener (LanEnabled) } catch {
   try { $listener = StartListener (LanEnabled) } catch {}
   if (-not $listener) { Start-Process ($prefix + 'index.html'); exit }   # could not take over: just open the page
 }
+# The old port (8765) serves only migrate.html for 10 minutes: the page on the new port takes the data the browser kept there
+$legacy = $null; $legacyAr = $null; $legacyUntil = (Get-Date).AddMinutes(10)
+try { Invoke-WebRequest -UseBasicParsing -Method Post -Uri 'http://localhost:8765/api/quit' -Headers @{ 'X-EJS' = '1' } -ContentType 'application/json' -Body '{}' -TimeoutSec 2 | Out-Null; Start-Sleep -Milliseconds 800 } catch {}
+try { $legacy = New-Object System.Net.HttpListener; $legacy.Prefixes.Add('http://localhost:8765/'); $legacy.Start(); $legacyAr = $legacy.BeginGetContext($null, $null) } catch { $legacy = $null }
+function LegacyPump {
+  if (-not $script:legacy) { return }
+  if ((Get-Date) -gt $script:legacyUntil) { try { $script:legacy.Stop(); $script:legacy.Close() } catch {}; $script:legacy = $null; return }
+  while ($script:legacyAr -and $script:legacyAr.IsCompleted) {
+    try {
+      $c = $script:legacy.EndGetContext($script:legacyAr)
+      $f = Join-Path $root 'migrate.html'
+      if ($c.Request.Url.AbsolutePath -eq '/migrate.html' -and (Test-Path $f)) {
+        $b = [IO.File]::ReadAllBytes($f)
+        $c.Response.ContentType = 'text/html; charset=utf-8'
+        $c.Response.ContentLength64 = $b.Length
+        $c.Response.OutputStream.Write($b, 0, $b.Length)
+      } else { $c.Response.StatusCode = 404 }
+      $c.Response.Close()
+    } catch {}
+    try { $script:legacyAr = $script:legacy.BeginGetContext($null, $null) } catch { $script:legacyAr = $null }
+  }
+}
 if (-not $env:EJS_NO_BROWSER) { Start-Process ($prefix + 'index.html') }
 Write-Host "Game page is open at ${prefix}index.html"
 Write-Host "Keep this window open while playing. Close it when you are done."
@@ -744,8 +766,8 @@ while ($true) {
   while ($listener.IsListening -and -not $restart) {
     # wait for the next request; meanwhile keep the LAN discovery going
     $ar = $listener.BeginGetContext($null, $null)
-    while (-not $ar.AsyncWaitHandle.WaitOne(400)) { Discovery }
-    Discovery
+    while (-not $ar.AsyncWaitHandle.WaitOne(400)) { Discovery; LegacyPump }
+    Discovery; LegacyPump
     $ctx = $listener.EndGetContext($ar)
     $req = $ctx.Request
     $res = $ctx.Response

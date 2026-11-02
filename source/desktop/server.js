@@ -723,14 +723,44 @@ function createServer(opts) {
       catch (e) { await new Promise(r => setTimeout(r, 500)); }
     }
   }
+  // Another program may already listen on 127.0.0.1 at this port while we listen on 0.0.0.0 (macOS allows both):
+  // then the window (which opens 127.0.0.1) would show that program instead of EmulatorJS. Check first.
+  function loopbackFree(port) {
+    return new Promise(res => {
+      const t = net.createServer();
+      t.once("error", e => res(e.code !== "EADDRINUSE"));
+      t.listen(port, "127.0.0.1", () => t.close(() => res(true)));
+    });
+  }
+  // The app used port 8765 before; the browser keeps its data (names, settings, saves) per port. For a while after
+  // starting, the old port serves only migrate.html, which hands that data to the page on the new port.
+  let legacy = null;
+  function startLegacy() {
+    const lp = opts.legacyPort;
+    if (!lp || lp === PORT) return;
+    const s = http.createServer((req, res) => {
+      const p = String(req.url || "").split("?")[0];
+      if (p === "/migrate.html" && (req.method === "GET" || req.method === "HEAD")) return sendFile(req, res, path.join(WEB_DIR, "migrate.html"), req.method === "HEAD");
+      res.writeHead(404); res.end();
+    });
+    s.on("error", () => {});
+    s.listen(lp, "127.0.0.1", () => {
+      legacy = s;
+      const t = setTimeout(() => { try { s.close(); } catch (e) {} if (legacy === s) legacy = null; }, 10 * 60 * 1000);
+      if (t.unref) t.unref();
+    });
+  }
   async function start() {
+    if (lanEnabled() && !(await loopbackFree(PORT))) { const e = new Error("port " + PORT + " is used by another program"); e.code = "EADDRINUSE"; throw e; }
     server = await listen(PORT);
     startDiscovery();
+    startLegacy();
     return PORT;
   }
   function stop() {
     try { server && server.close(); server && server.closeAllConnections && server.closeAllConnections(); } catch (e) {}
     try { clearInterval(discTimer); udp && udp.close(); } catch (e) {}
+    try { legacy && legacy.close(); } catch (e) {}
   }
   return { start, stop, get port() { return PORT; }, lanAddresses, lanEnabled, _mp: mpHandle };
 }

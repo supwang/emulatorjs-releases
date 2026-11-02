@@ -1038,10 +1038,50 @@ def request_restart():
     threading.Thread(target=lambda: (time.sleep(0.3), HTTPD and HTTPD.shutdown()), daemon=True).start()
 
 
+LEGACY_PORT = 8765   # 1.3.0 以前用的端口
+
+
+def legacy_loop():
+    """换了端口以后的 10 分钟里，旧端口只提供 migrate.html：把浏览器在旧端口下保存的名字、设置、存档交给新端口的页面"""
+    if PORT == LEGACY_PORT:
+        return
+    from http.server import BaseHTTPRequestHandler
+
+    class LH(BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def do_GET(self):
+            if self.path.split("?")[0] == "/migrate.html":
+                try:
+                    body = open(os.path.join(APP_DIR, "migrate.html"), "rb").read()
+                except OSError:
+                    body = None
+                if body is not None:
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("Content-Length", str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                    return
+            self.send_response(404)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+
+    try:
+        srv = ThreadingHTTPServer(("127.0.0.1", LEGACY_PORT), LH)
+    except OSError:
+        return
+    srv.daemon_threads = True
+    threading.Timer(600, srv.shutdown).start()
+    srv.serve_forever()
+
+
 def main():
     global HTTPD
     first = True
     threading.Thread(target=discovery_loop, daemon=True).start()
+    threading.Thread(target=legacy_loop, daemon=True).start()
     while True:
         lan = lan_enabled()
         addr = "0.0.0.0" if lan else "127.0.0.1"

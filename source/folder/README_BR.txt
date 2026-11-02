@@ -435,7 +435,7 @@ computadores – clique em “Entrar” para participar.
 
 Aparelhos sem EmulatorJS (tablets, computadores de outras pessoas):
   Digite no navegador o endereço do computador que está rodando o EmulatorJS (aparece na barra lateral esquerda,
-  por exemplo http://192.168.1.23:8765) – aí você vê todos os jogos desse computador e pode entrar, sem ROMs.
+  por exemplo http://192.168.1.23:28765) – aí você vê todos os jogos desse computador e pode entrar, sem ROMs.
   Esses aparelhos não veem nem mudam as configurações de pastas do computador.
   Obs.: os navegadores não liberam o microfone em páginas abertas assim, então não há chat de voz
   (mas você ainda ouve os outros).

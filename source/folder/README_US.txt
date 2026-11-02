@@ -438,7 +438,7 @@ who is playing what on the other computers — click "Join" to jump in.
 
 Devices without EmulatorJS (tablets, other people's computers):
   Type the address of the computer running EmulatorJS into the browser (shown in the left sidebar,
-  e.g. http://192.168.1.23:8765) to see all of that computer's games and join them — no ROMs needed.
+  e.g. http://192.168.1.23:28765) to see all of that computer's games and join them — no ROMs needed.
   These devices can't see or change that computer's folder settings.
   Note: browsers don't allow the microphone on a page opened this way, so no voice chat
   (you can still hear others).

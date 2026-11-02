@@ -437,7 +437,7 @@ anderen Computern was spielt – klicke auf „Mitspielen“, um einzusteigen.
 
 Geräte ohne EmulatorJS (Tablets, fremde Computer):
   Gib im Browser die Adresse des Computers ein, auf dem EmulatorJS läuft (steht in der linken Seitenleiste,
-  z. B. http://192.168.1.23:8765) – dann siehst du alle Spiele dieses Computers und kannst mitspielen, ohne ROMs.
+  z. B. http://192.168.1.23:28765) – dann siehst du alle Spiele dieses Computers und kannst mitspielen, ohne ROMs.
   Diese Geräte können die Ordner-Einstellungen des Computers weder sehen noch ändern.
   Hinweis: Browser erlauben auf so geöffneten Seiten kein Mikrofon, also kein Sprachchat
   (die anderen hörst du trotzdem).

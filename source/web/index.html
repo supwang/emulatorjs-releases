@@ -847,7 +847,7 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.0</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.1</div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
@@ -955,6 +955,64 @@ function L(s, ...a) {
 
 // iPhone / iPad：网页只有在用户点击的那一刻才能打开声音。所以每次点击都先准备好一个「已经打开的声音通道」，
 // 游戏启动后直接用它（不然模拟器会停在第一帧，要再点一下才动）
+// ---- 换端口以后：把旧端口（8765）下保存的名字、设置、存档、「继续」的进度搬过来（只搬一次）----
+// 1.3.0 以前用 8765，常被别的开发工具占用，1.3.1 起改成 28765。浏览器按端口分开保存数据，所以要搬一次家：
+// 后台用一个看不见的小窗口打开 8765 上的 migrate.html（程序启动后的 10 分钟里，8765 只提供这一个页面），它把旧数据交过来。
+(() => {
+  const MIG = "ejs-migrated-8765";
+  const local = ["127.0.0.1", "localhost"].includes(location.hostname);
+  try { if (!local || !location.port || location.port === "8765" || localStorage.getItem(MIG)) return; } catch (e) { return; }
+  const from = location.protocol + "//" + location.hostname + ":8765";
+  const fr = document.createElement("iframe");
+  fr.style.cssText = "position:fixed;width:1px;height:1px;left:-9px;top:-9px;opacity:0;pointer-events:none;border:0";
+  let done = false;
+  const finish = () => { done = true; window.removeEventListener("message", onMsg); fr.remove(); };
+  async function putDb(d) {
+    // 新端口这边还没有这个数据库：按原来的版本号新建（程序自己打开时要的是这个版本号）；有了但缺表：版本号加一再建表
+    const have = indexedDB.databases ? (await indexedDB.databases()).some(x => x.name === d.name) : true;
+    let db = have ? await new Promise((ok, no) => { const r = indexedDB.open(d.name); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); }) : null;
+    const missing = d.stores.filter(s => !db || !db.objectStoreNames.contains(s.name));
+    if (missing.length) {
+      const v = db ? Math.max(db.version + 1, d.version) : Math.max(1, d.version);
+      if (db) db.close();
+      db = await new Promise((ok, no) => {
+        const r = indexedDB.open(d.name, v);
+        r.onupgradeneeded = () => { for (const s of missing) { const st = r.result.createObjectStore(s.name, { keyPath: s.keyPath == null ? undefined : s.keyPath, autoIncrement: !!s.autoIncrement });
+          for (const ix of s.indexes || []) try { st.createIndex(ix.name, ix.keyPath, { unique: !!ix.unique, multiEntry: !!ix.multiEntry }); } catch (e) {} } };
+        r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error);
+      });
+    }
+    let n = 0;
+    for (const s of d.stores) {
+      if (!s.rows.length) continue;
+      const empty = await new Promise(ok => { const q = db.transaction(s.name).objectStore(s.name).count(); q.onsuccess = () => ok(q.result === 0); q.onerror = () => ok(false); });
+      if (!empty) continue;   // 新端口这边已经有东西了：不覆盖
+      await new Promise(ok => {
+        const tx = db.transaction(s.name, "readwrite"), st = tx.objectStore(s.name);
+        for (const [k, v] of s.rows) try { if (s.keyPath == null) st.put(v, k); else st.put(v); n++; } catch (e) {}
+        tx.oncomplete = ok; tx.onerror = ok; tx.onabort = ok;
+      });
+    }
+    db.close();
+    return n;
+  }
+  async function onMsg(e) {
+    if (e.origin !== from || !e.data || e.data.type !== "ejs-migrate" || done) return;
+    finish();
+    let n = 0;
+    const ls = e.data.ls || {};
+    for (const k of Object.keys(ls)) { if (k === MIG) continue; try { localStorage.setItem(k, ls[k]); n++; } catch (x) {} }
+    for (const d of e.data.dbs || []) { try { n += await putDb(d); } catch (x) {} }
+    try { localStorage.setItem(MIG, String(Date.now())); } catch (x) {}
+    if (!n) return;
+    // 搬好了：页面重新载入一次，用上原来的名字、设置（正在玩游戏就先不重新载入，下次打开时生效）
+    if (!document.body.classList.contains("playing")) location.reload();
+  }
+  window.addEventListener("message", onMsg);
+  fr.src = from + "/migrate.html";
+  setTimeout(() => { if (!done) finish(); }, 15000);   // 8765 上没有（或者是别的程序）：下次打开再试
+  (document.body || document.documentElement).appendChild(fr);
+})();
 const IS_TOUCH = matchMedia("(pointer: coarse)").matches;
 const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 if (IS_IOS) {
@@ -7223,7 +7281,7 @@ window.cheatLibOpen = cheatLibOpen;
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.3.0";
+const APP_VERSION = "1.3.1";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",
