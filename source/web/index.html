@@ -2450,12 +2450,14 @@ function contSeenAdd(slot, name, cid, acct) {
   if (!contSeen || slot == null || cid === MP_ID) return;
   contSeen.map.set(slot, { slot, name: String(name || "").slice(0, 24), cid: cid || "", acct: acct || "" });
 }
-// 最近一张游戏画面（每 10 秒截一次，缩小成 JPEG），退出时和存档放在一起。
+// 最近一张游戏画面（缩小成 JPEG），退出时和存档放在一起。
 // 从屏幕上的画面截（竖版街机是转好方向的、带滤镜）
-var contShot = null, contShotBusy = false;
+// 游戏开始 20 秒后才截第一张（刚开始加载、联机对齐时不打扰），之后电脑每 10 秒、手机 / 电视每 30 秒一张（截图比较吃力）
+var contShot = null, contShotBusy = false, contShotAt = 0;
 setInterval(async () => {
   const g = playingGame, emu = hostEmu(), f = stage.querySelector("iframe");
-  if (!g || !emu || !f || contShotBusy || document.hidden || emu.paused) return;
+  if (!g || !emu || !f || contShotBusy || document.hidden || emu.paused || Date.now() < contShotAt) return;
+  contShotAt = Date.now() + (IS_TOUCH || ANDROID_APP ? 30000 : 10000);
   if (mpGuest && (mpGuest.watch || !mpGuest.sync)) return;
   const np = hostNet(); if (np && np.active && np.isPaused && np.isPaused()) return;
   let fw, cv;
@@ -2483,7 +2485,7 @@ setInterval(async () => {
     if (out && playingGame === g) contShot = { key, url: out.toDataURL("image/jpeg", 0.82) };   // 全黑的（刚好清空了 / 黑场）不要
   } catch (e) {}
   contShotBusy = false;
-}, 10000);
+}, 5000);
 // 存一份（同步取出游戏状态，再慢慢写进浏览器的数据库；退出游戏时页面马上要把游戏关掉）
 function contSaveNow() {
   const g = playingGame, emu = hostEmu();
@@ -6242,6 +6244,7 @@ async function play(g, opts = {}) {
   recentAdd(g);
   stop(!!opts.netGuest);
   contSeenReset(g, opts.cont ? contOthers(opts.cont) : null);
+  contShotAt = Date.now() + 20000;
   mySlotNow = mySlotHome = opts.cont ? Math.max(0, Math.min(3, opts.cont.mySlot | 0)) : 0;
   if (opts.cont) {
     const rec = opts.cont;

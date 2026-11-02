@@ -63,8 +63,13 @@ adb exec-out screencap -p > "$OUT"/3-game.png
 # Back key opens the game menu (record who opens / closes it, to explain a failure)
 js "(() => { window.__dbg = []; const log = m => __dbg.push(Math.round(performance.now()) + ' ' + m); new MutationObserver(() => log('hidden=' + gameMenuEl.hidden)).observe(gameMenuEl, { attributes: true, attributeFilter: ['hidden'] }); for (const n of ['gameMenuOpen', 'gameMenuClose', 'gameMenuDo', 'navBack', 'navActivate']) { const f = window[n]; window[n] = function () { log(n + ' ' + [...arguments].join(',') + ' <- ' + (new Error().stack.split('\\n')[2] || '').trim()); return f.apply(this, arguments); }; } window.__ejsBack = window.navBack; document.addEventListener('keydown', e => log('keydown ' + e.key), true); document.addEventListener('click', e => log('click ' + (e.target.dataset && e.target.dataset.gm || e.target.tagName) + ' trusted=' + e.isTrusted), true); return 'ok'; })()"
 adb shell input keyevent KEYCODE_BACK
-sleep 1
-js "JSON.stringify({ menu: !gameMenuEl.hidden, buttons: gameMenuEl.querySelectorAll('[data-gm]').length, paused: !!(gameEmu() && gameEmu().paused), focus: document.activeElement && document.activeElement.dataset.gm, coverPrompt: !document.getElementById('thumbModal').hidden })" | tee "$OUT"/menu.txt
+# the emulator is slow (software GPU): give the page up to 8 s to react
+for i in 1 2 3 4 5 6 7 8; do
+  sleep 1
+  js "JSON.stringify({ menu: !gameMenuEl.hidden, buttons: gameMenuEl.querySelectorAll('[data-gm]').length, paused: !!(gameEmu() && gameEmu().paused), focus: document.activeElement && document.activeElement.dataset.gm, coverPrompt: !document.getElementById('thumbModal').hidden })" > "$OUT"/menu.txt
+  grep -q '"menu":true' "$OUT"/menu.txt && break
+done
+cat "$OUT"/menu.txt
 sleep 5   # the emulator draws with a slow software GPU: give the screen time to catch up before the picture
 adb exec-out screencap -p > "$OUT"/4-menu.png
 js "JSON.stringify(window.__dbg)" | tee -a "$OUT"/menu.txt
