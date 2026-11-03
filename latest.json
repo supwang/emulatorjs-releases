@@ -1,109 +1,89 @@
 {
- "version": "1.3.1",
- "date": "2026-11-02",
- "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.3.1",
+ "version": "1.3.2",
+ "date": "2026-11-03",
+ "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.3.2",
  "baidu": "https://pan.baidu.com/s/13atBCqmTib1rGp_30279mQ?pwd=6akk",
  "baiduCode": "6akk",
  "notes": {
   "zh-CN": [
-   "本机端口从 8765 改成 28765（8765 常被别的开发工具占用，占用时打开的是那个程序的页面，比如显示 {\"error\": \"Not found\"}）；原来的名字、设置、存档、「继续」的进度会自动搬过来；28765 也被占时自动换下一个",
-   "Windows 文件夹版：以前开过局域网联机的，第一次打开会再问一次「是否允许更改」，点「是」就行；外网联机服务器的地址不变（还是服务器上的 8765）",
-   "「继续」用的画面截图改成每 10 秒一次，比较慢的设备（电视盒子等）更流畅"
+   "联机更容易直连：连接走了「中转」时，乱入的一方也会主动再试几次直连（第 10、35、80 秒）。以前有的网络组合只有一方开局才能直连，换另一方开局就一直走中转、延迟很高，现在两边谁开局都能切回直连"
   ],
   "zh-TW": [
-   "本機連接埠從 8765 改成 28765（8765 常被別的開發工具佔用，佔用時打開的是那個程式的頁面，例如顯示 {\"error\": \"Not found\"}）；原來的名字、設定、存檔、「繼續」的進度會自動搬過來；28765 也被佔用時自動換下一個",
-   "Windows 資料夾版：以前開過區域網路連線的，第一次打開會再問一次「是否允許變更」，點「是」就行；外網連線伺服器的位址不變（還是伺服器上的 8765）",
-   "「繼續」用的畫面截圖改成每 10 秒一次，比較慢的裝置（電視盒等）更流暢"
+   "連線更容易直連：連線走了「中轉」時，亂入的一方也會主動再試幾次直連（第 10、35、80 秒）。以前有的網路組合只有一方開局才能直連，換另一方開局就一直走中轉、延遲很高，現在兩邊誰開局都能切回直連"
   ],
   "en": [
-   "The local port changed from 8765 to 28765 (8765 is often taken by development tools, and then another program's page opened instead, e.g. {\"error\": \"Not found\"}); your name, settings, saves and continue points move over automatically; if 28765 is taken too, the next port is used",
-   "Windows folder version: if you had LAN play on, Windows asks once more \"Allow changes?\" the first time – click Yes. The internet play server address doesn't change (it's still port 8765 on the server)",
-   "Screenshots for Continue are taken every 10 seconds instead of 5, so slower devices (TV boxes etc.) run smoother"
+   "Direct connections succeed more often: when a connection goes through the relay, the player who joined now also retries a direct connection (after 10, 35 and 80 seconds). Some network combinations only connected directly when one particular side hosted and stayed on the slow relay otherwise; now either side can host"
   ],
   "ja": [
-   "本体のポートを 8765 から 28765 に変更（8765 はほかの開発ツールに使われていることが多く、その場合はそのプログラムのページが開いていました。例：{\"error\": \"Not found\"}）。名前・設定・セーブ・「続きから」の進行は自動で引き継がれます。28765 も使用中なら次のポートを使います",
-   "Windows フォルダ版：LAN 対戦を有効にしていた場合、最初の起動で「変更を許可しますか」がもう一度出るので「はい」を押してください。インターネット対戦サーバーのアドレスは変わりません（サーバー側は 8765 のまま）",
-   "「続きから」用のスクリーンショットを 10 秒ごとにし、遅めの機器（テレビボックスなど）での動作を軽くしました"
+   "直接つながりやすく：「中継」経由になったとき、乱入した側からも直接接続を何度か試すように（10・35・80 秒後）。一部のネットワークの組み合わせでは片方がホストのときしか直接つながらず、逆だと中継のままで遅延が大きかったのが、どちらがホストでも直接に切り替われます"
   ],
   "ko": [
-   "기기 포트를 8765에서 28765로 변경(8765는 다른 개발 도구가 쓰는 경우가 많아, 그때는 그 프로그램 페이지가 열렸습니다. 예: {\"error\": \"Not found\"}). 이름·설정·저장·‘이어하기’ 진행은 자동으로 옮겨집니다. 28765도 사용 중이면 다음 포트를 씁니다",
-   "Windows 폴더판: 공유기 대전을 켰던 경우 처음 실행 때 ‘변경을 허용할까요?’가 한 번 더 나오니 ‘예’를 누르세요. 인터넷 대전 서버 주소는 그대로입니다(서버는 여전히 8765)",
-   "‘이어하기’용 스크린샷을 10초마다 찍도록 바꿔 느린 기기(TV 박스 등)에서 더 부드럽습니다"
+   "직접 연결이 더 잘 됩니다: ‘중계’로 연결되면 난입한 쪽도 직접 연결을 몇 번 더 시도합니다(10·35·80초 후). 일부 네트워크 조합에서는 한쪽이 방을 만들 때만 직접 연결되고 반대면 중계로 지연이 컸는데, 이제 어느 쪽이 방을 만들어도 직접 연결로 바뀝니다"
   ],
   "es": [
-   "El puerto local pasa de 8765 a 28765 (otras herramientas de desarrollo suelen usar el 8765 y entonces se abría su página, p. ej. {\"error\": \"Not found\"}); tu nombre, ajustes, partidas guardadas y puntos para continuar se trasladan solos; si el 28765 también está ocupado, se usa el siguiente",
-   "Versión de carpeta en Windows: si tenías el juego en red local activado, Windows pregunta una vez más «¿Permitir cambios?» al abrir por primera vez; pulsa Sí. La dirección del servidor de juego por internet no cambia (sigue siendo el 8765 del servidor)",
-   "Las capturas para Continuar se hacen cada 10 segundos en vez de 5, así los dispositivos lentos (cajas de TV, etc.) van más fluidos"
+   "Las conexiones directas funcionan más a menudo: si la conexión va por el relé, quien se unió también reintenta la conexión directa (a los 10, 35 y 80 segundos). Algunas combinaciones de redes solo conectaban directo cuando hospedaba un lado concreto; ahora puede hospedar cualquiera"
   ],
   "fr": [
-   "Le port local passe de 8765 à 28765 (le 8765 est souvent pris par des outils de développement, et c'est alors leur page qui s'ouvrait, ex. {\"error\": \"Not found\"}) ; votre nom, vos réglages, sauvegardes et points de reprise suivent automatiquement ; si le 28765 est pris aussi, le suivant est utilisé",
-   "Version dossier Windows : si le jeu en réseau local était activé, Windows redemande une fois « Autoriser les modifications ? » au premier lancement ; cliquez sur Oui. L'adresse du serveur de jeu en ligne ne change pas (toujours le port 8765 du serveur)",
-   "Les captures pour Reprendre sont prises toutes les 10 secondes au lieu de 5 : plus fluide sur les appareils lents (box TV, etc.)"
+   "Connexions directes plus fréquentes : quand la connexion passe par le relais, le joueur qui a rejoint réessaie aussi une connexion directe (après 10, 35 et 80 secondes). Certaines combinaisons de réseaux ne se connectaient en direct que si un côté précis hébergeait ; désormais n'importe lequel peut héberger"
   ],
   "de": [
-   "Der lokale Port wechselt von 8765 auf 28765 (8765 wird oft von Entwicklungswerkzeugen belegt, dann öffnete sich deren Seite, z. B. {\"error\": \"Not found\"}); Name, Einstellungen, Spielstände und Weiterspiel-Punkte werden automatisch übernommen; ist auch 28765 belegt, wird der nächste Port genommen",
-   "Windows-Ordnerversion: Wer Heimnetz-Spiel eingeschaltet hatte, wird beim ersten Start noch einmal „Änderungen zulassen?“ gefragt – Ja klicken. Die Adresse des Internet-Spielservers bleibt gleich (dort weiterhin Port 8765)",
-   "Screenshots fürs Weiterspielen alle 10 statt 5 Sekunden – flüssiger auf langsamen Geräten (TV-Boxen usw.)"
+   "Direktverbindungen klappen öfter: Läuft die Verbindung über das Relay, versucht jetzt auch der beigetretene Spieler eine Direktverbindung (nach 10, 35 und 80 Sekunden). Manche Netzkombinationen verbanden sich nur direkt, wenn eine bestimmte Seite hostete; jetzt kann jede Seite hosten"
   ],
   "pt": [
-   "A porta local muda de 8765 para 28765 (a 8765 costuma estar ocupada por ferramentas de desenvolvimento, e aí abria a página delas, ex. {\"error\": \"Not found\"}); seu nome, ajustes, saves e pontos para continuar vêm junto automaticamente; se a 28765 também estiver ocupada, usa a próxima",
-   "Versão em pasta no Windows: se o jogo em rede local estava ligado, o Windows pergunta mais uma vez “Permitir alterações?” na primeira vez; clique em Sim. O endereço do servidor de jogo pela internet não muda (continua a porta 8765 do servidor)",
-   "As capturas para Continuar são feitas a cada 10 segundos em vez de 5, deixando aparelhos lentos (TV box etc.) mais leves"
+   "Conexões diretas funcionam mais vezes: quando a conexão vai pelo relé, quem entrou também tenta de novo a conexão direta (após 10, 35 e 80 segundos). Algumas combinações de rede só conectavam direto quando um lado específico hospedava; agora qualquer lado pode hospedar"
   ],
   "ru": [
-   "Локальный порт сменился с 8765 на 28765 (8765 часто занят инструментами разработки, и тогда открывалась их страница, например {\"error\": \"Not found\"}); имя, настройки, сохранения и точки продолжения переносятся автоматически; если 28765 тоже занят, берётся следующий",
-   "Версия-папка для Windows: если была включена игра по локальной сети, при первом запуске Windows ещё раз спросит «Разрешить изменения?» — нажмите «Да». Адрес интернет-сервера не меняется (на сервере по-прежнему порт 8765)",
-   "Скриншоты для «Продолжить» делаются раз в 10 секунд вместо 5 — на медленных устройствах (ТВ-приставки и т. п.) работает плавнее"
+   "Прямое соединение получается чаще: если связь идёт через ретранслятор, присоединившийся игрок тоже пробует прямое соединение (через 10, 35 и 80 секунд). Некоторые сочетания сетей соединялись напрямую, только когда хостом была определённая сторона; теперь хостом может быть любая"
   ]
  },
  "files": {
   "android-x86_64": {
-   "name": "EmulatorJS-1.3.1-android-x86_64.apk",
-   "size": 72608593,
-   "sha256": "231153a4b93e7667c25a008529bcad6cb9e019e3fcc26061c2d0ffae691d7d60",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.1/EmulatorJS-1.3.1-android-x86_64.apk"
+   "name": "EmulatorJS-1.3.2-android-x86_64.apk",
+   "size": 72609265,
+   "sha256": "19c7565f91bf325e4e63660eea57d5f43752174b797e81bb8b6fbd7cecfbc817",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-android-x86_64.apk"
   },
   "android": {
-   "name": "EmulatorJS-1.3.1-android.apk",
-   "size": 86642218,
-   "sha256": "b02bb55c9f28d095e65477d362b7fe8a097ae4841390afdc303e6e252e1e2aa8",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.1/EmulatorJS-1.3.1-android.apk"
+   "name": "EmulatorJS-1.3.2-android.apk",
+   "size": 86642890,
+   "sha256": "890929caedbd9ca4da814e313c950969780360f4af8948aab57546fcdd4a6fed",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-android.apk"
   },
   "folder": {
-   "name": "EmulatorJS-1.3.1-folder.zip",
-   "size": 56742189,
-   "sha256": "4a0e394f9a45fa852217b2bf05210e332866f18273da9b26abbdaf0e824b8b3b",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.1/EmulatorJS-1.3.1-folder.zip"
+   "name": "EmulatorJS-1.3.2-folder.zip",
+   "size": 56742866,
+   "sha256": "34b698e2fdfe1737bb74a1ecd1a1eb3c47bed01f790c21ae8cd92ca4f2b21f6a",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-folder.zip"
   },
   "mac-arm64": {
-   "name": "EmulatorJS-1.3.1-mac-apple-silicon.dmg",
-   "size": 199985685,
-   "sha256": "244c93d1440c1fc1d25814be8818ac8684df8afd2f2f9789b516df6b101e17e8",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.1/EmulatorJS-1.3.1-mac-apple-silicon.dmg"
+   "name": "EmulatorJS-1.3.2-mac-apple-silicon.dmg",
+   "size": 199756981,
+   "sha256": "b805837602dfa314094fc216074df1fef4304ef2b49d06431612a031a8fae455",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-mac-apple-silicon.dmg"
   },
   "mac-x64": {
-   "name": "EmulatorJS-1.3.1-mac-intel.dmg",
-   "size": 207201902,
-   "sha256": "7f0759f91516bf0f6f274efe4fddbcc0a5b847441e361ce71bf1e9e454a02625",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.1/EmulatorJS-1.3.1-mac-intel.dmg"
+   "name": "EmulatorJS-1.3.2-mac-intel.dmg",
+   "size": 207327105,
+   "sha256": "a6b2fd0efc656cc68d7920d6b0bbefb3a692816f6995c34ee787c46b1e052da4",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-mac-intel.dmg"
   },
   "win-zip": {
-   "name": "EmulatorJS-1.3.1-win.zip",
-   "size": 208557804,
-   "sha256": "8f302460f3109b269d45fa667fe302cfbbc0718cf443e5fc5e09068e4eb5de41",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.1/EmulatorJS-1.3.1-win.zip"
+   "name": "EmulatorJS-1.3.2-win.zip",
+   "size": 208558493,
+   "sha256": "e0a778e07af5c5f804d5da449adab9bc53c57c90056aebf56593040d75481a14",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-win.zip"
   },
   "win-setup": {
-   "name": "EmulatorJS-Setup-1.3.1.exe",
-   "size": 165773620,
-   "sha256": "c2e4cb5bdf003941b694ddbd270c390141399849ee707656234cf893e6155e34",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.1/EmulatorJS-Setup-1.3.1.exe"
+   "name": "EmulatorJS-Setup-1.3.2.exe",
+   "size": 165774066,
+   "sha256": "f351be586d4ab7ebc8a1fba51933122fb1bb92f636422e788f84f6a7f25e13c5",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-Setup-1.3.2.exe"
   },
   "server": {
    "name": "ejs-cloud-setup.sh",
    "size": 2012514,
    "sha256": "e830ca9b514c1a24fc031ae45269c954092420ed4b623eff9340f776fb23e0b3",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.1/ejs-cloud-setup.sh"
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/ejs-cloud-setup.sh"
   }
  }
 }
