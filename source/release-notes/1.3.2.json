@@ -1,0 +1,32 @@
+{
+ "zh-CN": [
+  "联机更容易直连：连接走了「中转」时，乱入的一方也会主动再试几次直连（第 10、35、80 秒）。以前有的网络组合只有一方开局才能直连，换另一方开局就一直走中转、延迟很高，现在两边谁开局都能切回直连"
+ ],
+ "zh-TW": [
+  "連線更容易直連：連線走了「中轉」時，亂入的一方也會主動再試幾次直連（第 10、35、80 秒）。以前有的網路組合只有一方開局才能直連，換另一方開局就一直走中轉、延遲很高，現在兩邊誰開局都能切回直連"
+ ],
+ "en": [
+  "Direct connections succeed more often: when a connection goes through the relay, the player who joined now also retries a direct connection (after 10, 35 and 80 seconds). Some network combinations only connected directly when one particular side hosted and stayed on the slow relay otherwise; now either side can host"
+ ],
+ "ja": [
+  "直接つながりやすく：「中継」経由になったとき、乱入した側からも直接接続を何度か試すように（10・35・80 秒後）。一部のネットワークの組み合わせでは片方がホストのときしか直接つながらず、逆だと中継のままで遅延が大きかったのが、どちらがホストでも直接に切り替われます"
+ ],
+ "ko": [
+  "직접 연결이 더 잘 됩니다: ‘중계’로 연결되면 난입한 쪽도 직접 연결을 몇 번 더 시도합니다(10·35·80초 후). 일부 네트워크 조합에서는 한쪽이 방을 만들 때만 직접 연결되고 반대면 중계로 지연이 컸는데, 이제 어느 쪽이 방을 만들어도 직접 연결로 바뀝니다"
+ ],
+ "es": [
+  "Las conexiones directas funcionan más a menudo: si la conexión va por el relé, quien se unió también reintenta la conexión directa (a los 10, 35 y 80 segundos). Algunas combinaciones de redes solo conectaban directo cuando hospedaba un lado concreto; ahora puede hospedar cualquiera"
+ ],
+ "fr": [
+  "Connexions directes plus fréquentes : quand la connexion passe par le relais, le joueur qui a rejoint réessaie aussi une connexion directe (après 10, 35 et 80 secondes). Certaines combinaisons de réseaux ne se connectaient en direct que si un côté précis hébergeait ; désormais n'importe lequel peut héberger"
+ ],
+ "de": [
+  "Direktverbindungen klappen öfter: Läuft die Verbindung über das Relay, versucht jetzt auch der beigetretene Spieler eine Direktverbindung (nach 10, 35 und 80 Sekunden). Manche Netzkombinationen verbanden sich nur direkt, wenn eine bestimmte Seite hostete; jetzt kann jede Seite hosten"
+ ],
+ "pt": [
+  "Conexões diretas funcionam mais vezes: quando a conexão vai pelo relé, quem entrou também tenta de novo a conexão direta (após 10, 35 e 80 segundos). Algumas combinações de rede só conectavam direto quando um lado específico hospedava; agora qualquer lado pode hospedar"
+ ],
+ "ru": [
+  "Прямое соединение получается чаще: если связь идёт через ретранслятор, присоединившийся игрок тоже пробует прямое соединение (через 10, 35 и 80 секунд). Некоторые сочетания сетей соединялись напрямую, только когда хостом была определённая сторона; теперь хостом может быть любая"
+ ]
+}

@@ -847,7 +847,7 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.1</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.2</div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
@@ -4894,6 +4894,7 @@ async function hostAcceptSync(m) {
   dc.onmessage = e => {
     let d; try { d = JSON.parse(e.data); } catch (x) { return; }
     if (d.t === "iceAnswer") return hostIceAnswer(peer, d);
+    if (d.t === "iceOfferG") return hostIceOfferG(peer, d);
     if (d.t === "hoReady") return hoHandOff(peer);
     if (d.t === "hoOffer") return hoGotOffer(peer, d);
     const net = hostNet(); if (!net) return;
@@ -4963,6 +4964,7 @@ async function hostAcceptJoin(m) {
   dc.onmessage = e => {
     let d; try { d = JSON.parse(e.data); } catch (x) { return; }
     if (d.t === "iceAnswer") return hostIceAnswer(peer, d);
+    if (d.t === "iceOfferG") return hostIceOfferG(peer, d);
     if (peer.watch) return;   // 观战的人不能操作
     const emu = hostEmu();
     if (!emu || typeof d.i !== "number") return;
@@ -5041,6 +5043,18 @@ async function hostIceAnswer(peer, d) {
   peer.iceBusy = false;
 }
 window.__iceRetryNow = () => mpHost && [...mpHost.peers.values()].forEach(hostIceRetry);   // 测试用
+// 乱入的人那边发起的「再试直连」：主机收到后马上开始往对方打洞，等回复传回去时，主机这边的路由器已经为对方开了门。
+// （有的网络组合只有一个方向打得通：比如乱入的人到服务器很慢、他的路由器每换一个目的地就换一个端口）
+async function hostIceOfferG(peer, d) {
+  const pc = peer.pc;
+  if (!mpHost || mpHost.peers.get(peer.cid) !== peer || pc.signalingState !== "stable" || peer.iceBusy) return;   // 主机自己也在重试：以主机的为准
+  try {
+    await pc.setRemoteDescription(d.sdp);
+    await pc.setLocalDescription(await pc.createAnswer());
+    await waitIce(pc);
+    hoSend(peer, { t: "iceAnswerG", sdp: pc.localDescription });
+  } catch (e) {}
+}
 function hostDropPeer(cid, announce) {
   if (!mpHost) return;
   const p = mpHost.peers.get(cid);
@@ -5309,12 +5323,13 @@ async function guestAnswer(sdp, voice = []) {
         let d; try { d = JSON.parse(ev.data); } catch (x) { return; }
         if (d.t === "pong") { const r = me.pings[d.ts]; if (r) { delete me.pings[d.ts]; r(); } return; }
         if (d.t === "iceRestart") return guestIceRestart(me, pc, d);
+        if (d.t === "iceAnswerG") return guestIceAnswerG(me, pc, d);
         if (d.t === "roster") return guestGotRoster(me, d.l);
         const np = guestNet(); if (np) np.guestMessage(d);
       };
       e.channel.onopen = guestHello;
       guestHello();
-    } else e.channel.onmessage = ev => { let d; try { d = JSON.parse(ev.data); } catch (x) { return; } if (d.t === "iceRestart") guestIceRestart(me, pc, d); else if (d.t === "roster") guestGotRoster(me, d.l); };
+    } else e.channel.onmessage = ev => { let d; try { d = JSON.parse(ev.data); } catch (x) { return; } if (d.t === "iceRestart") guestIceRestart(me, pc, d); else if (d.t === "iceAnswerG") guestIceAnswerG(me, pc, d); else if (d.t === "roster") guestGotRoster(me, d.l); };
   };
   pc.onconnectionstatechange = () => {
     const me = mpGuest;
@@ -5607,6 +5622,27 @@ function romFinish(x, saved) {
 }
 
 // 主机发现连接走了中转：重新找一次路（ICE 重启），能直连就换成直连；原来的连接一直保持，不会断
+// 走了中转：乱入的人这边也过一会儿再试几次直连（和主机那边错开时间，主机在 4、20、60 秒试）
+async function guestIceRetry(me, pc) {
+  if (mpGuest !== me || me.pc !== pc || me.iceBusy || pc.signalingState !== "stable" || !me.dc || me.dc.readyState !== "open") return;
+  me.iceBusy = true;
+  try {
+    await pc.setLocalDescription(await pc.createOffer({ iceRestart: true }));
+    await waitIce(pc);
+    me.dc.send(JSON.stringify({ t: "iceOfferG", sdp: pc.localDescription }));
+    clearTimeout(me.iceTimer);
+    me.iceTimer = setTimeout(() => {   // 主机没回（旧版本，或者主机正好也在重试）：撤回，保持原来的连接
+      me.iceBusy = false;
+      if (pc.signalingState === "have-local-offer") pc.setLocalDescription({ type: "rollback" }).catch(() => {});
+    }, 15000);
+  } catch (e) { me.iceBusy = false; }
+}
+async function guestIceAnswerG(me, pc, d) {
+  clearTimeout(me.iceTimer);
+  try { if (mpGuest === me && me.pc === pc && pc.signalingState === "have-local-offer") await pc.setRemoteDescription(d.sdp); } catch (e) {}
+  me.iceBusy = false;
+}
+window.__guestIceRetryNow = () => mpGuest && mpGuest.pc && guestIceRetry(mpGuest, mpGuest.pc);   // 测试用
 async function guestIceRestart(me, pc, d) {
   if (mpGuest !== me || me.pc !== pc) return;
   try {
@@ -5638,6 +5674,14 @@ function guestConnState(me, pc) {
   if (st === "connected") {
     me.everConnected = true;
     if (me.dropTick) { clearInterval(me.dropTick); me.dropTick = null; netBanner(""); }
+    if (!me.relayWatch) {   // 走了中转：我这边也试几次直连
+      me.relayWatch = true;
+      for (const sec of [10, 35, 80]) setTimeout(async () => {
+        if (mpGuest !== me || me.pc !== pc || me.iceBusy) return;
+        const ns = await pcNetStats(pc);
+        if (ns && ns.relay) guestIceRetry(me, pc);
+      }, sec * 1000);
+    }
   } else if (st === "failed") {
     mpGuestEnded(me.everConnected ? L("和 {0} 的连接断开了", me.hostName) : connFailText(me));
   } else if (st === "disconnected" && !me.dropTick) {
@@ -7284,7 +7328,7 @@ window.cheatLibOpen = cheatLibOpen;
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.3.1";
+const APP_VERSION = "1.3.2";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",
