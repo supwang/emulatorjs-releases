@@ -1,0 +1,42 @@
+{
+ "zh-CN": [
+  "联机更容易直连：修好了「再试直连」时漏发地址的问题。以前有的网络组合（比如一方是公司网络）换一方开局就一直走中转、延迟很高，现在几秒钟内就能自动切换成直连",
+  "新增「联机诊断」：点右上角的「📶 直连 / 中转」，可以看到两台电脑是怎么找路的，还能一键复制，方便排查联机问题"
+ ],
+ "zh-TW": [
+  "連線更容易直連：修好了「再試直連」時漏發位址的問題。以前有的網路組合（例如一方是公司網路）換一方開局就一直走中轉、延遲很高，現在幾秒鐘內就能自動切換成直連",
+  "新增「連線診斷」：點右上角的「📶 直連 / 中轉」，可以看到兩台電腦是怎麼找路的，還能一鍵複製，方便排查連線問題"
+ ],
+ "en": [
+  "Direct connections work much more often: fixed retries that left out the computer's addresses. With some network combinations (for example one side on an office network) the game stayed on the slow relay when that side hosted; now it switches to a direct connection within seconds",
+  "New “Connection diagnostics”: click “📶 Direct / Relayed” at the top right to see how the two computers found a path to each other, and copy it in one click when asking for help"
+ ],
+ "ja": [
+  "直接つながりやすく：「直接接続の再試行」でアドレスが送られていなかった問題を修正。一部のネットワークの組み合わせ（片方が会社のネットワークなど）では、その側がホストすると中継のままで遅延が大きかったのが、数秒で直接接続に切り替わります",
+  "「接続の診断」を追加：右上の「📶 直結 / 中継」をクリックすると、2台がどう経路を見つけたかが見られ、ワンクリックでコピーできます"
+ ],
+ "ko": [
+  "직접 연결이 훨씬 잘 됩니다: ‘직접 연결 재시도’ 때 주소가 빠지던 문제를 고쳤습니다. 일부 네트워크 조합(예: 한쪽이 회사 네트워크)에서 그쪽이 방을 만들면 중계로만 연결되어 지연이 컸는데, 이제 몇 초 안에 직접 연결로 바뀝니다",
+  "‘연결 진단’ 추가: 오른쪽 위의 ‘📶 직접 연결 / 중계’를 누르면 두 컴퓨터가 어떻게 길을 찾았는지 볼 수 있고, 한 번에 복사할 수 있습니다"
+ ],
+ "es": [
+  "Las conexiones directas funcionan mucho más a menudo: se corrigió que los reintentos no enviaban las direcciones del ordenador. Con algunas combinaciones de redes (por ejemplo, un lado en la red de la oficina) la partida se quedaba en el relé lento cuando ese lado hospedaba; ahora pasa a conexión directa en segundos",
+  "Nuevo «Diagnóstico de conexión»: haz clic en «📶 Directa / Por relé» arriba a la derecha para ver cómo se encontraron los dos ordenadores y cópialo con un clic al pedir ayuda"
+ ],
+ "fr": [
+  "Connexions directes bien plus fréquentes : correction des nouvelles tentatives qui n'envoyaient pas les adresses de l'ordinateur. Avec certaines combinaisons de réseaux (par exemple un côté sur un réseau de bureau), la partie restait sur le relais lent quand ce côté hébergeait ; désormais elle passe en direct en quelques secondes",
+  "Nouveau « Diagnostic de connexion » : cliquez sur « 📶 Directe / Relayée » en haut à droite pour voir comment les deux ordinateurs se sont trouvés, et copiez-le en un clic pour demander de l'aide"
+ ],
+ "de": [
+  "Direktverbindungen klappen viel öfter: Behoben, dass Wiederholungsversuche die Adressen des Computers nicht mitschickten. Bei manchen Netzkombinationen (z. B. eine Seite im Firmennetz) blieb das Spiel auf dem langsamen Relay, wenn diese Seite hostete; jetzt wechselt es in Sekunden zur Direktverbindung",
+  "Neu: „Verbindungsdiagnose“: Klicke oben rechts auf „📶 Direkt / Über Relay“, um zu sehen, wie die beiden Computer zueinander gefunden haben, und kopiere es mit einem Klick, wenn du Hilfe brauchst"
+ ],
+ "pt": [
+  "Conexões diretas funcionam muito mais vezes: corrigido que as novas tentativas não enviavam os endereços do computador. Com algumas combinações de rede (por exemplo, um lado na rede do escritório) o jogo ficava no relé lento quando esse lado hospedava; agora muda para conexão direta em segundos",
+  "Novo “Diagnóstico da conexão”: clique em “📶 Direta / Retransmitida” no canto superior direito para ver como os dois computadores se encontraram e copie com um clique ao pedir ajuda"
+ ],
+ "ru": [
+  "Прямое соединение получается гораздо чаще: исправлено, что повторные попытки не отправляли адреса компьютера. При некоторых сочетаниях сетей (например, одна сторона в офисной сети) игра оставалась на медленном ретрансляторе, когда хостом была эта сторона; теперь за несколько секунд переключается на прямое соединение",
+  "Новое: «Диагностика соединения»: нажмите «📶 Напрямую / Через ретранслятор» справа вверху, чтобы увидеть, как два компьютера нашли путь друг к другу, и скопируйте одним нажатием, если нужна помощь"
+ ]
+}

@@ -772,5 +772,12 @@
 "换位置（现在是 {0}）": "Switch player (now {0})",
 "换成别的玩家（1P、2P…），那个位置空着才能换": "Switch to another player (P1, P2…); only free places",
 "🎮 我是 P1 ⇄": "🎮 I'm P1 ⇄",
-"空着": "Free"
+"空着": "Free",
+"联机诊断": "Connection diagnostics",
+"这里记下了两台电脑是怎么找路的。连接走了「中转」时，请两边都打开这里，点「复制」，发给开发者。": "This shows how the two computers looked for a path to each other. If the connection uses the relay, open this on both sides, click “Copy” and send it to the developer.",
+"复制": "Copy",
+"刷新": "Refresh",
+"已复制": "Copied",
+"请手动全选复制": "Please select all and copy",
+"点一下可以看联机诊断。": "Click for connection diagnostics."
 }

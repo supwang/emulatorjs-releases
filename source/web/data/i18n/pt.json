@@ -772,5 +772,12 @@
 "换位置（现在是 {0}）": "Trocar de jogador (agora {0})",
 "换成别的玩家（1P、2P…），那个位置空着才能换": "Mudar para outro jogador (P1, P2…); só lugares livres",
 "🎮 我是 P1 ⇄": "🎮 Sou P1 ⇄",
-"空着": "Livre"
+"空着": "Livre",
+"联机诊断": "Diagnóstico da conexão",
+"这里记下了两台电脑是怎么找路的。连接走了「中转」时，请两边都打开这里，点「复制」，发给开发者。": "Aqui mostra como os dois computadores procuraram um caminho. Se a conexão usar o relé, abra isto nos dois lados, clique em “Copiar” e envie ao desenvolvedor.",
+"复制": "Copiar",
+"刷新": "Atualizar",
+"已复制": "Copiado",
+"请手动全选复制": "Selecione tudo e copie",
+"点一下可以看联机诊断。": "Clique para ver o diagnóstico da conexão."
 }
