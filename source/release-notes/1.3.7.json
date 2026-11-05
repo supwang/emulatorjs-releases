@@ -1,0 +1,92 @@
+{
+ "zh-CN": [
+  "修好了联机时两边游戏完全不一样的严重问题（回滚模式下最明显：一边在关卡里、一边还在选人，按键却是同步的）。现在两边一定是同一局",
+  "回滚模式更稳了：FC、MD、SFC 等游戏不会再动不动自动退回延迟模式，格斗游戏可以一直用回滚模式",
+  "街霸3.3 等 CPS3 游戏可以联机了：以前乱入常常卡在同步，或者一方延迟超过 1 秒；现在几秒就能同步好，也能用回滚模式",
+  "联机时不再定时保存「继续」进度和截图（以前会让两边一起卡一下）；退出游戏和断线时照常保存",
+  "修好了手柄在有的电脑上完全没反应的问题（常见于 Mac 连 Xbox 手柄）：只有左摇杆能用，其他按键在游戏里和「控制设置」里都按不上",
+  "Mac：修好了 Mac 版连不上局域网里其他电脑的问题（乱入别人开的房间提示「Failed to fetch」；自己开局时对方很慢，要绕外网服务器）。第一次打开会再问一次本地网络权限，点「允许」",
+  "安卓：这一版起 App 换了新的标识，会作为一个新 App 安装。装好后请卸载旧的 EmulatorJS；手机里 EmulatorJS 文件夹的游戏都还在，但 App 里的设置和「继续」进度要重新来。Mac 第一次打开时会重新询问本地网络权限，点「允许」即可"
+ ],
+ "zh-TW": [
+  "修好了連線時兩邊遊戲完全不一樣的嚴重問題（回滾模式下最明顯：一邊在關卡裡、一邊還在選人，按鍵卻是同步的）。現在兩邊一定是同一局",
+  "回滾模式更穩了：FC、MD、SFC 等遊戲不會再動不動自動退回延遲模式，格鬥遊戲可以一直用回滾模式",
+  "快打旋風3.3 等 CPS3 遊戲可以連線了：以前加入常常卡在同步，或者一方延遲超過 1 秒；現在幾秒就能同步好，也能用回滾模式",
+  "連線時不再定時儲存「繼續」進度和截圖（以前會讓兩邊一起卡一下）；離開遊戲和斷線時照常儲存",
+  "修好了手把在有的電腦上完全沒反應的問題（常見於 Mac 連 Xbox 手把）：只有左搖桿能用，其他按鍵在遊戲裡和「控制設定」裡都按不上",
+  "Mac：修好了 Mac 版連不上區域網路裡其他電腦的問題（加入別人開的房間提示「Failed to fetch」；自己開局時對方很慢，要繞外網伺服器）。第一次開啟會再問一次本機網路權限，點「允許」",
+  "Android：這一版起 App 換了新的識別碼，會作為一個新 App 安裝。裝好後請解除安裝舊的 EmulatorJS；手機裡 EmulatorJS 資料夾的遊戲都還在，但 App 裡的設定和「繼續」進度要重新來。Mac 第一次開啟時會重新詢問本機網路權限，點「允許」即可"
+ ],
+ "en": [
+  "Fixed a serious online play problem where the two sides ended up in completely different games (most visible in rollback mode: one side in a stage, the other still choosing characters, with the buttons still shared). Both sides now always play the same game",
+  "Rollback mode is steadier: NES, Mega Drive, SNES and other games no longer keep switching to delay mode by themselves, so fighting games can stay in rollback mode",
+  "Street Fighter III 3rd Strike and other CPS3 games now work online: joining often got stuck while syncing, or one side lagged over a second; now syncing takes a few seconds and rollback mode works too",
+  "While playing online, “Continue” progress and screenshots are no longer saved on a timer (it made both sides stutter); they are still saved when you leave the game or the connection drops",
+  "Fixed gamepads not responding at all on some computers (common with an Xbox controller on a Mac): only the left stick worked, and no other button worked in games or in “Control Settings”",
+  "Mac: fixed the Mac app not reaching other computers on the local network (joining someone's room said “Failed to fetch”; when you hosted, the other side was slow because it went through the internet server). The first start asks for local network access again: click “Allow”",
+  "Android: from this version the app has a new identifier, so it installs as a new app. Uninstall the old EmulatorJS afterwards; the games in the EmulatorJS folder on your phone stay, but the app's settings and “Continue” progress start fresh. On a Mac, the first start asks for local network access again: click “Allow”"
+ ],
+ "ja": [
+  "オンライン対戦で両側がまったく別のゲームになってしまう重大な問題を修正（ロールバックモードで顕著：片方はステージ中、もう片方はキャラ選択のまま、ボタンだけ同期）。両側は必ず同じゲームになります",
+  "ロールバックモードが安定しました：ファミコン、メガドライブ、スーファミなどのゲームが勝手に遅延モードへ切り替わらなくなり、格闘ゲームはロールバックのまま遊べます",
+  "ストリートファイターIII 3rd STRIKE など CPS3 のゲームがオンラインで遊べるようになりました：以前は乱入時に同期で止まったり、片方が 1 秒以上遅れたりしましたが、今は数秒で同期し、ロールバックモードも使えます",
+  "オンライン中は「続きから」の進行とスクリーンショットを定期保存しなくなりました（両側が一瞬止まる原因でした）。ゲーム終了時と切断時は通常どおり保存されます",
+  "一部のコンピューターでコントローラーがまったく反応しない問題を修正（Mac に Xbox コントローラーをつないだときによく起きていました）",
+  "Mac：Mac 版が同じネットワークのほかのコンピューターにつながらない問題を修正（ほかの人の部屋に乱入すると「Failed to fetch」、自分がホストすると相手側が遅い）。初回起動時にローカルネットワークの許可を再度求められるので「許可」を押してください",
+  "Android：このバージョンからアプリの識別子が変わり、新しいアプリとしてインストールされます。インストール後、古い EmulatorJS は削除してください。スマホの EmulatorJS フォルダのゲームはそのままですが、アプリの設定と「続きから」の進行はリセットされます。Mac では初回起動時にローカルネットワークの許可を再度求められるので「許可」を押してください"
+ ],
+ "ko": [
+  "온라인 대전에서 양쪽 게임이 완전히 달라지던 심각한 문제를 고쳤습니다(롤백 모드에서 두드러짐: 한쪽은 스테이지, 다른 쪽은 캐릭터 선택인데 버튼만 동기화). 이제 양쪽은 항상 같은 게임입니다",
+  "롤백 모드가 더 안정적입니다: 패미컴, 메가드라이브, 슈퍼패미컴 등의 게임이 더 이상 저절로 지연 모드로 바뀌지 않아 격투 게임을 계속 롤백 모드로 할 수 있습니다",
+  "스트리트 파이터 III 서드 스트라이크 등 CPS3 게임을 온라인으로 할 수 있습니다: 예전에는 난입할 때 동기화에서 멈추거나 한쪽이 1초 넘게 늦었지만, 이제 몇 초면 동기화되고 롤백 모드도 됩니다",
+  "온라인 중에는 ‘이어하기’ 진행과 스크린샷을 정기적으로 저장하지 않습니다(양쪽이 잠깐 멈추는 원인이었음). 게임을 나가거나 연결이 끊기면 그대로 저장됩니다",
+  "일부 컴퓨터에서 게임패드가 전혀 반응하지 않던 문제를 고쳤습니다(Mac에 Xbox 컨트롤러를 연결했을 때 자주 발생)",
+  "Mac: Mac 앱이 같은 네트워크의 다른 컴퓨터에 연결되지 않던 문제를 고쳤습니다(다른 사람 방에 난입하면 ‘Failed to fetch’, 내가 방을 만들면 상대가 느림). 처음 실행할 때 로컬 네트워크 권한을 다시 묻습니다. ‘허용’을 누르세요",
+  "Android: 이번 버전부터 앱 식별자가 바뀌어 새 앱으로 설치됩니다. 설치 후 예전 EmulatorJS는 삭제하세요. 휴대폰 EmulatorJS 폴더의 게임은 그대로지만 앱 설정과 ‘이어하기’ 진행은 새로 시작합니다. Mac은 처음 실행할 때 로컬 네트워크 권한을 다시 묻습니다. ‘허용’을 누르세요"
+ ],
+ "es": [
+  "Corregido un problema grave del juego en línea: los dos lados acababan en partidas totalmente distintas (sobre todo en modo rollback: uno en una fase y el otro eligiendo personajes, con los botones compartidos). Ahora ambos juegan siempre la misma partida",
+  "El modo rollback es más estable: NES, Mega Drive, SNES y otros juegos ya no pasan solos al modo con retraso, así que los juegos de lucha pueden seguir en rollback",
+  "Street Fighter III 3rd Strike y otros juegos de CPS3 ya funcionan en línea: antes al unirse se quedaba atascado sincronizando o un lado iba más de un segundo tarde; ahora sincroniza en unos segundos y también funciona el modo rollback",
+  "Durante el juego en línea, el progreso de «Continuar» y las capturas ya no se guardan cada cierto tiempo (hacía que ambos lados se trabaran); se siguen guardando al salir del juego o si se corta la conexión",
+  "Corregido que el mando no respondía en algunos ordenadores (habitual con un mando de Xbox en Mac)",
+  "Mac: corregido que la app de Mac no llegaba a otros ordenadores de la red local (al unirse a una sala salía «Failed to fetch»; al hospedar, el otro lado iba lento por pasar por el servidor de internet). El primer inicio vuelve a pedir acceso a la red local: pulsa «Permitir»",
+  "Android: desde esta versión la app tiene un identificador nuevo y se instala como una app nueva. Desinstala después la EmulatorJS antigua; los juegos de la carpeta EmulatorJS del móvil se conservan, pero los ajustes y el progreso de «Continuar» empiezan de cero. En Mac, el primer inicio vuelve a pedir acceso a la red local: pulsa «Permitir»"
+ ],
+ "fr": [
+  "Correction d'un problème grave en ligne : les deux côtés se retrouvaient dans des parties complètement différentes (surtout en mode rollback : l'un dans un niveau, l'autre encore au choix des personnages, avec les boutons partagés). Les deux côtés jouent désormais toujours la même partie",
+  "Le mode rollback est plus stable : NES, Mega Drive, SNES et d'autres jeux ne passent plus d'eux-mêmes en mode avec délai, les jeux de combat peuvent donc rester en rollback",
+  "Street Fighter III 3rd Strike et les autres jeux CPS3 fonctionnent en ligne : avant, rejoindre restait souvent bloqué à la synchronisation ou un côté avait plus d'une seconde de retard ; maintenant la synchronisation prend quelques secondes et le mode rollback fonctionne aussi",
+  "En ligne, la progression « Continuer » et les captures ne sont plus enregistrées à intervalles réguliers (cela faisait saccader les deux côtés) ; elles sont toujours enregistrées en quittant le jeu ou si la connexion coupe",
+  "Correction des manettes qui ne réagissaient pas du tout sur certains ordinateurs (fréquent avec une manette Xbox sur Mac)",
+  "Mac : correction de l'appli Mac qui n'atteignait pas les autres ordinateurs du réseau local (rejoindre une salle affichait « Failed to fetch » ; en hébergeant, l'autre côté était lent car il passait par le serveur internet). Le premier lancement redemande l'accès au réseau local : cliquez sur « Autoriser »",
+  "Android : à partir de cette version, l'appli a un nouvel identifiant et s'installe comme une nouvelle appli. Désinstallez ensuite l'ancienne EmulatorJS ; les jeux du dossier EmulatorJS du téléphone restent, mais les réglages et la progression « Continuer » repartent de zéro. Sur Mac, le premier lancement redemande l'accès au réseau local : cliquez sur « Autoriser »"
+ ],
+ "de": [
+  "Schweres Online-Problem behoben: Beide Seiten landeten in völlig verschiedenen Spielen (vor allem im Rollback-Modus: eine Seite im Level, die andere noch bei der Figurenwahl, die Tasten aber geteilt). Jetzt spielen beide Seiten immer dasselbe Spiel",
+  "Der Rollback-Modus ist stabiler: NES-, Mega-Drive-, SNES- und andere Spiele wechseln nicht mehr von selbst in den Verzögerungsmodus, Kampfspiele bleiben also im Rollback-Modus",
+  "Street Fighter III 3rd Strike und andere CPS3-Spiele funktionieren jetzt online: Beitreten blieb oft beim Synchronisieren hängen oder eine Seite hing über eine Sekunde hinterher; jetzt dauert das Synchronisieren ein paar Sekunden und Rollback funktioniert auch",
+  "Beim Online-Spiel werden „Weiterspielen“-Stände und Screenshots nicht mehr regelmäßig gespeichert (das ließ beide Seiten ruckeln); beim Verlassen des Spiels und bei Verbindungsabbruch wird weiterhin gespeichert",
+  "Behoben, dass Gamepads auf manchen Computern gar nicht reagierten (häufig mit Xbox-Controller am Mac)",
+  "Mac: Behoben, dass die Mac-App andere Computer im lokalen Netzwerk nicht erreichte (Beitreten zeigte „Failed to fetch“; beim Hosten war die andere Seite langsam, weil alles über den Internet-Server lief). Der erste Start fragt erneut nach Zugriff aufs lokale Netzwerk: auf „Erlauben“ klicken",
+  "Android: Ab dieser Version hat die App eine neue Kennung und wird als neue App installiert. Deinstalliere danach das alte EmulatorJS; die Spiele im EmulatorJS-Ordner des Handys bleiben, aber Einstellungen und „Weiterspielen“-Stände fangen neu an. Am Mac fragt der erste Start erneut nach Zugriff aufs lokale Netzwerk: auf „Erlauben“ klicken"
+ ],
+ "pt": [
+  "Corrigido um problema grave do jogo online: os dois lados acabavam em partidas totalmente diferentes (principalmente no modo rollback: um numa fase, o outro ainda escolhendo personagens, com os botões compartilhados). Agora os dois sempre jogam a mesma partida",
+  "O modo rollback está mais estável: NES, Mega Drive, SNES e outros jogos não mudam mais sozinhos para o modo com atraso, então jogos de luta podem continuar em rollback",
+  "Street Fighter III 3rd Strike e outros jogos de CPS3 agora funcionam online: antes, entrar travava na sincronização ou um lado ficava mais de um segundo atrasado; agora sincroniza em poucos segundos e o modo rollback também funciona",
+  "No jogo online, o progresso de “Continuar” e as capturas não são mais salvos periodicamente (isso fazia os dois lados travarem); continuam sendo salvos ao sair do jogo ou se a conexão cair",
+  "Corrigido o controle que não respondia em alguns computadores (comum com controle Xbox no Mac)",
+  "Mac: corrigido o app de Mac que não alcançava outros computadores da rede local (entrar na sala de alguém mostrava “Failed to fetch”; ao hospedar, o outro lado ficava lento por passar pelo servidor de internet). A primeira abertura pede de novo acesso à rede local: clique em “Permitir”",
+  "Android: a partir desta versão o app tem um novo identificador e é instalado como um app novo. Depois desinstale o EmulatorJS antigo; os jogos da pasta EmulatorJS do celular continuam, mas as configurações e o progresso de “Continuar” recomeçam. No Mac, a primeira abertura pede de novo acesso à rede local: clique em “Permitir”"
+ ],
+ "ru": [
+  "Исправлена серьёзная проблема игры по сети: две стороны оказывались в совершенно разных играх (особенно в режиме отката: одна сторона на уровне, другая ещё выбирает персонажей, а кнопки общие). Теперь обе стороны всегда играют одну и ту же игру",
+  "Режим отката стал стабильнее: игры NES, Mega Drive, SNES и другие больше не переключаются сами в режим с задержкой, так что файтинги могут оставаться в режиме отката",
+  "Street Fighter III 3rd Strike и другие игры CPS3 теперь работают по сети: раньше вход часто зависал на синхронизации или одна сторона отставала больше чем на секунду; теперь синхронизация занимает несколько секунд и режим отката тоже работает",
+  "Во время игры по сети прогресс «Продолжить» и скриншоты больше не сохраняются по таймеру (из-за этого обе стороны подтормаживали); они по-прежнему сохраняются при выходе из игры и при обрыве связи",
+  "Исправлено: на некоторых компьютерах геймпад совсем не реагировал (часто с контроллером Xbox на Mac)",
+  "Mac: исправлено — приложение для Mac не могло связаться с другими компьютерами в локальной сети (при входе в чужую комнату — «Failed to fetch»; когда хостом был Mac, у другой стороны всё шло медленно через интернет-сервер). При первом запуске снова появится запрос доступа к локальной сети: нажмите «Разрешить»",
+  "Android: начиная с этой версии у приложения новый идентификатор, и оно ставится как новое приложение. После установки удалите старое EmulatorJS; игры в папке EmulatorJS на телефоне останутся, но настройки и прогресс «Продолжить» начнутся заново. На Mac при первом запуске снова появится запрос доступа к локальной сети: нажмите «Разрешить»"
+ ]
+}

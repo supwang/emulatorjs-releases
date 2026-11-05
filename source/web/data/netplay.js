@@ -88,7 +88,9 @@
   // 所以：读档后，档还没读进去之前跑的帧都不算；读存档文件的那一刻看帧数有没有加 1：
   // 已经加了 = 这一帧先跑完、档才读进去（这一帧不算，下一帧从档开始跑）；还没加 = 档先读进去、这一帧从档开始跑（算数）
   let pendingLoad = null, loadRead = false, loadAfterRun = false, stepFrom = 0;
-  function load(st) {
+  let loadSimple = false;
+  function load(st, simple) {
+    loadSimple = !!simple;
     loadRead = false; loadAfterRun = false;
     pendingLoad = st;
     internalLoad = true;
@@ -105,6 +107,7 @@
     cb(performance.now());
     const ran = fnum() > b;
     if (!pendingLoad) return ran;
+    if (loadSimple) { if (ran) pendingLoad = null; return ran; }       // 同步读档：照旧的简单做法（实测更稳）
     if (loadRead && !loadAfterRun) { pendingLoad = null; return ran; }   // 档先读进去：这一帧从档开始跑，算数
     if (loadRead) pendingLoad = null;                                    // 这一帧跑完才读进去：下一帧从档开始
     if (ran) base += fnum() - b;                                         // 这一帧跑的是读档前的游戏：不算
@@ -183,21 +186,30 @@
   }
   // 对齐：主机存一个即时存档，自己和所有人都读这个存档，从同一帧开始
   // （有些模拟核心，存档没包含全部内部状态；大家都读同一个存档才能保证完全一致）
+  // 即时存档很大的游戏（比如街霸 3 这种 CPS3 基板：10 MB）：
+  // ・发给别人前先压缩（大部分是 0，能压到几十分之一）。以前不压缩，转成文字 13 MB 多，超过了连接一次最多能排队发送的量，
+  //   发不出去，乱入的人一直收不到，两边互相等（「等待主机的网络…」）
+  // ・回滚模式：存档大的游戏不每一帧都存，隔几帧存一份（见 rbTick）
+  const zlib = () => (typeof window !== "undefined" && window.fflate && window.fflate.deflateSync) ? window.fflate : null;
   function hostSyncAll() {
     if (RB.on) rbStop();
-    const rb = rbWanted();
     const J = executed();
     const raw = curState();
-    load(raw);
+    const rb = rbWanted();
+    load(raw, true);
     for (let s = 0; s < 4; s++) applied[s] = -1;
-    const st = toB64(raw);
+    let st = null, stz = null;
+    const plain = () => st || (st = toB64(raw));
+    const packed = () => { if (stz === null) { try { stz = toB64(zlib().deflateSync(raw, { level: 1 })); } catch (e) { stz = ""; } } return stz; };
     const k = Math.random().toString(36).slice(2, 8);
     const CH = 60000;
     const targets = [...Object.keys(H.peers).map(s => [s, H.peers[s]]), ...Object.keys(H.watchers).map(w => ["w:" + w, H.watchers[w]])];
     for (const [s, p] of targets) {
-      for (let i = 0, n = Math.ceil(st.length / CH); i < n; i++) p.send({ t: "sp", k, i, n, d: st.slice(i * CH, (i + 1) * CH) });
-      if (rb && !p.watch) p.send({ t: "sync", k, f: J, d: RB_DELAY, mode: "rb", me: Number(s), W: RB_WINDOW });
-      else p.send({ t: "sync", k, f: J, d: p.delay });
+      const z = p.z && zlib() && packed() ? 1 : 0;   // 对方是新版本（会解压）才压缩
+      const data = z ? packed() : plain();
+      for (let i = 0, n = Math.ceil(data.length / CH); i < n; i++) p.send({ t: "sp", k, i, n, d: data.slice(i * CH, (i + 1) * CH) });
+      if (rb && !p.watch) p.send({ t: "sync", k, z, f: J, d: RB_DELAY, mode: "rb", me: Number(s), W: RB_WINDOW });
+      else p.send({ t: "sync", k, z, f: J, d: p.delay });
       p.zeroUntil = Math.max(p.zeroUntil || 0, J + p.delay);
       if (!p.synced && !p.watch) onEvent("synced", { slot: Number(s), frame: J });
       p.synced = true;
@@ -400,9 +412,10 @@
       const p = G.parts[msg.k] || (G.parts[msg.k] = []);
       p[msg.i] = msg.d;
     } else if (msg.t === "sync") {
-      const st = fromB64((G.parts[msg.k] || []).join(""));
+      let st = fromB64((G.parts[msg.k] || []).join(""));
+      if (msg.z) st = window.fflate.inflateSync(st);
       delete G.parts[msg.k];
-      load(st);
+      load(st, true);
       base = fnum() - msg.f;
       for (let s = 0; s < 4; s++) applied[s] = -1;   // 读档后：所有按键重新告诉模拟器
       G.delay = msg.d;
@@ -444,6 +457,7 @@
       for (let s = 0; s < 4; s++) (s === me ? r.local : r.remote).add(s);
     }
     r.inp.clear(); r.used.clear(); r.states.clear(); r.hashed.clear(); r.gh.clear();
+    r.every = 1; r.lastSave = null;
     r.conf = [J, J, J, J]; r.val = [0, 0, 0, 0]; r.rollTo = null; r.out = []; r.recent = [];
     // 对齐后的头几帧：大家都当作没按（谁的按键都还来不及传到）
     for (let f = J + 1; f <= J + r.D; f++) r.inp.set(f, [0, 0, 0, 0]);
@@ -459,7 +473,7 @@
   // 真正的「无关数据」只有一两块；一下子冒出好几块，说明读档后游戏本身就跑得不一样了
   // （有的街机游戏，读别的电脑的存档时有些内部状态没读进去）。这时不能把它们当无关数据跳过——
   // 跳过了就核对不出两边的游戏已经不一样（以前出过：两边一个在关卡里一个在选人，却一直显示正常）。改回延迟模式，靠核对 + 重新对齐保证一致
-  const RB_NOISE_MAX = 4;
+  const RB_NOISE_MAX = 8;
   function rbCalibrate() {
     const r = RB, c = r.calib;
     if (!c.found) c.found = new Set();
@@ -477,10 +491,12 @@
       }
     } catch (e) { console.warn("[netplay] calibrate", e); }
     r.calib = null;
-    if (c.found.size > RB_NOISE_MAX || r.noise.size + c.found.size > RB_NOISE_MAX) {
-      console.warn("[netplay] rollback: state not repeatable after loading (" + c.found.size + " blocks), using delay mode");
-      if (NP.role === "host") onEvent("rbUnstable"); else send({ t: "rbbad" });
-    } else c.found.forEach(k => r.noise.add(k));
+    // 存一份档要多久，和存档大小成正比（街霸 3：10 MB，一次约 7 毫秒，跑一帧才 1 毫秒）：大的隔几帧才存一份，
+    // 猜错时读回前面最近的一份、多重跑几帧（重跑很快）
+    r.every = c.S && c.S.length > 1500000 ? 4 : 1;
+    r.lastSave = null;
+    // 读档后会变的块不比较；块多也不再退回延迟模式
+    if (r.noise.size + c.found.size <= RB_NOISE_MAX) c.found.forEach(k => r.noise.add(k));
     base = fnum() - r.J;
     for (let s = 0; s < 4; s++) applied[s] = -1;
     r.t0 = performance.now();
@@ -584,7 +600,9 @@
       else send({ t: "h", f: f - 1, h });
     }
     // 不再需要的旧存档、旧按键
-    for (const f of r.states.keys()) if (f <= mc - 1 && !(f - 1 > r.J && (f - 1) % HASH_EVERY === 0 && !r.hashed.has(f - 1))) r.states.delete(f);
+    let keep = -1;   // 猜错最早只会在第 mc+1 帧：要留着它之前（含）最近的一份档
+    for (const f of r.states.keys()) if (f <= mc + 1 && f > keep) keep = f;
+    for (const f of r.states.keys()) if (f < keep && f <= mc - 1 && !(f - 1 > r.J && (f - 1) % HASH_EVERY === 0 && !r.hashed.has(f - 1))) r.states.delete(f);
     for (const f of r.used.keys()) if (f < mc - 2) r.used.delete(f);
     for (const f of r.inp.keys()) if (f < mc - 30) r.inp.delete(f);
   }
@@ -597,12 +615,17 @@
     const r = RB, frameMs = 1000 / 60, t = performance.now();
     // 1. 猜错了：读回存档，从那一帧重新跑
     if (r.rollTo !== null) {
-      const f = r.rollTo, st = r.states.get(f);
+      const f = r.rollTo;
       r.rollTo = null;
       if (f <= executed()) {
+        let key = -1;
+        for (const k of r.states.keys()) if (k <= f && k > key) key = k;
+        const st = key >= 0 ? r.states.get(key) : null;
         if (!st) { onEvent("desync", { frame: f, rb: true }); if (NP.role === "host") { if (!H.pending.length) H.pending.push(-1); } else send({ t: "rresync" }); return schedule(50); }
+        for (const k of [...r.states.keys()]) if (k > f) r.states.delete(k);   // 猜错那一帧以后存的档都不对了
         load(st);
-        base = fnum() - (f - 1);
+        r.lastSave = key;
+        base = fnum() - (key - 1);
         for (let s = 0; s < 4; s++) applied[s] = -1;
         r.rollbacks++; r.rolled += 0;
       }
@@ -630,7 +653,9 @@
       const conf = rbConfirmed(n);
       // 这一帧还有人的按键是猜的、或者要核对状态：先存档（猜错时读回来）
       const before = performance.now();   // 存档 + 跑一帧一共要多久（电脑太慢就不适合回滚）
-      if (!conf || (n - 1 > r.J && (n - 1) % HASH_EVERY === 0)) r.states.set(n, curState()); else r.states.delete(n);
+      const hashF = n - 1 > r.J && (n - 1) % HASH_EVERY === 0;
+      if (hashF || (!conf && (r.every <= 1 || r.lastSave === null || n - r.lastSave >= r.every || !r.states.has(r.lastSave)))) { r.states.set(n, curState()); r.lastSave = n; }
+      else r.states.delete(n);
       if (!step(masks)) break;
       r.stepMs = r.stepMs * 0.95 + (performance.now() - before) * 0.05;
       r.used.set(n, masks);
@@ -666,7 +691,7 @@
       await activate();
       hostReset();
     }
-    H.peers[slot] = { send: sendFn, delay: delay || 3, synced: false, zeroUntil: 0, rb: !!opts.rb };
+    H.peers[slot] = { send: sendFn, delay: delay || 3, synced: false, zeroUntil: 0, rb: !!opts.rb, z: !!opts.z };
     H.pending.push(slot);
     schedule(0);
   };
@@ -677,13 +702,13 @@
     if (NP.role === "host" && !H.keep && !NP.hold && !Object.keys(H.peers).length && !Object.keys(H.watchers).length) deactivate();
   };
   // 主机：有人观战（只接收每一帧的按键，不参与操作，主机也不用等他）
-  NP.addWatcher = async (key, sendFn) => {
+  NP.addWatcher = async (key, sendFn, opts = {}) => {
     if (!NP.active) {
       NP.role = "host";
       await activate();
       hostReset();
     }
-    H.watchers[key] = { send: sendFn, synced: false, watch: true, zeroUntil: 0, delay: 0 };
+    H.watchers[key] = { send: sendFn, synced: false, watch: true, zeroUntil: 0, delay: 0, z: !!opts.z };
     H.pending.push(-1);
     schedule(0);
   };

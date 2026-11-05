@@ -779,5 +779,6 @@
 "刷新": "Actualizar",
 "已复制": "Copiado",
 "请手动全选复制": "Selecciona todo y copia",
-"点一下可以看联机诊断。": "Haz clic para ver el diagnóstico de conexión."
+"点一下可以看联机诊断。": "Haz clic para ver el diagnóstico de conexión.",
+"这个游戏的存档太大，用不了回滚模式，这局用延迟模式": "El estado guardado de este juego es demasiado grande para el modo rollback; esta partida usa el modo con retraso"
 }

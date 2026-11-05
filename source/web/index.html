@@ -847,7 +847,7 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.6</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.7</div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
@@ -2460,6 +2460,9 @@ setInterval(async () => {
   contShotAt = Date.now() + (IS_TOUCH || ANDROID_APP ? 30000 : 10000);
   if (mpGuest && (mpGuest.watch || !mpGuest.sync)) return;
   const np = hostNet(); if (np && np.active && np.isPaused && np.isPaused()) return;
+  // 联机中（按键同步）：不定时截图。截图要开一会儿视频流，联机时任何一方顿一下，另一方就得等。
+  // 只在刚开始联机时截一张（继续的封面用），之后等退出再说
+  if (contNetBusy() && contShot && contShot.key === gameKey(g)) return;
   let fw, cv;
   try { fw = f.contentWindow; cv = fw.document.querySelector("#game canvas"); } catch (e) { return; }
   if (!cv || !cv.width || !cv.height) return;
@@ -2508,7 +2511,9 @@ function contSaveNow() {
   const img = contShot && contShot.key === key ? contShot.url : (contRun && contRun.g === g ? contRun.rec.img : "");
   contPut({ key, title: g.title, system: g.system, time: Date.now(), ver: APP_VERSION, core, img, players, mySlot, state });
 }
-setInterval(() => { if (playingGame && !document.hidden) contSaveNow(); }, 120000);
+// 联机中（按键同步）：不定时存（大的游戏一次要存 10 MB，会顿一下，对方就得等）。退出游戏、对方断线时照样会存
+const contNetBusy = () => !!((mpGuest && mpGuest.sync) || (mpHost && mpHost.peers && [...mpHost.peers.values()].some(p => p.sync)));
+setInterval(() => { if (playingGame && !document.hidden && !contNetBusy()) contSaveNow(); }, 120000);
 document.addEventListener("visibilitychange", () => { if (document.hidden && playingGame && stage.querySelector("iframe")) contSaveNow(); });
 window.addEventListener("pagehide", () => { if (playingGame && stage.querySelector("iframe")) contSaveNow(); });
 
@@ -4987,11 +4992,11 @@ async function hostAcceptSync(m) {
     if (d.t === "ping") { dc.send(JSON.stringify({ t: "pong", ts: d.ts })); return; }
     const sendFn = msg => { if (dc.readyState === "open") dc.send(JSON.stringify(msg)); };
     if (d.t === "hello") {
-      if (peer.watch) { net.addWatcher(peer.cid, sendFn); return; }
+      if (peer.watch) { net.addWatcher(peer.cid, sendFn, { z: !!d.z }); return; }
       // 我（这台手机）跑这个游戏比较慢，乱入的是快的电脑：同步好以后把游戏交给他运行
       peer.ho = d.slow === false && d.touch === false && hoEligible(peer);   // 只交给电脑（不交给另一台手机）
       if (net.setMode) net.setMode(hostNetMode());   // 回滚模式要所有人都支持（d.rb），不然自动用延迟模式
-      net.addPeer(peer.slot, d.delay, sendFn, { rb: !!d.rb });
+      net.addPeer(peer.slot, d.delay, sendFn, { rb: !!d.rb, z: !!d.z });
       return;
     }
     if (!peer.watch) net.peerMessage(peer.slot, d);
@@ -5402,7 +5407,8 @@ async function guestHello() {
   const rtt = rtts[rtts.length - 2];
   const delay = Math.max(2, Math.min(12, Math.ceil(rtt / 16.7) + 2));
   me.delay = delay;
-  me.dc.send(JSON.stringify({ t: "hello", delay, watch: !!me.watch, slow: deviceSlow(me.g), touch: IS_TOUCH, rb: deviceSlow(me.g) ? 0 : 1 }));
+  // z：我会解压（主机发游戏进度时可以先压缩，大的游戏能小几十倍）
+  me.dc.send(JSON.stringify({ t: "hello", delay, watch: !!me.watch, slow: deviceSlow(me.g), touch: IS_TOUCH, rb: deviceSlow(me.g) ? 0 : 1, z: 1 }));
 }
 async function guestAnswer(sdp, voice = []) {
   if (!mpGuest) return;
@@ -6439,6 +6445,7 @@ async function play(g, opts = {}) {
 <style>html,body{margin:0;height:100%;background:transparent;overflow:hidden}#game{width:100%;height:100%}#game.ejs_parent,#game .ejs_game{background:transparent!important}</style>
 <style>${vpadCss(dataPath)}${vpadRoomCss(g)}${vpadBodyCss(g, dataPath)}</style>
 </head><body><div id="game"></div>
+<script src="${dataPath}fflate.js"><\/script>
 <script src="${dataPath}netplay.js"><\/script>
 <script>
   // 安卓 App 里：手柄状态向页面要（页面再向 App 要）
@@ -7445,7 +7452,7 @@ window.cheatLibOpen = cheatLibOpen;
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.3.6";
+const APP_VERSION = "1.3.7";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",
