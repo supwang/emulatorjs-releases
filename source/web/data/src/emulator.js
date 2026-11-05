@@ -1141,14 +1141,18 @@ class EmulatorJS {
             if (!this.gamepadLabels) return;
             for (let i = 0; i < this.gamepadSelection.length; i++) {
                 if (this.gamepadSelection[i] === "") {
-                    this.gamepadSelection[i] = this.gamepad.gamepads[e.gamepadIndex].id + "_" + this.gamepad.gamepads[e.gamepadIndex].index;
+                    // 手柄的编号（index）不一定等于它在列表里的位置（比如只连了一个手柄，系统却给它编号 1）：按编号找
+                    const pad = this.gamepad.gamepads.find(p => p && p.index === e.gamepadIndex);
+                    if (!pad) break;
+                    this.gamepadSelection[i] = pad.id + "_" + pad.index;
                     break;
                 }
             }
             this.updateGamepadLabels();
         })
         this.gamepad.on("disconnected", (e) => {
-            const gamepadIndex = this.gamepad.gamepads.indexOf(this.gamepad.gamepads.find(f => f.index == e.gamepadIndex));
+            const gamepadIndex = this.gamepad.gamepads.indexOf(this.gamepad.gamepads.find(f => f && f.index == e.gamepadIndex));
+            if (gamepadIndex < 0) return;
             const gamepadSelection = this.gamepad.gamepads[gamepadIndex].id + "_" + this.gamepad.gamepads[gamepadIndex].index;
             for (let i = 0; i < this.gamepadSelection.length; i++) {
                 if (this.gamepadSelection[i] === gamepadSelection) {
@@ -3353,7 +3357,10 @@ class EmulatorJS {
     }
     gamepadEvent(e) {
         if (!this.started) return;
-        const gamepadIndex = this.gamepadSelection.indexOf(this.gamepad.gamepads[e.gamepadIndex].id + "_" + this.gamepad.gamepads[e.gamepadIndex].index);
+        // 按手柄编号找（编号不一定等于在列表里的位置，比如 Mac 上常见只有一个手柄、编号却是 1）
+        const pad = this.gamepad.gamepads.find(p => p && p.index === e.gamepadIndex);
+        if (!pad) return;
+        const gamepadIndex = this.gamepadSelection.indexOf(pad.id + "_" + pad.index);
         if (gamepadIndex < 0) {
             return; // Gamepad not set anywhere
         }

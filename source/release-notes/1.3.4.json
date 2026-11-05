@@ -1,0 +1,32 @@
+{
+ "zh-CN": [
+  "修好了手柄在有的电脑上完全没反应的问题（常见于 Mac 连 Xbox 手柄）：只有左摇杆能用，其他按键在游戏里和「控制设置」里都按不上"
+ ],
+ "zh-TW": [
+  "修好了手把在有的電腦上完全沒反應的問題（常見於 Mac 連 Xbox 手把）：只有左搖桿能用，其他按鍵在遊戲裡和「控制設定」裡都按不上"
+ ],
+ "en": [
+  "Fixed gamepads not responding at all on some computers (common with an Xbox controller on a Mac): only the left stick worked, and no other button worked in games or in “Control Settings”"
+ ],
+ "ja": [
+  "一部のコンピューターでコントローラーがまったく反応しない問題を修正（Mac に Xbox コントローラーをつないだときによく起きていました）：左スティックしか使えず、ほかのボタンはゲーム中も「コントロール設定」でも効きませんでした"
+ ],
+ "ko": [
+  "일부 컴퓨터에서 게임패드가 전혀 반응하지 않던 문제를 고쳤습니다(Mac에 Xbox 컨트롤러를 연결했을 때 자주 발생): 왼쪽 스틱만 되고 다른 버튼은 게임에서도 ‘컨트롤 설정’에서도 먹히지 않았습니다"
+ ],
+ "es": [
+  "Corregido que el mando no respondía en algunos ordenadores (habitual con un mando de Xbox en Mac): solo funcionaba el stick izquierdo y ningún otro botón, ni en los juegos ni en «Configuración de controles»"
+ ],
+ "fr": [
+  "Correction des manettes qui ne réagissaient pas du tout sur certains ordinateurs (fréquent avec une manette Xbox sur Mac) : seul le stick gauche marchait, aucun autre bouton ni en jeu ni dans « Paramètres des contrôles »"
+ ],
+ "de": [
+  "Behoben, dass Gamepads auf manchen Computern gar nicht reagierten (häufig mit Xbox-Controller am Mac): Nur der linke Stick ging, keine andere Taste – weder im Spiel noch in den „Steuerungseinstellungen“"
+ ],
+ "pt": [
+  "Corrigido o controle que não respondia em alguns computadores (comum com controle Xbox no Mac): só o analógico esquerdo funcionava, nenhum outro botão, nem nos jogos nem em “Configurações de controle”"
+ ],
+ "ru": [
+  "Исправлено: на некоторых компьютерах геймпад совсем не реагировал (часто с контроллером Xbox на Mac) — работал только левый стик, остальные кнопки не работали ни в игре, ни в «Настройках управления»"
+ ]
+}

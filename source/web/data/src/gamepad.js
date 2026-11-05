@@ -33,7 +33,8 @@ class GamepadHandler {
         return navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
     }
     loop() {
-        this.updateGamepadState();
+        // 出错也要接着读手柄：以前一出错整个循环就停了，之后手柄所有按键都没反应
+        try { this.updateGamepadState(); } catch (e) { console.warn("gamepad:", e); }
         this.timeout = setTimeout(this.loop.bind(this), 10);
     }
     updateGamepadState() {
