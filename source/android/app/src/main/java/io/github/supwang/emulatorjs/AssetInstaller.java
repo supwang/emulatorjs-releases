@@ -1,4 +1,4 @@
-package site.couchvs.emulatorjs;
+package io.github.supwang.emulatorjs;
 
 import android.content.Context;
 import android.content.res.AssetManager;

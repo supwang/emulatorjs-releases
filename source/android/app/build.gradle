@@ -11,10 +11,10 @@ def parts = ver.tokenize(".").collect { it.toInteger() }
 def abis = (project.findProperty("ejsAbis") ?: "arm64-v8a,armeabi-v7a").toString().tokenize(",")
 
 android {
-    namespace "site.couchvs.emulatorjs"
+    namespace "io.github.supwang.emulatorjs"
     compileSdk 34
     defaultConfig {
-        applicationId "site.couchvs.emulatorjs"
+        applicationId "io.github.supwang.emulatorjs"
         minSdk 24
         // 29 on purpose: the app reads ROM folders (phone storage, USB drives on a TV) by their normal paths,
         // which Android only allows apps aimed at Android 10 or earlier. The app still runs on newer Android.

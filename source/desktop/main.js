@@ -14,7 +14,7 @@ app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
 // computers without working graphics acceleration (old PCs, virtual machines) still get WebGL through
 // Chromium's software renderer; only our own local page is ever shown, so this is safe here
 app.commandLine.appendSwitch("enable-unsafe-swiftshader");
-if (process.platform === "win32") app.setAppUserModelId("site.couchvs.emulatorjs");
+if (process.platform === "win32") app.setAppUserModelId("io.github.supwang.emulatorjs");
 
 const WEB_DIR = app.isPackaged ? path.join(process.resourcesPath, "web") : path.join(__dirname, "..", "web");
 const CONFIG_FILE = path.join(app.getPath("userData"), "config.json");

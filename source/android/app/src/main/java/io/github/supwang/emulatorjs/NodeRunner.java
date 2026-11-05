@@ -1,4 +1,4 @@
-package site.couchvs.emulatorjs;
+package io.github.supwang.emulatorjs;
 
 /** Runs Node.js (nodejs-mobile) once per app process, on its own thread with a big stack. */
 final class NodeRunner {

@@ -9,10 +9,10 @@ APK=$(ls ../app/build/outputs/apk/debug/*.apk | head -1)
 fail() {
   echo "TEST FAILED: $1"
   adb logcat -d -s EJS EJS-node EJS-page AndroidRuntime:E chromium:E > "$OUT"/logcat.txt
-  adb logcat -d | grep -iE "couchvs|EJS|libnode|FATAL|UnsatisfiedLink|DEBUG  :" | tail -150 > "$OUT"/logcat-app.txt
-  adb shell dumpsys activity activities | grep -E "topResumedActivity|mResumedActivity|couchvs" | head -10 > "$OUT"/activities.txt
-  adb shell pidof site.couchvs.emulatorjs > "$OUT"/pid.txt
-  adb shell ls -la /data/data/site.couchvs.emulatorjs/files 2>&1 | head > "$OUT"/files.txt
+  adb logcat -d | grep -iE "supwang|EJS|libnode|FATAL|UnsatisfiedLink|DEBUG  :" | tail -150 > "$OUT"/logcat-app.txt
+  adb shell dumpsys activity activities | grep -E "topResumedActivity|mResumedActivity|supwang" | head -10 > "$OUT"/activities.txt
+  adb shell pidof io.github.supwang.emulatorjs > "$OUT"/pid.txt
+  adb shell ls -la /data/data/io.github.supwang.emulatorjs/files 2>&1 | head > "$OUT"/files.txt
   adb exec-out screencap -p > "$OUT"/fail.png
   exit 1
 }
@@ -26,7 +26,7 @@ adb push test.nes /sdcard/EmulatorJS/roms/nes/test.nes
 adb logcat -c
 # Android's one-time "Viewing full screen" hint takes the keys until someone taps "Got it": mark it as seen
 adb shell settings put secure immersive_mode_confirmations confirmed
-adb shell am start -n site.couchvs.emulatorjs/.MainActivity
+adb shell am start -n io.github.supwang.emulatorjs/.MainActivity
 # first start unpacks the game files, then the server starts
 ok=""
 for i in $(seq 1 150); do
@@ -41,7 +41,7 @@ echo "== config"; curl -s http://127.0.0.1:28765/api/config | head -c 600; echo
 curl -s "http://127.0.0.1:28765/api/list?root=roms" | grep -q "nes/test.nes" || fail "ROM folder not found"
 echo "== folder browser"; curl -s "http://127.0.0.1:28765/api/dirs" | head -c 600; echo
 sleep 8
-PID=$(adb shell pidof site.couchvs.emulatorjs | tr -d '\r')
+PID=$(adb shell pidof io.github.supwang.emulatorjs | tr -d '\r')
 SOCK=$(adb shell cat /proc/net/unix | grep -o "webview_devtools_remote_$PID" | head -1)
 [ -n "$SOCK" ] || fail "no WebView debugging socket"
 adb forward tcp:19222 localabstract:$SOCK
@@ -79,9 +79,9 @@ adb logcat -d -s EJS EJS-node EJS-page AndroidRuntime > "$OUT"/logcat.txt
 # Closed (or updated, or crashed) and opened again: the server has to start again. An old port.txt left on disk
 # used to make the app open the page with no server behind it ("net::ERR_CONNECTION_REFUSED").
 for how in force-stop update; do
-  if [ "$how" = update ]; then adb install -r -g "$APK" || fail "install over the old version"; else adb shell am force-stop site.couchvs.emulatorjs; fi
+  if [ "$how" = update ]; then adb install -r -g "$APK" || fail "install over the old version"; else adb shell am force-stop io.github.supwang.emulatorjs; fi
   sleep 2
-  adb shell am start -n site.couchvs.emulatorjs/.MainActivity
+  adb shell am start -n io.github.supwang.emulatorjs/.MainActivity
   ok=""
   for i in $(seq 1 60); do
     sleep 2
@@ -90,7 +90,7 @@ for how in force-stop update; do
   done
   [ -n "$ok" ] || fail "server did not start again after $how"
   sleep 8
-  PID=$(adb shell pidof site.couchvs.emulatorjs | tr -d '\r')
+  PID=$(adb shell pidof io.github.supwang.emulatorjs | tr -d '\r')
   SOCK=$(adb shell cat /proc/net/unix | grep -o "webview_devtools_remote_$PID" | head -1)
   [ -n "$SOCK" ] || fail "no WebView debugging socket after $how"
   adb forward --remove tcp:19222 >/dev/null 2>&1; adb forward tcp:19222 localabstract:$SOCK

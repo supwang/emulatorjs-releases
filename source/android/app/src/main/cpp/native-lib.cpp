@@ -30,7 +30,7 @@ static void startLogger() {
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_site_couchvs_emulatorjs_NodeRunner_startNode(JNIEnv *env, jclass, jobjectArray arguments) {
+Java_io_github_supwang_emulatorjs_NodeRunner_startNode(JNIEnv *env, jclass, jobjectArray arguments) {
     jsize argc = env->GetArrayLength(arguments);
     // Node wants all arguments in one block of memory
     size_t total = 0;

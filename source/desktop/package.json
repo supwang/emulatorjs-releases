@@ -1,7 +1,7 @@
 {
   "name": "emulatorjs-desktop",
   "productName": "EmulatorJS",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "EmulatorJS retro game arcade with LAN and internet play",
   "author": "Supwang",
   "license": "GPL-3.0",
@@ -18,7 +18,7 @@
     "electron-builder": "26.15.3"
   },
   "build": {
-    "appId": "site.couchvs.emulatorjs",
+    "appId": "io.github.supwang.emulatorjs",
     "productName": "EmulatorJS",
     "directories": { "output": "dist", "buildResources": "build" },
     "files": ["main.js", "server.js", "updater.js", "package.json"],
@@ -33,6 +33,7 @@
       "icon": "../web/data/icon.ico"
     },
     "nsis": {
+      "guid": "e54a7753-f66e-5a0c-9b85-504ba493bb5f",
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
@@ -45,7 +46,7 @@
     },
     "mac": {
       "target": [{ "target": "dir", "arch": ["arm64", "x64"] }],
-      "icon": "../web/data/icon.png",
+      "icon": "icons/icon.icns",
       "category": "public.app-category.games",
       "identity": null,
       "hardenedRuntime": false,

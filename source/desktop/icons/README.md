@@ -1,0 +1,2 @@
+Mac app icon. Made from `../web/data/icon.png` with `make_icns.py` (python3 make_icns.py ../../web/data/icon.png icon.icns): 16 and 32 pixel sizes use Apple's classic format (is32/il32 + s8mk/l8mk masks), larger sizes are PNG.
+Do not let electron-builder convert the PNG itself: it stores 16/32 px as PNG (icp4/icp5), and some places in macOS (System Settings › Local Network list) show those as garbled pixels.

@@ -36,6 +36,14 @@
     gm = window.EJS_emulator.gameManager;
     if (gm.__npHooked) return;
     gm.__npHooked = true;
+    // 模拟器读档时会去读存档文件：读到了，才说明档真的读进去了（见 load / step）
+    try {
+      const FS = gm.FS, oRead = FS.read;
+      if (typeof oRead === "function") FS.read = function (stream) {
+        if (pendingLoad && !loadRead && stream && /game\.state$/.test(String(stream.path || ""))) { loadRead = true; loadAfterRun = fnum() > stepFrom; }
+        return oRead.apply(this, arguments);
+      };
+    } catch (e) {}
     const orig = gm.simulateInput.bind(gm);
     gm.simulateInput = (player, index, value) => {
       if (!NP.active) {
@@ -74,19 +82,38 @@
     }
   }
   // 跑一帧：成功返回 true（模拟器还在处理上一帧的收尾时会失败，下次再试）
+  // 模拟器读档不是马上生效的：它在接下来的第 1 或第 2 帧里才去读存档文件，读的时机可能在那一帧的游戏运行之前，也可能在之后。
+  // （以前以为马上生效：回滚模式开始前的自检会把乱入的人自己原来的游戏当成主机的存进去再读回来，两边从此各玩各的；
+  //   回滚时存的「这一帧的状态」也可能差一帧）
+  // 所以：读档后，档还没读进去之前跑的帧都不算；读存档文件的那一刻看帧数有没有加 1：
+  // 已经加了 = 这一帧先跑完、档才读进去（这一帧不算，下一帧从档开始跑）；还没加 = 档先读进去、这一帧从档开始跑（算数）
+  let pendingLoad = null, loadRead = false, loadAfterRun = false, stepFrom = 0;
+  function load(st) {
+    loadRead = false; loadAfterRun = false;
+    pendingLoad = st;
+    internalLoad = true;
+    try { gm.loadState(st); } finally { internalLoad = false; }
+  }
+  const curState = () => pendingLoad || gm.getState();
   function step(masks) {
     const cb = held;
     if (!cb) return false;
     apply(masks);
     const b = fnum();
+    stepFrom = b;
     held = null;
     cb(performance.now());
-    return fnum() > b;
+    const ran = fnum() > b;
+    if (!pendingLoad) return ran;
+    if (loadRead && !loadAfterRun) { pendingLoad = null; return ran; }   // 档先读进去：这一帧从档开始跑，算数
+    if (loadRead) pendingLoad = null;                                    // 这一帧跑完才读进去：下一帧从档开始
+    if (ran) base += fnum() - b;                                         // 这一帧跑的是读档前的游戏：不算
+    return false;
   }
   // 把即时存档分成 64 块，每块算一个指纹；只有少数几块对不上时，可能只是声音缓冲之类的无关数据
   // skip：不比较的块（回滚模式：这台电脑自己测出来、读档后会变的无关数据），记成 x
   function stateHash(st, skip) {
-    const s = st || gm.getState();
+    const s = st || curState();
     const n = 64, size = Math.ceil(s.length / n), out = [];
     for (let b = 0; b < n; b++) {
       if (skip && skip.has(b)) { out.push("x"); continue; }
@@ -160,9 +187,8 @@
     if (RB.on) rbStop();
     const rb = rbWanted();
     const J = executed();
-    const raw = gm.getState();
-    internalLoad = true;
-    try { gm.loadState(raw); } finally { internalLoad = false; }
+    const raw = curState();
+    load(raw);
     for (let s = 0; s < 4; s++) applied[s] = -1;
     const st = toB64(raw);
     const k = Math.random().toString(36).slice(2, 8);
@@ -262,9 +288,15 @@
       rbPeerInfo(Number(slot), msg);
       return schedule(0);
     }
-    if (msg.t === "h" && RB.on && !msg.rbChecked) return rbHashFromGuest(slot, msg);
+    if (msg.t === "h" && RB.on && !msg.rbChecked) {
+      // 旧版本的乱入者：回滚自检把一大半数据当成无关数据跳过，核对不出两边已经不一样了。这局改用延迟模式
+      const skipped = String(msg.h || "").split(",").filter(x => x === "x").length;
+      if (skipped > RB_NOISE_MAX) { onEvent("rbUnstable", { slot: Number(slot) }); return; }
+      return rbHashFromGuest(slot, msg);
+    }
     if (msg.t === "rresync") { if (!H.pending.length) H.pending.push(-1); rbUnstableCheck(); return; }
     if (msg.t === "rbslow") { onEvent("rbSlow", { slot: Number(slot) }); return; }
+    if (msg.t === "rbbad") { onEvent("rbUnstable", { slot: Number(slot) }); return; }
     if (msg.t === "i") {
       if (msg.f > executed() && !H.decided.has(msg.f)) hostRow(msg.f)[slot] = msg.m | 0;
       schedule(0);
@@ -370,8 +402,7 @@
     } else if (msg.t === "sync") {
       const st = fromB64((G.parts[msg.k] || []).join(""));
       delete G.parts[msg.k];
-      internalLoad = true;
-      try { gm.loadState(st); } finally { internalLoad = false; }
+      load(st);
       base = fnum() - msg.f;
       for (let s = 0; s < 4; s++) applied[s] = -1;   // 读档后：所有按键重新告诉模拟器
       G.delay = msg.d;
@@ -425,23 +456,31 @@
   }
   // 有些模拟核心读档以后，存档里有几块无关的数据（声音、计时之类）会和没读过档时不一样，游戏本身没变。
   // 开始前自己试四次「跑一帧 → 读回去 → 再跑一帧」，找出这几块，核对状态时跳过它们（不然会一直误报「对不上」）
+  // 真正的「无关数据」只有一两块；一下子冒出好几块，说明读档后游戏本身就跑得不一样了
+  // （有的街机游戏，读别的电脑的存档时有些内部状态没读进去）。这时不能把它们当无关数据跳过——
+  // 跳过了就核对不出两边的游戏已经不一样（以前出过：两边一个在关卡里一个在选人，却一直显示正常）。改回延迟模式，靠核对 + 重新对齐保证一致
+  const RB_NOISE_MAX = 4;
   function rbCalibrate() {
     const r = RB, c = r.calib;
+    if (!c.found) c.found = new Set();
     try {
-      if (!c.S) c.S = gm.getState();
+      if (!c.S) c.S = curState();
       while (c.i < 4) {
         if (!step([0, 0, 0, 0])) return false;   // 模拟器还没准备好跑下一帧：等一下再试
-        const st = gm.getState();
-        internalLoad = true;
-        try { gm.loadState(c.S); } finally { internalLoad = false; }
+        const st = curState();
+        load(c.S);
         for (let s = 0; s < 4; s++) applied[s] = -1;
         if (!c.X) { c.X = st; continue; }
         const a = stateHash(c.X).split(","), b = stateHash(st).split(",");
-        a.forEach((v, k) => { if (v !== b[k]) r.noise.add(k); });
+        a.forEach((v, k) => { if (v !== b[k]) c.found.add(k); });
         c.X = null; c.i++;
       }
     } catch (e) { console.warn("[netplay] calibrate", e); }
     r.calib = null;
+    if (c.found.size > RB_NOISE_MAX || r.noise.size + c.found.size > RB_NOISE_MAX) {
+      console.warn("[netplay] rollback: state not repeatable after loading (" + c.found.size + " blocks), using delay mode");
+      if (NP.role === "host") onEvent("rbUnstable"); else send({ t: "rbbad" });
+    } else c.found.forEach(k => r.noise.add(k));
     base = fnum() - r.J;
     for (let s = 0; s < 4; s++) applied[s] = -1;
     r.t0 = performance.now();
@@ -562,8 +601,7 @@
       r.rollTo = null;
       if (f <= executed()) {
         if (!st) { onEvent("desync", { frame: f, rb: true }); if (NP.role === "host") { if (!H.pending.length) H.pending.push(-1); } else send({ t: "rresync" }); return schedule(50); }
-        internalLoad = true;
-        try { gm.loadState(st); } finally { internalLoad = false; }
+        load(st);
         base = fnum() - (f - 1);
         for (let s = 0; s < 4; s++) applied[s] = -1;
         r.rollbacks++; r.rolled += 0;
@@ -592,7 +630,7 @@
       const conf = rbConfirmed(n);
       // 这一帧还有人的按键是猜的、或者要核对状态：先存档（猜错时读回来）
       const before = performance.now();   // 存档 + 跑一帧一共要多久（电脑太慢就不适合回滚）
-      if (!conf || (n - 1 > r.J && (n - 1) % HASH_EVERY === 0)) r.states.set(n, gm.getState()); else r.states.delete(n);
+      if (!conf || (n - 1 > r.J && (n - 1) % HASH_EVERY === 0)) r.states.set(n, curState()); else r.states.delete(n);
       if (!step(masks)) break;
       r.stepMs = r.stepMs * 0.95 + (performance.now() - before) * 0.05;
       r.used.set(n, masks);

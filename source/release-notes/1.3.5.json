@@ -1,0 +1,62 @@
+{
+ "zh-CN": [
+  "修好了联机时两边游戏完全不一样的严重问题（回滚模式下最明显：一边在关卡里、一边还在选人，按键却是同步的）。现在两边一定是同一局；万一这个游戏用回滚模式对不上，会自动改回延迟模式",
+  "修好了手柄在有的电脑上完全没反应的问题（常见于 Mac 连 Xbox 手柄）：只有左摇杆能用，其他按键在游戏里和「控制设置」里都按不上",
+  "Mac：系统设置里（比如「本地网络」列表）EmulatorJS 的小图标不再是乱码",
+  "安卓：这一版起 App 换了新的标识，会作为一个新 App 安装。装好后请卸载旧的 EmulatorJS；手机里 EmulatorJS 文件夹的游戏都还在，但 App 里的设置和「继续」进度要重新来。Mac 第一次打开时会重新询问本地网络权限，点「允许」即可"
+ ],
+ "zh-TW": [
+  "修好了連線時兩邊遊戲完全不一樣的嚴重問題（回滾模式下最明顯：一邊在關卡裡、一邊還在選人，按鍵卻是同步的）。現在兩邊一定是同一局；萬一這個遊戲用回滾模式對不上，會自動改回延遲模式",
+  "修好了手把在有的電腦上完全沒反應的問題（常見於 Mac 連 Xbox 手把）：只有左搖桿能用，其他按鍵在遊戲裡和「控制設定」裡都按不上",
+  "Mac：系統設定裡（例如「本機網路」列表）EmulatorJS 的小圖示不再是亂碼",
+  "Android：這一版起 App 換了新的識別碼，會作為一個新 App 安裝。裝好後請解除安裝舊的 EmulatorJS；手機裡 EmulatorJS 資料夾的遊戲都還在，但 App 裡的設定和「繼續」進度要重新來。Mac 第一次開啟時會重新詢問本機網路權限，點「允許」即可"
+ ],
+ "en": [
+  "Fixed a serious online play problem where the two sides ended up in completely different games (most visible in rollback mode: one side in a stage, the other still choosing characters, with the buttons still shared). Both sides now always play the same game; if rollback can't keep a game in step, it switches to delay mode by itself",
+  "Fixed gamepads not responding at all on some computers (common with an Xbox controller on a Mac): only the left stick worked, and no other button worked in games or in “Control Settings”",
+  "Mac: the small EmulatorJS icon in System Settings (for example the Local Network list) is no longer garbled",
+  "Android: from this version the app has a new identifier, so it installs as a new app. Uninstall the old EmulatorJS afterwards; the games in the EmulatorJS folder on your phone stay, but the app's settings and “Continue” progress start fresh. On a Mac, the first start asks for local network access again: click “Allow”"
+ ],
+ "ja": [
+  "オンライン対戦で両側がまったく別のゲームになってしまう重大な問題を修正（ロールバックモードで顕著：片方はステージ中、もう片方はキャラ選択のまま、ボタンだけ同期）。両側は必ず同じゲームになり、ロールバックで揃えられないゲームは自動で遅延モードに切り替わります",
+  "一部のコンピューターでコントローラーがまったく反応しない問題を修正（Mac に Xbox コントローラーをつないだときによく起きていました）",
+  "Mac：システム設定（「ローカルネットワーク」の一覧など）での EmulatorJS の小さいアイコンが崩れなくなりました",
+  "Android：このバージョンからアプリの識別子が変わり、新しいアプリとしてインストールされます。インストール後、古い EmulatorJS は削除してください。スマホの EmulatorJS フォルダのゲームはそのままですが、アプリの設定と「続きから」の進行はリセットされます。Mac では初回起動時にローカルネットワークの許可を再度求められるので「許可」を押してください"
+ ],
+ "ko": [
+  "온라인 대전에서 양쪽 게임이 완전히 달라지던 심각한 문제를 고쳤습니다(롤백 모드에서 두드러짐: 한쪽은 스테이지, 다른 쪽은 캐릭터 선택인데 버튼만 동기화). 이제 양쪽은 항상 같은 게임이며, 롤백으로 맞출 수 없는 게임은 자동으로 지연 모드로 바뀝니다",
+  "일부 컴퓨터에서 게임패드가 전혀 반응하지 않던 문제를 고쳤습니다(Mac에 Xbox 컨트롤러를 연결했을 때 자주 발생)",
+  "Mac: 시스템 설정(예: ‘로컬 네트워크’ 목록)의 EmulatorJS 작은 아이콘이 더 이상 깨지지 않습니다",
+  "Android: 이번 버전부터 앱 식별자가 바뀌어 새 앱으로 설치됩니다. 설치 후 예전 EmulatorJS는 삭제하세요. 휴대폰 EmulatorJS 폴더의 게임은 그대로지만 앱 설정과 ‘이어하기’ 진행은 새로 시작합니다. Mac은 처음 실행할 때 로컬 네트워크 권한을 다시 묻습니다. ‘허용’을 누르세요"
+ ],
+ "es": [
+  "Corregido un problema grave del juego en línea: los dos lados acababan en partidas totalmente distintas (sobre todo en modo rollback: uno en una fase y el otro eligiendo personajes, con los botones compartidos). Ahora ambos juegan siempre la misma partida; si el rollback no puede mantener un juego sincronizado, pasa solo al modo con retraso",
+  "Corregido que el mando no respondía en algunos ordenadores (habitual con un mando de Xbox en Mac)",
+  "Mac: el icono pequeño de EmulatorJS en Ajustes del Sistema (por ejemplo, la lista de Red local) ya no sale corrupto",
+  "Android: desde esta versión la app tiene un identificador nuevo y se instala como una app nueva. Desinstala después la EmulatorJS antigua; los juegos de la carpeta EmulatorJS del móvil se conservan, pero los ajustes y el progreso de «Continuar» empiezan de cero. En Mac, el primer inicio vuelve a pedir acceso a la red local: pulsa «Permitir»"
+ ],
+ "fr": [
+  "Correction d'un problème grave en ligne : les deux côtés se retrouvaient dans des parties complètement différentes (surtout en mode rollback : l'un dans un niveau, l'autre encore au choix des personnages, avec les boutons partagés). Les deux côtés jouent désormais toujours la même partie ; si le rollback ne peut pas garder un jeu synchronisé, il passe tout seul en mode avec délai",
+  "Correction des manettes qui ne réagissaient pas du tout sur certains ordinateurs (fréquent avec une manette Xbox sur Mac)",
+  "Mac : la petite icône d'EmulatorJS dans Réglages Système (par exemple la liste Réseau local) n'est plus brouillée",
+  "Android : à partir de cette version, l'appli a un nouvel identifiant et s'installe comme une nouvelle appli. Désinstallez ensuite l'ancienne EmulatorJS ; les jeux du dossier EmulatorJS du téléphone restent, mais les réglages et la progression « Continuer » repartent de zéro. Sur Mac, le premier lancement redemande l'accès au réseau local : cliquez sur « Autoriser »"
+ ],
+ "de": [
+  "Schweres Online-Problem behoben: Beide Seiten landeten in völlig verschiedenen Spielen (vor allem im Rollback-Modus: eine Seite im Level, die andere noch bei der Figurenwahl, die Tasten aber geteilt). Jetzt spielen beide Seiten immer dasselbe Spiel; kann Rollback ein Spiel nicht gleich halten, wechselt es von selbst in den Verzögerungsmodus",
+  "Behoben, dass Gamepads auf manchen Computern gar nicht reagierten (häufig mit Xbox-Controller am Mac)",
+  "Mac: Das kleine EmulatorJS-Symbol in den Systemeinstellungen (z. B. Liste „Lokales Netzwerk“) ist nicht mehr verzerrt",
+  "Android: Ab dieser Version hat die App eine neue Kennung und wird als neue App installiert. Deinstalliere danach das alte EmulatorJS; die Spiele im EmulatorJS-Ordner des Handys bleiben, aber Einstellungen und „Weiterspielen“-Stände fangen neu an. Am Mac fragt der erste Start erneut nach Zugriff aufs lokale Netzwerk: auf „Erlauben“ klicken"
+ ],
+ "pt": [
+  "Corrigido um problema grave do jogo online: os dois lados acabavam em partidas totalmente diferentes (principalmente no modo rollback: um numa fase, o outro ainda escolhendo personagens, com os botões compartilhados). Agora os dois sempre jogam a mesma partida; se o rollback não conseguir manter o jogo igual, muda sozinho para o modo com atraso",
+  "Corrigido o controle que não respondia em alguns computadores (comum com controle Xbox no Mac)",
+  "Mac: o ícone pequeno do EmulatorJS nos Ajustes do Sistema (por exemplo, a lista Rede Local) não aparece mais corrompido",
+  "Android: a partir desta versão o app tem um novo identificador e é instalado como um app novo. Depois desinstale o EmulatorJS antigo; os jogos da pasta EmulatorJS do celular continuam, mas as configurações e o progresso de “Continuar” recomeçam. No Mac, a primeira abertura pede de novo acesso à rede local: clique em “Permitir”"
+ ],
+ "ru": [
+  "Исправлена серьёзная проблема игры по сети: две стороны оказывались в совершенно разных играх (особенно в режиме отката: одна сторона на уровне, другая ещё выбирает персонажей, а кнопки общие). Теперь обе стороны всегда играют одну и ту же игру; если откат не может удержать игру одинаковой, включается режим с задержкой",
+  "Исправлено: на некоторых компьютерах геймпад совсем не реагировал (часто с контроллером Xbox на Mac)",
+  "Mac: маленький значок EmulatorJS в Системных настройках (например, в списке «Локальная сеть») больше не искажён",
+  "Android: начиная с этой версии у приложения новый идентификатор, и оно ставится как новое приложение. После установки удалите старое EmulatorJS; игры в папке EmulatorJS на телефоне останутся, но настройки и прогресс «Продолжить» начнутся заново. На Mac при первом запуске снова появится запрос доступа к локальной сети: нажмите «Разрешить»"
+ ]
+}
