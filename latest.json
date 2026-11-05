@@ -1,89 +1,99 @@
 {
- "version": "1.3.2",
- "date": "2026-11-03",
- "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.3.2",
+ "version": "1.3.3",
+ "date": "2026-11-04",
+ "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.3.3",
  "baidu": "https://pan.baidu.com/s/13atBCqmTib1rGp_30279mQ?pwd=6akk",
  "baiduCode": "6akk",
  "notes": {
   "zh-CN": [
-   "联机更容易直连：连接走了「中转」时，乱入的一方也会主动再试几次直连（第 10、35、80 秒）。以前有的网络组合只有一方开局才能直连，换另一方开局就一直走中转、延迟很高，现在两边谁开局都能切回直连"
+   "联机更容易直连：修好了「再试直连」时漏发地址的问题。以前有的网络组合（比如一方是公司网络）换一方开局就一直走中转、延迟很高，现在几秒钟内就能自动切换成直连",
+   "新增「联机诊断」：点右上角的「📶 直连 / 中转」，可以看到两台电脑是怎么找路的，还能一键复制，方便排查联机问题"
   ],
   "zh-TW": [
-   "連線更容易直連：連線走了「中轉」時，亂入的一方也會主動再試幾次直連（第 10、35、80 秒）。以前有的網路組合只有一方開局才能直連，換另一方開局就一直走中轉、延遲很高，現在兩邊誰開局都能切回直連"
+   "連線更容易直連：修好了「再試直連」時漏發位址的問題。以前有的網路組合（例如一方是公司網路）換一方開局就一直走中轉、延遲很高，現在幾秒鐘內就能自動切換成直連",
+   "新增「連線診斷」：點右上角的「📶 直連 / 中轉」，可以看到兩台電腦是怎麼找路的，還能一鍵複製，方便排查連線問題"
   ],
   "en": [
-   "Direct connections succeed more often: when a connection goes through the relay, the player who joined now also retries a direct connection (after 10, 35 and 80 seconds). Some network combinations only connected directly when one particular side hosted and stayed on the slow relay otherwise; now either side can host"
+   "Direct connections work much more often: fixed retries that left out the computer's addresses. With some network combinations (for example one side on an office network) the game stayed on the slow relay when that side hosted; now it switches to a direct connection within seconds",
+   "New “Connection diagnostics”: click “📶 Direct / Relayed” at the top right to see how the two computers found a path to each other, and copy it in one click when asking for help"
   ],
   "ja": [
-   "直接つながりやすく：「中継」経由になったとき、乱入した側からも直接接続を何度か試すように（10・35・80 秒後）。一部のネットワークの組み合わせでは片方がホストのときしか直接つながらず、逆だと中継のままで遅延が大きかったのが、どちらがホストでも直接に切り替われます"
+   "直接つながりやすく：「直接接続の再試行」でアドレスが送られていなかった問題を修正。一部のネットワークの組み合わせ（片方が会社のネットワークなど）では、その側がホストすると中継のままで遅延が大きかったのが、数秒で直接接続に切り替わります",
+   "「接続の診断」を追加：右上の「📶 直結 / 中継」をクリックすると、2台がどう経路を見つけたかが見られ、ワンクリックでコピーできます"
   ],
   "ko": [
-   "직접 연결이 더 잘 됩니다: ‘중계’로 연결되면 난입한 쪽도 직접 연결을 몇 번 더 시도합니다(10·35·80초 후). 일부 네트워크 조합에서는 한쪽이 방을 만들 때만 직접 연결되고 반대면 중계로 지연이 컸는데, 이제 어느 쪽이 방을 만들어도 직접 연결로 바뀝니다"
+   "직접 연결이 훨씬 잘 됩니다: ‘직접 연결 재시도’ 때 주소가 빠지던 문제를 고쳤습니다. 일부 네트워크 조합(예: 한쪽이 회사 네트워크)에서 그쪽이 방을 만들면 중계로만 연결되어 지연이 컸는데, 이제 몇 초 안에 직접 연결로 바뀝니다",
+   "‘연결 진단’ 추가: 오른쪽 위의 ‘📶 직접 연결 / 중계’를 누르면 두 컴퓨터가 어떻게 길을 찾았는지 볼 수 있고, 한 번에 복사할 수 있습니다"
   ],
   "es": [
-   "Las conexiones directas funcionan más a menudo: si la conexión va por el relé, quien se unió también reintenta la conexión directa (a los 10, 35 y 80 segundos). Algunas combinaciones de redes solo conectaban directo cuando hospedaba un lado concreto; ahora puede hospedar cualquiera"
+   "Las conexiones directas funcionan mucho más a menudo: se corrigió que los reintentos no enviaban las direcciones del ordenador. Con algunas combinaciones de redes (por ejemplo, un lado en la red de la oficina) la partida se quedaba en el relé lento cuando ese lado hospedaba; ahora pasa a conexión directa en segundos",
+   "Nuevo «Diagnóstico de conexión»: haz clic en «📶 Directa / Por relé» arriba a la derecha para ver cómo se encontraron los dos ordenadores y cópialo con un clic al pedir ayuda"
   ],
   "fr": [
-   "Connexions directes plus fréquentes : quand la connexion passe par le relais, le joueur qui a rejoint réessaie aussi une connexion directe (après 10, 35 et 80 secondes). Certaines combinaisons de réseaux ne se connectaient en direct que si un côté précis hébergeait ; désormais n'importe lequel peut héberger"
+   "Connexions directes bien plus fréquentes : correction des nouvelles tentatives qui n'envoyaient pas les adresses de l'ordinateur. Avec certaines combinaisons de réseaux (par exemple un côté sur un réseau de bureau), la partie restait sur le relais lent quand ce côté hébergeait ; désormais elle passe en direct en quelques secondes",
+   "Nouveau « Diagnostic de connexion » : cliquez sur « 📶 Directe / Relayée » en haut à droite pour voir comment les deux ordinateurs se sont trouvés, et copiez-le en un clic pour demander de l'aide"
   ],
   "de": [
-   "Direktverbindungen klappen öfter: Läuft die Verbindung über das Relay, versucht jetzt auch der beigetretene Spieler eine Direktverbindung (nach 10, 35 und 80 Sekunden). Manche Netzkombinationen verbanden sich nur direkt, wenn eine bestimmte Seite hostete; jetzt kann jede Seite hosten"
+   "Direktverbindungen klappen viel öfter: Behoben, dass Wiederholungsversuche die Adressen des Computers nicht mitschickten. Bei manchen Netzkombinationen (z. B. eine Seite im Firmennetz) blieb das Spiel auf dem langsamen Relay, wenn diese Seite hostete; jetzt wechselt es in Sekunden zur Direktverbindung",
+   "Neu: „Verbindungsdiagnose“: Klicke oben rechts auf „📶 Direkt / Über Relay“, um zu sehen, wie die beiden Computer zueinander gefunden haben, und kopiere es mit einem Klick, wenn du Hilfe brauchst"
   ],
   "pt": [
-   "Conexões diretas funcionam mais vezes: quando a conexão vai pelo relé, quem entrou também tenta de novo a conexão direta (após 10, 35 e 80 segundos). Algumas combinações de rede só conectavam direto quando um lado específico hospedava; agora qualquer lado pode hospedar"
+   "Conexões diretas funcionam muito mais vezes: corrigido que as novas tentativas não enviavam os endereços do computador. Com algumas combinações de rede (por exemplo, um lado na rede do escritório) o jogo ficava no relé lento quando esse lado hospedava; agora muda para conexão direta em segundos",
+   "Novo “Diagnóstico da conexão”: clique em “📶 Direta / Retransmitida” no canto superior direito para ver como os dois computadores se encontraram e copie com um clique ao pedir ajuda"
   ],
   "ru": [
-   "Прямое соединение получается чаще: если связь идёт через ретранслятор, присоединившийся игрок тоже пробует прямое соединение (через 10, 35 и 80 секунд). Некоторые сочетания сетей соединялись напрямую, только когда хостом была определённая сторона; теперь хостом может быть любая"
+   "Прямое соединение получается гораздо чаще: исправлено, что повторные попытки не отправляли адреса компьютера. При некоторых сочетаниях сетей (например, одна сторона в офисной сети) игра оставалась на медленном ретрансляторе, когда хостом была эта сторона; теперь за несколько секунд переключается на прямое соединение",
+   "Новое: «Диагностика соединения»: нажмите «📶 Напрямую / Через ретранслятор» справа вверху, чтобы увидеть, как два компьютера нашли путь друг к другу, и скопируйте одним нажатием, если нужна помощь"
   ]
  },
  "files": {
   "android-x86_64": {
-   "name": "EmulatorJS-1.3.2-android-x86_64.apk",
-   "size": 72609265,
-   "sha256": "19c7565f91bf325e4e63660eea57d5f43752174b797e81bb8b6fbd7cecfbc817",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-android-x86_64.apk"
+   "name": "EmulatorJS-1.3.3-android-x86_64.apk",
+   "size": 72614425,
+   "sha256": "f9b6cd5688963b83930c10bf4ad5df05962ea68edcf761c613ad685760017de1",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.3/EmulatorJS-1.3.3-android-x86_64.apk"
   },
   "android": {
-   "name": "EmulatorJS-1.3.2-android.apk",
-   "size": 86642890,
-   "sha256": "890929caedbd9ca4da814e313c950969780360f4af8948aab57546fcdd4a6fed",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-android.apk"
+   "name": "EmulatorJS-1.3.3-android.apk",
+   "size": 86648050,
+   "sha256": "07a40b9194996fe25af4e5c744430d0066e0d4d55d08ebe9b40ad812e7a725fe",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.3/EmulatorJS-1.3.3-android.apk"
   },
   "folder": {
-   "name": "EmulatorJS-1.3.2-folder.zip",
-   "size": 56742866,
-   "sha256": "34b698e2fdfe1737bb74a1ecd1a1eb3c47bed01f790c21ae8cd92ca4f2b21f6a",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-folder.zip"
+   "name": "EmulatorJS-1.3.3-folder.zip",
+   "size": 56747996,
+   "sha256": "e1a2d8135c4cfb178cd8b6c5a7dbe178fb9c807ba7d2766088b9e17b2f91865b",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.3/EmulatorJS-1.3.3-folder.zip"
   },
   "mac-arm64": {
-   "name": "EmulatorJS-1.3.2-mac-apple-silicon.dmg",
-   "size": 199756981,
-   "sha256": "b805837602dfa314094fc216074df1fef4304ef2b49d06431612a031a8fae455",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-mac-apple-silicon.dmg"
+   "name": "EmulatorJS-1.3.3-mac-apple-silicon.dmg",
+   "size": 200031197,
+   "sha256": "e86d7e8b4afc351b8aa6ce3b91345bbd7c80f6b8d2e00639658a9fbeb9989bd5",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.3/EmulatorJS-1.3.3-mac-apple-silicon.dmg"
   },
   "mac-x64": {
-   "name": "EmulatorJS-1.3.2-mac-intel.dmg",
-   "size": 207327105,
-   "sha256": "a6b2fd0efc656cc68d7920d6b0bbefb3a692816f6995c34ee787c46b1e052da4",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-mac-intel.dmg"
+   "name": "EmulatorJS-1.3.3-mac-intel.dmg",
+   "size": 207428965,
+   "sha256": "377fbd979547eeb905a574180ca37a43af30a118e81730d326bd514130b3b63a",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.3/EmulatorJS-1.3.3-mac-intel.dmg"
   },
   "win-zip": {
-   "name": "EmulatorJS-1.3.2-win.zip",
-   "size": 208558493,
-   "sha256": "e0a778e07af5c5f804d5da449adab9bc53c57c90056aebf56593040d75481a14",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-1.3.2-win.zip"
+   "name": "EmulatorJS-1.3.3-win.zip",
+   "size": 208563433,
+   "sha256": "76af5e06bd0f41b9f11bcb1209aa0d2b1ad90b36ca8c2ef9483a3a92c69012a4",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.3/EmulatorJS-1.3.3-win.zip"
   },
   "win-setup": {
-   "name": "EmulatorJS-Setup-1.3.2.exe",
-   "size": 165774066,
-   "sha256": "f351be586d4ab7ebc8a1fba51933122fb1bb92f636422e788f84f6a7f25e13c5",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/EmulatorJS-Setup-1.3.2.exe"
+   "name": "EmulatorJS-Setup-1.3.3.exe",
+   "size": 165778113,
+   "sha256": "769da297852f8c7f741597c2c75f7dbb57cbdd2251e346b3688aa06ba350ae0b",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.3/EmulatorJS-Setup-1.3.3.exe"
   },
   "server": {
    "name": "ejs-cloud-setup.sh",
    "size": 2012514,
    "sha256": "e830ca9b514c1a24fc031ae45269c954092420ed4b623eff9340f776fb23e0b3",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.2/ejs-cloud-setup.sh"
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.3/ejs-cloud-setup.sh"
   }
  }
 }
