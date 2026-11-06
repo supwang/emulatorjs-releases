@@ -710,9 +710,11 @@ Sega Mega Drive / Mega-CD / 32X / Saturn, PS1, PSP, PC Engine и аркадны�
 
 11. Авторские права
 -------------------
-EmulatorJS — программа с открытым исходным кодом (GPL-3.0, см. файл LICENSE). Её можно бесплатно распространять,
-но нельзя использовать в коммерческих целях (аркадное ядро FBNeo запрещает коммерческое использование).
-Страница проекта: https://github.com/EmulatorJS/EmulatorJS
+Этот инструмент основан на EmulatorJS (https://github.com/EmulatorJS/EmulatorJS). EmulatorJS и этот инструмент — программы
+с открытым исходным кодом под лицензией GPL-3.0 (см. файл LICENSE). Исходный код каждой версии и список изменений,
+внесённых в EmulatorJS (MODIFICATIONS.md): https://github.com/supwang/emulatorjs-releases/tree/main/source
+У ядер эмуляторов свои лицензии: FBNeo, Genesis Plus GX, PicoDrive и Snes9x запрещают коммерческое использование;
+FCEUmm — GPL-2.0 (подробнее в MODIFICATIONS.md).
 
 Другие материалы в этом инструменте:
   - Изображения приставок: тема «Systematic» для RetroArch (libretro/retroarch-assets, автор baxysquare и др.),

@@ -780,5 +780,7 @@
 "已复制": "Copiado",
 "请手动全选复制": "Selecione tudo e copie",
 "点一下可以看联机诊断。": "Clique para ver o diagnóstico da conexão.",
-"这个游戏的存档太大，用不了回滚模式，这局用延迟模式": "O estado salvo deste jogo é grande demais para o modo rollback; esta partida usa o modo com atraso"
+"这个游戏的存档太大，用不了回滚模式，这局用延迟模式": "O estado salvo deste jogo é grande demais para o modo rollback; esta partida usa o modo com atraso",
+"基于 {0} · GPL-3.0 开源": "Baseado no {0} · código aberto, GPL-3.0",
+"源代码": "Código-fonte"
 }

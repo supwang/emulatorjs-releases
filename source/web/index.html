@@ -848,6 +848,7 @@
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
     <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.7</div>
+    <div class="stat" id="licTag" style="font-size:11px;opacity:.5"></div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
   </header>
@@ -7461,6 +7462,11 @@ const UPD_SOURCES = [
 ];
 const updModal = document.getElementById("updModal"), updBox = document.getElementById("updBox");
 const buildTagEl = document.getElementById("buildTag");
+// 版权说明（GPL-3.0 要求界面上能看到）：基于 EmulatorJS，开源，源代码在哪里
+document.getElementById("licTag").innerHTML = escapeHtml(L("基于 {0} · GPL-3.0 开源", "\u0001")).replace("\u0001",
+  '<a href="https://github.com/EmulatorJS/EmulatorJS" target="_blank" rel="noopener" style="color:inherit">EmulatorJS</a>')
+  + ' · <a href="https://github.com/supwang/emulatorjs-releases/tree/main/source" target="_blank" rel="noopener" style="color:inherit">'
+  + escapeHtml(L("源代码")) + "</a>";
 const UPD = { latest: null, kind: "", auto: false, st: { status: "idle" }, poll: null, shown: false, waiting: false };
 const updLocal = ["127.0.0.1", "localhost", "[::1]", "::1"].includes(location.hostname);   // 手机用局域网地址打开别人电脑的页面时不提示
 const updGet = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };

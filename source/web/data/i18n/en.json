@@ -780,5 +780,7 @@
 "已复制": "Copied",
 "请手动全选复制": "Please select all and copy",
 "点一下可以看联机诊断。": "Click for connection diagnostics.",
-"这个游戏的存档太大，用不了回滚模式，这局用延迟模式": "This game's save state is too large for rollback mode, using delay mode for this match"
+"这个游戏的存档太大，用不了回滚模式，这局用延迟模式": "This game's save state is too large for rollback mode, using delay mode for this match",
+"基于 {0} · GPL-3.0 开源": "Based on {0} · open source, GPL-3.0",
+"源代码": "Source code"
 }

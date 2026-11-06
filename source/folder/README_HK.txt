@@ -616,8 +616,11 @@ PC Engine、街機 (FBNeo / MAME 2003) 等二十多個平臺。
 
 十一、關於版權
 ------------
-EmulatorJS 是開源軟體（GPL-3.0，見 LICENSE 檔案），可以免費分享，但不能用於商業用途
-（街機核心 FBNeo 禁止商業使用）。專案地址：https://github.com/EmulatorJS/EmulatorJS
+本工具基於 EmulatorJS（https://github.com/EmulatorJS/EmulatorJS）。EmulatorJS 和本工具都是開源軟體，許可證是 GPL-3.0
+（見 LICENSE 檔案）。每個版本的原始碼，以及對 EmulatorJS 做了哪些修改（MODIFICATIONS.md），都在：
+https://github.com/supwang/emulatorjs-releases/tree/main/source
+模擬器核心有各自的許可證：FBNeo、Genesis Plus GX、PicoDrive、Snes9x 不允許商業使用；
+FCEUmm 是 GPL-2.0（詳見 MODIFICATIONS.md）。
 
 本工具用到的其他素材：
   - 主機圖片：RetroArch「Systematic」主題（libretro/retroarch-assets，作者 baxysquare 等），

@@ -61,9 +61,12 @@ https://github.com/user-attachments/assets/bbf95288-ae09-4e84-9327-ac9018f0754b
 
 ## 源代码
 
-每个版本的完整源代码在 [`source/`](source) 文件夹里（和 EmulatorJS 一样是 GPL-3.0 开源协议），每个版本的下载页也附带「Source code」压缩包。
+每个版本的完整源代码在 [`source/`](source) 文件夹里，每个版本的下载页也附带「Source code」压缩包。
+本项目和 EmulatorJS 一样采用 GPL-3.0 开源协议（见 [LICENSE](LICENSE)）。对 EmulatorJS 原文件做了哪些修改、用到的第三方素材、
+模拟器核心及其许可证，都列在 [MODIFICATIONS.md](source/MODIFICATIONS.md)。
 
 ## 说明
 
-- **本工具不包含任何游戏 ROM 和 BIOS**，请使用你自己合法拥有的游戏。仅供个人怀旧娱乐，禁止用于商业用途。
+- **本工具不包含任何游戏 ROM 和 BIOS**，请使用你自己合法拥有的游戏。
+- 部分自带的模拟器核心（FBNeo、Genesis Plus GX、PicoDrive、Snes9x）有自己的许可证，不允许商业使用，详见 [MODIFICATIONS.md](source/MODIFICATIONS.md)。
 - 仓库里的 `latest.json` 是程序用来检查新版本的文件，请不要删除。

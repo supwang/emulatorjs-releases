@@ -1,3 +1,9 @@
+/*
+ * This file is from EmulatorJS 4.2.3 (https://github.com/EmulatorJS/EmulatorJS), GPL-3.0.
+ * Modified by Supwang, 2026-11-05, for the EmulatorJS package (https://github.com/supwang/emulatorjs-releases):
+ * an error while reading gamepads no longer stops the gamepad loop. See MODIFICATIONS.md.
+ * This modified file is also licensed under GPL-3.0.
+ */
 class GamepadHandler {
     gamepads;
     timeout;

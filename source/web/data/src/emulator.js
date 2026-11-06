@@ -1,3 +1,10 @@
+/*
+ * This file is from EmulatorJS 4.2.3 (https://github.com/EmulatorJS/EmulatorJS), GPL-3.0.
+ * Modified by Supwang, 2026-10-17 to 2026-11-05, for the EmulatorJS package
+ * (https://github.com/supwang/emulatorjs-releases): gamepads are found by their index, the page can set the
+ * button names and order (window.EJS_customButtons), virtual joystick zones accept a size.
+ * See MODIFICATIONS.md for details. This modified file is also licensed under GPL-3.0.
+ */
 class EmulatorJS {
     getCores() {
         let rv = {

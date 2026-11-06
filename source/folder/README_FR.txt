@@ -728,9 +728,11 @@ Autres solutions :
 
 11. Droits d’auteur
 -------------------
-EmulatorJS est un logiciel libre (GPL-3.0, voir le fichier LICENSE). Vous pouvez le partager gratuitement, mais
-pas l’utiliser commercialement (le cœur arcade FBNeo interdit l’usage commercial).
-Page du projet : https://github.com/EmulatorJS/EmulatorJS
+Cet outil est basé sur EmulatorJS (https://github.com/EmulatorJS/EmulatorJS). EmulatorJS et cet outil sont des logiciels
+libres sous GPL-3.0 (voir le fichier LICENSE). Le code source de chaque version, avec la liste des
+modifications apportées à EmulatorJS (MODIFICATIONS.md), est ici : https://github.com/supwang/emulatorjs-releases/tree/main/source
+Les cœurs d’émulation gardent leurs propres licences : FBNeo, Genesis Plus GX, PicoDrive et Snes9x interdisent
+l’usage commercial ; FCEUmm est sous GPL-2.0 (détails dans MODIFICATIONS.md).
 
 Autres éléments utilisés par cet outil :
   - Images des consoles : thème « Systematic » de RetroArch (libretro/retroarch-assets, par baxysquare et d’autres),

@@ -62,9 +62,14 @@ The **installed Windows version** downloads and installs it by itself with one c
 
 ## Source code
 
-The full source code of each version is in [`source/`](source) (GPL-3.0, like EmulatorJS), and every release has a "Source code" download.
+The full source code of each version is in [`source/`](source), and every release has a "Source code" download.
+The project is licensed under GPL-3.0, like EmulatorJS (see [LICENSE](LICENSE)). The changes made to EmulatorJS's
+own files, the bundled third-party material and the emulator cores with their licenses are listed in
+[MODIFICATIONS.md](source/MODIFICATIONS.md).
 
 ## Notes
 
-- **No game ROMs or BIOS files are included.** Please use games you own. For personal, non-commercial use.
+- **No game ROMs or BIOS files are included.** Please use games you own.
+- Some bundled emulator cores (FBNeo, Genesis Plus GX, PicoDrive, Snes9x) have their own licenses that do not allow
+  commercial use; see [MODIFICATIONS.md](source/MODIFICATIONS.md).
 - `latest.json` in this repository is what the apps read to find new versions — please don't delete it.

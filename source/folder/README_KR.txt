@@ -659,9 +659,11 @@ EmulatorJS가 없는 기기 (태블릿, 다른 사람의 컴퓨터):
 
 11. 저작권
 ----------
-EmulatorJS는 오픈 소스 소프트웨어입니다(GPL-3.0, LICENSE 파일 참고). 무료로 공유할 수 있지만
-상업적으로 쓸 수는 없습니다(아케이드 코어 FBNeo는 상업적 사용을 금지합니다).
-프로젝트: https://github.com/EmulatorJS/EmulatorJS
+이 도구는 EmulatorJS(https://github.com/EmulatorJS/EmulatorJS)를 바탕으로 만들었습니다. EmulatorJS와 이 도구는
+GPL-3.0 오픈 소스 소프트웨어입니다(LICENSE 파일 참고). 모든 버전의 소스 코드와 EmulatorJS에서 바꾼 내용 목록
+(MODIFICATIONS.md)은 여기에 있습니다: https://github.com/supwang/emulatorjs-releases/tree/main/source
+에뮬레이터 코어는 각자의 라이선스를 따릅니다: FBNeo, Genesis Plus GX, PicoDrive, Snes9x는 상업적 사용 불가,
+FCEUmm은 GPL-2.0입니다(자세한 내용은 MODIFICATIONS.md).
 
 이 도구가 쓰는 다른 자료:
   - 본체 그림: RetroArch ‘Systematic’ 테마(libretro/retroarch-assets, 제작 baxysquare 외), CC BY 4.0 라이선스.

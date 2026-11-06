@@ -39,3 +39,9 @@ Privacy & Security → Open Anyway).
 ```
 cd desktop && npm ci && npm test && npm start
 ```
+
+## License
+
+GPL-3.0, like EmulatorJS, which this project is built on (see [LICENSE](LICENSE)). The changes made to
+EmulatorJS's own files, the bundled third-party material and the emulator cores with their licenses are listed in
+[MODIFICATIONS.md](MODIFICATIONS.md).
