@@ -1,0 +1,62 @@
+{
+ "zh-CN": [
+  "新功能「回放」：每局游戏（一个人玩、联机、观战都算）都会自动录下按键回放，几乎不占空间，也不影响联机。退出游戏后在左边「🎬 回放」里可以看：暂停、后退 / 前进 5 秒、拖进度、0.5～8 倍速；点 ⭐ 一直保留，其他的只留最近 50 个",
+  "回放可以导出成视频：「带声音」按正常速度放一遍边放边录，「不要声音」快速导出；可以在进度条上选「起点」「终点」只导出一段，导出途中也可以「停止并保存」。视频存在这台设备的视频文件夹里（文件夹版在 EmulatorJS 文件夹的 videos 里），导出完会告诉你位置",
+  "联机时主机读取快速存档后，大家会自动重新对齐（以前会对不上）",
+  "页面左边写明了基于 EmulatorJS、GPL-3.0 开源，并附源代码链接；说明书里的版权说明也改清楚了（整个软件是 GPL-3.0，只有个别模拟器核心有自己的非商用许可）"
+ ],
+ "zh-TW": [
+  "新功能「回放」：每局遊戲（一個人玩、連線、觀戰都算）都會自動錄下按鍵回放，幾乎不佔空間，也不影響連線。離開遊戲後在左邊「🎬 回放」裡可以看：暫停、後退 / 前進 5 秒、拖動進度、0.5～8 倍速；點 ⭐ 一直保留，其他的只留最近 50 個",
+  "回放可以匯出成影片：「帶聲音」按正常速度放一遍邊放邊錄，「不要聲音」快速匯出；可以在進度條上選「起點」「終點」只匯出一段，匯出途中也可以「停止並儲存」。影片存在這台裝置的影片資料夾裡（資料夾版在 EmulatorJS 資料夾的 videos 裡），匯出完會告訴你位置",
+  "連線時主機讀取快速存檔後，大家會自動重新對齊（以前會對不上）",
+  "頁面左邊寫明了基於 EmulatorJS、GPL-3.0 開源，並附原始碼連結；說明書裡的版權說明也改清楚了（整個軟體是 GPL-3.0，只有個別模擬器核心有自己的非商用授權）"
+ ],
+ "en": [
+  "New: Replays. Every game (solo, online or watching) is recorded as a button replay: almost no space, and it doesn't slow online play. After leaving a game, watch it in \"🎬 Replays\" on the left: pause, back / forward 5 seconds, drag the progress bar, 0.5× to 8× speed; ⭐ keeps one for good, otherwise the latest 50 are kept",
+  "Replays can be exported as video: \"With sound\" plays it once at normal speed while recording, \"No sound\" exports fast. Pick a Start and End on the progress bar to export just a clip, and \"Stop and save\" during an export keeps what's done. Videos go to this device's videos folder (folder version: videos in the EmulatorJS folder); you're told where when it's done",
+  "Online play: after the host loads a quick save, everyone is put back in step (before, the games could differ)",
+  "The page now says it's based on EmulatorJS, open source under GPL-3.0, with a link to the source code; the guide's copyright section is clearer (the whole package is GPL-3.0; only some emulator cores have their own non-commercial licenses)"
+ ],
+ "ja": [
+  "新機能「リプレイ」：毎回のゲーム（ひとり、オンライン、観戦）がボタン操作のリプレイとして自動で録画されます。容量はほとんど使わず、オンライン対戦にも影響しません。ゲーム終了後、左の「🎬 リプレイ」で再生：一時停止、5 秒戻る / 進む、進行バーのドラッグ、0.5～8 倍速。⭐ でずっと保存、それ以外は最新 50 件",
+  "リプレイを動画に書き出せます：「音声あり」は通常の速度で再生しながら録画、「音声なし」は高速。進行バーで「開始点」「終了点」を選んで一部だけ書き出したり、途中で「ここで止めて保存」もできます。動画はこの端末の動画フォルダーに保存され（フォルダー版は EmulatorJS フォルダーの videos）、終わると場所が表示されます",
+  "オンライン対戦でホストがクイックロードしたあと、全員が自動で揃い直すようになりました（以前はずれることがありました）",
+  "ページに EmulatorJS ベース・GPL-3.0 オープンソースであることとソースコードへのリンクを表示。ガイドの著作権の説明もわかりやすくしました（全体は GPL-3.0、一部のコアだけ独自の非商用ライセンス）"
+ ],
+ "ko": [
+  "새 기능 '리플레이': 매 판(혼자, 온라인, 관전)이 버튼 입력 리플레이로 자동 녹화됩니다. 용량을 거의 차지하지 않고 온라인 대전에도 영향이 없습니다. 게임을 나간 뒤 왼쪽 '🎬 리플레이'에서 볼 수 있습니다: 일시 정지, 5초 뒤로 / 앞으로, 진행 막대 끌기, 0.5~8배속. ⭐는 계속 보관, 나머지는 최근 50개만",
+  "리플레이를 동영상으로 내보낼 수 있습니다: '소리 포함'은 보통 속도로 재생하며 녹화, '소리 없이'는 빠르게. 진행 막대에서 '시작점' '끝점'을 정해 일부만 내보내거나, 도중에 '멈추고 저장'도 됩니다. 동영상은 이 기기의 동영상 폴더에 저장되며(폴더 버전은 EmulatorJS 폴더의 videos), 끝나면 위치를 알려 줍니다",
+  "온라인 대전에서 호스트가 빠른 불러오기를 하면 모두 자동으로 다시 맞춰집니다(예전에는 어긋날 수 있었음)",
+  "페이지에 EmulatorJS 기반·GPL-3.0 오픈 소스임과 소스 코드 링크를 표시했습니다. 설명서의 저작권 설명도 분명히 했습니다(전체는 GPL-3.0, 일부 코어만 자체 비상업 라이선스)"
+ ],
+ "es": [
+  "Nuevo: repeticiones. Cada partida (solo, en línea o como espectador) se graba como repetición de botones: casi no ocupa espacio y no afecta al juego en línea. Al salir, véela en \"🎬 Repeticiones\" a la izquierda: pausa, atrás / adelante 5 segundos, arrastrar la barra, velocidad de 0,5× a 8×; ⭐ la guarda para siempre, de las demás se guardan las 50 más recientes",
+  "Las repeticiones se pueden exportar como vídeo: \"Con sonido\" la reproduce a velocidad normal mientras graba, \"Sin sonido\" exporta rápido. Elige Inicio y Fin en la barra para exportar solo un fragmento, y \"Parar y guardar\" durante la exportación conserva lo hecho. Los vídeos van a la carpeta de vídeos de este dispositivo (versión carpeta: videos dentro de la carpeta EmulatorJS); al terminar se indica dónde",
+  "Juego en línea: cuando el anfitrión carga un guardado rápido, todos se vuelven a sincronizar (antes las partidas podían diferir)",
+  "La página indica que se basa en EmulatorJS, código abierto GPL-3.0, con enlace al código fuente; la sección de derechos de autor de la guía es más clara (todo el paquete es GPL-3.0; solo algunos núcleos tienen licencias propias no comerciales)"
+ ],
+ "fr": [
+  "Nouveau : les replays. Chaque partie (seul, en ligne ou en spectateur) est enregistrée en replay de boutons : presque pas de place, et le jeu en ligne n’est pas ralenti. Après la partie, regardez-la dans « 🎬 Replays » à gauche : pause, reculer / avancer de 5 secondes, glisser la barre, vitesse 0,5× à 8× ; ⭐ garde un replay pour de bon, sinon les 50 plus récents sont gardés",
+  "Les replays s’exportent en vidéo : « Avec le son » le joue à vitesse normale pendant l’enregistrement, « Sans son » exporte vite. Choisissez Début et Fin sur la barre pour n’exporter qu’un extrait, et « Arrêter et enregistrer » pendant l’export garde ce qui est fait. Les vidéos vont dans le dossier vidéos de l’appareil (version dossier : videos dans le dossier EmulatorJS) ; l’emplacement s’affiche à la fin",
+  "Jeu en ligne : quand l’hôte charge une sauvegarde rapide, tout le monde est resynchronisé (avant, les parties pouvaient différer)",
+  "La page indique qu’elle est basée sur EmulatorJS, libre sous GPL-3.0, avec un lien vers le code source ; la partie droits d’auteur du guide est plus claire (tout le paquet est GPL-3.0 ; seuls quelques cœurs ont leur propre licence non commerciale)"
+ ],
+ "de": [
+  "Neu: Replays. Jede Partie (allein, online oder als Zuschauer) wird als Tasten-Replay aufgenommen: kaum Speicher, und das Online-Spiel wird nicht gebremst. Nach dem Spiel unter „🎬 Replays“ links ansehen: Pause, 5 Sekunden zurück / vor, Fortschrittsbalken ziehen, Tempo 0,5× bis 8×; ⭐ behält ein Replay für immer, sonst bleiben die neuesten 50",
+  "Replays lassen sich als Video exportieren: „Mit Ton“ spielt es in normalem Tempo ab und nimmt dabei auf, „Ohne Ton“ exportiert schnell. Mit Anfang und Ende auf dem Balken nur einen Ausschnitt exportieren; „Stoppen und speichern“ während des Exports behält das Fertige. Videos landen im Video-Ordner des Geräts (Ordner-Version: videos im EmulatorJS-Ordner); am Ende wird der Ort angezeigt",
+  "Online-Spiel: Lädt der Host einen Schnellspeicherstand, werden alle wieder abgeglichen (vorher konnten die Spiele abweichen)",
+  "Die Seite nennt jetzt EmulatorJS als Grundlage, Open Source unter GPL-3.0, mit Link zum Quellcode; der Urheberrechtsteil der Anleitung ist klarer (das ganze Paket ist GPL-3.0; nur einige Cores haben eigene nicht-kommerzielle Lizenzen)"
+ ],
+ "pt": [
+  "Novo: replays. Cada partida (sozinho, online ou assistindo) é gravada como replay de botões: quase não ocupa espaço e não atrapalha o jogo online. Depois de sair, assista em \"🎬 Replays\" à esquerda: pausar, voltar / avançar 5 segundos, arrastar a barra, velocidade de 0,5× a 8×; ⭐ guarda para sempre, dos outros ficam os 50 mais recentes",
+  "Os replays podem ser exportados como vídeo: \"Com som\" toca na velocidade normal enquanto grava, \"Sem som\" exporta rápido. Escolha Início e Fim na barra para exportar só um trecho, e \"Parar e salvar\" durante a exportação guarda o que já foi feito. Os vídeos vão para a pasta de vídeos do aparelho (versão pasta: videos dentro da pasta EmulatorJS); no fim aparece onde",
+  "Jogo online: quando o anfitrião carrega um salvamento rápido, todos voltam a ficar sincronizados (antes os jogos podiam ficar diferentes)",
+  "A página informa que é baseada no EmulatorJS, código aberto GPL-3.0, com link para o código-fonte; a parte de direitos autorais do guia ficou mais clara (o pacote todo é GPL-3.0; só alguns núcleos têm licenças próprias não comerciais)"
+ ],
+ "ru": [
+  "Новое: повторы. Каждая игра (одна, по сети или в роли зрителя) записывается как повтор нажатий: почти не занимает места и не мешает игре по сети. После выхода смотрите её в «🎬 Повторах» слева: пауза, назад / вперёд на 5 секунд, перетаскивание полосы, скорость от 0,5× до 8×; ⭐ — хранить всегда, из остальных хранятся последние 50",
+  "Повтор можно сохранить как видео: «Со звуком» — проигрывается с обычной скоростью и записывается, «Без звука» — быстро. На полосе можно выбрать начало и конец, чтобы сохранить только фрагмент, а «Остановить и сохранить» во время записи оставляет уже готовое. Видео сохраняется в папку видео этого устройства (версия-папка: videos в папке EmulatorJS); в конце показывается, где",
+  "Игра по сети: после быстрой загрузки у хоста все снова синхронизируются (раньше игры могли расходиться)",
+  "На странице указано, что она основана на EmulatorJS, открытый код GPL-3.0, со ссылкой на исходный код; раздел об авторских правах в руководстве стал понятнее (весь пакет — GPL-3.0; только у некоторых ядер свои некоммерческие лицензии)"
+ ]
+}

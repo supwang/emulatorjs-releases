@@ -241,6 +241,19 @@ jogo são procuradas (banco de dados da comunidade libretro, libretro-database: 
 quase nada para arcade); marque as desejadas, clique em “Adicionar as trapaças selecionadas” e marque-as em “Trapaças” para ativar.
 Também não dá para usar no jogo online. Precisa de acesso ao GitHub.
 
+Replays: cada partida (sozinho, online ou assistindo) é gravada como "replay de botões": o estado salvo do início e quais
+botões foram apertados em cada quadro. Quase não ocupa espaço e não atrapalha o jogo online.
+Depois de sair de uma partida, "🎬 Replays" aparece na lista à esquerda:
+  - ▶ Assistir: pausar (Espaço), voltar / avançar 5 segundos (← →), arrastar a barra de progresso, velocidade de 0,5× a 8×.
+  - 🎞 Exportar vídeo: "Com som" toca o replay uma vez do início na velocidade normal enquanto grava (um replay de 3 minutos
+    leva 3 minutos; não troque de janela enquanto isso); "Sem som, exportação rápida" é bem mais rápida. O vídeo é MP4
+    (WebM em alguns navegadores). Onde fica: versão pasta, na pasta videos da pasta EmulatorJS; app, numa pasta EmulatorJS
+    dentro de Filmes (Mac) ou Vídeos (Windows); Android, na pasta videos da pasta EmulatorJS do celular. No fim aparece o
+    lugar exato. No navegador de um celular que abriu a página de outro computador, o vídeo é baixado.
+  - ⭐ guarda um replay para sempre; dos outros, só os 50 mais recentes ficam. Para parar de gravar, clique em
+    "Gravar replays: ligado" em "🎬 Replays".
+  Os replays ficam só no navegador deste aparelho e precisam do mesmo arquivo do jogo.
+
 
 5. Teclado e controle
 ---------------------

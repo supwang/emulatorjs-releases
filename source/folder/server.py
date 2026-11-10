@@ -220,10 +220,14 @@ def rom_save(kind, rel, offset, total, length, read, keep=False):
     """kind=roms|bios|thumbs；rel=放在文件夹里的相对路径；按 offset 依次写入，写完最后一段才改成正式文件名。
     返回 (json, 状态码)。最后一段返回实际保存的位置（同名但不一样的文件不会被覆盖；keep=已经有同名文件就用自己的）"""
     cfg = current_config()
-    if kind not in ("roms", "bios", "thumbs"):
+    if kind not in ("roms", "bios", "thumbs", "videos"):
         return {"error": "bad kind"}, 400
     used = kind
-    base = cfg[kind]["path"] if cfg[kind]["ok"] else ""
+    if kind == "videos":                              # 回放导出的视频：放在 EmulatorJS 文件夹的 videos 里
+        base = os.path.join(APP_DIR, "videos")
+        os.makedirs(base, exist_ok=True)
+    else:
+        base = cfg[kind]["path"] if cfg[kind]["ok"] else ""
     if not base and kind == "bios" and cfg["roms"]["ok"]:
         base, used = cfg["roms"]["path"], "roms"      # 没设 BIOS 文件夹：放进 ROM 文件夹
     if not base and kind == "thumbs" and offset == 0:
@@ -274,8 +278,11 @@ def rom_save(kind, rel, offset, total, length, read, keep=False):
                 final = os.path.join(folder, "EmulatorJS downloads", name)
                 os.makedirs(os.path.dirname(final), exist_ok=True)
             os.replace(part, final)
-        return {"ok": True, "done": True, "kind": used,
-                "rel": os.path.relpath(final, os.path.realpath(base)).replace(os.sep, "/")}, 200
+        out = {"ok": True, "done": True, "kind": used,
+               "rel": os.path.relpath(final, os.path.realpath(base)).replace(os.sep, "/")}
+        if kind == "videos":
+            out["path"] = final                       # 告诉页面视频存在哪里
+        return out, 200
 
 
 def shortcuts():

@@ -26,7 +26,7 @@ is not used.
 ## Added in this project (GPL-3.0)
 
 - `web/index.html`: the game library page (game list, settings, netplay, voice chat, continue/save states)
-- `web/data/netplay.js`: key-sync netplay with delay and rollback modes
+- `web/data/netplay.js`: key-sync netplay with delay and rollback modes, and button replays (recording and playback)
 - `web/data/i18n.js`, `web/data/i18n/`: interface translations
 - `web/migrate.html`, `web/upload.html`, `web/data/names.json`, `web/data/fbneo-names.txt`, `web/data/fbneo-sets.txt`,
   `web/data/badwords.json`, `web/data/themes/`, `web/data/manifest.json`, icons
@@ -41,6 +41,8 @@ is not used.
 |---|---|---|
 | EmulatorJS 4.2.3 | GPL-3.0 | `LICENSE`, `web/LICENSE` |
 | fflate 0.8.2 (`web/data/fflate.js`, unchanged), by Arjun Barrett | MIT | `web/data/LICENSE-fflate-MIT.txt` |
+| mp4-muxer 5.2.2 (`web/data/mp4-muxer.js`, unchanged), by Vanilagy | MIT | `web/data/LICENSE-mp4-muxer-MIT.txt` |
+| webm-muxer 5.1.4 (`web/data/webm-muxer.js`, unchanged), by Vanilagy | MIT | `web/data/LICENSE-webm-muxer-MIT.txt` |
 | Console pictures: RetroArch "Systematic" theme (libretro/retroarch-assets) | CC BY 4.0 | `web/data/consoles/LICENSE-CC-BY-4.0.txt` |
 | Phone controller buttons: libretro common-overlays | CC BY 4.0 | `web/data/vpad/LICENSE-CC-BY-4.0.txt` |
 | Press Start 2P font, by CodeMan38 | SIL OFL 1.1 | `web/data/fonts/LICENSE-OFL-1.1.txt` |

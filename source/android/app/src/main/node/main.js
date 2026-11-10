@@ -55,7 +55,7 @@ if (createServer) (async () => {
   const webDir = path.join(FILES_DIR, "web");
   // port 28765 (8765 until 1.3.0); legacyPort: the WebView's data kept under the old port moves over once (migrate.html)
   for (const p of [28765, 28766, 28767, 28768, 28769, 28770]) {
-    const s = createServer({ port: p, webDir, configFile: CONFIG_FILE, appDirs, shortcuts, spill, log: console.log, legacyPort: 8765 });
+    const s = createServer({ port: p, webDir, configFile: CONFIG_FILE, appDirs, shortcuts, spill, videos: path.join(INTERNAL, "EmulatorJS", "videos"), log: console.log, legacyPort: 8765 });
     try {
       await s.start();
       fs.writeFileSync(PORT_FILE, String(p));

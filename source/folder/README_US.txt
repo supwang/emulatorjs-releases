@@ -242,6 +242,20 @@ Cheat library: at the top of the "Cheats" menu click "📚 Pick from the cheat l
 for arcade), tick the ones you want and click "Add the selected cheats", then tick them in "Cheats" to turn them on.
 Not available during online play either. Needs access to GitHub.
 
+Replays: every game (solo, online, or watching) is recorded as a "button replay": the save state at the start plus
+which buttons were pressed on every frame. It takes almost no space and doesn't slow online play. After you leave a
+game, "🎬 Replays" appears in the list on the left:
+  - ▶ Watch: pause (Space), back / forward 5 seconds (← →), drag the progress bar, 0.5× to 8× speed.
+  - 🎞 Export video: "With sound" plays the replay once from the start at normal speed while recording it (a 3-minute
+    replay takes 3 minutes; don't switch to another window meanwhile); "No sound, fast export" is much faster.
+    The video is MP4 (WebM in a few browsers). Where it goes: folder version, the videos folder in the EmulatorJS
+    folder; app, an EmulatorJS folder in Movies (Mac) or Videos (Windows); Android, the videos folder in the
+    EmulatorJS folder on the phone. The exact place is shown when it's done. On a phone browser that opened another
+    computer's page, the video is downloaded.
+  - ⭐ keeps a replay for good; of the others, only the latest 50 are kept. To stop recording, click
+    "Auto-record replays: on" in "🎬 Replays".
+  Replays are kept only in this device's browser, and need the same game file to play.
+
 
 5. Keyboard and gamepad
 -----------------------

@@ -244,6 +244,20 @@ de ce jeu sont recherchés (base de données de la communauté libretro, libretr
 autres consoles, presque rien pour l'arcade) ; cochez ceux voulus, cliquez sur « Ajouter les codes sélectionnés », puis cochez-les dans
 « Triches » pour les activer. Indisponible aussi en jeu en ligne. Accès à GitHub nécessaire.
 
+Replays : chaque partie (seul, en ligne ou en spectateur) est enregistrée en « replay de boutons » : la sauvegarde du début
+et les boutons pressés à chaque image. Ça ne prend presque pas de place et ne ralentit pas le jeu en ligne.
+Après avoir quitté une partie, « 🎬 Replays » apparaît dans la liste à gauche :
+  - ▶ Regarder : pause (Espace), reculer / avancer de 5 secondes (← →), glisser la barre de progression, vitesse de 0,5× à 8×.
+  - 🎞 Exporter en vidéo : « Avec le son » joue le replay une fois depuis le début à vitesse normale pendant l’enregistrement
+    (un replay de 3 minutes prend 3 minutes ; ne changez pas de fenêtre pendant ce temps) ; « Sans son, export rapide » est
+    bien plus rapide. La vidéo est en MP4 (WebM dans quelques navigateurs). Emplacement : version dossier, le dossier videos
+    du dossier EmulatorJS ; appli, un dossier EmulatorJS dans Films (Mac) ou Vidéos (Windows) ; Android, le dossier videos du
+    dossier EmulatorJS du téléphone. L’emplacement exact s’affiche à la fin. Dans le navigateur d’un téléphone qui a ouvert
+    la page d’un autre ordinateur, la vidéo est téléchargée.
+  - ⭐ garde un replay pour de bon ; pour les autres, seuls les 50 plus récents sont gardés. Pour ne plus enregistrer,
+    cliquez sur « Enregistrer les replays : oui » dans « 🎬 Replays ».
+  Les replays restent dans le navigateur de cet appareil et il faut le même fichier de jeu pour les regarder.
+
 
 5. Clavier et manette
 ---------------------

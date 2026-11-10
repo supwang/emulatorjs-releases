@@ -240,6 +240,20 @@ Cheat-Bibliothek: Oben im Menü „Cheats“ auf „📚 Aus der Cheat-Bibliothe
 Arcade); gewünschte anhaken, „Ausgewählte Cheats hinzufügen“ klicken und unter „Cheats“ anhaken, um sie einzuschalten.
 Beim Online-Spiel ebenfalls nicht verfügbar. Braucht Zugang zu GitHub.
 
+Replays: Jede Partie (allein, online oder als Zuschauer) wird als „Tasten-Replay“ aufgenommen: der Spielstand am Anfang
+und welche Tasten in jedem Frame gedrückt waren. Das braucht kaum Platz und bremst das Online-Spiel nicht.
+Nach dem Beenden einer Partie erscheint links in der Liste „🎬 Replays“:
+  - ▶ Ansehen: Pause (Leertaste), 5 Sekunden zurück / vor (← →), Fortschrittsbalken ziehen, Tempo 0,5× bis 8×.
+  - 🎞 Als Video exportieren: „Mit Ton“ spielt das Replay einmal von vorn in normalem Tempo ab und nimmt es dabei auf
+    (ein 3-Minuten-Replay dauert 3 Minuten; währenddessen nicht in ein anderes Fenster wechseln); „Ohne Ton, schneller Export“
+    ist viel schneller. Das Video ist MP4 (in manchen Browsern WebM). Speicherort: Ordner-Version im Ordner videos im
+    EmulatorJS-Ordner; App in einem Ordner EmulatorJS unter Filme (Mac) bzw. Videos (Windows); Android im Ordner videos im
+    EmulatorJS-Ordner auf dem Handy. Am Ende wird der genaue Ort angezeigt. Im Handy-Browser, der die Seite eines anderen
+    Computers geöffnet hat, wird das Video heruntergeladen.
+  - ⭐ behält ein Replay für immer; von den anderen bleiben nur die neuesten 50. Zum Abschalten in „🎬 Replays“ auf
+    „Replays aufnehmen: an“ klicken.
+  Replays liegen nur im Browser dieses Geräts und brauchen dieselbe Spieldatei.
+
 
 5. Tastatur und Gamepad
 -----------------------

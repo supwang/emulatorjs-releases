@@ -240,6 +240,20 @@ Biblioteca de trucos: arriba del menú «Trucos» (Cheats) pulsa «📚 Elegir d
 para arcade); marca los que quieras, pulsa «Añadir los trucos seleccionados» y márcalos en «Trucos» para activarlos.
 Tampoco se pueden usar en el juego en línea. Requiere acceso a GitHub.
 
+Repeticiones: cada partida (solo, en línea o como espectador) se graba como "repetición de botones": el estado guardado
+del principio y qué botones se pulsaron en cada fotograma. Casi no ocupa espacio y no afecta al juego en línea.
+Al salir de una partida aparece "🎬 Repeticiones" en la lista de la izquierda:
+  - ▶ Ver: pausa (Espacio), atrás / adelante 5 segundos (← →), arrastrar la barra de progreso, velocidad de 0,5× a 8×.
+  - 🎞 Exportar vídeo: "Con sonido" reproduce la repetición una vez desde el principio a velocidad normal mientras la graba
+    (una repetición de 3 minutos tarda 3 minutos; no cambies de ventana mientras tanto); "Sin sonido, exportación rápida"
+    es mucho más rápida. El vídeo es MP4 (WebM en algunos navegadores). Dónde se guarda: versión carpeta, en la carpeta videos
+    de la carpeta EmulatorJS; app, en una carpeta EmulatorJS dentro de Películas (Mac) o Vídeos (Windows); Android, en la
+    carpeta videos de la carpeta EmulatorJS del móvil. Al terminar se muestra el lugar exacto. En el navegador de un móvil
+    que abrió la página de otro ordenador, el vídeo se descarga.
+  - ⭐ guarda una repetición para siempre; de las demás solo se guardan las 50 más recientes. Para dejar de grabar, pulsa
+    "Grabar repeticiones: sí" en "🎬 Repeticiones".
+  Las repeticiones solo se guardan en el navegador de este dispositivo y necesitan el mismo archivo del juego.
+
 
 5. Teclado y mando
 ------------------

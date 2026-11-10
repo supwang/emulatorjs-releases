@@ -675,6 +675,35 @@
   .cont-acts .btn { padding: 11px 14px; font-size: 15px; }
   .cont-note { color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 10px; }
   .cont-foot { display: flex; justify-content: space-between; margin-top: 12px; }
+  /* 回放：列表、看回放时下面的控制栏 */
+  .rep-note { color: var(--muted); font-size: 12.5px; line-height: 1.6; margin: -8px 0 14px; max-width: 760px; }
+  .rep-list { display: flex; flex-direction: column; gap: 10px; max-width: 980px; }
+  .rep-row { display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); }
+  .rep-row img, .rep-row .rep-ph { width: 120px; height: 80px; object-fit: contain; background: #000; border-radius: 8px; flex: none; image-rendering: pixelated; }
+  .rep-row .rep-ph { display: flex; align-items: center; justify-content: center; font-size: 28px; }
+  .rep-info { flex: 1; min-width: 0; }
+  .rep-info b { display: block; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rep-meta { color: var(--muted); font-size: 12.5px; margin-top: 4px; line-height: 1.6; }
+  .rep-acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; flex: none; }
+  .rep-acts .btn { padding: 6px 10px; font-size: 13px; white-space: nowrap; flex: none; }
+  .rep-tag { display: inline-block; padding: 0 7px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-size: 11px; margin-left: 6px; vertical-align: 2px; }
+  .rep-path { display: block; margin-top: 6px; padding: 6px 8px; border-radius: 6px; background: var(--panel-2); word-break: break-all; user-select: all; }
+  @media (max-width: 640px) { .rep-row { flex-wrap: wrap; } .rep-row img, .rep-row .rep-ph { width: 96px; height: 64px; } .rep-acts { width: 100%; justify-content: flex-start; } }
+  #repBar { width: 100%; }
+  #repBar[hidden] { display: none; }
+  #repBar .rb-ctl, #repBar .rb-exp { display: flex; align-items: center; gap: 8px; }
+  #repBar .rb-ctl[hidden], #repBar .rb-exp[hidden] { display: none; }
+  #repBar .btn { padding: 4px 10px; font-size: 13px; flex: none; }
+  #repBar input[type=range] { flex: 1; min-width: 60px; accent-color: var(--accent); }
+  #repBar .rb-time { font: 12px ui-monospace, Menlo, monospace; color: var(--muted); white-space: nowrap; }
+  #repBar .rb-range { display: inline-flex; align-items: center; gap: 2px; padding: 2px 4px 2px 9px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-size: 12px; white-space: nowrap; flex: none; }
+  #repBar .rb-range[hidden] { display: none; }
+  #repBar .rb-range .linkbtn { color: inherit; padding: 0 4px; }
+  #repBar select { flex: none; background: var(--panel-2); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px; }
+  #repBar .rb-exp span:first-child { flex: 1; font-size: 13px; }
+  #repBar .rb-prog { flex: 0 0 160px; height: 6px; border-radius: 3px; background: var(--panel-2); overflow: hidden; }
+  #repBar .rb-prog i { display: block; height: 100%; width: 0; background: var(--accent); }
+  @media (max-width: 640px) { #repBar #rbVideo, #repBar .rb-prog, #repBar #rbA, #repBar #rbB, #repBar .rb-range { display: none !important; } }
   /* 等朋友回来：游戏停在读档那一帧，上面一张卡片 */
   #contWait { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,.45); pointer-events: none; }
   #contWait .cw-box { pointer-events: auto; width: min(420px, 100%); background: color-mix(in srgb, var(--panel) 94%, transparent); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; box-shadow: 0 18px 50px rgba(0,0,0,.6); }
@@ -847,7 +876,7 @@
     <input type="file" id="biosInput" webkitdirectory multiple hidden>
     <input type="search" id="search" placeholder="搜索游戏…">
     <div class="stat" id="stat">还没有加载游戏</div>
-    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.7</div>
+    <div class="stat" id="buildTag" style="font-size:11px;opacity:.6">版本 1.3.8</div>
     <div class="stat" id="licTag" style="font-size:11px;opacity:.5"></div>
     <div class="stat" id="thumbProg" hidden></div>
     <div id="lanInfo" hidden></div>
@@ -1555,13 +1584,15 @@ function render() {
     const b = document.createElement("button");
     b.className = "plat " + cls + (key === currentSys ? " active" : "");
     const ico = iconFor(key);
-    b.innerHTML = `<span class="pico">${ico ? `<img src="${ico}" alt="">` : `<span class="pico-ph">${key === "_unknown" ? "?" : key === "_recent" ? "🕘" : "✕"}</span>`}</span>`
+    b.innerHTML = `<span class="pico">${ico ? `<img src="${ico}" alt="">` : `<span class="pico-ph">${key === "_unknown" ? "?" : key === "_recent" ? "🕘" : key === "_replays" ? "🎬" : "✕"}</span>`}</span>`
       + `<span class="pname">${label}</span><span class="count">${count}</span>`;
     b.onclick = () => { if (stage.querySelector("iframe")) stop(); currentSys = key; render(); showGrid(key); closeDrawer(); };
     listEl.appendChild(b);
   };
   const rec = recentGames();
   if (rec.length) addBtn("_recent", "最近玩过", rec.length, "recent");
+  const nRep = repCount();
+  if (nRep) addBtn("_replays", "回放", nRep, "recent");
   for (const sys of order) addBtn(sys, groupName(sys), groups[sys].length);
   if (unknown.length) addBtn("_unknown", "需要手动选平台", unknown.length, "muted");
   if (unsupported.length && !hideUnsupported()) addBtn("_unsupported", "网页版不支持", unsupported.length, "muted");
@@ -1969,6 +2000,7 @@ function showGrid(key) {
   gridEl.innerHTML = "";
   applyGridBg(key);
   if (!themePanel.hidden) renderBgSection();
+  if (key === "_replays") return showReplays();
   const groups = groupsNow();
 
   let title, list;
@@ -2382,6 +2414,8 @@ document.getElementById("stopBtn").onclick = () => {
 
 function stop(keepMp) {
   contSaveNow();   // 退出（或换游戏）前存一份「继续」用的进度
+  repSaveNow();    // 这局的回放
+  if (replayRun) { replayRun = null; repBar.hidden = true; document.getElementById("turboBtn").hidden = false; if (repExpModal) repExpModal.hidden = true; }
   contEnd();
   mySlotNow = mySlotHome = 0;
   if (slotBtn) slotBtn.hidden = true;
@@ -2492,6 +2526,7 @@ setInterval(async () => {
 }, 5000);
 // 存一份（同步取出游戏状态，再慢慢写进浏览器的数据库；退出游戏时页面马上要把游戏关掉）
 function contSaveNow() {
+  if (replayRun) return;   // 看回放：不存进度
   const g = playingGame, emu = hostEmu();
   if (!g || !g.file || !emu || !emu.gameManager) return;
   if (mpGuest && (mpGuest.watch || !mpGuest.sync || !mpGuest.synced)) return;   // 观战 / 看画面玩 / 还没和主机对齐
@@ -2635,6 +2670,451 @@ function contPublish(force) {
   if (mpHost.sid && (force || sent.lan !== sig)) { sent.lan = sig; mp("update", { sid: mpHost.sid, ...body }).catch(() => {}); }
   if (mpHost.cloudSid && (force || sent.cloud !== sig)) { sent.cloud = sig; mp("update", { sid: mpHost.cloudSid, ...body }, cloudBase()).catch(() => {}); }
 }
+// ================= 回放 =================
+// 每局游戏自动录下「按键回放」：开局的存档 + 之后每一帧按了什么键（见 netplay.js）。几乎不占空间、不影响联机。
+// 退出游戏时存进这台设备浏览器的数据库。左边「🎬 回放」里可以看、拖进度、快进、导出成视频；⭐ 的一直保留，其他的只留最近 50 个。
+// 回放要用同一个游戏文件，所以只能在有这个游戏的设备上看。
+const REP_MAX = 50, REP_IDX = "ejs-rep-index", REP_OFF = "ejs-rep-off";
+var repDbP = null, replayRun = null;
+function repDb() {
+  return repDbP = repDbP || new Promise((ok, no) => {
+    const r = indexedDB.open("ejs-replays", 1);
+    r.onupgradeneeded = () => { r.result.createObjectStore("meta", { keyPath: "id" }); r.result.createObjectStore("data", { keyPath: "id" }); };
+    r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error);
+  });
+}
+function repIndex() { try { return JSON.parse(localStorage.getItem(REP_IDX) || "{}") || {}; } catch (e) { return {}; } }
+function repIndexSave(idx) { try { localStorage.setItem(REP_IDX, JSON.stringify(idx)); } catch (e) {} }
+const repOn = () => { try { return localStorage.getItem(REP_OFF) !== "1"; } catch (e) { return true; } };
+const repCount = () => Object.keys(repIndex()).length;
+const repTx = async (stores, mode, fn) => {
+  const db = await repDb();
+  return new Promise((ok, no) => {
+    const tx = db.transaction(stores, mode); let out;
+    Promise.resolve(fn(tx)).then(v => { out = v; });
+    tx.oncomplete = () => ok(out); tx.onerror = () => no(tx.error); tx.onabort = () => no(tx.error);
+  });
+};
+const reqP = q => new Promise(ok => { q.onsuccess = () => ok(q.result); q.onerror = () => ok(null); });
+async function repAll() {
+  try {
+    const list = await repTx("meta", "readonly", tx => reqP(tx.objectStore("meta").getAll()));
+    return (list || []).sort((a, b) => b.time - a.time);
+  } catch (e) { return []; }
+}
+async function repGet(id) { try { return await repTx("data", "readonly", tx => reqP(tx.objectStore("data").get(id))); } catch (e) { return null; } }
+async function repDel(id) {
+  const idx = repIndex(); delete idx[id]; repIndexSave(idx);
+  try { await repTx(["meta", "data"], "readwrite", tx => { tx.objectStore("meta").delete(id); tx.objectStore("data").delete(id); }); } catch (e) {}
+}
+async function repSetKeep(id, keep) {
+  const idx = repIndex(); if (idx[id]) { idx[id][1] = keep ? 1 : 0; repIndexSave(idx); }
+  try {
+    await repTx("meta", "readwrite", async tx => { const st = tx.objectStore("meta"); const m = await reqP(st.get(id)); if (m) { m.keep = !!keep; st.put(m); } });
+  } catch (e) {}
+}
+async function repPut(meta, segs) {
+  // 还没压缩的存档先压缩（在后台线程做）
+  if (!window.fflate) try { await loadScript("data/fflate.js"); } catch (e) {}
+  for (const s of segs) {
+    if (s.z || !window.fflate || s.st.length < 65536) continue;
+    try { s.st = await new Promise((ok, no) => fflate.deflate(s.st, { level: 6 }, (err, out) => err ? no(err) : ok(out))); s.z = 1; } catch (e) {}
+  }
+  meta.bytes = segs.reduce((a, s) => a + s.st.length + s.ev.length * 4, 0);
+  await repTx(["meta", "data"], "readwrite", tx => { tx.objectStore("meta").put(meta); tx.objectStore("data").put({ id: meta.id, segs }); });
+  const idx = repIndex(); idx[meta.id] = [meta.time, 0]; repIndexSave(idx);
+  // 不保留的只留最近 50 个
+  const old = Object.entries(idx).filter(([, v]) => !v[1]).sort((a, b) => b[1][0] - a[1][0]).slice(REP_MAX).map(([k]) => k);
+  for (const id of old) await repDel(id);
+  if (currentSys === "_replays" && !stage.querySelector("iframe")) showGrid("_replays");
+  else render();
+}
+// 开始录（游戏启动好以后）
+async function repArm(g) {
+  if (!repOn()) return;
+  for (let i = 0; i < 600; i++) {
+    await new Promise(r => setTimeout(r, 100));
+    if (playingGame !== g || replayRun) return;
+    const np = hostNet();
+    if (np && np.recStart && hostEmu()) { np.recStart(); return; }
+  }
+}
+// 退出游戏时：把这局录到的拿出来存好（游戏画面马上要关掉，先复制到这个页面里）
+function repSaveNow() {
+  const g = playingGame, np = hostNet();
+  if (!g || !g.file || !np || !np.recTake || replayRun) return;
+  let rec = null;
+  try { rec = np.recTake(); } catch (e) { return; }
+  if (!rec || !rec.segs || !rec.segs.length) return;
+  const segs = rec.segs.filter(s => s.n >= 10).map(s => ({ k: s.k, n: s.n, f0: s.f0 | 0, s0: s.s0 | 0, z: s.z ? 1 : 0, st: new Uint8Array(s.st), ev: Array.from(s.ev),
+    cheats: Array.from(s.cheats || []), opts: Object.assign({}, s.opts || {}) }));
+  const frames = segs.reduce((a, s) => a + s.n, 0);
+  if (frames < 600) return;   // 不到 10 秒：不存
+  const key = gameKey(g);
+  const mySlot = mpHost ? mpHost.localSlot || 0 : mpGuest ? mpGuest.slot || 0 : mySlotNow;
+  const players = contSeen && contSeen.key === key ? [...contSeen.map.values()].filter(p => p.slot !== mySlot).map(p => ({ slot: p.slot, name: p.name })) : [];
+  if (mpGuest && mpGuest.s && !players.some(p => p.slot === 0) && mySlot !== 0) players.push({ slot: 0, name: mpGuest.s.hostName });
+  players.push({ slot: mySlot, name: mpName, me: true });
+  players.sort((a, b) => a.slot - b.slot);
+  let core = "";
+  try { const emu = hostEmu(); core = emu && emu.getCore ? emu.getCore() : ""; } catch (e) {}
+  const meta = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), key, title: g.title, system: g.system, time: Date.now(),
+    frames, net: segs.some(s => s.k === "n"), watch: !!(mpGuest && mpGuest.watch), players, mySlot, core, ver: APP_VERSION,
+    img: contShot && contShot.key === key ? contShot.url : "", keep: false };
+  repPut(meta, segs).catch(e => console.warn("replay save", e));
+}
+window.addEventListener("pagehide", () => { if (playingGame && stage.querySelector("iframe")) repSaveNow(); });
+const repTime = f => { const s = Math.max(0, Math.floor(f / 60)); return (s >= 3600 ? Math.floor(s / 3600) + ":" + String(Math.floor(s / 60) % 60).padStart(2, "0") : Math.floor(s / 60)) + ":" + String(s % 60).padStart(2, "0"); };
+const repGame = m => games.find(x => gameKey(x) === m.key) || games.find(x => x.title === m.title && x.system === m.system) || null;
+
+// ---- 左边「🎬 回放」：列表 ----
+async function showReplays() {
+  const head = document.createElement("div");
+  head.className = "grid-head";
+  document.getElementById("mbTitle").textContent = L("回放");
+  head.innerHTML = `<h2>🎬 ${escapeHtml(L("回放"))}</h2><span id="repCnt"></span>`;
+  const sw = document.createElement("button");
+  sw.className = "linkbtn gh-act";
+  sw.textContent = L(repOn() ? "自动录回放：开" : "自动录回放：关");
+  sw.onclick = () => { try { repOn() ? localStorage.setItem(REP_OFF, "1") : localStorage.removeItem(REP_OFF); } catch (e) {} sw.textContent = L(repOn() ? "自动录回放：开" : "自动录回放：关"); mpToast(L(repOn() ? "以后每局游戏都会自动录回放" : "以后不再自动录回放")); };
+  head.appendChild(sw);
+  gridEl.appendChild(head);
+  const note = document.createElement("p");
+  note.className = "rep-note";
+  note.textContent = L("每局游戏（一个人玩、联机都算）会自动录下按键回放，几乎不占空间，也不影响联机。可以导出成视频。点 ⭐ 的会一直保留，其他的只留最近 {0} 个。", REP_MAX);
+  gridEl.appendChild(note);
+  const box = document.createElement("div");
+  box.className = "rep-list";
+  gridEl.appendChild(box);
+  const list = await repAll();
+  if (currentSys !== "_replays") return;
+  document.getElementById("repCnt").textContent = L("{0} 个", list.length);
+  if (!list.length) { box.innerHTML = `<p class="stat">${escapeHtml(L("还没有回放。玩一局游戏（超过 10 秒），退出后就会出现在这里。"))}</p>`; return; }
+  for (const m of list) {
+    const g = repGame(m), nm = g ? gameNames(g) : null;
+    const row = document.createElement("div");
+    row.className = "rep-row";
+    const who = (m.players || []).map(p => `P${p.slot + 1} ${p.me ? escapeHtml(L("你")) : nameHtml(p.name)}`).join(" · ");
+    row.innerHTML = (m.img ? `<img src="${m.img}" alt="">` : `<span class="rep-ph">🎬</span>`)
+      + `<div class="rep-info"><b>${escapeHtml(nm ? nm.loc || nm.en : m.title)}${m.net ? `<span class="rep-tag">${escapeHtml(L(m.watch ? "观战" : "联机"))}</span>` : ""}</b>`
+      + `<div class="rep-meta">${escapeHtml(L((SYSTEMS[m.system] || {}).name || m.system))} · ${escapeHtml(new Date(m.time).toLocaleString(uiLang()))} · ⏱ ${repTime(m.frames)}<br>${who}`
+      + (g ? "" : `<br>⚠ ${escapeHtml(L("找不到这个游戏的文件，没法看"))}`) + `</div></div>`
+      + `<div class="rep-acts"><button class="btn" data-a="play"${g ? "" : " disabled"}>▶ ${escapeHtml(L("看回放"))}</button>`
+      + `<button class="btn secondary" data-a="video"${g ? "" : " disabled"}>🎞 ${escapeHtml(L("导出视频"))}</button>`
+      + `<button class="btn secondary" data-a="keep" title="${escapeHtml(L("一直保留（不会被自动删掉）"))}">${m.keep ? "⭐" : "☆"}</button>`
+      + `<button class="btn secondary" data-a="del" title="${escapeHtml(L("删掉"))}">🗑</button></div>`;
+    row.querySelectorAll("[data-a]").forEach(b => b.onclick = async () => {
+      const a = b.dataset.a;
+      if (a === "play" || a === "video") return repPlay(m, a === "video");
+      if (a === "keep") { m.keep = !m.keep; b.textContent = m.keep ? "⭐" : "☆"; await repSetKeep(m.id, m.keep); mpToast(L(m.keep ? "这个回放会一直保留" : "这个回放不再特别保留")); return; }
+      if (a === "del") {
+        if (!b.dataset.sure) {   // 点两次才删（删了就找不回来）
+          b.dataset.sure = "1"; b.textContent = "🗑 " + L("确定删除？"); b.style.color = "var(--live)";
+          setTimeout(() => { if (b.isConnected) { delete b.dataset.sure; b.textContent = "🗑"; b.style.color = ""; } }, 4000);
+          return;
+        }
+        await repDel(m.id); row.remove(); render(); const n = box.querySelectorAll(".rep-row").length; document.getElementById("repCnt").textContent = L("{0} 个", n); }
+    });
+    box.appendChild(row);
+  }
+}
+async function repPlay(m, video) {
+  const g = repGame(m);
+  if (!g) return mpToast(L("找不到这个游戏的文件，没法看"));
+  const data = await repGet(m.id);
+  if (!data || !data.segs || !data.segs.length) return mpToast(L("这个回放读不出来了"));
+  play(g, { solo: true, fresh: true, replay: { meta: m, segs: data.segs, video } });
+}
+
+// ---- 看回放：下面一条控制栏 ----
+// 控制栏放在上面那一行按钮下面（放在画面上会挡住游戏，也会和模拟器自己的菜单栏叠在一起）
+const repBar = document.createElement("div");
+repBar.id = "repBar"; repBar.hidden = true;
+document.getElementById("topbar").appendChild(repBar);
+function repWake() {}
+async function repBegin(g, r) {
+  const run = replayRun = { g, meta: r.meta, segs: r.segs, pos: { frame: 0, total: r.segs.reduce((a, s) => a + s.n, 0), paused: false }, exp: null };
+  document.getElementById("nowPlaying").textContent = "🎬 " + L("回放：{0}", gameName(g));
+  repBar.innerHTML = `<div class="rb-ctl"><button class="btn" id="rbPlay" title="${escapeHtml(L("暂停 / 继续（空格）"))}">⏸</button>`
+    + `<button class="btn secondary" id="rbBack" title="${escapeHtml(L("后退 5 秒（←）"))}">⏪</button>`
+    + `<input type="range" id="rbSeek" min="0" max="${Math.max(1, run.pos.total - 1)}" value="0">`
+    + `<span class="rb-time" id="rbTime">0:00 / ${repTime(run.pos.total)}</span>`
+    + `<button class="btn secondary" id="rbA" title="${escapeHtml(L("把现在的位置设为导出片段的起点"))}">${escapeHtml(L("起点"))}</button>`
+    + `<button class="btn secondary" id="rbB" title="${escapeHtml(L("把现在的位置设为导出片段的终点"))}">${escapeHtml(L("终点"))}</button>`
+    + `<span class="rb-range" id="rbRange" hidden><span id="rbRangeT"></span><button class="linkbtn" id="rbRangeX" title="${escapeHtml(L("不要片段了（导出整个回放）"))}">✕</button></span>`
+    + `<select id="rbSpeed" title="${escapeHtml(L("速度"))}">${[0.5, 1, 2, 4, 8].map(x => `<option value="${x}"${x === 1 ? " selected" : ""}>${x}×</option>`).join("")}</select>`
+    + `<button class="btn secondary" id="rbVideo">🎞 ${escapeHtml(L("导出视频"))}</button></div>`
+    + `<div class="rb-exp" id="rbExp" hidden><span id="rbExpText"></span><span class="rb-prog"><i id="rbExpBar"></i></span><button class="btn" id="rbExpSave">${escapeHtml(L("停止并保存"))}</button><button class="btn secondary" id="rbExpStop">${escapeHtml(L("取消"))}</button></div>`;
+  repBar.hidden = false;
+  document.getElementById("turboBtn").hidden = true;   // 看回放用不到连发、换位置
+  const sb = document.getElementById("slotBtn"); if (sb) sb.hidden = true;
+  const np0 = () => hostNet();
+  document.getElementById("rbPlay").onclick = () => { const np = np0(); if (np && np.replayPause) np.replayPause(); };
+  document.getElementById("rbBack").onclick = () => repKey("ArrowLeft");
+  const seek = document.getElementById("rbSeek");
+  seek.oninput = () => { run.dragging = true; document.getElementById("rbTime").textContent = repTime(+seek.value) + " / " + repTime(run.pos.total); };
+  seek.onchange = () => { run.dragging = false; const np = np0(); if (np && np.replaySeek) np.replaySeek(+seek.value); };
+  document.getElementById("rbSpeed").onchange = e => { const np = np0(); if (np && np.replaySpeed) np.replaySpeed(+e.target.value); focusGame(); };
+  document.getElementById("rbVideo").onclick = () => repExportAsk();
+  document.getElementById("rbExpStop").onclick = () => repExportCancel();
+  document.getElementById("rbExpSave").onclick = () => { const x = run.exp; if (x && x.stop && !x.saving) { x.saving = true; x.stop(); } };
+  // 导出片段：在进度条上选起点、终点（不选 = 整个回放）
+  document.getElementById("rbA").onclick = () => {
+    const f = run.pos.frame; run.mark = run.mark || { a: 0, b: run.pos.total };
+    run.mark.a = f; if (run.mark.b <= f) run.mark.b = run.pos.total;
+    repRangeShow(); focusGame();
+  };
+  document.getElementById("rbB").onclick = () => {
+    const f = run.pos.frame; run.mark = run.mark || { a: 0, b: run.pos.total };
+    if (f <= run.mark.a) { mpToast(L("终点要在起点后面")); return; }
+    run.mark.b = f; repRangeShow(); focusGame();
+  };
+  document.getElementById("rbRangeX").onclick = () => { run.mark = null; repRangeShow(); focusGame(); };
+  let np = null;
+  for (let i = 0; i < 600 && !(np && hostEmu()); i++) { await new Promise(res => setTimeout(res, 100)); if (replayRun !== run) return; np = hostNet(); }
+  if (!np || !np.replayStart) { mpToast(L("这个回放读不出来了")); return; }
+  await new Promise(res => setTimeout(res, 300));
+  if (replayRun !== run) return;
+  np.setEventHandler(repEvent);
+  try { await np.replayStart({ segs: r.segs }); } catch (e) { console.warn("replay", e); mpToast(L("这个回放读不出来了")); return; }
+  if (r.video) repExportAsk();
+}
+function repRange(run) {
+  const m = run.mark, tot = run.pos.total;
+  return m && (m.a > 0 || m.b < tot) ? { a: m.a, b: m.b, part: true } : { a: 0, b: tot, part: false };
+}
+function repRangeShow() {
+  const run = replayRun, el = document.getElementById("rbRange");
+  if (!run || !el) return;
+  const r = repRange(run);
+  el.hidden = !r.part;
+  document.getElementById("rbRangeT").textContent = L("片段 {0}–{1}", repTime(r.a), repTime(r.b));
+}
+function repEvent(t, d) {
+  const run = replayRun;
+  if (!run) return;
+  if (t === "replayPos") { run.pos = d; repBarUpdate(); }
+  else if (t === "replayEnd") { run.pos = d; repBarUpdate(); if (run.exp && run.exp.onEnd) run.exp.onEnd(); else repWake(); }
+  else if (t === "guestBlocked") mpToast(L("看回放时不能读档或重置"));
+  else if (t === "speedBlocked") mpToast(L("看回放时请用下面的速度按钮"));
+}
+function repBarUpdate() {
+  const run = replayRun, p = run && run.pos;
+  if (!p) return;
+  const b = document.getElementById("rbPlay"); if (b) b.textContent = p.ended ? "↺" : p.paused ? "▶" : "⏸";
+  const s = document.getElementById("rbSeek"); if (s && !run.dragging) s.value = p.frame;
+  const t = document.getElementById("rbTime"); if (t && !run.dragging) t.textContent = repTime(p.frame) + " / " + repTime(p.total);
+  if (run.exp) {
+    const x = run.exp, len = Math.max(1, x.b - x.a);
+    const done = Math.max(0, x.fast ? x.done || 0 : (x.rec ? p.frame - x.a : 0));
+    const pct = Math.min(100, Math.floor(done / len * 100));
+    const secs = (performance.now() - (x.t0 || performance.now())) / 1000;
+    const rate = secs > 1 && done > 0 ? done / 60 / secs : 0;   // 几倍速（1 = 正常速度）
+    const left = rate ? repTime((len - done) / rate) : "…";
+    document.getElementById("rbExpText").textContent = x.fast
+      ? L("正在快速导出视频（没有声音）… {0}%（{1} 倍速，还要约 {2}）", pct, rate ? rate.toFixed(1) : "…", left)
+      : L("正在导出视频… {0}%（还要约 {1}，请不要切到别的窗口）", pct, x.rec ? repTime(len - done) : "…");
+    document.getElementById("rbExpBar").style.width = pct + "%";
+  }
+}
+// 键盘：空格 暂停 / 继续，← → 后退 / 前进 5 秒（游戏画面里按也行）
+function repKey(code) {
+  const run = replayRun, np = hostNet();
+  if (!run || run.exp || !np || !np.replaySeek) return false;
+  if (code === "Space" || code === "ShiftRight") np.replayPause();
+  else if (code === "ArrowLeft") np.replaySeek(run.pos.frame - 300);
+  else if (code === "ArrowRight") np.replaySeek(run.pos.frame + 300);
+  else return false;
+  repWake();
+  return true;
+}
+window.__repKey = repKey;
+document.addEventListener("keydown", e => {
+  if (!replayRun || isTyping(e.target) || e.repeat && e.code === "Space") return;
+  if (e.target && e.target.closest && e.target.closest(".modal")) return;
+  if (repKey(e.code)) e.preventDefault();
+});
+
+// ---- 导出视频 ----
+// 带声音：从头按正常速度放一遍，同时把画面和声音录下来（要和回放一样长的时间）。
+// 不要声音：能跑多快跑多快，每一帧画面直接压缩成视频（快很多）。
+// 存到电脑上：本机打开的页面交给本机的服务存进「视频」文件夹；别的设备（手机浏览器）上就直接下载
+let repExpModal = null;
+function repExportAsk() {
+  const run = replayRun;
+  if (!run || run.exp) return;
+  const np = hostNet(); if (np && np.replayPause && !run.pos.paused) np.replayPause(true);
+  if (!repExpModal) { repExpModal = document.createElement("div"); repExpModal.className = "modal"; repExpModal.id = "repExpModal"; document.body.appendChild(repExpModal); }
+  const fastOk = !!(window.VideoEncoder && window.VideoFrame), rg = repRange(run);
+  repExpModal.innerHTML = `<div class="modal-box cont-box"><h3>🎞 ${escapeHtml(L("导出视频"))}<button class="linkbtn" data-x="close">✕</button></h3>`
+    + `<div class="cont-when">${escapeHtml(L("导出范围：{0}", rg.part ? L("片段 {0}–{1}", repTime(rg.a), repTime(rg.b)) : L("整个回放")))}</div>`
+    + `<div class="cont-acts"><button class="btn" data-x="real">🔊 ${escapeHtml(L("带声音（要 {0}）", repTime(rg.b - rg.a)))}</button>`
+    + `<button class="btn secondary" data-x="fast"${fastOk ? "" : " disabled"}>⚡ ${escapeHtml(L("不要声音，快速导出"))}</button></div>`
+    + `<div class="cont-note">${escapeHtml(L("带声音：按正常速度从头放一遍，边放边录，导出时请不要切到别的窗口。"))}<br>`
+    + escapeHtml(fastOk ? L("快速导出：比正常速度快很多，但没有声音。") : L("这个浏览器不支持快速导出。")) + "<br>"
+    + escapeHtml(serverCfg && updLocal ? L("视频会存在这台设备上，导出完会告诉你存在哪里。") : L("导出完会直接下载。")) + `</div></div>`;
+  repExpModal.hidden = false;
+  repExpModal.querySelectorAll("[data-x]").forEach(b => b.onclick = () => {
+    repExpModal.hidden = true;
+    if (b.dataset.x === "real") repExport(false);
+    else if (b.dataset.x === "fast") repExport(true);
+    else focusGame();
+  });
+}
+async function repExport(fast) {
+  const run = replayRun, f = stage.querySelector("iframe"), np = hostNet();
+  if (!run || run.exp || !f || !np) return;
+  let fw, cv;
+  try { fw = f.contentWindow; cv = fw.document.querySelector("#game canvas"); } catch (e) {}
+  if (!cv || !cv.width) return mpToast(L("没能导出视频：{0}", "canvas"));
+  const rg = repRange(run);
+  const exp = run.exp = { fast, pct: 0, cancel: false, a: rg.a, b: rg.b, done: 0, t0: performance.now() };
+  document.querySelector("#repBar .rb-ctl").hidden = true;
+  document.getElementById("rbExp").hidden = false;
+  repBarUpdate();
+  // 快速导出时把声音关掉（跑得太快，声音是乱的）
+  const sources = () => { try { return Object.values(fw.EJS_emulator.Module.AL.currentCtx.sources || {}).filter(s => s && s.gain && s.gain.gain); } catch (e) { return []; } };
+  const vol0 = new Map(sources().map(s => [s, s.gain.gain.value]));
+  if (fast) sources().forEach(s => { try { s.gain.gain.value = 0; } catch (e) {} });
+  let blob = null, ext = "mp4", err = null;
+  try {
+    const out = fast ? await repExportFast(run, cv, np) : await repExportReal(run, fw, cv, np);
+    blob = out.blob; ext = out.ext;
+  } catch (e) { err = e; }
+  if (fast) sources().forEach(s => { try { if (vol0.has(s)) s.gain.gain.value = vol0.get(s); } catch (e) {} });
+  try { np.replayExport(null, false); np.replayPause(true); } catch (e) {}
+  run.exp = null;
+  if (replayRun === run) { document.querySelector("#repBar .rb-ctl").hidden = false; document.getElementById("rbExp").hidden = true; repBarUpdate(); }
+  if (exp.cancel) return mpToast(L("已取消导出"));
+  if (blob && !blob.size) return mpToast(L("没能导出视频：{0}", "0 B"));
+  if (err || !blob) return mpToast(L("没能导出视频：{0}", (err && err.message) || "?"));
+  await repSaveVideo(blob, ext, gameName(run.g));
+}
+function repExportCancel() {
+  const run = replayRun;
+  if (!run || !run.exp) return;
+  run.exp.cancel = true;
+  if (run.exp.stop) run.exp.stop();
+}
+function repExportReal(run, fw, cv, np) {
+  if (!window.MediaRecorder) return Promise.reject(new Error("MediaRecorder"));
+  const types = ["video/mp4;codecs=avc1.640028,mp4a.40.2", "video/mp4;codecs=avc1,mp4a.40.2", "video/mp4;codecs=avc1,opus", "video/mp4",
+    "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"];
+  const type = types.find(t => { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } });
+  if (!type) return Promise.reject(new Error("MediaRecorder"));
+  const vs = cv.captureStream(60), as = fw.__ejsAudioStream;
+  const ms = new MediaStream([...vs.getVideoTracks(), ...(as ? as.getAudioTracks() : [])]);
+  const mr = new MediaRecorder(ms, { mimeType: type, videoBitsPerSecond: 8000000, audioBitsPerSecond: 192000 });
+  const chunks = [];
+  mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+  return new Promise((ok, no) => {
+    mr.onstop = () => { vs.getTracks().forEach(t => t.stop()); ok({ blob: new Blob(chunks, { type: type.split(";")[0] }), ext: type.startsWith("video/mp4") ? "mp4" : "webm" }); };
+    mr.onerror = e => no(e.error || new Error("MediaRecorder"));
+    run.exp.onEnd = () => setTimeout(() => { try { mr.stop(); } catch (e) { no(e); } }, 400);
+    run.exp.stop = () => { try { if (mr.state !== "inactive") mr.stop(); else ok({ blob: null }); } catch (e) {} };
+    np.replaySpeed(1);
+    const sp = document.getElementById("rbSpeed"); if (sp) sp.value = "1";
+    const x = run.exp;
+    np.replayRange(x.a, x.b, true);
+    // 先跳到起点（快速跑过去的画面不录），到了再开始录、开始放
+    const go = () => {
+      if (run.exp !== x || x.cancel || x.saving) return;
+      let info = null; try { info = np.replayInfo(); } catch (e) {}
+      if (info && info.seeking) return setTimeout(go, 15);
+      x.rec = true; x.t0 = performance.now();
+      mr.start(1000);
+      np.replayPause(false);
+    };
+    go();
+  });
+}
+async function repExportFast(run, cv, np) {
+  // 视频大小：按游戏画面放大到 720p 左右（像素画用整数倍放大，不模糊），最大 1920×1080
+  let W = cv.width, H = cv.height;
+  let k = H < 540 ? Math.max(1, Math.round(720 / H)) : 1;
+  k = Math.min(k, 1920 / W, 1080 / H) || 1;
+  W = Math.max(2, Math.round(W * k / 2) * 2); H = Math.max(2, Math.round(H * k / 2) * 2);
+  const cands = [["avc1.640028", "mp4"], ["avc1.4d0028", "mp4"], ["avc1.42e01f", "mp4"], ["vp09.00.40.08", "webm"], ["vp8", "webm"]];
+  let pick = null;
+  for (const [codec, box] of cands) {
+    try { const s = await VideoEncoder.isConfigSupported({ codec, width: W, height: H, bitrate: 8000000, framerate: 60 }); if (s && s.supported) { pick = { codec, box }; break; } } catch (e) {}
+  }
+  if (!pick) throw new Error("VideoEncoder");
+  const mp4 = pick.box === "mp4";
+  if (mp4 && !window.Mp4Muxer) await loadScript("data/mp4-muxer.js");
+  if (!mp4 && !window.WebMMuxer) await loadScript("data/webm-muxer.js");
+  const muxer = mp4
+    ? new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), video: { codec: "avc", width: W, height: H, frameRate: 60 }, fastStart: "in-memory" })
+    : new WebMMuxer.Muxer({ target: new WebMMuxer.ArrayBufferTarget(), video: { codec: pick.codec.startsWith("vp09") ? "V_VP9" : "V_VP8", width: W, height: H, frameRate: 60 } });
+  let encErr = null;
+  const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: e => { encErr = e; } });
+  enc.configure(Object.assign({ codec: pick.codec, width: W, height: H, bitrate: 8000000, framerate: 60 }, mp4 ? { avc: { format: "avc" } } : {}));
+  const c2 = document.createElement("canvas"); c2.width = W; c2.height = H;
+  const x2 = c2.getContext("2d");
+  x2.imageSmoothingEnabled = W < cv.width;
+  let i = 0;
+  return new Promise((ok, no) => {
+    const done = async () => {
+      try {
+        np.replayExport(null, false);
+        if (run.exp.cancel || !i) { try { enc.close(); } catch (e) {} return ok({ blob: null }); }
+        await enc.flush(); enc.close();
+        muxer.finalize();
+        ok({ blob: new Blob([muxer.target.buffer], { type: mp4 ? "video/mp4" : "video/webm" }), ext: mp4 ? "mp4" : "webm" });
+      } catch (e) { no(e); }
+    };
+    run.exp.onEnd = done;
+    run.exp.stop = done;
+    const x = run.exp;
+    x.t0 = performance.now();
+    np.replayExport((g, total) => {
+      if (encErr) { no(encErr); np.replayExport(null, false); return false; }
+      x2.drawImage(cv, 0, 0, W, H);
+      const vf = new VideoFrame(c2, { timestamp: Math.round(i * 1e6 / 60), duration: Math.round(1e6 / 60) });
+      enc.encode(vf, { keyFrame: i % 120 === 0 });
+      vf.close();
+      i++;
+      x.done = i;
+      if (i % 30 === 0) repBarUpdate();
+      return enc.encodeQueueSize < 6;
+    }, true, x.a, x.b);
+  });
+}
+// 存视频：本机的页面 → 存进电脑（或手机）的「视频」文件夹；不行就下载
+async function repSaveVideo(blob, ext, title) {
+  const d = new Date(), pad = n => String(n).padStart(2, "0");
+  const name = (String(title || "EmulatorJS").replace(/[\\/:*?"<>|\x00-\x1f]+/g, " ").replace(/\s+/g, " ").trim().slice(0, 80) || "EmulatorJS")
+    + ` ${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}.${pad(d.getMinutes())}.${pad(d.getSeconds())}.${ext}`;
+  if (serverCfg && updLocal) {
+    try {
+      const CH = 32 * 1024 * 1024;
+      let j = null;
+      for (let off = 0; off < blob.size || off === 0; off += CH) {
+        const part = blob.slice(off, off + CH);
+        const q = new URLSearchParams({ kind: "videos", rel: name, offset: off, total: blob.size });
+        const r = await fetch("/api/rom/save?" + q, { method: "POST", headers: { "X-EJS": "1" }, body: part });
+        j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error || r.status);
+        if (off + CH >= blob.size) break;
+      }
+      if (j && j.done) return repSavedShow(j.path || name, blob.size);
+    } catch (e) { console.warn("video save", e); }
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 120000);
+  repSavedShow("", blob.size, name);
+}
+function repSavedShow(where, size, dl) {
+  if (!repExpModal) { repExpModal = document.createElement("div"); repExpModal.className = "modal"; repExpModal.id = "repExpModal"; document.body.appendChild(repExpModal); }
+  repExpModal.innerHTML = `<div class="modal-box cont-box"><h3>✅ ${escapeHtml(L("视频导出好了"))}</h3>`
+    + `<div class="cont-note" style="font-size:13px;color:var(--text)">${escapeHtml(where ? L("存在：") : L("已下载：")) }<br><code class="rep-path">${escapeHtml(where || dl)}</code>（${fmtMB(size)}）</div>`
+    + `<div class="cont-acts"><button class="btn" data-x="ok">${escapeHtml(L("好"))}</button></div></div>`;
+  repExpModal.hidden = false;
+  repExpModal.querySelector("[data-x]").onclick = () => { repExpModal.hidden = true; focusGame(); };
+}
+
 // ---- 换位置：我控制几 P（那个位置空着才能换）----
 // FC、超任很多游戏只有 1P 能暂停、进菜单：2P 一个人继续时，可以先换到 1P；1P 原来的人回来了，自动换回去
 var mySlotNow = 0, mySlotHome = 0;
@@ -2687,7 +3167,7 @@ function slotMenuOpen() {
 document.addEventListener("mousedown", e => { if (!slotMenu.hidden && !slotMenu.contains(e.target) && e.target !== slotBtn) slotMenu.hidden = true; }, true);
 function updateSlotBtn() {
   if (!slotBtn) return;
-  const show = !!(playingGame && stage.querySelector("iframe") && !mpGuest && slotMax() > 1);
+  const show = !!(playingGame && stage.querySelector("iframe") && !mpGuest && !replayRun && slotMax() > 1);
   slotBtn.hidden = !show;
   if (show) slotBtn.textContent = "🎮 " + L("我是 {0}", "P" + (mySlotNow + 1)) + " ⇄";
 }
@@ -5378,6 +5858,7 @@ async function mpJoinSync(s, g, watch = false) {
     else if (ev === "speedBlocked") mpToast(L("联机时不能加速或减速"));
     else if (ev === "handover") hoTakeOver(me);
   });
+  if (repOn() && np.recStart) np.recStart({ guest: true });   // 回放从和主机对齐的那一帧开始录
   np.startGuest({ watch, send: m => { const dc = me.dc; if (dc && dc.readyState === "open") dc.send(JSON.stringify(m)); } });
 }
 // 快速通道：由乱入的人这边建立（旧版本的主机不认识它，会直接忽略，照样用原来的通道）
@@ -6403,7 +6884,7 @@ async function play(g, opts = {}) {
   }
   if (NEEDS_BIOS[g.system] && !biosFiles[g.system]) return showBiosMissing(g);
   // 上次玩到一半：先问继续还是新游戏
-  if (!opts.netGuest && !opts.cont && !opts.fresh && contHas(g)) {
+  if (!opts.netGuest && !opts.cont && !opts.fresh && !opts.replay && contHas(g)) {
     const rec = await contGet(gameKey(g));
     if (rec && rec.state && rec.state.length) return contAsk(g, rec, opts);
   }
@@ -6575,6 +7056,13 @@ async function play(g, opts = {}) {
   // 继续上次的游戏、在等朋友时：回车 = 不等了，开始
   document.addEventListener("keydown", e => {
     try { if (e.key === "Enter" && !e.repeat && parent.__contHolding && parent.__contHolding()) { e.preventDefault(); e.stopPropagation(); parent.__contGo(); } } catch (x) {}
+  }, true);
+  // 看回放：空格 / 右 Shift 暂停，← → 后退 / 前进 5 秒（交给主页面）
+  document.addEventListener("keydown", e => {
+    const np = window.EJSNet;
+    if (!np || np.role !== "replay" || !["Space", "ShiftRight", "ArrowLeft", "ArrowRight"].includes(e.code)) return;
+    e.preventDefault(); e.stopPropagation();
+    if (!(e.repeat && e.code !== "ArrowLeft" && e.code !== "ArrowRight")) try { parent.__repKey(e.code); } catch (x) {}
   }, true);
   // 右 Shift 暂停 / 继续
   document.addEventListener("keydown", e => {
@@ -6873,7 +7361,8 @@ async function play(g, opts = {}) {
 </body></html>`;
   stage.appendChild(frame);
   frame.focus();
-  if (!opts.netGuest) { mpStartHosting(g, opts.solo); playStart(g, "solo"); }
+  if (opts.replay) repBegin(g, opts.replay);   // 看回放：不开房间，别人不能乱入
+  else if (!opts.netGuest) { mpStartHosting(g, opts.solo); playStart(g, "solo"); repArm(g); }
   if (contRun && contRun.g === g) contApply(contRun);
   updateSlotBtn();
 }
@@ -7453,7 +7942,7 @@ window.cheatLibOpen = cheatLibOpen;
 // 新版本的信息放在公开的下载仓库里（latest.json）。打开程序后、之后每 6 小时看一次；点左边的版本号也能马上检查。
 // Windows 安装版：程序自己下载新的安装包、核对无误后安装（下载慢或失败时提示去百度网盘）；
 // 其他版本（Mac、Windows 免安装版、文件夹版、安卓）：提示有新版本，点一下打开下载地址。
-const APP_VERSION = "1.3.7";
+const APP_VERSION = "1.3.8";
 const UPD_REPO = "supwang/emulatorjs-releases";
 const UPD_SOURCES = [
   "https://api.github.com/repos/" + UPD_REPO + "/contents/latest.json?ref=main",

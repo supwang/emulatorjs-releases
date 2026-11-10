@@ -146,14 +146,23 @@ function createServer(opts) {
   }
   // ---- ROM / BIOS downloaded from another player's computer: written piece by piece into our own folder ----
   const BAD_NAME = /\.(exe|bat|cmd|com|ps1|psm1|vbs|vbe|js|jse|wsf|wsh|msi|scr|lnk|reg|sh|command|app|py|pyw|html?|dll|dylib|so|jar)$/i;
+  // where videos exported from replays go: the user's Movies / Videos folder (Android: phone storage), else next to the app
+  function videosDir() {
+    const cands = opts.videos ? [opts.videos] : [path.join(os.homedir(), process.platform === "darwin" ? "Movies" : "Videos", "EmulatorJS")];
+    for (const d of APP_DIRS_NOW()) cands.push(path.join(d, "videos"));
+    for (const c of cands) {
+      try { fs.mkdirSync(c, { recursive: true }); if (canWrite(c)) return c; } catch (e) {}
+    }
+    return "";
+  }
   async function romSave(q, req) {
     const kind = q.get("kind") || "roms", offset = Number(q.get("offset")), total = Number(q.get("total"));
     const length = Number(req.headers["content-length"] || 0);
-    if (kind !== "roms" && kind !== "bios" && kind !== "thumbs") return [{ error: "bad kind" }, 400];
+    if (kind !== "roms" && kind !== "bios" && kind !== "thumbs" && kind !== "videos") return [{ error: "bad kind" }, 400];
     const keep = q.get("keep") === "1";   // thumbnails: if we already have one with this name, keep ours
     if (!Number.isInteger(offset) || !Number.isInteger(total)) return [{ error: "bad request" }, 400];
     const cfg = currentConfig();
-    let used = kind, base = cfg[kind].ok ? cfg[kind].path : "";
+    let used = kind, base = kind === "videos" ? videosDir() : cfg[kind].ok ? cfg[kind].path : "";
     if (!base && kind === "bios" && cfg.roms.ok) { base = cfg.roms.path; used = "roms"; }   // no BIOS folder: use the ROM folder
     if (!base && kind === "thumbs") {
       // no thumbnails folder yet: make one next to the ROM folder (or next to the app) and remember it in the settings
@@ -196,7 +205,9 @@ function createServer(opts) {
       }
       fs.renameSync(part, final);
     }
-    return [{ ok: true, done: true, kind: used, rel: path.relative(baseReal, final).split(path.sep).join("/") }, 200];
+    const out = { ok: true, done: true, kind: used, rel: path.relative(baseReal, final).split(path.sep).join("/") };
+    if (kind === "videos") out.path = final;   // videos exported from replays: tell the page where the file is
+    return [out, 200];
   }
   function listFiles(base, limit = 100000) {
     const out = [];

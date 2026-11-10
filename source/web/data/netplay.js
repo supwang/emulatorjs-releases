@@ -40,7 +40,7 @@
     try {
       const FS = gm.FS, oRead = FS.read;
       if (typeof oRead === "function") FS.read = function (stream) {
-        if (pendingLoad && !loadRead && stream && /game\.state$/.test(String(stream.path || ""))) { loadRead = true; loadAfterRun = fnum() > stepFrom; }
+        if ((pendingLoad || loadWatch) && !loadRead && stream && /game\.state$/.test(String(stream.path || ""))) { loadRead = true; loadAfterRun = fnum() > stepFrom; }
         return oRead.apply(this, arguments);
       };
     } catch (e) {}
@@ -49,6 +49,7 @@
       if (!NP.active) {
         // 一个人玩、但我是 2P（继续上次 2P 的进度）：本机的 1 号手柄 / 键盘控制 2P，反过来也换一下
         if (NP.localSlot && index < 24 && (player === 0 || player === NP.localSlot)) player = player ? 0 : NP.localSlot;
+        recInput(player, index, value);
         return orig(player, index, value);
       }
       if (index >= 24) { if (NP.role === "host") orig(player, index, value); return; }   // 存读档热键：只有主机能用
@@ -59,21 +60,39 @@
     // 联机时不能加速 / 减速（大家必须一帧一帧同步）
     for (const fn of ["toggleFastForward", "toggleSlowMotion", "toggleRewind"]) {
       const o = gm.functions[fn];
-      if (typeof o === "function") gm.functions[fn] = v => { if (NP.active && v) return onEvent("speedBlocked"); return o(v); };
+      if (typeof o === "function") gm.functions[fn] = v => {
+        if (NP.active && v) return onEvent("speedBlocked");
+        if (fn === "toggleRewind" && !NP.active) { if (v) recEnd(); else recSoon(); }   // 倒带：回放从倒带完的地方重新开始一段
+        return o(v);
+      };
     }
-    const oRestart = gm.restart.bind(gm), oLoad = gm.loadState.bind(gm);
+    const oRestart = gm.restart.bind(gm), oLoad = gm.loadState.bind(gm), oQuick = gm.quickLoad.bind(gm);
+    const notHost = () => NP.active && NP.role !== "host";   // 乱入的人、看回放时：不能重置 / 读档
     gm.restart = () => {
-      if (NP.active && NP.role === "guest") return onEvent("guestBlocked");
+      if (notHost()) return onEvent("guestBlocked");
       oRestart();
       if (NP.active) resyncAt = executed() + 3;   // 主机重置了游戏：过几帧把新状态发给大家
+      else recBreak();
     };
     gm.loadState = s => {
-      if (NP.active && NP.role === "guest" && !internalLoad) return onEvent("guestBlocked");
+      if (notHost() && !internalLoad) return onEvent("guestBlocked");
       oLoad(s);
       if (NP.active && NP.role === "host" && !internalLoad) resyncAt = executed() + 3;
+      if (!NP.active && !internalLoad) recBreak();
     };
+    // 读快速存档（热键）：模拟器直接读，不经过 loadState。联机的主机读了也要让大家重新对齐
+    gm.quickLoad = slot => {
+      if (notHost()) return onEvent("guestBlocked");
+      oQuick(slot);
+      if (NP.active) resyncAt = executed() + 3; else recBreak();
+    };
+    for (const fn of ["setCheat", "resetCheat", "setVariable", "setCurrentDisk"]) {
+      const o = typeof gm[fn] === "function" ? gm[fn].bind(gm) : null;
+      if (o) gm[fn] = (...a) => { const r = o(...a); if (!NP.active) recBreak(); return r; };
+    }
   }
   function apply(masks) {
+    if (!masks) return;
     for (let s = 0; s < 4; s++) {
       const d = applied[s] < 0 ? 0xffff : (masks[s] || 0) ^ applied[s];   // -1 = 不知道模拟器现在按着什么：16 个键全部重新告诉它
       if (!d) continue;
@@ -89,15 +108,23 @@
   // 已经加了 = 这一帧先跑完、档才读进去（这一帧不算，下一帧从档开始跑）；还没加 = 档先读进去、这一帧从档开始跑（算数）
   let pendingLoad = null, loadRead = false, loadAfterRun = false, stepFrom = 0;
   let loadSimple = false;
+  // 简单方式读档时，档还没读进去之前跑了几帧（那几帧跑的还是旧的游戏，却算了数）。回放要知道这个，才能和当时一模一样
+  let loadWatch = false, staleRun = 0;
   function load(st, simple) {
     loadSimple = !!simple;
-    loadRead = false; loadAfterRun = false;
+    loadRead = false; loadAfterRun = false; loadWatch = true; staleRun = 0;
     pendingLoad = st;
     internalLoad = true;
     try { gm.loadState(st); } finally { internalLoad = false; }
   }
   const curState = () => pendingLoad || gm.getState();
   function step(masks) {
+    const ok = step0(masks);
+    if (ok && masks && REC.seg && NP.active) recFrame(executed() - 1, masks);   // 回放：记下这一帧大家的按键
+    if (ok && NP.dbg) { const f = (NP.role === "replay" ? RP.segs[RP.si].f0 : 0) + executed(); if (f % 30 === 0) NP.dbg[f] = stateHash(); }   // 只在测试时用
+    return ok;
+  }
+  function step0(masks) {
     const cb = held;
     if (!cb) return false;
     apply(masks);
@@ -106,6 +133,14 @@
     held = null;
     cb(performance.now());
     const ran = fnum() > b;
+    if (loadWatch && ran) {
+      if (!loadRead || loadAfterRun) staleRun++;
+      if (loadRead) {
+        loadWatch = false;
+        const sg = REC.seg;
+        if (sg && sg.k === "n" && sg.wantS0 && sg.s0 === undefined) sg.s0 = loadSimple ? staleRun : 0;
+      }
+    }
     if (!pendingLoad) return ran;
     if (loadSimple) { if (ran) pendingLoad = null; return ran; }       // 同步读档：照旧的简单做法（实测更稳）
     if (loadRead && !loadAfterRun) { pendingLoad = null; return ran; }   // 档先读进去：这一帧从档开始跑，算数
@@ -142,6 +177,7 @@
     await waitEmu();
     hook();
     if (NP.active) return;
+    recEnd();   // 一个人玩的这一段回放到此为止（联机的回放从对齐那一帧开始）
     NP.active = true;
     paused = !!NP.hold;
     // 模拟器自己暂停着（比如开着菜单）时主循环不会跑：先让它跑起来，才按得住
@@ -154,7 +190,10 @@
   }
   function deactivate() {
     if (!NP.active) return;
+    recEnd();
     NP.active = false;
+    RP.on = false;
+    recSoon(300);
     clearTimeout(tickTimer); tickTimer = null;
     const keep = [0, 0, 0, 0]; keep[NP.localSlot] = localMask[NP.localSlot];
     apply(keep);
@@ -197,6 +236,7 @@
     const raw = curState();
     const rb = rbWanted();
     load(raw, true);
+    recBeginNet(J, raw, rb);
     for (let s = 0; s < 4; s++) applied[s] = -1;
     let st = null, stz = null;
     const plain = () => st || (st = toB64(raw));
@@ -417,6 +457,7 @@
       delete G.parts[msg.k];
       load(st, true);
       base = fnum() - msg.f;
+      recBeginNet(msg.f, st, msg.mode === "rb");
       for (let s = 0; s < 4; s++) applied[s] = -1;   // 读档后：所有按键重新告诉模拟器
       G.delay = msg.d;
       if (RB.on) rbStop();
@@ -675,9 +716,257 @@
 
   function tick() {
     if (!NP.active) return;
-    try { if (NP.role === "host") hostTick(); else if (NP.role === "guest") guestTick(); }
+    try { if (NP.role === "host") hostTick(); else if (NP.role === "guest") guestTick(); else if (NP.role === "replay") rpTick(); }
     catch (e) { console.error("[netplay]", e); schedule(50); }
   }
+
+  // ================= 回放：录下开局状态 + 之后每一帧的按键 =================
+  // 一个人玩：每次按键都记下「第几帧、谁、哪个键、按下还是松开」。按键总是在两帧之间生效，所以回放时在同一帧开始前按同样的键，游戏就会一模一样。
+  // 联机：直接记下每一帧大家的按键（就是联机本来要传的那些），从对齐的那一帧开始。
+  // 读档、重置、倒带、开关金手指、改核心设置、换光盘、开始 / 结束联机：游戏不再是「按键能推出来的」，从这里重新开始一段（新的一段带一份当时的存档）。
+  // 录的时候几乎不花时间：每一段开头存一次档，之后只是往列表里加数字。
+  const REC = { on: false, segs: [], seg: null, cur: new Map(), soonT: 0 };
+  const KEY = (p, i) => p * 32 + i;   // 玩家 0~3、键 0~23（16 以后是摇杆）
+  function recInput(p, i, v) {
+    if (i >= 24 || p < 0 || p > 3) return;
+    const k = KEY(p, i);
+    if (v) REC.cur.set(k, v); else REC.cur.delete(k);
+    const s = REC.seg;
+    if (s && s.k === "s" && !NP.active) s.ev.push(fnum() - s.f0, k, v);
+  }
+  function recCheats() { try { return (window.EJS_emulator.cheats || []).filter(c => c && c.checked && c.code).map(c => String(c.code)); } catch (e) { return []; } }
+  // 核心设置（比如街机的地区、难度）：回放时先改成录的时候那样
+  function recOpts() {
+    const out = {};
+    try {
+      const emu = window.EJS_emulator, txt = gm.getCoreOptions() || "";
+      for (const line of txt.split("\n")) {
+        const parts = line.split("; ");
+        if (parts.length < 2) continue;
+        const key = parts[0].split("|")[0], vals = parts[1].split("|");
+        if (!key || vals.length < 2) continue;
+        const def = parts[0].split("|").length > 1 ? parts[0].split("|")[1] : vals[0].replace("(Default) ", "");
+        const v = emu.settings && Object.prototype.hasOwnProperty.call(emu.settings, key) ? emu.settings[key] : def;
+        out[key] = String(v);
+      }
+    } catch (e) {}
+    return out;
+  }
+  function recSoon(ms = 150) {
+    if (!REC.on) return;
+    clearTimeout(REC.soonT);
+    REC.soonT = setTimeout(recBeginSolo, ms);
+  }
+  // 读档 / 重置是下一两帧才生效的：先结束这一段，等一下（游戏已经变了）再存档开始新的一段
+  function recBreak() { if (!REC.on) return; recEnd(); recSoon(); }
+  function recBeginSolo() {
+    REC.soonT = 0;
+    if (!REC.on || NP.active || REC.seg) return;
+    const emu = window.EJS_emulator;
+    if (!emu || !emu.started || !gm) return recSoon(500);
+    let st;
+    try { st = gm.getState(); } catch (e) { return recSoon(1000); }
+    const s = REC.seg = { k: "s", f0: fnum(), st, ev: [], cheats: recCheats(), opts: recOpts(), t: Date.now() };
+    for (const [k, v] of REC.cur) s.ev.push(0, k, v);   // 开始时还按着的键
+  }
+  // rb = 回滚模式：开始前的自检会精确地重新读一次这个档，从这一帧开始一帧不差；延迟模式要记下读档晚了几帧（s0）
+  function recBeginNet(f0, st, rb) {
+    if (!REC.on) return;
+    recEnd();
+    REC.seg = { k: "n", f0, st: new Uint8Array(st), m: new Map(), ev: [], prev: [0, 0, 0, 0], done: f0 - 1, cheats: [], opts: recOpts(), t: Date.now(), wantS0: !rb };
+  }
+  // 联机：先按帧记下（回滚时会改前几帧），2 秒以前的不会再改了，就换成「哪一帧谁按了 / 松了哪个键」，不占内存
+  function recFrame(f, masks) {
+    const s = REC.seg;
+    if (!s || s.k !== "n" || f <= s.done) return;
+    s.m.set(f, masks.slice(0, 4));
+    if (f - s.done > 600) recFlush(s, f - 120);
+  }
+  function recFlush(s, upto) {
+    for (let f = s.done + 1; f <= upto; f++) {
+      const m = s.m.get(f) || s.prev;
+      for (let p = 0; p < 4; p++) {
+        const d = (m[p] | 0) ^ (s.prev[p] | 0);
+        if (d) for (let i = 0; i < 16; i++) if (d & (1 << i)) s.ev.push(f - s.f0, KEY(p, i), (m[p] >> i) & 1);
+      }
+      s.prev = m; s.m.delete(f);
+    }
+    s.done = Math.max(s.done, upto);
+  }
+  function recEnd() {
+    clearTimeout(REC.soonT); REC.soonT = 0;
+    const s = REC.seg;
+    REC.seg = null;
+    if (!s) return;
+    let n, ev;
+    if (s.k === "s") { n = fnum() - s.f0; ev = s.ev; }
+    else {
+      // 联机：回滚时往回改过的帧以最后一次为准；还没真正跑到的（猜的）不要
+      const lim = NP.active && gm ? executed() : Infinity;
+      let last = s.done;
+      for (const f of s.m.keys()) if (f < lim && f > last) last = f;
+      recFlush(s, last);
+      n = last + 1 - s.f0; ev = s.ev;
+    }
+    if (!(n > 0)) return;
+    const seg = { k: s.k, n, f0: s.f0, st: s.st, z: 0, ev, cheats: s.cheats, opts: s.opts, t: s.t, s0: Math.min(n - 1, s.s0 | 0) };
+    REC.segs.push(seg);
+    // 存档压缩一下（大部分是 0）：在后台线程做，不卡游戏
+    const z = window.fflate;
+    if (z && z.deflate && s.st.length > 65536) {
+      try { z.deflate(s.st, { level: 6 }, (err, out) => { if (!err && out && !seg.z) { seg.st = out; seg.z = 1; } }); } catch (e) {}
+    }
+  }
+  // 页面要回放了（退出游戏时）：拿走录好的几段，接着录（还在玩的话）
+  // guest：乱入的人从和主机对齐的那一帧开始录（自己这边还没对齐前的画面不要）
+  NP.recStart = async (opt = {}) => { await waitEmu(); hook(); if (REC.on || NP.role === "replay") return; REC.on = true; REC.segs = []; if (!NP.active && !opt.guest) recSoon(200); };
+  NP.recStop = () => { REC.on = false; clearTimeout(REC.soonT); REC.seg = null; REC.segs = []; };
+  NP.recTake = () => {
+    if (!REC.on && !REC.segs.length) return null;
+    const was = REC.seg && REC.seg.k;
+    recEnd();
+    const segs = REC.segs; REC.segs = [];
+    if (REC.on && was === "s" && !NP.active) recSoon(0);
+    return segs.length ? { segs } : null;
+  };
+  NP.recording = () => REC.on;
+
+  // ================= 看回放 =================
+  // 读每一段开头的存档，然后一帧一帧地跑，每一帧开始前按下录到的键。可以暂停、快进、拖动进度（往回拖：从最近的「书签」存档重新跑过去）
+  const RP = { on: false, segs: [], si: 0, p: 0, gf: [], total: 0, speed: 1, paused: false, t0: 0, g0: 0, ff: null, fast: false, endAt: null,
+    keys: [], keyBytes: 0, onFrame: null, lastPos: 0, ended: false };
+  const RP_KEY_EVERY = 600, RP_KEY_BYTES = 160 * 1024 * 1024;   // 每 10 秒留一个书签，最多占 160 MB
+  function rpRaw(i) {
+    const s = RP.segs[i];
+    if (!s.raw) s.raw = s.z ? window.fflate.inflateSync(s.st) : s.st;
+    for (let j = 0; j < RP.segs.length; j++) if (j !== i) RP.segs[j].raw = null;   // 只留着现在这一段的（街霸 3 一份 10 MB）
+    return s.raw;
+  }
+  const rpG = () => RP.gf[RP.si] + executed();
+  // 跳到第 g 帧（全部回放里的第几帧）：读那一段里最近的书签（或者开头），按键也恢复成那时候的，再快速跑到 g
+  function rpSeek(g) {
+    g = Math.max(0, Math.min(RP.total - 1, g | 0));
+    let si = 0;
+    while (si + 1 < RP.segs.length && RP.gf[si + 1] <= g) si++;
+    const seg = RP.segs[si], s0 = seg.s0 | 0;   // 联机时读档晚了几帧：这一段的存档对应的是第 s0 帧
+    const rel = Math.max(s0, g - RP.gf[si]);
+    g = RP.gf[si] + rel;
+    let from = s0, st = null;
+    for (const k of RP.keys) if (k.si === si && k.rel <= rel && k.rel >= from) { from = k.rel; st = k.st; }
+    if (!st) { from = s0; st = rpRaw(si); } else rpRaw(si);
+    // 按键：先全部松开，再按那一刻之前录到的
+    const vals = new Map();
+    let p = 0;
+    const ev = seg.ev;
+    while (p < ev.length && ev[p] < from) { if (ev[p + 2]) vals.set(ev[p + 1], ev[p + 2]); else vals.delete(ev[p + 1]); p += 3; }
+    for (let pl = 0; pl < 4; pl++) for (let i = 0; i < 24; i++) gm.functions.simulateInput(pl, i, vals.get(KEY(pl, i)) || 0);
+    for (let s = 0; s < 4; s++) applied[s] = 0;
+    if (RP.si !== si || !RP.optsDone) {
+      for (const [k, v] of Object.entries(seg.opts || {})) try { gm.setVariable(k, v); } catch (e) {}
+      try { gm.resetCheat(); (seg.cheats || []).forEach((c, j) => gm.setCheat(j, 1, c)); } catch (e) {}
+      RP.optsDone = true;
+    }
+    RP.si = si; RP.p = p;
+    load(st);   // 精确地判断读档在哪一帧生效（回放要和录的时候一帧不差）
+    base = fnum() - from;
+    RP.ff = g > from ? g : null;
+    RP.ended = false;
+    RP.g0 = g; RP.t0 = performance.now();
+  }
+  function rpInfo() { return { frame: RP.on ? Math.min(RP.total, rpG()) : 0, total: RP.total, speed: RP.speed, paused: RP.paused, ended: RP.ended, seeking: RP.ff !== null }; }
+  function rpTick() {
+    if (!RP.on) return;
+    if (RP.paused && RP.ff === null) return;
+    const start = performance.now(), frameMs = 1000 / 60 / RP.speed;
+    let wait = 1;
+    while (true) {
+      if (RP.paused && RP.ff === null) break;   // 暂停着跳进度：跳到了就停在那里
+      const seg = RP.segs[RP.si], n = executed();
+      if (n >= seg.n) {   // 这一段放完了：下一段，或者结束
+        if (RP.si + 1 >= RP.segs.length) {
+          RP.ended = true; RP.paused = true; RP.ff = null;
+          onEvent("replayPos", rpInfo()); onEvent("replayEnd", rpInfo());
+          return;
+        }
+        RP.optsDone = false;
+        const ff = RP.ff;
+        rpSeek(RP.gf[RP.si + 1]);
+        if (ff !== null) RP.ff = ff;
+        continue;
+      }
+      const g = RP.gf[RP.si] + n;
+      if (RP.endAt !== null && RP.ff === null && g >= RP.endAt) {   // 只导出一段：到终点了
+        RP.ended = true; RP.paused = true;
+        onEvent("replayPos", rpInfo()); onEvent("replayEnd", rpInfo());
+        return;
+      }
+      if (RP.ff === null && !RP.fast) {
+        const due = RP.g0 + Math.floor((performance.now() - RP.t0) / frameMs);
+        if (g > due) { wait = Math.max(0, Math.min(8, RP.t0 + (g - RP.g0) * frameMs - performance.now() - 1)); break; }
+        if (due - g > 30) { RP.g0 = g; RP.t0 = performance.now(); }   // 落后太多（电脑卡了一下）：不要快进追
+      }
+      // 书签：每 10 秒存一份（往回拖时从这里开始跑）
+      if (n % RP_KEY_EVERY === 0 && n && !RP.keys.some(k => k.si === RP.si && k.rel === n)) {
+        try {
+          const st = curState();
+          RP.keys.push({ si: RP.si, rel: n, st }); RP.keyBytes += st.length;
+          while (RP.keyBytes > RP_KEY_BYTES && RP.keys.length > 1) { const i = RP.keys.length > 2 ? 1 + Math.floor(Math.random() * (RP.keys.length - 2)) : 0; RP.keyBytes -= RP.keys[i].st.length; RP.keys.splice(i, 1); }
+        } catch (e) {}
+      }
+      // 这一帧开始前按下录到的键
+      const ev = seg.ev;
+      while (RP.p < ev.length && ev[RP.p] <= n) { const k = ev[RP.p + 1]; gm.functions.simulateInput(k >> 5, k & 31, ev[RP.p + 2]); RP.p += 3; }
+      if (!step(null)) { wait = 1; break; }
+      if (executed() === n) continue;   // 读档还没生效：这一帧不算
+      if (RP.ff !== null && g + 1 >= RP.ff) { RP.ff = null; RP.g0 = g + 1; RP.t0 = performance.now(); RP.lastPos = 0; }   // 跳到了：马上告诉页面（暂停着时之后不会再报）
+      if (RP.onFrame && RP.ff === null) {
+        let goOn = true;
+        try { goOn = RP.onFrame(g, RP.total) !== false; } catch (e) { console.warn("[replay] frame", e); }
+        if (!goOn) { wait = 4; break; }
+      }
+      if (performance.now() - start > (RP.ff !== null || RP.fast ? 40 : 25)) { wait = 0; break; }
+    }
+    const now = performance.now();
+    if (now - RP.lastPos > 250) { RP.lastPos = now; onEvent("replayPos", rpInfo()); }
+    schedule(wait);
+  }
+  // 开始看回放：rec = { segs: [{ n, st, z, ev, cheats, opts }] }
+  NP.replayStart = async rec => {
+    await waitEmu(); hook();
+    NP.recStop();
+    RP.segs = rec.segs.map(s => Object.assign({}, s, { raw: null }));
+    RP.gf = []; let t = 0;
+    for (const s of RP.segs) { RP.gf.push(t); t += s.n; }
+    RP.total = t; RP.speed = 1; RP.paused = false; RP.keys = []; RP.keyBytes = 0; RP.ff = null; RP.fast = false; RP.onFrame = null; RP.si = 0; RP.optsDone = false;
+    NP.role = "replay";
+    await activate();
+    RP.on = true;
+    rpSeek(0);
+    onEvent("replayPos", rpInfo());
+    schedule(0);
+  };
+  NP.replaySeek = g => { if (!RP.on) return; rpSeek(g); if (RP.paused && RP.ff === null) onEvent("replayPos", rpInfo()); schedule(0); };
+  NP.replayPause = on => { if (!RP.on) return; if (on === undefined) on = !RP.paused; if (!on && RP.ended) rpSeek(0); RP.paused = !!on; RP.g0 = RP.on ? rpG() : 0; RP.t0 = performance.now(); onEvent("replayPos", rpInfo()); schedule(0); };
+  NP.replaySpeed = x => { if (!RP.on) return; RP.speed = Math.max(0.25, Math.min(16, +x || 1)); RP.g0 = rpG(); RP.t0 = performance.now(); onEvent("replayPos", rpInfo()); };
+  // 导出视频：fast = 不按时间、能跑多快跑多快；onFrame(第几帧, 一共几帧) 每跑完一帧调用一次（返回 false = 先等一下）
+  // from / to：只导出这一段（第几帧到第几帧）
+  NP.replayExport = (onFrame, fast, from, to) => {
+    if (!RP.on) return;
+    RP.onFrame = onFrame || null; RP.fast = !!fast;
+    RP.endAt = onFrame && to != null ? to : null;
+    if (onFrame) { RP.paused = false; rpSeek(from || 0); }
+    schedule(0);
+  };
+  // 带声音导出：先（暂停着）跳到起点，放到终点就停
+  NP.replayRange = (from, to, paused) => {
+    if (!RP.on) return;
+    RP.endAt = to != null ? to : null;
+    RP.paused = !!paused;
+    rpSeek(from || 0);
+    onEvent("replayPos", rpInfo());
+    schedule(0);
+  };
+  NP.replayInfo = () => rpInfo();
 
   // ================= 给页面用的接口 =================
   // 主机：有人用「按键同步」方式乱入
