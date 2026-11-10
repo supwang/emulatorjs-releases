@@ -72,7 +72,7 @@ const call = async (p, body, extra = {}) => {
     ok(r.data.rel === "Nintendo - NES/Named_Boxarts/Test.png" && fs.readFileSync(path.join(tmp, "thumbnails", "Nintendo - NES", "Named_Boxarts", "Test.png"), "utf8") === "png1", "an existing preview picture is kept");
     // a video exported from a replay goes into the videos folder; the page is told where it is
     r = await put({ kind: "videos", rel: "Contra 2026-11-07 10.00.00.mp4", offset: 0, total: 6 }, Buffer.from("video1"));
-    ok(r.data.done && r.data.path && fs.readFileSync(r.data.path, "utf8") === "video1" && r.data.path.startsWith(path.join(tmp, "videos")), "an exported video is saved in the videos folder");
+    ok(r.data.done && r.data.path && fs.readFileSync(r.data.path, "utf8") === "video1" && fs.realpathSync(path.dirname(r.data.path)) === fs.realpathSync(path.join(tmp, "videos")), "an exported video is saved in the videos folder");
     r = await put({ kind: "videos", rel: "x.exe", offset: 0, total: 6 }, Buffer.from("video1"));
     ok(r.status === 400, "videos with program names are refused");
     r = await call("/api/mp/host", { client: "dev1", name: "开发者", game: "nes/x.nes", title: "x", system: "nes" });
