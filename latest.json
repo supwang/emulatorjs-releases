@@ -1,149 +1,119 @@
 {
- "version": "1.3.7",
- "date": "2026-11-06",
- "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.3.7",
+ "version": "1.3.8",
+ "date": "2026-11-10",
+ "page": "https://github.com/supwang/emulatorjs-releases/releases/tag/v1.3.8",
  "baidu": "https://pan.baidu.com/s/13atBCqmTib1rGp_30279mQ?pwd=6akk",
  "baiduCode": "6akk",
  "notes": {
   "zh-CN": [
-   "修好了联机时两边游戏完全不一样的严重问题（回滚模式下最明显：一边在关卡里、一边还在选人，按键却是同步的）。现在两边一定是同一局",
-   "回滚模式更稳了：FC、MD、SFC 等游戏不会再动不动自动退回延迟模式，格斗游戏可以一直用回滚模式",
-   "街霸3.3 等 CPS3 游戏可以联机了：以前乱入常常卡在同步，或者一方延迟超过 1 秒；现在几秒就能同步好，也能用回滚模式",
-   "联机时不再定时保存「继续」进度和截图（以前会让两边一起卡一下）；退出游戏和断线时照常保存",
-   "修好了手柄在有的电脑上完全没反应的问题（常见于 Mac 连 Xbox 手柄）：只有左摇杆能用，其他按键在游戏里和「控制设置」里都按不上",
-   "Mac：修好了 Mac 版连不上局域网里其他电脑的问题（乱入别人开的房间提示「Failed to fetch」；自己开局时对方很慢，要绕外网服务器）。第一次打开会再问一次本地网络权限，点「允许」",
-   "安卓：这一版起 App 换了新的标识，会作为一个新 App 安装。装好后请卸载旧的 EmulatorJS；手机里 EmulatorJS 文件夹的游戏都还在，但 App 里的设置和「继续」进度要重新来。Mac 第一次打开时会重新询问本地网络权限，点「允许」即可"
+   "新功能「回放」：每局游戏（一个人玩、联机、观战都算）都会自动录下按键回放，几乎不占空间，也不影响联机。退出游戏后在左边「🎬 回放」里可以看：暂停、后退 / 前进 5 秒、拖进度、0.5～8 倍速；点 ⭐ 一直保留，其他的只留最近 50 个",
+   "回放可以导出成视频：「带声音」按正常速度放一遍边放边录，「不要声音」快速导出；可以在进度条上选「起点」「终点」只导出一段，导出途中也可以「停止并保存」。视频存在这台设备的视频文件夹里（文件夹版在 EmulatorJS 文件夹的 videos 里），导出完会告诉你位置",
+   "联机时主机读取快速存档后，大家会自动重新对齐（以前会对不上）",
+   "页面左边写明了基于 EmulatorJS、GPL-3.0 开源，并附源代码链接；说明书里的版权说明也改清楚了（整个软件是 GPL-3.0，只有个别模拟器核心有自己的非商用许可）"
   ],
   "zh-TW": [
-   "修好了連線時兩邊遊戲完全不一樣的嚴重問題（回滾模式下最明顯：一邊在關卡裡、一邊還在選人，按鍵卻是同步的）。現在兩邊一定是同一局",
-   "回滾模式更穩了：FC、MD、SFC 等遊戲不會再動不動自動退回延遲模式，格鬥遊戲可以一直用回滾模式",
-   "快打旋風3.3 等 CPS3 遊戲可以連線了：以前加入常常卡在同步，或者一方延遲超過 1 秒；現在幾秒就能同步好，也能用回滾模式",
-   "連線時不再定時儲存「繼續」進度和截圖（以前會讓兩邊一起卡一下）；離開遊戲和斷線時照常儲存",
-   "修好了手把在有的電腦上完全沒反應的問題（常見於 Mac 連 Xbox 手把）：只有左搖桿能用，其他按鍵在遊戲裡和「控制設定」裡都按不上",
-   "Mac：修好了 Mac 版連不上區域網路裡其他電腦的問題（加入別人開的房間提示「Failed to fetch」；自己開局時對方很慢，要繞外網伺服器）。第一次開啟會再問一次本機網路權限，點「允許」",
-   "Android：這一版起 App 換了新的識別碼，會作為一個新 App 安裝。裝好後請解除安裝舊的 EmulatorJS；手機裡 EmulatorJS 資料夾的遊戲都還在，但 App 裡的設定和「繼續」進度要重新來。Mac 第一次開啟時會重新詢問本機網路權限，點「允許」即可"
+   "新功能「回放」：每局遊戲（一個人玩、連線、觀戰都算）都會自動錄下按鍵回放，幾乎不佔空間，也不影響連線。離開遊戲後在左邊「🎬 回放」裡可以看：暫停、後退 / 前進 5 秒、拖動進度、0.5～8 倍速；點 ⭐ 一直保留，其他的只留最近 50 個",
+   "回放可以匯出成影片：「帶聲音」按正常速度放一遍邊放邊錄，「不要聲音」快速匯出；可以在進度條上選「起點」「終點」只匯出一段，匯出途中也可以「停止並儲存」。影片存在這台裝置的影片資料夾裡（資料夾版在 EmulatorJS 資料夾的 videos 裡），匯出完會告訴你位置",
+   "連線時主機讀取快速存檔後，大家會自動重新對齊（以前會對不上）",
+   "頁面左邊寫明了基於 EmulatorJS、GPL-3.0 開源，並附原始碼連結；說明書裡的版權說明也改清楚了（整個軟體是 GPL-3.0，只有個別模擬器核心有自己的非商用授權）"
   ],
   "en": [
-   "Fixed a serious online play problem where the two sides ended up in completely different games (most visible in rollback mode: one side in a stage, the other still choosing characters, with the buttons still shared). Both sides now always play the same game",
-   "Rollback mode is steadier: NES, Mega Drive, SNES and other games no longer keep switching to delay mode by themselves, so fighting games can stay in rollback mode",
-   "Street Fighter III 3rd Strike and other CPS3 games now work online: joining often got stuck while syncing, or one side lagged over a second; now syncing takes a few seconds and rollback mode works too",
-   "While playing online, “Continue” progress and screenshots are no longer saved on a timer (it made both sides stutter); they are still saved when you leave the game or the connection drops",
-   "Fixed gamepads not responding at all on some computers (common with an Xbox controller on a Mac): only the left stick worked, and no other button worked in games or in “Control Settings”",
-   "Mac: fixed the Mac app not reaching other computers on the local network (joining someone's room said “Failed to fetch”; when you hosted, the other side was slow because it went through the internet server). The first start asks for local network access again: click “Allow”",
-   "Android: from this version the app has a new identifier, so it installs as a new app. Uninstall the old EmulatorJS afterwards; the games in the EmulatorJS folder on your phone stay, but the app's settings and “Continue” progress start fresh. On a Mac, the first start asks for local network access again: click “Allow”"
+   "New: Replays. Every game (solo, online or watching) is recorded as a button replay: almost no space, and it doesn't slow online play. After leaving a game, watch it in \"🎬 Replays\" on the left: pause, back / forward 5 seconds, drag the progress bar, 0.5× to 8× speed; ⭐ keeps one for good, otherwise the latest 50 are kept",
+   "Replays can be exported as video: \"With sound\" plays it once at normal speed while recording, \"No sound\" exports fast. Pick a Start and End on the progress bar to export just a clip, and \"Stop and save\" during an export keeps what's done. Videos go to this device's videos folder (folder version: videos in the EmulatorJS folder); you're told where when it's done",
+   "Online play: after the host loads a quick save, everyone is put back in step (before, the games could differ)",
+   "The page now says it's based on EmulatorJS, open source under GPL-3.0, with a link to the source code; the guide's copyright section is clearer (the whole package is GPL-3.0; only some emulator cores have their own non-commercial licenses)"
   ],
   "ja": [
-   "オンライン対戦で両側がまったく別のゲームになってしまう重大な問題を修正（ロールバックモードで顕著：片方はステージ中、もう片方はキャラ選択のまま、ボタンだけ同期）。両側は必ず同じゲームになります",
-   "ロールバックモードが安定しました：ファミコン、メガドライブ、スーファミなどのゲームが勝手に遅延モードへ切り替わらなくなり、格闘ゲームはロールバックのまま遊べます",
-   "ストリートファイターIII 3rd STRIKE など CPS3 のゲームがオンラインで遊べるようになりました：以前は乱入時に同期で止まったり、片方が 1 秒以上遅れたりしましたが、今は数秒で同期し、ロールバックモードも使えます",
-   "オンライン中は「続きから」の進行とスクリーンショットを定期保存しなくなりました（両側が一瞬止まる原因でした）。ゲーム終了時と切断時は通常どおり保存されます",
-   "一部のコンピューターでコントローラーがまったく反応しない問題を修正（Mac に Xbox コントローラーをつないだときによく起きていました）",
-   "Mac：Mac 版が同じネットワークのほかのコンピューターにつながらない問題を修正（ほかの人の部屋に乱入すると「Failed to fetch」、自分がホストすると相手側が遅い）。初回起動時にローカルネットワークの許可を再度求められるので「許可」を押してください",
-   "Android：このバージョンからアプリの識別子が変わり、新しいアプリとしてインストールされます。インストール後、古い EmulatorJS は削除してください。スマホの EmulatorJS フォルダのゲームはそのままですが、アプリの設定と「続きから」の進行はリセットされます。Mac では初回起動時にローカルネットワークの許可を再度求められるので「許可」を押してください"
+   "新機能「リプレイ」：毎回のゲーム（ひとり、オンライン、観戦）がボタン操作のリプレイとして自動で録画されます。容量はほとんど使わず、オンライン対戦にも影響しません。ゲーム終了後、左の「🎬 リプレイ」で再生：一時停止、5 秒戻る / 進む、進行バーのドラッグ、0.5～8 倍速。⭐ でずっと保存、それ以外は最新 50 件",
+   "リプレイを動画に書き出せます：「音声あり」は通常の速度で再生しながら録画、「音声なし」は高速。進行バーで「開始点」「終了点」を選んで一部だけ書き出したり、途中で「ここで止めて保存」もできます。動画はこの端末の動画フォルダーに保存され（フォルダー版は EmulatorJS フォルダーの videos）、終わると場所が表示されます",
+   "オンライン対戦でホストがクイックロードしたあと、全員が自動で揃い直すようになりました（以前はずれることがありました）",
+   "ページに EmulatorJS ベース・GPL-3.0 オープンソースであることとソースコードへのリンクを表示。ガイドの著作権の説明もわかりやすくしました（全体は GPL-3.0、一部のコアだけ独自の非商用ライセンス）"
   ],
   "ko": [
-   "온라인 대전에서 양쪽 게임이 완전히 달라지던 심각한 문제를 고쳤습니다(롤백 모드에서 두드러짐: 한쪽은 스테이지, 다른 쪽은 캐릭터 선택인데 버튼만 동기화). 이제 양쪽은 항상 같은 게임입니다",
-   "롤백 모드가 더 안정적입니다: 패미컴, 메가드라이브, 슈퍼패미컴 등의 게임이 더 이상 저절로 지연 모드로 바뀌지 않아 격투 게임을 계속 롤백 모드로 할 수 있습니다",
-   "스트리트 파이터 III 서드 스트라이크 등 CPS3 게임을 온라인으로 할 수 있습니다: 예전에는 난입할 때 동기화에서 멈추거나 한쪽이 1초 넘게 늦었지만, 이제 몇 초면 동기화되고 롤백 모드도 됩니다",
-   "온라인 중에는 ‘이어하기’ 진행과 스크린샷을 정기적으로 저장하지 않습니다(양쪽이 잠깐 멈추는 원인이었음). 게임을 나가거나 연결이 끊기면 그대로 저장됩니다",
-   "일부 컴퓨터에서 게임패드가 전혀 반응하지 않던 문제를 고쳤습니다(Mac에 Xbox 컨트롤러를 연결했을 때 자주 발생)",
-   "Mac: Mac 앱이 같은 네트워크의 다른 컴퓨터에 연결되지 않던 문제를 고쳤습니다(다른 사람 방에 난입하면 ‘Failed to fetch’, 내가 방을 만들면 상대가 느림). 처음 실행할 때 로컬 네트워크 권한을 다시 묻습니다. ‘허용’을 누르세요",
-   "Android: 이번 버전부터 앱 식별자가 바뀌어 새 앱으로 설치됩니다. 설치 후 예전 EmulatorJS는 삭제하세요. 휴대폰 EmulatorJS 폴더의 게임은 그대로지만 앱 설정과 ‘이어하기’ 진행은 새로 시작합니다. Mac은 처음 실행할 때 로컬 네트워크 권한을 다시 묻습니다. ‘허용’을 누르세요"
+   "새 기능 '리플레이': 매 판(혼자, 온라인, 관전)이 버튼 입력 리플레이로 자동 녹화됩니다. 용량을 거의 차지하지 않고 온라인 대전에도 영향이 없습니다. 게임을 나간 뒤 왼쪽 '🎬 리플레이'에서 볼 수 있습니다: 일시 정지, 5초 뒤로 / 앞으로, 진행 막대 끌기, 0.5~8배속. ⭐는 계속 보관, 나머지는 최근 50개만",
+   "리플레이를 동영상으로 내보낼 수 있습니다: '소리 포함'은 보통 속도로 재생하며 녹화, '소리 없이'는 빠르게. 진행 막대에서 '시작점' '끝점'을 정해 일부만 내보내거나, 도중에 '멈추고 저장'도 됩니다. 동영상은 이 기기의 동영상 폴더에 저장되며(폴더 버전은 EmulatorJS 폴더의 videos), 끝나면 위치를 알려 줍니다",
+   "온라인 대전에서 호스트가 빠른 불러오기를 하면 모두 자동으로 다시 맞춰집니다(예전에는 어긋날 수 있었음)",
+   "페이지에 EmulatorJS 기반·GPL-3.0 오픈 소스임과 소스 코드 링크를 표시했습니다. 설명서의 저작권 설명도 분명히 했습니다(전체는 GPL-3.0, 일부 코어만 자체 비상업 라이선스)"
   ],
   "es": [
-   "Corregido un problema grave del juego en línea: los dos lados acababan en partidas totalmente distintas (sobre todo en modo rollback: uno en una fase y el otro eligiendo personajes, con los botones compartidos). Ahora ambos juegan siempre la misma partida",
-   "El modo rollback es más estable: NES, Mega Drive, SNES y otros juegos ya no pasan solos al modo con retraso, así que los juegos de lucha pueden seguir en rollback",
-   "Street Fighter III 3rd Strike y otros juegos de CPS3 ya funcionan en línea: antes al unirse se quedaba atascado sincronizando o un lado iba más de un segundo tarde; ahora sincroniza en unos segundos y también funciona el modo rollback",
-   "Durante el juego en línea, el progreso de «Continuar» y las capturas ya no se guardan cada cierto tiempo (hacía que ambos lados se trabaran); se siguen guardando al salir del juego o si se corta la conexión",
-   "Corregido que el mando no respondía en algunos ordenadores (habitual con un mando de Xbox en Mac)",
-   "Mac: corregido que la app de Mac no llegaba a otros ordenadores de la red local (al unirse a una sala salía «Failed to fetch»; al hospedar, el otro lado iba lento por pasar por el servidor de internet). El primer inicio vuelve a pedir acceso a la red local: pulsa «Permitir»",
-   "Android: desde esta versión la app tiene un identificador nuevo y se instala como una app nueva. Desinstala después la EmulatorJS antigua; los juegos de la carpeta EmulatorJS del móvil se conservan, pero los ajustes y el progreso de «Continuar» empiezan de cero. En Mac, el primer inicio vuelve a pedir acceso a la red local: pulsa «Permitir»"
+   "Nuevo: repeticiones. Cada partida (solo, en línea o como espectador) se graba como repetición de botones: casi no ocupa espacio y no afecta al juego en línea. Al salir, véela en \"🎬 Repeticiones\" a la izquierda: pausa, atrás / adelante 5 segundos, arrastrar la barra, velocidad de 0,5× a 8×; ⭐ la guarda para siempre, de las demás se guardan las 50 más recientes",
+   "Las repeticiones se pueden exportar como vídeo: \"Con sonido\" la reproduce a velocidad normal mientras graba, \"Sin sonido\" exporta rápido. Elige Inicio y Fin en la barra para exportar solo un fragmento, y \"Parar y guardar\" durante la exportación conserva lo hecho. Los vídeos van a la carpeta de vídeos de este dispositivo (versión carpeta: videos dentro de la carpeta EmulatorJS); al terminar se indica dónde",
+   "Juego en línea: cuando el anfitrión carga un guardado rápido, todos se vuelven a sincronizar (antes las partidas podían diferir)",
+   "La página indica que se basa en EmulatorJS, código abierto GPL-3.0, con enlace al código fuente; la sección de derechos de autor de la guía es más clara (todo el paquete es GPL-3.0; solo algunos núcleos tienen licencias propias no comerciales)"
   ],
   "fr": [
-   "Correction d'un problème grave en ligne : les deux côtés se retrouvaient dans des parties complètement différentes (surtout en mode rollback : l'un dans un niveau, l'autre encore au choix des personnages, avec les boutons partagés). Les deux côtés jouent désormais toujours la même partie",
-   "Le mode rollback est plus stable : NES, Mega Drive, SNES et d'autres jeux ne passent plus d'eux-mêmes en mode avec délai, les jeux de combat peuvent donc rester en rollback",
-   "Street Fighter III 3rd Strike et les autres jeux CPS3 fonctionnent en ligne : avant, rejoindre restait souvent bloqué à la synchronisation ou un côté avait plus d'une seconde de retard ; maintenant la synchronisation prend quelques secondes et le mode rollback fonctionne aussi",
-   "En ligne, la progression « Continuer » et les captures ne sont plus enregistrées à intervalles réguliers (cela faisait saccader les deux côtés) ; elles sont toujours enregistrées en quittant le jeu ou si la connexion coupe",
-   "Correction des manettes qui ne réagissaient pas du tout sur certains ordinateurs (fréquent avec une manette Xbox sur Mac)",
-   "Mac : correction de l'appli Mac qui n'atteignait pas les autres ordinateurs du réseau local (rejoindre une salle affichait « Failed to fetch » ; en hébergeant, l'autre côté était lent car il passait par le serveur internet). Le premier lancement redemande l'accès au réseau local : cliquez sur « Autoriser »",
-   "Android : à partir de cette version, l'appli a un nouvel identifiant et s'installe comme une nouvelle appli. Désinstallez ensuite l'ancienne EmulatorJS ; les jeux du dossier EmulatorJS du téléphone restent, mais les réglages et la progression « Continuer » repartent de zéro. Sur Mac, le premier lancement redemande l'accès au réseau local : cliquez sur « Autoriser »"
+   "Nouveau : les replays. Chaque partie (seul, en ligne ou en spectateur) est enregistrée en replay de boutons : presque pas de place, et le jeu en ligne n’est pas ralenti. Après la partie, regardez-la dans « 🎬 Replays » à gauche : pause, reculer / avancer de 5 secondes, glisser la barre, vitesse 0,5× à 8× ; ⭐ garde un replay pour de bon, sinon les 50 plus récents sont gardés",
+   "Les replays s’exportent en vidéo : « Avec le son » le joue à vitesse normale pendant l’enregistrement, « Sans son » exporte vite. Choisissez Début et Fin sur la barre pour n’exporter qu’un extrait, et « Arrêter et enregistrer » pendant l’export garde ce qui est fait. Les vidéos vont dans le dossier vidéos de l’appareil (version dossier : videos dans le dossier EmulatorJS) ; l’emplacement s’affiche à la fin",
+   "Jeu en ligne : quand l’hôte charge une sauvegarde rapide, tout le monde est resynchronisé (avant, les parties pouvaient différer)",
+   "La page indique qu’elle est basée sur EmulatorJS, libre sous GPL-3.0, avec un lien vers le code source ; la partie droits d’auteur du guide est plus claire (tout le paquet est GPL-3.0 ; seuls quelques cœurs ont leur propre licence non commerciale)"
   ],
   "de": [
-   "Schweres Online-Problem behoben: Beide Seiten landeten in völlig verschiedenen Spielen (vor allem im Rollback-Modus: eine Seite im Level, die andere noch bei der Figurenwahl, die Tasten aber geteilt). Jetzt spielen beide Seiten immer dasselbe Spiel",
-   "Der Rollback-Modus ist stabiler: NES-, Mega-Drive-, SNES- und andere Spiele wechseln nicht mehr von selbst in den Verzögerungsmodus, Kampfspiele bleiben also im Rollback-Modus",
-   "Street Fighter III 3rd Strike und andere CPS3-Spiele funktionieren jetzt online: Beitreten blieb oft beim Synchronisieren hängen oder eine Seite hing über eine Sekunde hinterher; jetzt dauert das Synchronisieren ein paar Sekunden und Rollback funktioniert auch",
-   "Beim Online-Spiel werden „Weiterspielen“-Stände und Screenshots nicht mehr regelmäßig gespeichert (das ließ beide Seiten ruckeln); beim Verlassen des Spiels und bei Verbindungsabbruch wird weiterhin gespeichert",
-   "Behoben, dass Gamepads auf manchen Computern gar nicht reagierten (häufig mit Xbox-Controller am Mac)",
-   "Mac: Behoben, dass die Mac-App andere Computer im lokalen Netzwerk nicht erreichte (Beitreten zeigte „Failed to fetch“; beim Hosten war die andere Seite langsam, weil alles über den Internet-Server lief). Der erste Start fragt erneut nach Zugriff aufs lokale Netzwerk: auf „Erlauben“ klicken",
-   "Android: Ab dieser Version hat die App eine neue Kennung und wird als neue App installiert. Deinstalliere danach das alte EmulatorJS; die Spiele im EmulatorJS-Ordner des Handys bleiben, aber Einstellungen und „Weiterspielen“-Stände fangen neu an. Am Mac fragt der erste Start erneut nach Zugriff aufs lokale Netzwerk: auf „Erlauben“ klicken"
+   "Neu: Replays. Jede Partie (allein, online oder als Zuschauer) wird als Tasten-Replay aufgenommen: kaum Speicher, und das Online-Spiel wird nicht gebremst. Nach dem Spiel unter „🎬 Replays“ links ansehen: Pause, 5 Sekunden zurück / vor, Fortschrittsbalken ziehen, Tempo 0,5× bis 8×; ⭐ behält ein Replay für immer, sonst bleiben die neuesten 50",
+   "Replays lassen sich als Video exportieren: „Mit Ton“ spielt es in normalem Tempo ab und nimmt dabei auf, „Ohne Ton“ exportiert schnell. Mit Anfang und Ende auf dem Balken nur einen Ausschnitt exportieren; „Stoppen und speichern“ während des Exports behält das Fertige. Videos landen im Video-Ordner des Geräts (Ordner-Version: videos im EmulatorJS-Ordner); am Ende wird der Ort angezeigt",
+   "Online-Spiel: Lädt der Host einen Schnellspeicherstand, werden alle wieder abgeglichen (vorher konnten die Spiele abweichen)",
+   "Die Seite nennt jetzt EmulatorJS als Grundlage, Open Source unter GPL-3.0, mit Link zum Quellcode; der Urheberrechtsteil der Anleitung ist klarer (das ganze Paket ist GPL-3.0; nur einige Cores haben eigene nicht-kommerzielle Lizenzen)"
   ],
   "pt": [
-   "Corrigido um problema grave do jogo online: os dois lados acabavam em partidas totalmente diferentes (principalmente no modo rollback: um numa fase, o outro ainda escolhendo personagens, com os botões compartilhados). Agora os dois sempre jogam a mesma partida",
-   "O modo rollback está mais estável: NES, Mega Drive, SNES e outros jogos não mudam mais sozinhos para o modo com atraso, então jogos de luta podem continuar em rollback",
-   "Street Fighter III 3rd Strike e outros jogos de CPS3 agora funcionam online: antes, entrar travava na sincronização ou um lado ficava mais de um segundo atrasado; agora sincroniza em poucos segundos e o modo rollback também funciona",
-   "No jogo online, o progresso de “Continuar” e as capturas não são mais salvos periodicamente (isso fazia os dois lados travarem); continuam sendo salvos ao sair do jogo ou se a conexão cair",
-   "Corrigido o controle que não respondia em alguns computadores (comum com controle Xbox no Mac)",
-   "Mac: corrigido o app de Mac que não alcançava outros computadores da rede local (entrar na sala de alguém mostrava “Failed to fetch”; ao hospedar, o outro lado ficava lento por passar pelo servidor de internet). A primeira abertura pede de novo acesso à rede local: clique em “Permitir”",
-   "Android: a partir desta versão o app tem um novo identificador e é instalado como um app novo. Depois desinstale o EmulatorJS antigo; os jogos da pasta EmulatorJS do celular continuam, mas as configurações e o progresso de “Continuar” recomeçam. No Mac, a primeira abertura pede de novo acesso à rede local: clique em “Permitir”"
+   "Novo: replays. Cada partida (sozinho, online ou assistindo) é gravada como replay de botões: quase não ocupa espaço e não atrapalha o jogo online. Depois de sair, assista em \"🎬 Replays\" à esquerda: pausar, voltar / avançar 5 segundos, arrastar a barra, velocidade de 0,5× a 8×; ⭐ guarda para sempre, dos outros ficam os 50 mais recentes",
+   "Os replays podem ser exportados como vídeo: \"Com som\" toca na velocidade normal enquanto grava, \"Sem som\" exporta rápido. Escolha Início e Fim na barra para exportar só um trecho, e \"Parar e salvar\" durante a exportação guarda o que já foi feito. Os vídeos vão para a pasta de vídeos do aparelho (versão pasta: videos dentro da pasta EmulatorJS); no fim aparece onde",
+   "Jogo online: quando o anfitrião carrega um salvamento rápido, todos voltam a ficar sincronizados (antes os jogos podiam ficar diferentes)",
+   "A página informa que é baseada no EmulatorJS, código aberto GPL-3.0, com link para o código-fonte; a parte de direitos autorais do guia ficou mais clara (o pacote todo é GPL-3.0; só alguns núcleos têm licenças próprias não comerciais)"
   ],
   "ru": [
-   "Исправлена серьёзная проблема игры по сети: две стороны оказывались в совершенно разных играх (особенно в режиме отката: одна сторона на уровне, другая ещё выбирает персонажей, а кнопки общие). Теперь обе стороны всегда играют одну и ту же игру",
-   "Режим отката стал стабильнее: игры NES, Mega Drive, SNES и другие больше не переключаются сами в режим с задержкой, так что файтинги могут оставаться в режиме отката",
-   "Street Fighter III 3rd Strike и другие игры CPS3 теперь работают по сети: раньше вход часто зависал на синхронизации или одна сторона отставала больше чем на секунду; теперь синхронизация занимает несколько секунд и режим отката тоже работает",
-   "Во время игры по сети прогресс «Продолжить» и скриншоты больше не сохраняются по таймеру (из-за этого обе стороны подтормаживали); они по-прежнему сохраняются при выходе из игры и при обрыве связи",
-   "Исправлено: на некоторых компьютерах геймпад совсем не реагировал (часто с контроллером Xbox на Mac)",
-   "Mac: исправлено — приложение для Mac не могло связаться с другими компьютерами в локальной сети (при входе в чужую комнату — «Failed to fetch»; когда хостом был Mac, у другой стороны всё шло медленно через интернет-сервер). При первом запуске снова появится запрос доступа к локальной сети: нажмите «Разрешить»",
-   "Android: начиная с этой версии у приложения новый идентификатор, и оно ставится как новое приложение. После установки удалите старое EmulatorJS; игры в папке EmulatorJS на телефоне останутся, но настройки и прогресс «Продолжить» начнутся заново. На Mac при первом запуске снова появится запрос доступа к локальной сети: нажмите «Разрешить»"
+   "Новое: повторы. Каждая игра (одна, по сети или в роли зрителя) записывается как повтор нажатий: почти не занимает места и не мешает игре по сети. После выхода смотрите её в «🎬 Повторах» слева: пауза, назад / вперёд на 5 секунд, перетаскивание полосы, скорость от 0,5× до 8×; ⭐ — хранить всегда, из остальных хранятся последние 50",
+   "Повтор можно сохранить как видео: «Со звуком» — проигрывается с обычной скоростью и записывается, «Без звука» — быстро. На полосе можно выбрать начало и конец, чтобы сохранить только фрагмент, а «Остановить и сохранить» во время записи оставляет уже готовое. Видео сохраняется в папку видео этого устройства (версия-папка: videos в папке EmulatorJS); в конце показывается, где",
+   "Игра по сети: после быстрой загрузки у хоста все снова синхронизируются (раньше игры могли расходиться)",
+   "На странице указано, что она основана на EmulatorJS, открытый код GPL-3.0, со ссылкой на исходный код; раздел об авторских правах в руководстве стал понятнее (весь пакет — GPL-3.0; только у некоторых ядер свои некоммерческие лицензии)"
   ]
  },
  "files": {
   "android-x86_64": {
-   "name": "EmulatorJS-1.3.7-android-x86_64.apk",
-   "size": 72617721,
-   "sha256": "4742860e9e4f7c4314a22d23aa3a292b085a3958c6818ab84896c6e9cc75c4e1",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.7/EmulatorJS-1.3.7-android-x86_64.apk"
+   "name": "EmulatorJS-1.3.8-android-x86_64.apk",
+   "size": 72676069,
+   "sha256": "e57a0255eb01caea32acb5bd4141cc1dd5f42515630f1f5cb55c62e2d8860385",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.8/EmulatorJS-1.3.8-android-x86_64.apk"
   },
   "android": {
-   "name": "EmulatorJS-1.3.7-android.apk",
-   "size": 86651358,
-   "sha256": "b6f89005403daf371ade13d8fc85092a15c9d0e2164a95ef16387837142999ed",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.7/EmulatorJS-1.3.7-android.apk"
+   "name": "EmulatorJS-1.3.8-android.apk",
+   "size": 86709706,
+   "sha256": "db27f0130f0d3c82b8e935d8646732659c24e173b09f23e11f784297116c1732",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.8/EmulatorJS-1.3.8-android.apk"
   },
   "folder": {
-   "name": "EmulatorJS-1.3.7-folder.zip",
-   "size": 56751185,
-   "sha256": "2b3bd27aecdccef97f6d17b6f23f86dc02389aa4d3a05450da4ee6b0372697cf",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.7/EmulatorJS-1.3.7-folder.zip"
+   "name": "EmulatorJS-1.3.8-folder.zip",
+   "size": 56815686,
+   "sha256": "ad3eeab5270ef8befdb0cfe0061c45e7a8bb876f5301bf68c2467e7d780a416c",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.8/EmulatorJS-1.3.8-folder.zip"
   },
   "mac-arm64": {
-   "name": "EmulatorJS-1.3.7-mac-apple-silicon.dmg",
-   "size": 200520758,
-   "sha256": "faeb5207a54ee6d32ecf8a599d042f67376ea91bbf0799fee27a995f24a222b7",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.7/EmulatorJS-1.3.7-mac-apple-silicon.dmg"
+   "name": "EmulatorJS-1.3.8-mac-apple-silicon.dmg",
+   "size": 200484699,
+   "sha256": "a41f0acae4f8a6556580e636700679dac2154a097c17187c1901f8ec431dca14",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.8/EmulatorJS-1.3.8-mac-apple-silicon.dmg"
   },
   "mac-x64": {
-   "name": "EmulatorJS-1.3.7-mac-intel.dmg",
-   "size": 207365115,
-   "sha256": "3da7bd5d335f546d3b14508e76b29b239306d4517b555e6a143f993423e45570",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.7/EmulatorJS-1.3.7-mac-intel.dmg"
+   "name": "EmulatorJS-1.3.8-mac-intel.dmg",
+   "size": 207268943,
+   "sha256": "c4039e5d0359d363580e4f520ba697ea12bd474830e101b23681e359f4a6f3b5",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.8/EmulatorJS-1.3.8-mac-intel.dmg"
   },
   "win-zip": {
-   "name": "EmulatorJS-1.3.7-win.zip",
-   "size": 208566432,
-   "sha256": "9a8250da73b76065cd3c62cda24d35caa8c28839445702b3a2827781f2758672",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.7/EmulatorJS-1.3.7-win.zip"
+   "name": "EmulatorJS-1.3.8-win.zip",
+   "size": 208622386,
+   "sha256": "5c6084f54da6a840eb02e252da164dbc5f90ec46e2eb1d7e0b97858be9978342",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.8/EmulatorJS-1.3.8-win.zip"
   },
   "win-setup": {
-   "name": "EmulatorJS-Setup-1.3.7.exe",
-   "size": 165780706,
-   "sha256": "8641381903e7b1151b4a92b54b1ea0d4a96cb5e3199f9fff0e7098245ac6214e",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.7/EmulatorJS-Setup-1.3.7.exe"
+   "name": "EmulatorJS-Setup-1.3.8.exe",
+   "size": 165831132,
+   "sha256": "2d54b022fcd9e9b6fc9b6cf0f5b9e3e988336ecb9fef6743becf804589b0b3b6",
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.8/EmulatorJS-Setup-1.3.8.exe"
   },
   "server": {
    "name": "ejs-cloud-setup.sh",
    "size": 2012514,
    "sha256": "e830ca9b514c1a24fc031ae45269c954092420ed4b623eff9340f776fb23e0b3",
-   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.7/ejs-cloud-setup.sh"
+   "url": "https://github.com/supwang/emulatorjs-releases/releases/download/v1.3.8/ejs-cloud-setup.sh"
   }
  }
 }
